@@ -1,7 +1,7 @@
 #
 # build the target container
 #
-FROM public.ecr.aws/docker/library/drupal:9.3.22
+FROM public.ecr.aws/docker/library/drupal:10.2-fpm
 
 # update the packages
 RUN apt-get -y update && apt-get -y upgrade && apt-get -y install default-mysql-client git less vim
