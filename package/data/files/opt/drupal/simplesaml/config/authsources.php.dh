@@ -1,0 +1,34 @@
+<?php
+
+$config = array(
+
+    // This is a authentication source which handles admin authentication.
+    'admin' => array(
+        // The default is to use core:AdminPassword, but it can be replaced with
+        // any authentication source.
+
+        'core:AdminPassword',
+    ),
+
+    /****************************
+    ** Digital Humanities
+    *****************************/
+    'dh.library.virginia.edu-shib-prod' => array(
+        'saml:SP',
+        'entityID' => 'https://dh.library.virginia.edu',
+        'idp' => 'urn:mace:incommon:virginia.edu' ,
+        'privatekey' => 'saml.pem',
+        'certificate' => 'saml.crt',
+        'discoURL' => null,
+    ),
+    'dh.library.virginia.edu-shib-dev' => array(
+        'saml:SP',
+        'entityID' => 'https://dh-dev.library.virginia.edu',
+        'idp' => 'urn:mace:incommon:virginia.edu',
+        'privatekey' => 'saml.pem',
+        'certificate' => 'saml.crt',
+        'discoURL' => null,
+    )
+
+
+);
