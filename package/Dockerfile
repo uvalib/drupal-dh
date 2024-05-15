@@ -15,7 +15,7 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Specify home
 ENV APP_HOME /drupal-dh
-WORKDIR /opt/drupal
+WORKDIR $APP_HOME
 
 # Move in necessary assets
 COPY package/data/container_bash_profile /root/.profile
@@ -33,10 +33,12 @@ RUN pecl install apcu-5.1.22 && docker-php-ext-enable apcu
 # Note: themes will be deployed via composer
 # Need to flush and rebuild caches here
 
+WORKDIR /opt/drupal
 RUN composer install
 RUN mkdir /var/run/sqlite && chown www-data:www-data /var/run/sqlite && \
 	mkdir -p /var/cache/simplesamlphp && chown www-data:www-data /var/cache/simplesamlphp
 
+WORKDIR $APP_HOME
 # Add the build tag
 ARG BUILD_TAG
 RUN test -n "$BUILD_TAG" && touch $APP_HOME/buildtag.build-$BUILD_TAG || touch $APP_HOME/buildtag.build-0
