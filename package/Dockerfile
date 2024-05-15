@@ -15,15 +15,27 @@ RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # Specify home
 ENV APP_HOME /drupal-dh
-WORKDIR $APP_HOME
+WORKDIR /opt/drupal
 
 # Move in necessary assets
 COPY package/data/container_bash_profile /root/.profile
 COPY package/data/files/opt/drupal/composer.json /opt/drupal/composer.json
 COPY package/data/files/opt/drupal/composer.lock /opt/drupal/composer.lock
 
+# Setup simplesamlphp configs
+RUN ln -s /opt/drupal/util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal
+
 # install other dependancies
 RUN pecl install apcu-5.1.22 && docker-php-ext-enable apcu
+
+# need to mount volume in /opt/drupal/web/sites (is that done here?)
+# need to run composer install here
+# Note: themes will be deployed via composer
+# Need to flush and rebuild caches here
+
+RUN composer install
+RUN mkdir /var/run/sqlite && chown www-data:www-data /var/run/sqlite && \
+	mkdir -p /var/cache/simplesamlphp && chown www-data:www-data /var/cache/simplesamlphp
 
 # Add the build tag
 ARG BUILD_TAG
