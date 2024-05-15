@@ -6,7 +6,7 @@ FROM public.ecr.aws/docker/library/drupal:10.2
 # update the packages
 RUN apt-get -y update && \
 	apt-get -y upgrade && \
-	apt-get -y git less vim && \
+	apt-get -y install git less vim && \
 	apt-get -y install default-mysql-client sqlite3
 
 # set the timezone appropriatly
