@@ -1,0 +1,29 @@
+uuid: 4200c4d0-4237-4383-b616-c376f71d6664
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_affiliated_dh_projects
+    - node.type.course
+    - node.type.dh_project
+id: node.course.field_affiliated_dh_projects
+field_name: field_affiliated_dh_projects
+entity_type: node
+bundle: course
+label: 'Affiliated DH Projects'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      dh_project: dh_project
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,29 @@
+uuid: fe03ba1c-1398-4446-b823-7019d55062b7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_uva_or_non_uva
+    - node.type.dh_project
+    - taxonomy.vocabulary.university_affiliation
+id: node.dh_project.field_uva_or_non_uva
+field_name: field_uva_or_non_uva
+entity_type: node
+bundle: dh_project
+label: 'UVA or non UVA'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      university_affiliation: university_affiliation
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

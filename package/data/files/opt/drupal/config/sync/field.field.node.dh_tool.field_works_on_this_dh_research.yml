@@ -1,0 +1,29 @@
+uuid: c3826d7a-5f3a-41f6-873e-f55673edb9e4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_works_on_this_dh_research
+    - node.type.dh_tool
+    - node.type.research_data_type
+id: node.dh_tool.field_works_on_this_dh_research
+field_name: field_works_on_this_dh_research
+entity_type: node
+bundle: dh_tool
+label: 'works on this DH research material'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      research_data_type: research_data_type
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
