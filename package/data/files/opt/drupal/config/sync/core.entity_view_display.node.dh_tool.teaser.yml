@@ -1,0 +1,56 @@
+uuid: 32eabe06-a270-4964-a852-0a57e86f6783
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.dh_tool.body
+    - field.field.node.dh_tool.field_affiliated_dh_projects
+    - field.field.node.dh_tool.field_contact_person
+    - field.field.node.dh_tool.field_image
+    - field.field.node.dh_tool.field_is_located_in_this_departm
+    - field.field.node.dh_tool.field_link_to_more_information
+    - field.field.node.dh_tool.field_uva_non_uva
+    - field.field.node.dh_tool.field_works_on_this_dh_research
+    - image.style.medium
+    - node.type.dh_tool
+  module:
+    - image
+    - text
+    - user
+id: node.dh_tool.teaser
+targetEntityType: node
+bundle: dh_tool
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: content
+      image_style: medium
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: -1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_affiliated_dh_projects: true
+  field_contact_person: true
+  field_is_located_in_this_departm: true
+  field_link_to_more_information: true
+  field_uva_non_uva: true
+  field_works_on_this_dh_research: true

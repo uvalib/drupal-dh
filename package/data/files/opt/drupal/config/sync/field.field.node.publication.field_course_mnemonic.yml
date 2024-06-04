@@ -1,0 +1,21 @@
+uuid: 54fb4e11-f045-4272-9d50-cd40818c0ee9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_course_mnemonic
+    - node.type.publication
+id: node.publication.field_course_mnemonic
+field_name: field_course_mnemonic
+entity_type: node
+bundle: publication
+label: 'Course Mnemonic'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 'ABCD 1234'
+default_value_callback: ''
+settings: {  }
+field_type: string

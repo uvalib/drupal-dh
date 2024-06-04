@@ -1,0 +1,27 @@
+uuid: 974dcc3b-3844-4536-9e23-f3ee7fd2b225
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_events_associated_with_thi
+    - node.type.resource
+id: node.resource.field_events_associated_with_thi
+field_name: field_events_associated_with_thi
+entity_type: node
+bundle: resource
+label: 'Events Associated with this Content'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles: {  }
+    sort:
+      field: field_event_date_range.value
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

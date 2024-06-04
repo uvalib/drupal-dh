@@ -1,0 +1,29 @@
+uuid: 15464bdd-b51d-4505-944c-d6dd163ce051
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sponsor
+    - node.type.dh_project
+    - node.type.organization
+id: node.dh_project.field_sponsor
+field_name: field_sponsor
+entity_type: node
+bundle: dh_project
+label: 'Sponsoring Organization'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      organization: organization
+    sort:
+      field: title
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
