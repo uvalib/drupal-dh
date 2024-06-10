@@ -22,8 +22,12 @@ COPY package/data/container_bash_profile /root/.profile
 COPY package/data/files/opt/drupal/composer.json /opt/drupal/composer.json
 COPY package/data/files/opt/drupal/composer.lock /opt/drupal/composer.lock
 
-# Setup simplesamlphp configs
-RUN ln -s /opt/drupal/util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal
+# Setup drupal directory
+RUN ln -s /opt/drupal/util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal \
+	&& ln -s opt/drupal/util/drupal-dh/package/data/files/opt/drupal/composer.lock /opt/drupal \
+	&& ln -s opt/drupal/util/drupal-dh/package/data/files/opt/drupal/composer.json /opt/drupal \
+	&& ln -s opt/drupal/util/drupal-dh/package/data/files/opt/drupal/config /opt/drupal \
+	&& ln -s opt/drupal/util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal \
 
 # install other dependancies
 RUN pecl install apcu-5.1.22 && docker-php-ext-enable apcu
