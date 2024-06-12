@@ -23,7 +23,8 @@ COPY package/data/container_bash_profile /root/.profile
 # COPY package/data/files/opt/drupal/composer.lock /opt/drupal/composer.lock
 
 # github checkout drupal-dh dir and symlink
-RUN git clone https://github.com/uvalib/drupal-dh util/drupal-dh \
+RUN 	mkdir /opt/drupal/util 
+	&& git clone https://github.com/uvalib/drupal-dh /opt/drupal/util/drupal-dh \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal/simplesaml \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/composer.lock /opt/drupal/composer.lock \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/composer.json /opt/drupal/composer.json \
