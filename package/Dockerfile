@@ -28,7 +28,8 @@ RUN git clone https://github.com/uvalib/drupal-dh util/drupal-dh \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/composer.lock /opt/drupal/composer.lock \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/composer.json /opt/drupal/composer.json \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/config /opt/drupal/config \
-	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal/simplesaml
+	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal/simplesaml \
+	&& ls -l /opt/drupal
 
 # install other dependancies
 RUN pecl install apcu-5.1.22 && docker-php-ext-enable apcu
@@ -39,6 +40,7 @@ RUN pecl install apcu-5.1.22 && docker-php-ext-enable apcu
 # Need to flush and rebuild caches here
 
 WORKDIR /opt/drupal
+RUN ls -l
 RUN composer install
 RUN mkdir /var/run/sqlite && chown www-data:www-data /var/run/sqlite && \
 	mkdir -p /var/cache/simplesamlphp && chown www-data:www-data /var/cache/simplesamlphp
