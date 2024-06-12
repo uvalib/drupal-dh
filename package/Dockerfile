@@ -22,8 +22,9 @@ COPY package/data/container_bash_profile /root/.profile
 # COPY package/data/files/opt/drupal/composer.json /opt/drupal/composer.json
 # COPY package/data/files/opt/drupal/composer.lock /opt/drupal/composer.lock
 
-# Setup drupal directory
-RUN ln -sf util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal \
+# github checkout drupal-dh dir and symlink
+RUN git clone https://github.org/uvalib/drupal-dh util/drupal-dh
+	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/composer.lock /opt/drupal \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/composer.json /opt/drupal \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/config /opt/drupal \
