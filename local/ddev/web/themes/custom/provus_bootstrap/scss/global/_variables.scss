@@ -1,0 +1,163 @@
+/* VARIABLES */
+
+/* Colors Variables Export */
+$background-colors-background-grey: #d6d6d6;
+$background-colors-background-light: #fbfbfc;
+$background-colors-background-lightblue: #eff6ff;
+$background-colors-background-lightteal: #e7f6f9;
+$background-colors-background-white: #ffffff;
+$primary-colors-primary: #2563eb;
+$primary-colors-primary-accent: #1c2b54;
+$primary-colors-primary-contrast: #ffffff;
+$primary-colors-primary-hover: #114cae;
+$secondary-colors-secondary: #008299;
+$secondary-colors-secondary-accent: #5bcde2;
+$secondary-colors-secondary-contrast: #404758;
+$secondary-colors-secondary-hover: #045f70;
+$system-error-contrast: #422424;
+$system-error-light: #fee2e2;
+$system-error-medium: #b63546;
+$system-error-primary: #d83a52;
+$system-info-contrast: #35290f;
+$system-info-light: #e8f7ff;
+$system-info-medium: #1a5aac;
+$system-info-primary: #3491fa;
+$system-success-contrast: #024825;
+$system-success-light: #d1fae5;
+$system-success-medium: #007038;
+$system-success-primary: #258750;
+$system-warning-contrast: #35290f;
+$system-warning-light: #fffbd1;
+$system-warning-medium: #946800;
+$system-warning-primary: #f7ce55;
+$text-colors-body-color: #2c2e30;
+$text-colors-text-contrast: #ffffff;
+$text-colors-text-hint: #747474;
+$text-colors-text-primary: #2c2e30;
+$text-colors-text-secondary: #646f79;
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');
+$font-body: 'Inter', sans-serif;
+$font-heading: 'Inter', sans-serif;
+
+// Primary Color Mappings.
+$primary: $primary-colors-primary;
+$primary-hover: $primary-colors-primary-hover;
+$primary-contrast: $primary-colors-primary-contrast;
+$primary-accent: $primary-colors-primary-accent;
+
+// Secondary Color Mappings.
+$secondary: $secondary-colors-secondary;
+$secondary-hover: $secondary-colors-secondary-hover;
+$secondary-contrast: $secondary-colors-secondary-contrast;
+$secondary-accent: $secondary-colors-secondary-accent;
+
+// Background Color Mappings.
+$background-white: $background-colors-background-white;
+$background-light: $background-colors-background-light;
+$background-grey: $background-colors-background-grey;
+$background-lightblue: $background-colors-background-lightblue;
+$background-lightteal: $background-colors-background-lightteal;
+$background-gradient: linear-gradient(45deg, #2BAEC6, #094FC2);
+
+// Text Color Mappings.
+$text-primary: $text-colors-text-primary;
+$text-secondary: $text-colors-text-secondary;
+$text-contrast: $text-colors-text-contrast;
+$text-hint: $text-colors-text-hint;
+$body-color: $text-colors-body-color;
+
+// Accent Color Mappings.
+$accent-light: $secondary-accent;
+$accent-dark: $secondary-contrast;
+
+// System/Alert Color Mappings.
+$success-light: $system-success-light;
+$success-primary: $system-success-primary;
+$success-medium: $system-success-medium;
+$success-contrast: $system-success-contrast;
+$error-light: $system-error-light;
+$error-primary: $system-error-primary;
+$error-medium: $system-error-medium;
+$error-contrast: $system-error-contrast;
+$warning-light: $system-warning-light;
+$warning-primary: $system-warning-primary;
+$warning-medium: $system-warning-medium;
+$warning-contrast: $system-warning-contrast;
+$system-light: $system-info-light;
+$system-primary: $system-info-primary;
+$system-medium: $system-info-medium;
+$system-contrast: $system-info-contrast;
+
+
+// Bootstrap fixes.
+$primary-light: $primary-contrast;
+$primary-shade: $primary;
+$primary-dark: $primary-accent;
+$secondary-shade: $secondary;
+$accent-shade: $secondary;
+$font-size-base: 1rem;
+
+// Cards.
+$card-border-radius: .25rem;
+$card-spacing: 1.25rem;
+$card-border-color: #E7E8E9;
+$card-border-dark: #D9DBDD;
+
+// HR Color
+$hr-color: $text-primary;
+
+// Border Color
+$border-color: $card-border-color;
+$color-border-color: $border-color;
+
+// Grayscale Colors
+$white: white;
+$gray-lightest: #eaeaea;
+$gray-light: #747474;
+$gray: #666;
+$gray-darker: #333;
+$gray-medium: #556575;
+$black: #15191B;
+
+// Tables colors
+$table-gray: #f8f8f8;
+$table-border: $card-border-color;
+
+// Responsive font sizes
+$enable-responsive-font-sizes: true;
+$enable-shadows: false;
+$enable-gradients: false;
+
+// Font Sizes and Weights
+$font-size-lg: $font-size-base * 1.25;
+$font-size-sm: $font-size-base * .875;
+$font-size-xs: $font-size-base * .75;
+$font-weight-normal: normal;
+$font-weight-bold: bold;
+$font-weight-base: $font-weight-normal;
+$line-height-base: 1.5;
+$h1-font-size: $font-size-base * 5;
+$h2-font-size: $font-size-base * 2.25;
+$h3-font-size: $font-size-base * 1.5;
+$h4-font-size: $font-size-base * 1.125;
+$h5-font-size: $font-size-base;
+$h6-font-size: $font-size-base;
+
+// Comments
+$comment-spacer-x: 1.25em;
+$comment-spacer-y: 1.25em;
+
+// Bootstrap barrio variables.
+$primary-dark: $primary-contrast;
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px,
+  xxxl: 1680px
+);

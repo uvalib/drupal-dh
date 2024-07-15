@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.resource.field_dh_research_category
     - field.field.node.resource.field_events_associated_with_thi
     - field.field.node.resource.field_image
+    - field.field.node.resource.field_link_to_more_information
     - field.field.node.resource.field_sponsor
     - image.style.medium
     - node.type.resource
@@ -51,4 +52,5 @@ hidden:
   field_contact_person: true
   field_dh_research_category: true
   field_events_associated_with_thi: true
+  field_link_to_more_information: true
   field_sponsor: true

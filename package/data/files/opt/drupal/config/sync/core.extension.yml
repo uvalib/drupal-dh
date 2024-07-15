@@ -57,6 +57,7 @@ module:
   statistics: 0
   system: 0
   taxonomy: 0
+  telephone: 0
   text: 0
   toolbar: 0
   update: 0
@@ -69,4 +70,6 @@ module:
 theme:
   olivero: 0
   claro: 0
+  bootstrap_barrio: 0
+  provus_bootstrap: 0
 profile: standard
