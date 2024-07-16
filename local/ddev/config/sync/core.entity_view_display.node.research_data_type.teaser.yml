@@ -1,0 +1,30 @@
+uuid: 8f6b285b-9e1a-4be2-8da6-162769742b59
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.research_data_type.body
+    - node.type.research_data_type
+  module:
+    - text
+    - user
+id: node.research_data_type.teaser
+targetEntityType: node
+bundle: research_data_type
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

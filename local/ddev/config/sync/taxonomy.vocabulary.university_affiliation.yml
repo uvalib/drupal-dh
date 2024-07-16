@@ -1,0 +1,8 @@
+uuid: cd59ddd6-494d-4acd-8dad-40806ef979db
+langcode: en
+status: true
+dependencies: {  }
+name: 'University Affiliation'
+vid: university_affiliation
+description: 'Is this UVA or non-UVA?'
+weight: 0

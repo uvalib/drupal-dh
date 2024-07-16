@@ -1,0 +1,18 @@
+uuid: e5068687-f621-4968-aa6a-c337ab13d29e
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: 'Department or School'
+type: department
+description: 'Academic or Library department'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

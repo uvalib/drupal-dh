@@ -1,0 +1,28 @@
+uuid: 35b76e30-70d5-4dff-bd88-af67d48efb88
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_contribution_field
+  module:
+    - user
+id: user.user.field_contribution_field
+field_name: field_contribution_field
+entity_type: user
+bundle: user
+label: 'Contribution field'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles: {  }
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
