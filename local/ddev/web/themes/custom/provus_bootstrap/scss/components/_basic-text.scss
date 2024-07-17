@@ -1,0 +1,10 @@
+// Styling for Basic Text Block.
+
+.block-provus-basic-text p{
+  @include text-style-body-body-1();
+  color: $text-secondary;
+}
+
+.ck-balloon-panel {
+  z-index: 99999 !important;
+}

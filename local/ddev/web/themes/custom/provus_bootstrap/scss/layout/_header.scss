@@ -1,0 +1,232 @@
+// Main header styles
+.navbar-brand {
+  img {
+    max-width: rem-calc(200);
+  }
+}
+
+.navbar {
+  .container {
+    @include media-breakpoint-up(xxxl) {
+      max-width: rem-calc(1510);
+    }
+  }
+}
+
+// Top nav provus styles
+#navbar-top {
+  background: $primary-accent;
+  padding: .5rem 1rem;
+  > .container {
+    justify-content: flex-end;
+  }
+  .nav-link {
+    color: $text-contrast;
+    font-size: rem-calc(14);
+    text-decoration: none;
+    &:hover,
+    &:focus {
+      color: $text-contrast;
+      text-decoration: underline;
+    }
+  }
+  .block-provus-button {
+    .field--name-field-provus-links {
+      display: flex;
+      gap: rem-calc(30);
+      a {
+        color: $white;
+        &:hover {
+          color: $primary;
+        }
+      }
+    }
+  }
+}
+
+// Search collapse in header
+#searchCollapse {
+  right: rem-calc(35);
+  width: rem-calc(460);
+  top: rem-calc(-8);
+  background: transparent;
+  @include media-breakpoint-down(lg) {
+    width: rem-calc(300);
+  }
+}
+.navbar-form {
+  position: relative;
+  display: flex;
+  .nav-link {
+    color: $primary-accent;
+    position: relative;
+    z-index: 99;
+    width: rem-calc(50);
+    padding: rem-calc(8 16);
+    .fa-xmark {
+      display: none;
+    }
+    &[aria-expanded="true"] {
+      .fa-xmark {
+        display: inline-block;
+      }
+      .fa-magnifying-glass {
+        display: none;
+      }
+    }
+  }
+  @include media-breakpoint-down(lg) {
+    height: 40px;
+    a[aria-expanded="false"] {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
+
+// Provus Menu
+#navbar-main {
+  background: $white;
+  box-shadow: inset 0px -1.0369px 0px #E5E7EB;
+  padding: 0;
+  .navbar-nav {
+    @include media-breakpoint-down(lg) {
+      display: block;
+    }
+    li.nav-item {
+      @include media-breakpoint-down(lg) {
+        border-bottom: 1px solid $primary-accent;
+      }
+      a.nav-link {
+        padding: rem-calc(20 0);
+        @include media-breakpoint-down(lg) {
+          padding: rem-calc(15 0);
+          display: inline-block;
+        }
+      }
+    }
+    li.dropdown {
+      &:hover,
+      &:focus {
+        ul {
+          @include media-breakpoint-up(lg) {
+            display: block;
+          }
+        }
+      }
+      &.hovered {
+        ul {
+          @include media-breakpoint-up(lg) {
+            display: block;
+          }
+        }
+      }
+      a {
+        &:hover,
+        &:focus {
+          color: $primary-shade;
+        }
+        &.dropdown-toggle  {
+          display: none;
+          color: $primary;
+          @include media-breakpoint-down(lg) {
+            float: right;
+            display: block;
+            padding: rem-calc(14);
+          }
+        }
+        &.dropdown-toggle-main {
+          &::after {
+            display: inline-block;
+            margin-left: 0.255em;
+            vertical-align: 0.255em;
+            content: "";
+            border-top: 0.3em solid;
+            border-right: 0.3em solid transparent;
+            border-bottom: 0;
+            border-left: 0.3em solid transparent;
+            color: $primary;
+            @include media-breakpoint-down(lg) {
+              display: none;
+            }
+          }
+        }
+        .caret {
+          display: none;
+          @include media-breakpoint-down(lg) {
+            display: block;
+          }
+        }
+      }
+      & > ul.dropdown-menu {
+        background: $white;
+        box-shadow: 0px 12px 12px -8px rgba(0, 0, 0, 0.08), 0px 4px 4px rgba(0, 0, 0, 0.04);
+        border-radius: rem-calc(0 0 8 8);
+        top: rem-calc(60);
+        column-gap: rem-calc(20);
+        break-inside: avoid-column;
+        padding: rem-calc(25);
+        min-width: rem-calc(250);
+        border-top: none;
+        @include media-breakpoint-down(lg) {
+          box-shadow: none;
+          border: none;
+          padding: 0;
+          margin-bottom: rem-calc(20);
+        }
+        ul.dropdown-menu {
+          min-width: 0;
+        }
+        & > li {
+          padding: 0;
+          border: none;
+          background: transparent;
+          color: inherit;
+          margin-bottom: rem-calc(15);
+          & > a {
+            font-weight: 500;
+            font-size: rem-calc(15);
+            line-height: rem-calc(20);
+            letter-spacing: normal;
+            display: flex;
+            align-items: center;
+            text-transform: none;
+            text-decoration: none;
+            white-space: normal;
+            color: $body-color;
+            display: block;
+            &:hover,
+            &:focus {
+              color: $primary-shade;
+              text-decoration: underline;
+            }
+            svg.ext {
+              display: none;
+            }
+          }
+          &:last-child {
+            margin-bottom: 0;
+          }
+          .dropdown-toggle {
+            font-weight: 700;
+            font-size: rem-calc(12);
+            line-height: rem-calc(12);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: $body-color;
+            text-decoration: none;
+            white-space: normal;
+            margin-bottom: rem-calc(20);
+            padding: 0 !important;
+            display: block;
+            &:hover,
+            &:focus {
+              color: $primary-shade;
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}

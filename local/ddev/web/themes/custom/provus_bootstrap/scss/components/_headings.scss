@@ -1,0 +1,266 @@
+/*
+ * Generic header styles:
+ * All arguments are optional. If not defined, the defaults below will be used
+*/
+
+$color-heading: $text-primary;
+
+@mixin heading-xl($font-family: $font-heading, $font-size: $h1-font-size, $line-height: 5.5rem, $color: $color-heading, $color-link: inherit, $color-link-hover: inherit, $font-weight: 600, $margin: 0) {
+  color: $color;
+  font-family: $font-family;
+  font-weight: $font-weight;
+  font-style: normal;
+  font-size: $font-size;
+  line-height: $line-height;
+  margin: 1rem $margin;
+  width: auto;
+  letter-spacing: -1.776px;
+
+  &__link {
+    color: $color-link;
+
+    &:hover {
+      color: $color-link-hover;
+    }
+  }
+}
+
+@mixin heading-large($font-family: $font-heading, $font-size: $h2-font-size, $line-height: 2.75rem, $color: $color-heading, $color-link: inherit, $color-link-hover: inherit, $font-weight: 500, $margin: 0) {
+  color: $color;
+  font-family: $font-family;
+  font-weight: $font-weight;
+  font-style: normal;
+  font-size: $font-size;
+  line-height: $line-height;
+  margin: 1rem $margin;
+  width: auto;
+
+  &__link {
+    color: $color-link;
+
+    &:hover {
+      color: $color-link-hover;
+    }
+  }
+}
+
+@mixin heading-medium($font-family: $font-heading, $font-size: $h3-font-size, $line-height: 2rem, $color: $color-heading, $color-link: inherit, $color-link-hover: inherit, $font-weight: 600, $margin: 0) {
+  color: $color;
+  font-family: $font-family;
+  font-weight: $font-weight;
+  font-style: normal;
+  font-size: $font-size;
+  line-height: $line-height;
+  margin: 1rem $margin;
+  width: auto;
+
+  &__link {
+    color: $color-link;
+
+    &:hover {
+      color: $color-link-hover;
+    }
+  }
+}
+
+@mixin heading-small($font-family: $font-heading, $font-size: $h4-font-size, $line-height: 1.75rem, $color: $color-heading, $color-link: inherit, $color-link-hover: inherit, $font-weight: 500, $margin: 0) {
+  color: $color;
+  font-family: $font-family;
+  font-weight: $font-weight;
+  font-style: normal;
+  font-size: $font-size;
+  line-height: $line-height;
+  margin: 1rem $margin;
+  width: auto;
+
+  &__link {
+    color: $color-link;
+
+    &:hover {
+      color: $color-link-hover;
+    }
+  }
+}
+
+@mixin heading-xs($font-family: $font-heading, $font-size: $font-size-base, $line-height: 1.5rem, $color: $color-heading, $color-link: inherit, $color-link-hover: inherit, $font-weight: 600, $margin: 0) {
+  color: $color;
+  font-family: $font-family;
+  font-weight: $font-weight;
+  font-style: normal;
+  font-size: $font-size;
+  line-height: $line-height;
+  margin: $margin;
+  margin-bottom: $font-size;
+  width: auto;
+
+  &__link {
+    color: $color-link;
+
+    &:hover {
+      color: $color-link-hover;
+    }
+  }
+}
+
+h1,
+.h1,
+h1 .title,
+.h1 .title {
+  @include heading-xl;
+}
+
+h2,
+.h2 {
+  @include heading-large;
+}
+
+h3,
+.h3 {
+  @include heading-medium;
+}
+
+h4,
+.h4 {
+  @include heading-small;
+}
+
+h5,
+h6,
+.h5,
+.h6 {
+  @include heading-xs;
+}
+
+
+.text-long {
+  h1 {
+    @extend .h1;
+  }
+
+  h2 {
+    @extend .h2;
+  }
+
+  h3 {
+    @extend .h3;
+  }
+
+  h4 {
+    @extend .h4;
+  }
+
+  h5 {
+    @extend .h5;
+  }
+
+  h6 {
+    @extend .h6;
+  }
+}
+
+a {
+  h2, h3, h4, h5, h6 {
+    color: $text-primary;
+  }
+  &:hover,
+  &:focus {
+    h2, h3, h4, h5, h6 {
+      color: $secondary-shade;
+    }
+  }
+}
+
+// Heading block.
+.block-provus-heading {
+  h1,h2,h3,h4,h5,h6 {
+    position: relative;
+    div.field {
+      position: relative;
+      display: inline-block;
+      z-index: 2;
+    }
+  }
+  .line-on {
+    h1,h2,h3,h4,h5,h6 {
+      background: $white;
+      &:before {
+        width: 100%;
+        height: rem-calc(2);
+        top: 50%;
+        content: '';
+        background: $accent-shade;
+        z-index: 1;
+        position: absolute;
+      }
+      div.field {
+        background: $white;
+      }
+    }
+  }
+  .header-align-left {
+    text-align: left;
+    h1,h2,h3,h4,h5,h6 {
+      &:before {
+        left: 0;
+      }
+    }
+    div.field {
+      padding-right: rem-calc(60);
+    }
+  }
+  .header-align-right {
+    text-align: right;
+    div.field {
+      padding-left: rem-calc(60);
+    }
+    &.line-on {
+      h1,h2,h3,h4,h5,h6 {
+        &:before {
+          right: 0;
+        }
+      }
+    }
+  }
+  .header-align-center {
+    width: 100%;
+    display: block;
+    margin-bottom: rem-calc(50);
+    .subheading {
+      text-align: center;
+    }
+    h1,h2,h3,h4,h5,h6 {
+      text-align: center;
+      &:before {
+        left: 0;
+      }
+      div.field {
+        padding-left: rem-calc(60);
+        padding-right: rem-calc(60);
+      }
+    }
+  }
+  .subheading {
+    @include text-style-eyebrow-eyebrow-1();
+    color: $secondary-shade;
+  }
+}
+
+.block-provus-heading h1 {
+  @include text-style-headline-h-1();
+}
+
+.block-provus-heading h2 {
+  @include text-style-headline-h-2();
+}
+
+.block-provus-heading h3 {
+  @include text-style-headline-h-3();
+}
+
+.block-provus-heading h4 {
+  @include text-style-headline-h-4();
+}
+
+.block-provus-heading h5 {
+  @include text-style-headline-h-5();
+}

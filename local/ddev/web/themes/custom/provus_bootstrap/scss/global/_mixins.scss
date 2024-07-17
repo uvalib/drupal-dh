@@ -1,0 +1,255 @@
+@use 'sass:math';
+
+//rem-calc
+$rem-base: 16px;
+
+/* stylelint-disable */
+
+@function strip-unit($num) {
+  @if type-of($num) == 'number' and not unitless($num) {
+    @return math.div($num, ($num * 0 + 1));
+  }
+
+  @return $num;
+}
+
+@function convert-to-rem($value, $base-value: $rem-base)  {
+  $value: calc(strip-unit($value) / strip-unit($base-value)) * 1rem;
+  @if ($value == 0rem) { $value: 0; } // Turn 0rem into 0
+  @return $value;
+}
+
+@function rem-calc($values, $base-value: $rem-base) {
+  $max: length($values);
+  @if $max == 1 { @return convert-to-rem(nth($values, 1), $base-value); }
+  $remValues: ();
+  @for $i from 1 through $max {
+    $remValues: append($remValues, convert-to-rem(nth($values, $i), $base-value));
+  }
+  @return $remValues;
+}
+
+@mixin breakout {
+  width: 100vw;
+  position: relative;
+  left: calc(-1 * (100vw - 100%) / 2);
+  .gin--vertical-toolbar & {
+    margin-left: rem-calc(-33);
+  }
+}
+
+@mixin text-style-display-headline-display() {
+  font-size: 80px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 88px;
+  letter-spacing: -1.78px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-headline-h-1() {
+  font-size: 60px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 72px;
+  letter-spacing: -1.34px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-headline-h-2() {
+  font-size: 48px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 56px;
+  letter-spacing: -1.07px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-headline-h-3() {
+  font-size: 36px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 44px;
+  letter-spacing: -0.78px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-headline-h-4() {
+  font-size: 24px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 32px;
+  letter-spacing: -0.46px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-headline-h-5() {
+  font-size: 20px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 28px;
+  letter-spacing: -0.34px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-subheadline-sub-1() {
+  font-size: 18px;
+  font-family: "Inter";
+  font-weight: 500;
+  font-style: normal;
+  line-height: 28px;
+  letter-spacing: -0.26px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-subheadline-sub-2() {
+  font-size: 16px;
+  font-family: "Inter";
+  font-weight: 500;
+  font-style: normal;
+  line-height: 24px;
+  letter-spacing: -0.18px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-body-body-1() {
+  font-size: 16px;
+  font-family: "Inter";
+  font-weight: 400;
+  font-style: normal;
+  line-height: 200%;
+  letter-spacing: -0.18px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-body-body-2() {
+  font-size: 14px;
+  font-family: "Inter";
+  font-weight: 400;
+  font-style: normal;
+  line-height: 22px;
+  letter-spacing: -0.13px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-caption-caption-1() {
+  font-size: 12px;
+  font-family: "Inter";
+  font-weight: 400;
+  font-style: normal;
+  line-height: 18px;
+  letter-spacing: 0.02px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-eyebrow-eyebrow-1() {
+  font-size: 12px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 12px;
+  letter-spacing: 0.4em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+@mixin text-style-eyebrow-large() {
+  font-size: 16px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 24px;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+@mixin text-style-button-large() {
+  font-size: 16px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 24px;
+  letter-spacing: -0.18px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-button-medium() {
+  font-size: 14px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 16px;
+  letter-spacing: -0.13px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin text-style-button-small() {
+  font-size: 13px;
+  font-family: "Inter";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 12px;
+  letter-spacing: -0.04px;
+  text-decoration: none;
+  text-transform: none;
+}
+
+@mixin effect-style-elevation-xs() {
+  box-shadow: 0px 1px 2px rgba(0,0,0,0.060), 0px 5px 4px -4px rgba(0,0,0,0.020);
+}
+
+@mixin effect-style-elevation-sm() {
+  box-shadow: 0px 2px 2px rgba(0,0,0,0.080), 0px 0px 2px rgba(0,0,0,0.040);
+}
+
+@mixin effect-style-elevation-md() {
+  box-shadow: 0px 12px 12px -8px rgba(0,0,0,0.080), 0px 0px 4px rgba(0,0,0,0.040);
+}
+
+@mixin effect-style-elevation-lg() {
+  box-shadow: 0px 32px 40px -16px rgba(0,0,0,0.120), 0px 2px 6px rgba(0,0,0,0.060);
+}
+
+@mixin effect-style-elevation-xl() {
+  box-shadow: 0px 24px 48px -8px rgba(0,0,0,0.120), 0px 48px 64px -24px rgba(0,0,0,0.120);
+}
+
+@mixin effect-style-blur-small() {
+  backdrop-filter : blur(8px);
+}
+
+@mixin effect-style-blur-medium() {
+  backdrop-filter : blur(16px);
+}
+
+@mixin effect-style-blur-large() {
+  backdrop-filter : blur(24px);
+}
+
+@mixin effect-style-blur-large() {
+  backdrop-filter : blur(40px);
+}
+
+@mixin effect-style-text-drop-shadow() {
+  box-shadow: 0px 2px 10px rgba(0,0,0,0.400), 0px 0px 2px rgba(0,0,0,0.800);
+}
