@@ -1,8 +1,0 @@
-uuid: 68cf8183-6fec-49c8-a2e3-67b258da88f9
-langcode: en
-status: true
-dependencies: {  }
-name: Semester
-vid: semester
-description: 'Fall, spring, or not applicable?'
-weight: 0

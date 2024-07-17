@@ -1,8 +1,0 @@
-uuid: c19476dc-0216-47c7-8211-b4b0d963d61c
-langcode: en
-status: true
-dependencies: {  }
-name: 'DH Course Types'
-vid: dh_course_types
-description: 'Does this satisfy DH Cert Requirements?'
-weight: 0

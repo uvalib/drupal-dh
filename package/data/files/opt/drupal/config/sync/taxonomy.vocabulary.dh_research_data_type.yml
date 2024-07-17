@@ -1,8 +1,0 @@
-uuid: 73f946ba-9970-4548-ae50-5b7c3f8f8fb3
-langcode: en
-status: true
-dependencies: {  }
-name: 'DH Research Data Type'
-vid: dh_research_data_type
-description: 'What is the structure of your research data? '
-weight: -10

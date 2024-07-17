@@ -1,8 +1,0 @@
-uuid: 6d02f4e7-739b-4422-afcd-4bb2518dad65
-langcode: en
-status: true
-dependencies: {  }
-name: 'Event types'
-vid: event_types
-description: 'Event types that also might be reusable for other content types?'
-weight: -8
