@@ -718,6 +718,9 @@ display:
     display_plugin: page
     position: 1
     display_options:
+      defaults:
+        css_class: false
+      css_class: course-list
       display_extenders: {  }
       path: dh-course-list
       menu:
