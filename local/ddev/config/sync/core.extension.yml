@@ -52,6 +52,7 @@ module:
   redirect: 0
   redirect_domain: 0
   search: 0
+  select2: 0
   shortcut: 0
   simplesamlphp_auth: 0
   smart_date: 0
