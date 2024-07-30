@@ -39,6 +39,7 @@
         "drupal/smart_date_starter_kit": "^2.2",
         "drupal/smtp": "^1.2",
         "drupal/views_templates": "^1.5",
+        "drupal/webform": "^6.2",
         "drush/drush": "^12.4"
     },
     "conflict": {
