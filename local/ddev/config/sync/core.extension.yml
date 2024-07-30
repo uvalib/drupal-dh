@@ -71,7 +71,14 @@ module:
   user: 0
   views_templates: 0
   views_ui: 0
+  webform: 0
+  webform_access: 0
+  webform_attachment: 0
+  webform_node: 0
+  webform_submission_log: 0
+  webform_ui: 0
   pathauto: 1
+  webform_bootstrap: 1
   externalauth: 10
   views: 10
   standard: 1000
