@@ -1,27 +1,23 @@
-uuid: 5020c008-902a-4730-b74e-2351ce942ec1
+uuid: b1eb9a62-a317-4d79-b200-111ae03ac88a
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.dh_tool.body
-    - field.field.node.dh_tool.field_affiliated_dh_projects
-    - field.field.node.dh_tool.field_contact_person
-    - field.field.node.dh_tool.field_image
-    - field.field.node.dh_tool.field_is_located_in_this_departm
-    - field.field.node.dh_tool.field_link_to_more_information
-    - field.field.node.dh_tool.field_uva_non_uva
-    - field.field.node.dh_tool.field_works_on_this_dh_research
-    - field.field.node.dh_tool.layout_builder__layout
+    - field.field.node.people.body
+    - field.field.node.people.field_attended_events
+    - field.field.node.people.field_department_or_school_ref
+    - field.field.node.people.field_image
+    - field.field.node.people.field_organizations
     - image.style.thumbnail
-    - node.type.dh_tool
+    - node.type.people
   module:
     - image
-    - link
     - path
+    - select2
     - text
-id: node.dh_tool.default
+id: node.people.default
 targetEntityType: node
-bundle: dh_tool
+bundle: people
 mode: default
 content:
   body:
@@ -40,25 +36,25 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_affiliated_dh_projects:
-    type: entity_reference_autocomplete
-    weight: 123
+  field_attended_events:
+    type: select2_entity_reference
+    weight: 122
     region: content
     settings:
+      width: 100%
+      autocomplete: false
       match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      match_limit: 0
     third_party_settings: {  }
-  field_contact_person:
-    type: entity_reference_autocomplete
-    weight: 13
+  field_department_or_school_ref:
+    type: select2_entity_reference
+    weight: 124
     region: content
     settings:
+      width: 100%
+      autocomplete: false
       match_operator: CONTAINS
       match_limit: 10
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_image:
     type: image_image
@@ -68,39 +64,15 @@ content:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-  field_is_located_in_this_departm:
-    type: entity_reference_autocomplete
-    weight: 128
+  field_organizations:
+    type: select2_entity_reference
+    weight: 123
     region: content
     settings:
+      width: 100%
+      autocomplete: false
       match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_link_to_more_information:
-    type: link_default
-    weight: 11
-    region: content
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-  field_uva_non_uva:
-    type: options_select
-    weight: 14
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-  field_works_on_this_dh_research:
-    type: entity_reference_autocomplete
-    weight: 127
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      match_limit: 0
     third_party_settings: {  }
   path:
     type: path
@@ -152,5 +124,4 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden:
-  layout_builder__layout: true
+hidden: {  }
