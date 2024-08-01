@@ -1,0 +1,23 @@
+uuid: 2d8a6345-98e6-4dbc-949b-de877fa3419b
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_basic_text
+    - field.storage.block_content.field_provus_hide_title
+_core:
+  default_config_hash: dpcQCR8eIEXF86rA0Q3EH2vOZG9i5t0ES2-WX5z-QLE
+id: block_content.provus_basic_text.field_provus_hide_title
+field_name: field_provus_hide_title
+entity_type: block_content
+bundle: provus_basic_text
+label: 'Hide Title'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'On'
+  off_label: 'Off'
+field_type: boolean

@@ -1,0 +1,21 @@
+uuid: 6a75d28d-1ed0-4ed3-b043-497c6e0450fe
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_stat_item
+    - field.storage.block_content.field_provus_title
+_core:
+  default_config_hash: JHXbLs1CTG1JqlExz8iEvswsYp2XUYZtoLtHhtXqVCc
+id: block_content.provus_stat_item.field_provus_title
+field_name: field_provus_title
+entity_type: block_content
+bundle: provus_stat_item
+label: Stat
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

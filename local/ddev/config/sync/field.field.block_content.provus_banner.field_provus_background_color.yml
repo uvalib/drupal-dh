@@ -1,0 +1,25 @@
+uuid: b0f164db-b0d8-4028-b6b1-a46aa5a42fca
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_banner
+    - field.storage.block_content.field_provus_background_color
+  module:
+    - options
+_core:
+  default_config_hash: g6Dkoqm5T-7qHuWR-YbajPvStFZbefdalO1V7oSC2n4
+id: block_content.provus_banner.field_provus_background_color
+field_name: field_provus_background_color
+entity_type: block_content
+bundle: provus_banner
+label: 'Background Color'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: light
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,21 @@
+uuid: 3e1313a2-61fa-4006-b8f6-a0879e046418
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - link
+_core:
+  default_config_hash: E4XfCuTs9Yd8HeVx9C-O4kh6IlXZnqqqjr00SYw39f4
+id: block_content.field_provus_url_slide_show_item
+field_name: field_provus_url_slide_show_item
+entity_type: block_content
+type: link
+settings: {  }
+module: link
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

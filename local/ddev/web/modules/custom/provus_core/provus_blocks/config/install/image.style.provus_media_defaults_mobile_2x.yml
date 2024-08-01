@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: provus_media_defaults_mobile_2x
+label: 'Media Defaults | Mobile | 2x'
+effects:
+  e816207c-870d-4eaf-b662-d1fea801c809:
+    uuid: e816207c-870d-4eaf-b662-d1fea801c809
+    id: image_scale
+    weight: 1
+    data:
+      width: 824
+      height: 626
+      upscale: false

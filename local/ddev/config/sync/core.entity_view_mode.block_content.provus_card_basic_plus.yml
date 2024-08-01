@@ -1,0 +1,13 @@
+uuid: 02bd7282-0fa3-4cca-83e4-a0882c2f815f
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+_core:
+  default_config_hash: ug6Oq1O5w2moJv8ZX1U0jRhMbGVbHcW-h1HLOQvvKZg
+id: block_content.provus_card_basic_plus
+label: 'Card Basic Plus'
+description: ''
+targetEntityType: block_content
+cache: true

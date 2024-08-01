@@ -1,0 +1,21 @@
+uuid: 5f74fbd2-8742-4147-916a-1407d218492a
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_cta
+    - field.storage.block_content.field_provus_sub_title
+_core:
+  default_config_hash: EU-s2Wk477KvLuy_3uwFbJdPoTHLxnaKsoEwqD7b_h4
+id: block_content.provus_cta.field_provus_sub_title
+field_name: field_provus_sub_title
+entity_type: block_content
+bundle: provus_cta
+label: Sub-title
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

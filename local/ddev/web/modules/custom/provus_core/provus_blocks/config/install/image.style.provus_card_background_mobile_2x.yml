@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: provus_card_background_mobile_2x
+label: 'Card Background | Mobile | 2x'
+effects:
+  dafad9c9-6f74-4e70-abdf-920b81105a76:
+    uuid: dafad9c9-6f74-4e70-abdf-920b81105a76
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 636
+      height: 480
+      crop_type: focal_point

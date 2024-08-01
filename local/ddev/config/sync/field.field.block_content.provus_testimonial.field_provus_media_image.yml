@@ -1,0 +1,31 @@
+uuid: f1067470-a446-443e-953d-ccdbe20b8a85
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_testimonial
+    - field.storage.block_content.field_provus_media_image
+    - media.type.image
+_core:
+  default_config_hash: aJzgTSTd11OZP5E_n2Kk_0KczjQnwOZ1V60-Z_tfxq4
+id: block_content.provus_testimonial.field_provus_media_image
+field_name: field_provus_media_image
+entity_type: block_content
+bundle: provus_testimonial
+label: 'Media Image'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

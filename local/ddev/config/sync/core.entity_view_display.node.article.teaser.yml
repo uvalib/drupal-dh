@@ -21,6 +21,11 @@ targetEntityType: node
 bundle: article
 mode: teaser
 content:
+  addtoany:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 5
+    region: content
   body:
     type: text_summary_or_trimmed
     label: hidden
@@ -33,8 +38,8 @@ content:
     type: image
     label: hidden
     settings:
-      image_style: medium
       image_link: content
+      image_style: medium
       image_loading:
         attribute: lazy
     third_party_settings: {  }

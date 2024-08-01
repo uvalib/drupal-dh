@@ -1,0 +1,13 @@
+uuid: e615b3c2-9f7c-4604-b4a0-157903ad128d
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+_core:
+  default_config_hash: tcGKc0IXEdZVNfVgGt4QXdTNXdJaepe_1ZRC6cISOio
+id: media.provus_card_default
+label: 'Card Default'
+description: ''
+targetEntityType: media
+cache: true

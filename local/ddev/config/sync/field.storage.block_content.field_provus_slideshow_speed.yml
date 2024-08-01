@@ -1,0 +1,23 @@
+uuid: 63642cf5-d9ce-47ba-a942-690df87d12b5
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+_core:
+  default_config_hash: lB_Fs39iIFBmifWeoTyAZpW0Jn3CAwLXnKJ9rBdhbKU
+id: block_content.field_provus_slideshow_speed
+field_name: field_provus_slideshow_speed
+entity_type: block_content
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

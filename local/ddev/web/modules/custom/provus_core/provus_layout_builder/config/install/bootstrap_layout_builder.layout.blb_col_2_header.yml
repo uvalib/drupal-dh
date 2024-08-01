@@ -1,0 +1,6 @@
+langcode: en
+status: true
+dependencies: {  }
+id: blb_col_2_header
+label: 'Bootstrap 2 Cols w/ Header'
+number_of_columns: 3

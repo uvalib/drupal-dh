@@ -1,0 +1,16 @@
+uuid: e3713239-9555-41fa-9cf8-45cb070245f4
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: T2t7djD-tj9YLl1zg1PJh9bCAFnAXLomiL9l0fqBgcI
+id: local_video
+label: 'Local Video'
+description: ''
+source: video_file
+queue_thumbnail_downloads: false
+new_revision: false
+source_configuration:
+  source_field: field_media_video_file
+field_map:
+  name: name

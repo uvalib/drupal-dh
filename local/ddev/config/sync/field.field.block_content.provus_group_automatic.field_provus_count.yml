@@ -1,0 +1,27 @@
+uuid: f865ffe4-b861-446d-b235-2831571c2a22
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_group_automatic
+    - field.storage.block_content.field_provus_count
+_core:
+  default_config_hash: 5Z9kvQlKBuFfZWgOMxpsVY1KOP_sd9WWZQ1z_CTPu8Y
+id: block_content.provus_group_automatic.field_provus_count
+field_name: field_provus_count
+entity_type: block_content
+bundle: provus_group_automatic
+label: Count
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 3
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

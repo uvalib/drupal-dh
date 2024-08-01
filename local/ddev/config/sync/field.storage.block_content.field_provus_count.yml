@@ -1,0 +1,22 @@
+uuid: 5431813f-05bd-438d-998f-817da0970468
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+_core:
+  default_config_hash: aD_SQBfppIAm4GHMjE11zIJ_TIgtR1v1RP-8H6vxRW0
+id: block_content.field_provus_count
+field_name: field_provus_count
+entity_type: block_content
+type: integer
+settings:
+  unsigned: false
+  size: normal
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

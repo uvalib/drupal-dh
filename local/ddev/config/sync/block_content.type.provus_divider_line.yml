@@ -1,0 +1,10 @@
+uuid: 248311dc-6625-48b8-8496-0c3566840095
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: swr1liNwCb_k8hcr8V4nnTiqNZ73HgBMUoUcGcuDl5U
+id: provus_divider_line
+label: 'Divider Line'
+revision: 0
+description: ''

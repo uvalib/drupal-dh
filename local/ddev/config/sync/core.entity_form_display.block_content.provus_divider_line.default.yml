@@ -1,0 +1,22 @@
+uuid: 537fa0a8-6051-4dec-af40-130a90f5b6e5
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_divider_line
+_core:
+  default_config_hash: 442lH1LQYT9qeYEmYE7iiSB9xOVC5cNRhhaBdFexUvQ
+id: block_content.provus_divider_line.default
+targetEntityType: block_content
+bundle: provus_divider_line
+mode: default
+content:
+  info:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

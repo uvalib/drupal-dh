@@ -1,0 +1,44 @@
+<?php
+
+/**
+ * @file
+ * Contains provus_layout_builder.module.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function provus_layout_builder_theme($existing, $type, $theme, $path) {
+  return [
+    'blb_section_header' => [
+      'template' => 'blb-section-header',
+      'render element' => 'content',
+      'base hook' => 'blb_section',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK().
+ */
+function provus_layout_builder_theme_suggestions_layout(array $variables) {
+  $suggestions = [];
+  if (isset($variables['content']['#layout'])) {
+    $layout = $variables['content']['#layout'];
+    if (in_array($layout->id(), [
+      'blb_col_2_header',
+      'blb_col_3_header',
+      'blb_col_4_header',
+    ])) {
+      $suggestions[] = 'blb_section_header';
+    }
+  }
+  return $suggestions;
+}
+
+/**
+ * Implements hook_preprocess().
+ */
+function provus_layout_builder_preprocess(&$vars) {
+  $vars['#attached']['library'][] = 'provus_layout_builder/blb-col-icons-header';
+}
