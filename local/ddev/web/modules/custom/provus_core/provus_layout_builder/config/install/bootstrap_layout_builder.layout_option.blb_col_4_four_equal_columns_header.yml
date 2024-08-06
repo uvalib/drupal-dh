@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies: {  }
+id: blb_col_4_four_equal_columns_header
+layout_id: blb_col_4_header
+label: 'Four equal columns w/ Header'
+structure: '12 3 3 3 3'
+breakpoints:
+  desktop: desktop
+  tablet: tablet
+  mobile: mobile
+default_breakpoints:
+  desktop: desktop
+  tablet: tablet
+  mobile: '0'
+weight: -10

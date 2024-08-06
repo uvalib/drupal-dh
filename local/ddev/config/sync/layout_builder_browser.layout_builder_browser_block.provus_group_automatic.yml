@@ -1,0 +1,13 @@
+uuid: a35cadea-089c-4930-8f2c-475adff41520
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: b4cM_mmS1X3-l6nwgnESo7G0rQV6CKGo-bTNwkScWoI
+id: provus_group_automatic
+block_id: 'inline_block:provus_group_automatic'
+category: provus_grouped_content
+label: 'Group - Automatic'
+image_path: /themes/custom/provus_bootstrap/images/components/group-auto.svg
+image_alt: ''
+weight: -80

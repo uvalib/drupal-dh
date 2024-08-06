@@ -1,0 +1,11 @@
+_core:
+  default_config_hash: '-YgHqPal4IrfljRUtiY7KsZ3Nu86MV1wiK7ElZiZjeY'
+status: 1
+pattern: '(Media) - [random:number]'
+escape: false
+preserve_titles: false
+dependencies:
+  config:
+    - block_content.type.provus_media
+save: 0
+chunk: '50'

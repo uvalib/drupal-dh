@@ -1,0 +1,11 @@
+uuid: c4f5be07-dbe1-478f-8f2e-e08a6ff5f9b8
+langcode: en
+status: true
+dependencies: {  }
+id: provus_banner
+block_id: 'inline_block:provus_banner'
+category: provus_complex_content
+label: Banner
+image_path: /themes/custom/provus_bootstrap/images/components/banner.svg
+image_alt: ''
+weight: -100

@@ -1,0 +1,23 @@
+uuid: 13ff5e5b-1f48-4665-846d-b5aae5e103e1
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_group_automatic
+    - field.storage.block_content.field_provus_content_type
+  module:
+    - options
+_core:
+  default_config_hash: 7yzsNpfHupiht5BmMWZzJ18NRnx2DFD93CG_HFHBZd4
+id: block_content.provus_group_automatic.field_provus_content_type
+field_name: field_provus_content_type
+entity_type: block_content
+bundle: provus_group_automatic
+label: 'Content Type'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

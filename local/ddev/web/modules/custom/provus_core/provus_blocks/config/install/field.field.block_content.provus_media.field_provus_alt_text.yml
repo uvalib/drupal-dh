@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_media
+    - field.storage.block_content.field_provus_alt_text
+id: block_content.provus_media.field_provus_alt_text
+field_name: field_provus_alt_text
+entity_type: block_content
+bundle: provus_media
+label: 'Alt Text'
+description: 'Override default alt text of referenced media.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,13 @@
+uuid: 0c013713-e963-4f99-b109-dc7514ec63cf
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: m7YYDz_32AtjMvBVjsZ_y8TuAd2ajchv--6L0uq3k54
+id: provus_divider_line
+block_id: 'inline_block:provus_divider_line'
+category: provus_simple_content
+label: 'Divider Line'
+image_path: /themes/custom/provus_bootstrap/images/components/divider.svg
+image_alt: ''
+weight: -60

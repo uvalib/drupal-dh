@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_banner
+    - field.storage.block_content.field_provus_short_banner
+id: block_content.provus_banner.field_provus_short_banner
+field_name: field_provus_short_banner
+entity_type: block_content
+bundle: provus_banner
+label: 'Short banner'
+description: 'This will decrease the over height and padding of the banner, and only show mandatory items.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  on_label: 'true'
+  off_label: 'false'
+field_type: boolean

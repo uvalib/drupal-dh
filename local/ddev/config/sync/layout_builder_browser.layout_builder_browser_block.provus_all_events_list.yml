@@ -1,0 +1,13 @@
+uuid: a0e3a4ad-542e-48b3-bbc0-665f58fbf82f
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: PiydZUeYEyxMbYYTBSqgyslYB3Qg_qxH3WcQeD3VBTU
+id: provus_all_events_list
+block_id: 'views_block:provus_events-block_events_list'
+category: provus_views
+label: 'All Events List'
+weight: 30
+image_path: /themes/custom/provus_bootstrap/images/components/Events-List.svg
+image_alt: ''

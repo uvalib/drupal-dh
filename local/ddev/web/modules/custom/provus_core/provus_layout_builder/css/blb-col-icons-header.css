@@ -1,0 +1,43 @@
+form[action*="blb_col_2_header"] div[class*="layout-breakpoints"] label.glb-option,
+form[action*="blb_col_3_header"] div[class*="layout-breakpoints"] label.glb-option,
+form[action*="blb_col_4_header"] div[class*="layout-breakpoints"] label.glb-option {
+  flex-wrap: wrap;
+}
+
+#drupal-off-canvas .fieldgroup.blb_container_type .fieldset-wrapper > div > div .input-icon,
+#layout-builder-modal .fieldgroup.blb_container_type .fieldset-wrapper > div > div .input-icon {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#drupal-off-canvas label:hover .bs_tooltip,
+#layout-builder-modal label:hover .bs_tooltip {
+  text-indent: 0;
+}
+
+.icons-selector {
+  color: #383A40 !important;
+}
+
+.icons-selector .selected-icon {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+.icons-selector.fip-grey .selector-button i {
+  color: #383A40 !important;
+}
+
+.icons-selector.fip-grey .selector-search .icons-search-input::placeholder {
+  color: #383A40 !important;
+}
+
+.icons-selector.fip-grey .selector-search i {
+  color: #383A40 !important;
+}
+
+.icons-selector.fip-grey .selector-footer span,
+.icons-selector.fip-grey .selector-footer i {
+  color: #383A40 !important;
+}

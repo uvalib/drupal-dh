@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: provus_card_default_desktop_1x
+label: 'Card Default | Desktop | 1X'
+effects:
+  e48b69b4-89ae-4320-b6e1-291f3eff7cb3:
+    uuid: e48b69b4-89ae-4320-b6e1-291f3eff7cb3
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 680
+      height: 340
+      crop_type: focal_point

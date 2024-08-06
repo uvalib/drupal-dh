@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: provus_icon
+label: Icon
+effects:
+  e8fec326-07b8-4fdf-8eb9-11f25f331413:
+    uuid: e8fec326-07b8-4fdf-8eb9-11f25f331413
+    id: image_scale
+    weight: 1
+    data:
+      width: 50
+      height: 50
+      upscale: false

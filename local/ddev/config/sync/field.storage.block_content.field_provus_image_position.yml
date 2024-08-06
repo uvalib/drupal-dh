@@ -1,0 +1,32 @@
+uuid: c67f9771-6add-48c6-b177-a77bc689be1b
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - options
+_core:
+  default_config_hash: A-77ucTXY3Vf5Ja5TS6HqrN2J-SeTawRYfRgctrDlx4
+id: block_content.field_provus_image_position
+field_name: field_provus_image_position
+entity_type: block_content
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: full
+      label: full
+    -
+      value: left
+      label: left
+    -
+      value: right
+      label: right
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

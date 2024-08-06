@@ -1,0 +1,12 @@
+langcode: en
+status: true
+dependencies: {  }
+id: blb_col_2_33_67_header
+layout_id: blb_col_2_header
+label: '33% 67% w/ Header'
+structure: '12 4 8'
+breakpoints:
+  desktop: desktop
+  tablet: tablet
+  mobile: mobile
+weight: 0

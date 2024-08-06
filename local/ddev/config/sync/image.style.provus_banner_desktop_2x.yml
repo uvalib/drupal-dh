@@ -1,0 +1,19 @@
+uuid: 0740f1a6-61c0-4ed2-80e9-70e95eac5b2b
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+_core:
+  default_config_hash: N43lEkiUcpkzH_lxj6a1lHmNgk-hUkT1HvwUaEqkZpM
+name: provus_banner_desktop_2x
+label: 'Banner | Desktop | 2x'
+effects:
+  8b81dab6-e0dd-4210-9eec-9c9ee26d921d:
+    uuid: 8b81dab6-e0dd-4210-9eec-9c9ee26d921d
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 2880
+      height: 1000
+      crop_type: focal_point

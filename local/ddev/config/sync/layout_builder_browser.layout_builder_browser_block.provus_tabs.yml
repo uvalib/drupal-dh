@@ -1,0 +1,13 @@
+uuid: 97d49882-c488-48c6-9457-37e70f7662fb
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: PTKJN9y9-je85A3-6CGQBegpip8p7VK8TNE4ki2MrKs
+id: provus_tabs
+block_id: 'inline_block:provus_tabs'
+category: provus_grouped_content
+label: Tabs
+image_path: /themes/custom/provus_bootstrap/images/components/tabs.svg
+image_alt: ''
+weight: -97

@@ -1,0 +1,8 @@
+_core:
+  default_config_hash: mTDsmPALEAuqHvb9yCBNY05ZfE8IuZ4PFri2vxCw9qM
+google_translator_active_languages_display_mode: SIMPLE
+google_translator_active_languages:
+  - pt
+  - es
+google_translator_disclaimer_title: 'Automatic translation disclaimer'
+google_translator_disclaimer: 'Translation of this page is provided by the third-party Google Translate service. In case of dispute, the original language content should prevail.'

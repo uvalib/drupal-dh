@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: provus_media_defaults_desktop_2x
+label: 'Media Defaults | Desktop | 2x'
+effects:
+  f27682ad-a945-4e62-895d-14bff613f934:
+    uuid: f27682ad-a945-4e62-895d-14bff613f934
+    id: image_scale
+    weight: 1
+    data:
+      width: 1400
+      height: 1066
+      upscale: false

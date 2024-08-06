@@ -1,0 +1,35 @@
+uuid: 393a07c1-6129-4a38-8221-5f0d87b45a40
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - options
+_core:
+  default_config_hash: ad9RhnYsiIJcoLSuSgmpmRWfoDHq0yh3WYNoZwrV9Yc
+id: block_content.field_provus_list_orientation
+field_name: field_provus_list_orientation
+entity_type: block_content
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: stacked
+      label: Stacked
+    -
+      value: grid_2
+      label: 'Grid 2'
+    -
+      value: grid_3
+      label: 'Grid 3'
+    -
+      value: column-row
+      label: 'Column Row'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

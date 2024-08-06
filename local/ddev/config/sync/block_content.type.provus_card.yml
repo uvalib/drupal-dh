@@ -1,0 +1,10 @@
+uuid: baaddf6f-8b52-4f31-b106-9cb4348d8fc0
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: ywEZtt6Vfd7lnC4B1wHyhia2JBW9ktDd1_d-r9ACHr0
+id: provus_card
+label: Card
+revision: 0
+description: ''

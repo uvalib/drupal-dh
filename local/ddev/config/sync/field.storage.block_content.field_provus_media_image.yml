@@ -1,0 +1,22 @@
+uuid: e35ea890-4d0c-4ea5-9a9c-552ea144a68a
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - media
+_core:
+  default_config_hash: UIhXbcP6YlNOO65S_t6warCXjF8y_2LJHG13eqTxwH0
+id: block_content.field_provus_media_image
+field_name: field_provus_media_image
+entity_type: block_content
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

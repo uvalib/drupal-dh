@@ -1,0 +1,19 @@
+uuid: 4c70d2b1-bcc8-4439-93ef-0b6f46346082
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+_core:
+  default_config_hash: f7_ypHjaF9kdKCRmmr5V0q23QFaBthnD3DerBjqwxMU
+name: provus_card_background_tablet_1x
+label: 'Card Background | Tablet | 1x'
+effects:
+  ccb05d55-22f3-4265-8ad7-9558b556cde2:
+    uuid: ccb05d55-22f3-4265-8ad7-9558b556cde2
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 339
+      height: 300
+      crop_type: focal_point

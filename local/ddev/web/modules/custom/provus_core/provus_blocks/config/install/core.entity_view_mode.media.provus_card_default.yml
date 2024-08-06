@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.provus_card_default
+label: 'Card Default'
+targetEntityType: media
+cache: true

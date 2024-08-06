@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: provus_media_defaults_tablet_2x
+label: 'Media Defaults | Tablet | 2x'
+effects:
+  28725757-b182-4f91-803e-d602ab655e35:
+    uuid: 28725757-b182-4f91-803e-d602ab655e35
+    id: image_scale
+    weight: 1
+    data:
+      width: 1044
+      height: 800
+      upscale: false

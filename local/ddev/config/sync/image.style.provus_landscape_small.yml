@@ -1,0 +1,19 @@
+uuid: 11abd234-d98d-44c6-a872-a80afd1baa52
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+_core:
+  default_config_hash: k44-I3WJMCjTUC2KZohag5q9_-i8xzdEtdJHzF7zRoc
+name: provus_landscape_small
+label: 'Landscape Small'
+effects:
+  30bc13f2-ad7f-4ca2-b5d9-dd6caf93dd8b:
+    uuid: 30bc13f2-ad7f-4ca2-b5d9-dd6caf93dd8b
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 450
+      height: 250
+      crop_type: focal_point

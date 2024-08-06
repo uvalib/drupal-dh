@@ -1,0 +1,29 @@
+uuid: 6b35b01c-5ab8-49e2-b768-18e098bcb931
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - options
+_core:
+  default_config_hash: ZHbSjSpb8nNsKan167QGvpUn39e7kJLJC4hC-X80JaE
+id: block_content.field_provus_cta_background_clr
+field_name: field_provus_cta_background_clr
+entity_type: block_content
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: primary
+      label: Primary
+    -
+      value: secondary
+      label: Secondary
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

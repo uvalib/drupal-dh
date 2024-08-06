@@ -1,0 +1,11 @@
+_core:
+  default_config_hash: wJl6PkF7Id681Nt7E3jBa96jy_ehTNA2745iV3c5G-o
+status: 1
+pattern: '(Accordion) - [random:number]'
+escape: false
+preserve_titles: false
+dependencies:
+  config:
+    - block_content.type.provus_accordion
+save: 0
+chunk: '50'

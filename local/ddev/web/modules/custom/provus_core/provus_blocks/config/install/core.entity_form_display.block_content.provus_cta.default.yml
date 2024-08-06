@@ -1,0 +1,88 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_cta
+    - field.field.block_content.provus_cta.field_provus_body
+    - field.field.block_content.provus_cta.field_provus_cta_background_clr
+    - field.field.block_content.provus_cta.field_provus_cta_background_img
+    - field.field.block_content.provus_cta.field_provus_links
+    - field.field.block_content.provus_cta.field_provus_sub_title
+    - field.field.block_content.provus_cta.field_provus_title
+    - image.style.thumbnail
+  module:
+    - ala
+    - focal_point
+    - text
+id: block_content.provus_cta.default
+targetEntityType: block_content
+bundle: provus_cta
+mode: default
+content:
+  field_provus_body:
+    type: text_textarea_with_summary
+    weight: 4
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  field_provus_cta_background_clr:
+    type: options_select
+    weight: 26
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_provus_cta_background_img:
+    type: image_focal_point
+    weight: 27
+    region: content
+    settings:
+      progress_indicator: throbber
+      preview_image_style: thumbnail
+      preview_link: true
+      offsets: '50,50'
+    third_party_settings: {  }
+  field_provus_links:
+    type: ala_field_widget
+    weight: 5
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+      ala_link_class_settings: global
+      ala_link_class: ''
+      ala_link_icon: false
+      ala_link_roles: false
+      ala_link_color: false
+      ala_link_extra: false
+      ala_link_target: '1'
+    third_party_settings: {  }
+  field_provus_sub_title:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_provus_title:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  entitygroupfield: true

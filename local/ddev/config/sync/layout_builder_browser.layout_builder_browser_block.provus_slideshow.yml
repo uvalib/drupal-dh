@@ -1,0 +1,13 @@
+uuid: e8520e56-3f98-4f8e-9067-420e4fe0f6f0
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: CVA5Ns1nS_hoDg9Zs-b3teOqpf0fSTM_Z7bY_jDaanE
+id: provus_slideshow
+block_id: 'inline_block:provus_slideshow'
+category: provus_grouped_content
+label: Slideshow
+image_path: /themes/custom/provus_bootstrap/images/components/slideshow.svg
+image_alt: ''
+weight: -60

@@ -1,0 +1,63 @@
+uuid: d8f42517-00fd-477e-9748-09389ae4536a
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_list_item
+    - field.field.block_content.provus_list_item.field_provus_body
+    - field.field.block_content.provus_list_item.field_provus_icon
+    - field.field.block_content.provus_list_item.field_provus_link
+    - field.field.block_content.provus_list_item.field_provus_title
+  module:
+    - fontawesome_iconpicker_widget
+    - link
+    - text
+_core:
+  default_config_hash: DZvn3-pRDjphtu2uWlpw3ZQiPilaz3VT1ODyn6ISz_8
+id: block_content.provus_list_item.default
+targetEntityType: block_content
+bundle: provus_list_item
+mode: default
+content:
+  field_provus_body:
+    type: text_textarea_with_summary
+    weight: 2
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  field_provus_icon:
+    type: fontawesome_iconpicker_widget
+    weight: 1
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_provus_link:
+    type: link_default
+    weight: 3
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_provus_title:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  entitygroupfield: true

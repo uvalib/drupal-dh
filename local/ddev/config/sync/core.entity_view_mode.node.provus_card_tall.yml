@@ -1,0 +1,13 @@
+uuid: 8e7d84f9-35ff-4b4b-a3ae-75b24117173d
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: WRn7_vGxgAXhKkWxEpv_2hzsKBUoTNzfILl6HLH332I
+id: node.provus_card_tall
+label: 'Card Tall'
+description: ''
+targetEntityType: node
+cache: true

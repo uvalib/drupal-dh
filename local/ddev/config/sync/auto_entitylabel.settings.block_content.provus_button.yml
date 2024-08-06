@@ -1,0 +1,11 @@
+_core:
+  default_config_hash: SSJy34xJvrMbz9v6mlH4-RSq7pK057ZuuIGvToVCb6Y
+status: 1
+pattern: '(Button) - [random:number]'
+escape: false
+preserve_titles: false
+dependencies:
+  config:
+    - block_content.type.provus_button
+save: 0
+chunk: '50'

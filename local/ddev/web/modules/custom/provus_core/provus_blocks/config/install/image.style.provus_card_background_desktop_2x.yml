@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: provus_card_background_desktop_2x
+label: 'Card Background | Desktop | 2x'
+effects:
+  e3db5a8e-59d9-4315-8739-bc4a284a8092:
+    uuid: e3db5a8e-59d9-4315-8739-bc4a284a8092
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 856
+      height: 600
+      crop_type: focal_point

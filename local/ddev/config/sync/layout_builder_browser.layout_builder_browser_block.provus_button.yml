@@ -1,0 +1,13 @@
+uuid: 9b1fa6d9-ee95-4405-8381-a5d11ae717a6
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: A2RoT7NcTclTTZCpKrK2wfPhmQLxloYcDHNqc017ud4
+id: provus_button
+block_id: 'inline_block:provus_button'
+category: provus_simple_content
+label: Button
+image_path: /themes/custom/provus_bootstrap/images/components/button.svg
+image_alt: ''
+weight: -90

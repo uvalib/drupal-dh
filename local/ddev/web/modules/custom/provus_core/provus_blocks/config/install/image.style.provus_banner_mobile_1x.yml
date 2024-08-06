@@ -1,0 +1,15 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: provus_banner_mobile_1x
+label: 'Banner | Mobile | 1x'
+effects:
+  db165976-dcb1-4e07-861f-7c8e1c62173d:
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 390
+      height: 390
+      crop_type: focal_point

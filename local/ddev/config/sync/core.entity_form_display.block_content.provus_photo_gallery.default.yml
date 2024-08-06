@@ -1,0 +1,25 @@
+uuid: 63937286-0729-428c-909e-0e974ead3fdb
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_photo_gallery
+    - field.field.block_content.provus_photo_gallery.field_provus_photos
+  module:
+    - media_library
+_core:
+  default_config_hash: z192O8fz5bcFzN7aM9NWlaI5ROp_i52LsqrDlX6Aodg
+id: block_content.provus_photo_gallery.default
+targetEntityType: block_content
+bundle: provus_photo_gallery
+mode: default
+content:
+  field_provus_photos:
+    type: media_library_widget
+    weight: 0
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+hidden:
+  info: true

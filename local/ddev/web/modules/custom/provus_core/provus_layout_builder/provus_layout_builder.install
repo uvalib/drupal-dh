@@ -1,0 +1,40 @@
+<?php
+
+/**
+ * @file
+ * Install and update functions for the Provus Layout Builder module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function provus_layout_builder_uninstall() {
+  // Delete all module settings variables.
+  $configs = [
+    'bootstrap_layout_builder.layout_option.blb_col_2_25_75_header',
+    'bootstrap_layout_builder.layout_option.blb_col_2_75_25_header',
+    'bootstrap_layout_builder.layout_option.blb_col_2_33_67_header',
+    'bootstrap_layout_builder.layout_option.blb_col_2_67_33_header',
+    'bootstrap_layout_builder.layout_option.blb_col_2_full_width_header',
+    'bootstrap_layout_builder.layout_option.blb_col_2_two_equal_columns_header',
+    'bootstrap_layout_builder.layout_option.blb_col_3_25_25_50_header',
+    'bootstrap_layout_builder.layout_option.blb_col_3_25_50_25_header',
+    'bootstrap_layout_builder.layout_option.blb_col_3_50_25_25_header',
+    'bootstrap_layout_builder.layout_option.blb_col_3_full_width_header',
+    'bootstrap_layout_builder.layout_option.blb_col_3_three_equal_columns_header',
+    'bootstrap_layout_builder.layout_option.blb_col_4_2_4_2_4_header',
+    'bootstrap_layout_builder.layout_option.blb_col_4_2_4_4_2_header',
+    'bootstrap_layout_builder.layout_option.blb_col_4_4_2_2_4_header',
+    'bootstrap_layout_builder.layout_option.blb_col_4_4_4_2_2_header',
+    'bootstrap_layout_builder.layout_option.blb_col_4_four_equal_columns_header',
+    'bootstrap_layout_builder.layout_option.blb_col_4_full_width_header',
+    'bootstrap_layout_builder.layout.blb_col_2_header',
+    'bootstrap_layout_builder.layout.blb_col_3_header',
+    'bootstrap_layout_builder.layout.blb_col_4_header',
+  ];
+  foreach ($configs as $config) {
+    \Drupal::configFactory()
+      ->getEditable($config)
+      ->delete();
+  }
+}

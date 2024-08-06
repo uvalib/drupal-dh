@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: provus_card_default_tablet_2x
+label: 'Card Default | Tablet | 2x'
+effects:
+  7e0959b3-7003-4bcc-b2d3-58fb53d14f0f:
+    uuid: 7e0959b3-7003-4bcc-b2d3-58fb53d14f0f
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 780
+      height: 390
+      crop_type: focal_point

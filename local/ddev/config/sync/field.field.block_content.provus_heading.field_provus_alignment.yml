@@ -1,0 +1,25 @@
+uuid: 0c994a2c-68a0-485d-a977-3cae107d0c85
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_heading
+    - field.storage.block_content.field_provus_alignment
+  module:
+    - options
+_core:
+  default_config_hash: DkBxsXUU-ESlkBV83WmaNz_8qU3LZoEDMvJZDTVFdug
+id: block_content.provus_heading.field_provus_alignment
+field_name: field_provus_alignment
+entity_type: block_content
+bundle: provus_heading
+label: Alignment
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: left
+default_value_callback: ''
+settings: {  }
+field_type: list_string

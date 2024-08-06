@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: provus_card_background
+label: 'Card Background'
+effects:
+  95a62830-e27a-4490-a703-b1231274449a:
+    uuid: 95a62830-e27a-4490-a703-b1231274449a
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 428
+      height: 240
+      crop_type: focal_point

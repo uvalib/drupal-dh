@@ -1,0 +1,21 @@
+uuid: 80e1a5fe-70cd-4f8c-865c-34396c501dd8
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_banner
+    - field.storage.block_content.field_provus_title
+_core:
+  default_config_hash: u-fkQ5K9G1Ss-rmpc0gcPeBPFLdEGH4G0ZB1qfk0i6g
+id: block_content.provus_banner.field_provus_title
+field_name: field_provus_title
+entity_type: block_content
+bundle: provus_banner
+label: Title
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
