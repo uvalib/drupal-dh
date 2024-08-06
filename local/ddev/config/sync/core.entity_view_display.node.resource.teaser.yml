@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.resource.field_image
     - field.field.node.resource.field_link_to_more_information
     - field.field.node.resource.field_sponsor
+    - field.field.node.resource.layout_builder__layout
     - image.style.medium
     - node.type.resource
   module:
@@ -48,9 +49,11 @@ content:
     weight: 100
     region: content
 hidden:
+  addtoany: true
   field_affiliated_dh_projects: true
   field_contact_person: true
   field_dh_research_category: true
   field_events_associated_with_thi: true
   field_link_to_more_information: true
   field_sponsor: true
+  layout_builder__layout: true
