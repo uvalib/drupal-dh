@@ -1,0 +1,12 @@
+[10-Sep-2021 23:07:57 UTC] PHP Warning:  include_once(./sites/all/modules/fast_404/fast_404.inc): failed to open stream: No such file or directory in /home/dhvirginia/public_html/sites/default/settings.php on line 288
+[10-Sep-2021 23:07:57 UTC] PHP Warning:  include_once(): Failed opening './sites/all/modules/fast_404/fast_404.inc' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/dhvirginia/public_html/sites/default/settings.php on line 288
+[10-Sep-2021 23:07:57 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function fast_404_ext_check() in /home/dhvirginia/public_html/sites/default/settings.php:301
+Stack trace:
+#0 {main}
+  thrown in /home/dhvirginia/public_html/sites/default/settings.php on line 301
+[11-Sep-2021 00:29:16 UTC] PHP Warning:  include_once(./sites/all/modules/fast_404/fast_404.inc): failed to open stream: No such file or directory in /home/dhvirginia/public_html/sites/default/settings.php on line 288
+[11-Sep-2021 00:29:16 UTC] PHP Warning:  include_once(): Failed opening './sites/all/modules/fast_404/fast_404.inc' for inclusion (include_path='.:/opt/cpanel/ea-php72/root/usr/share/pear') in /home/dhvirginia/public_html/sites/default/settings.php on line 288
+[11-Sep-2021 00:29:16 UTC] PHP Fatal error:  Uncaught Error: Call to undefined function fast_404_ext_check() in /home/dhvirginia/public_html/sites/default/settings.php:301
+Stack trace:
+#0 {main}
+  thrown in /home/dhvirginia/public_html/sites/default/settings.php on line 301

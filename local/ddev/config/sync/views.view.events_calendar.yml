@@ -1,15 +1,13 @@
 uuid: e23a5af2-8d48-4f30-a366-bf8d70830077
 langcode: en
-status: true
+status: false
 dependencies:
   config:
-    - field.storage.node.field_date_range1
     - node.type.event
   module:
     - add_content_by_bundle
     - fullcalendar_view
     - node
-    - smart_date
     - user
 _core:
   default_config_hash: jQp_UiShPgNeRASYj0aK6JOvBJciIU75z1F_rSX18sg
@@ -76,160 +74,6 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
-        field_date_range1:
-          id: field_date_range1
-          table: node__field_date_range1
-          field: field_date_range1
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: smartdate_default
-          settings:
-            timezone_override: ''
-            format: default
-            force_chronological: false
-            add_classes: false
-            time_wrapper: true
-            localize: false
-            parts:
-              end: end
-              start: '0'
-              duration: '0'
-            duration:
-              separator: ' | '
-              unit: ''
-              decimals: 2
-              suffix: h
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
-        field_date_range1_1:
-          id: field_date_range1_1
-          table: node__field_date_range1
-          field: field_date_range1
-          relationship: none
-          group_type: group
-          admin_label: ''
-          plugin_id: field
-          label: ''
-          exclude: false
-          alter:
-            alter_text: false
-            text: ''
-            make_link: false
-            path: ''
-            absolute: false
-            external: false
-            replace_spaces: false
-            path_case: none
-            trim_whitespace: false
-            alt: ''
-            rel: ''
-            link_class: ''
-            prefix: ''
-            suffix: ''
-            target: ''
-            nl2br: false
-            max_length: 0
-            word_boundary: true
-            ellipsis: true
-            more_link: false
-            more_link_text: ''
-            more_link_path: ''
-            strip_tags: false
-            trim: false
-            preserve_tags: ''
-            html: false
-          element_type: ''
-          element_class: ''
-          element_label_type: ''
-          element_label_class: ''
-          element_label_colon: false
-          element_wrapper_type: ''
-          element_wrapper_class: ''
-          element_default_classes: true
-          empty: ''
-          hide_empty: false
-          empty_zero: false
-          hide_alter_empty: true
-          click_sort_column: value
-          type: smartdate_default
-          settings:
-            timezone_override: ''
-            format: default
-            force_chronological: false
-            add_classes: false
-            time_wrapper: true
-            localize: false
-            parts:
-              start: start
-              end: '0'
-              duration: '0'
-            duration:
-              separator: ' | '
-              unit: ''
-              decimals: 2
-              suffix: h
-          group_column: value
-          group_columns: {  }
-          group_rows: true
-          delta_limit: 0
-          delta_offset: 0
-          delta_reversed: false
-          delta_first_last: false
-          multi_type: separator
-          separator: ', '
-          field_api_classes: false
       pager:
         type: none
         options:
@@ -286,14 +130,12 @@ display:
         options:
           default_date_source: now
           defaultDate: ''
-          start: field_date_range1
-          end: field_date_range1_1
+          start: field_when
+          end: field_when
           title: title
           left_buttons: 'prev,next today'
-          right_buttons: 'dayGridMonth,timeGridWeek,timeGridDay'
+          right_buttons: 'dayGridMonth,timeGridWeek,timeGridDay,listYear'
           default_view: dayGridMonth
-          default_mobile_view: dayGridMonth
-          mobile_width: '768'
           firstDay: '0'
           nav_links: 1
           timeFormat: ''
@@ -305,28 +147,11 @@ display:
           dialogWindow: 0
           openEntityInNewTab: 1
           createEventLink: 0
-          eventLimit: '2'
           tax_field: ''
           vocabularies: ''
-          color_bundle:
-            article: '#3a87ad'
-            course: '#3a87ad'
-            department: '#3a87ad'
-            dh_project: '#3a87ad'
-            dh_tool: '#3a87ad'
-            event: '#3a87ad'
-            organization: '#3a87ad'
-            page: '#3a87ad'
-            publication: '#3a87ad'
-            research_data_type: '#3a87ad'
-            resource: '#3a87ad'
+          color_bundle: ''
           rrule: ''
-          dialogModal: false
-          dialogCanvas: false
           duration: ''
-          slotDuration: '00:30:00'
-          minTime: '00:00:00'
-          maxTime: '23:59:59'
           bundle_type: event
           classes: ''
       row:
@@ -364,8 +189,7 @@ display:
         - 'languages:language_interface'
         - 'user.node_grants:view'
         - user.permissions
-      tags:
-        - 'config:field.storage.node.field_date_range1'
+      tags: {  }
   page_1:
     id: page_1
     display_title: Page
@@ -390,5 +214,4 @@ display:
         - 'languages:language_interface'
         - 'user.node_grants:view'
         - user.permissions
-      tags:
-        - 'config:field.storage.node.field_date_range1'
+      tags: {  }

@@ -1,0 +1,18 @@
+id: d7_node
+label: 'Drupal 7 Node Migration'
+migration_group: migrate_d7_content
+source:
+  plugin: d7_node
+process:
+  nid: nid
+  title: title
+  uid: uid
+  status: status
+  created: created
+  changed: changed
+  body/0/value: body
+  body/0/summary: summary
+  body/0/format: format
+destination:
+  plugin: entity:node
+dependencies: {}

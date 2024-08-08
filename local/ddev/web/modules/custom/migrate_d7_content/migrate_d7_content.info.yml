@@ -1,0 +1,9 @@
+name: 'DH Portal Data  Migration'
+type: module
+description: 'Custom module for migrating person nodes from Drupal 7 to Drupal 10.'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:migrate
+  - drupal:migrate_plus
+  - drupal:migrate_tools

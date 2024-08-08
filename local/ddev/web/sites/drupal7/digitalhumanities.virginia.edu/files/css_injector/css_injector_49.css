@@ -1,0 +1,14 @@
+body.front #block-views-content-types-block {
+    position:static !important;
+}
+
+/*Override Set Margins of Network Block*/
+#block-views-content-block-1 {
+    margin-top:5px !important;
+}
+
+/*Override set height of network block on homepage*/
+body.front #block-views-content-types-block .view-content-types {
+    height: 40px !important;
+    
+    }

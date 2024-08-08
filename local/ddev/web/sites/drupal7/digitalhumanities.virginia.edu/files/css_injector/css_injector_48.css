@@ -1,0 +1,44 @@
+.flexslider {
+    margin-top:5% !important;
+    border:none !important;
+    box-shadow:none !important;
+}
+
+
+.flexslider ul.slides li {
+    background:none !important;
+    padding-left:0 !important;
+    margin-bottom:0 !important;
+}
+
+
+
+/*Flexslider Caption Overlay*/
+div.flex-caption {
+font-size: 18px;
+position: absolute;
+top:75%;
+left:0;
+right:0;
+bottom:0;
+width:100%;
+text-align: center;
+line-height: 40px;
+color: #fff;
+padding-top:1em;
+background: rgba(0, 0, 0, 0.6);}
+
+div.flex-caption h3 {color:#fff !important;text-transform:uppercase;}
+div.flex-caption h3::before {content:"in the news\00a0 "; font-size:.9rem; display: block;
+    text-align: left;
+    text-transform:uppercase;
+    padding-left: 1em;
+    text-decoration: underline;margin-bottom:-1em;margin-top:-.5em;}
+div.flex-caption a {color:#fff; font-size:22px;}
+
+@media (min-width: 300px) and (max-width: 980px) {
+    div.flex-caption {
+        font-size:.6rem;
+    } 
+    div.flex-caption h3::before {content:none;}
+    }
