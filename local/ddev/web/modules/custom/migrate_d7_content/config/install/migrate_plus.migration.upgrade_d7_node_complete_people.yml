@@ -76,10 +76,23 @@ process:
     -
       plugin: get
       source: comment
-  body:
-    -
-      plugin: get
-      source: body
+  'body/value':
+    plugin: extract
+    source: body
+    default: ''
+    index:
+      - 0
+      - value
+  'body/summary':
+    plugin: extract
+    source: body
+    default: ''
+    index:
+      - 0
+      - summary
+  'body/format':
+    plugin: default_value
+    default_value: 'full_html'
   field_name:
     -
       plugin: get

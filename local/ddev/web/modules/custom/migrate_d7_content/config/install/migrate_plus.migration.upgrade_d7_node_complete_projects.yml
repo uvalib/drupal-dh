@@ -137,7 +137,7 @@ process:
 destination:
   plugin: 'entity_complete:node'
   translations: true
-  default_bundle: projects
+  default_bundle: dh_project
 migration_dependencies:
   required:
     - upgrade_d7_user
