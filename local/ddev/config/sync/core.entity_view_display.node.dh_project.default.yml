@@ -4,8 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.dh_project.body
-    - field.field.node.dh_project.field_affiliated_dh_projects
-    - field.field.node.dh_project.field_associated_dh_course
     - field.field.node.dh_project.field_contact_person
     - field.field.node.dh_project.field_dh_research_category
     - field.field.node.dh_project.field_dh_tool_implementation
@@ -14,6 +12,7 @@ dependencies:
     - field.field.node.dh_project.field_image
     - field.field.node.dh_project.field_link_to_more_information
     - field.field.node.dh_project.field_sponsor
+    - field.field.node.dh_project.field_sponsoring_department_or_s
     - field.field.node.dh_project.field_uva_or_non_uva
     - image.style.wide
     - node.type.dh_project
@@ -34,22 +33,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 101
-    region: content
-  field_affiliated_dh_projects:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 113
-    region: content
-  field_associated_dh_course:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 115
     region: content
   field_contact_person:
     type: entity_reference_label
@@ -122,6 +105,14 @@ content:
       link: true
     third_party_settings: {  }
     weight: 107
+    region: content
+  field_sponsoring_department_or_s:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 117
     region: content
   field_uva_or_non_uva:
     type: entity_reference_label

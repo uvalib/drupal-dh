@@ -15,7 +15,9 @@ dependencies:
     - field.field.node.course.field_instructor_name
     - field.field.node.course.field_link_to_more_information
     - field.field.node.course.field_link_to_online_meeting
+    - field.field.node.course.field_link_to_uva_sis_listing
     - field.field.node.course.field_semester
+    - field.field.node.course.field_test_reference_to_departme
     - field.field.node.course.field_university_affiliation
     - field.field.node.course.field_upload_a_syllabus_file
     - field.field.node.course.field_year
@@ -44,7 +46,9 @@ hidden:
   field_instructor_name: true
   field_link_to_more_information: true
   field_link_to_online_meeting: true
+  field_link_to_uva_sis_listing: true
   field_semester: true
+  field_test_reference_to_departme: true
   field_university_affiliation: true
   field_upload_a_syllabus_file: true
   field_year: true

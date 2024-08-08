@@ -10,7 +10,7 @@ id: node.course.field_dh_certificate_requirement
 field_name: field_dh_certificate_requirement
 entity_type: node
 bundle: course
-label: 'Which DH Certificate requirement does this course meet? '
+label: 'DH Certificate Requirement'
 description: ''
 required: false
 translatable: false
