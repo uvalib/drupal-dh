@@ -9,11 +9,13 @@ dependencies:
     - field.field.node.resource.field_dh_research_category
     - field.field.node.resource.field_events_associated_with_thi
     - field.field.node.resource.field_image
+    - field.field.node.resource.field_link_to_more_information
     - field.field.node.resource.field_sponsor
     - image.style.wide
     - node.type.resource
   module:
     - image
+    - link
     - text
     - user
 id: node.resource.default
@@ -26,7 +28,7 @@ content:
     label: hidden
     settings: {  }
     third_party_settings: {  }
-    weight: 101
+    weight: 0
     region: content
   field_affiliated_dh_projects:
     type: entity_reference_label
@@ -34,7 +36,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 113
+    weight: 7
     region: content
   field_contact_person:
     type: entity_reference_label
@@ -42,7 +44,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 111
+    weight: 6
     region: content
   field_dh_research_category:
     type: entity_reference_label
@@ -50,7 +52,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 109
+    weight: 5
     region: content
   field_events_associated_with_thi:
     type: entity_reference_label
@@ -58,7 +60,7 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 116
+    weight: 8
     region: content
   field_image:
     type: image
@@ -69,7 +71,19 @@ content:
       image_loading:
         attribute: eager
     third_party_settings: {  }
-    weight: -1
+    weight: 2
+    region: content
+  field_link_to_more_information:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 3
     region: content
   field_sponsor:
     type: entity_reference_label
@@ -77,11 +91,11 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 107
+    weight: 1
     region: content
   links:
     settings: {  }
     third_party_settings: {  }
-    weight: 100
+    weight: 4
     region: content
 hidden: {  }

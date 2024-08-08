@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.dh_tool.field_link_to_more_information
     - field.field.node.dh_tool.field_uva_non_uva
     - field.field.node.dh_tool.field_works_on_this_dh_research
+    - field.field.node.dh_tool.layout_builder__layout
     - image.style.medium
     - node.type.dh_tool
   module:
@@ -54,3 +55,4 @@ hidden:
   field_link_to_more_information: true
   field_uva_non_uva: true
   field_works_on_this_dh_research: true
+  layout_builder__layout: true
