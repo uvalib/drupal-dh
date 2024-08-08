@@ -1,0 +1,29 @@
+uuid: b1548a04-158b-425b-9740-000261dd724a
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.events_calendar
+  module:
+    - system
+    - views
+  theme:
+    - provus_bootstrap
+id: provus_bootstrap_views_block__events_calendar_block_1
+theme: provus_bootstrap
+region: content
+weight: 0
+provider: null
+plugin: 'views_block:events_calendar-block_1'
+settings:
+  id: 'views_block:events_calendar-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: /DHcalendar

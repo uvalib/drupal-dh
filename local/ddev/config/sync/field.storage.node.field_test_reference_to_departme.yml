@@ -1,0 +1,20 @@
+uuid: c97ce7c0-57e5-4cde-833e-6ebd1bf51703
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_test_reference_to_departme
+field_name: field_test_reference_to_departme
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 10
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

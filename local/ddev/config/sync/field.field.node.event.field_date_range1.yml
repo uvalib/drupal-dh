@@ -16,7 +16,7 @@ id: node.event.field_date_range1
 field_name: field_date_range1
 entity_type: node
 bundle: event
-label: 'Date range'
+label: When
 description: ''
 required: false
 translatable: false

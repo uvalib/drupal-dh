@@ -1,0 +1,29 @@
+uuid: b0b08134-18bd-453d-bd95-f0eeef1a8661
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_test_reference_to_departme
+    - node.type.course
+    - taxonomy.vocabulary.university_department_or_school
+id: node.course.field_test_reference_to_departme
+field_name: field_test_reference_to_departme
+entity_type: node
+bundle: course
+label: 'Test reference to Department Taxonomy'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      university_department_or_school: university_department_or_school
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
