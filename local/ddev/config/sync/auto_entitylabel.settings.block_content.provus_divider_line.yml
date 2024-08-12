@@ -1,0 +1,11 @@
+_core:
+  default_config_hash: VPUS4V84Fe9EIq3oSxudrIuvmsG7F0CLMSbh47nQke8
+status: 1
+pattern: '(Divider Line) - [random:number]'
+escape: false
+preserve_titles: false
+dependencies:
+  config:
+    - block_content.type.provus_divider_line
+save: 0
+chunk: '50'

@@ -1,0 +1,9 @@
+blb-col-icons-header:
+  js:
+    js/blb-col-icons-header.js: {}
+  css:
+    theme:
+      css/blb-col-icons-header.css: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

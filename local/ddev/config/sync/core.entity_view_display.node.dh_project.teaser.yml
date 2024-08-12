@@ -5,6 +5,8 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.dh_project.body
+    - field.field.node.dh_project.field_affiliated_dh_projects
+    - field.field.node.dh_project.field_associated_dh_course
     - field.field.node.dh_project.field_contact_person
     - field.field.node.dh_project.field_dh_research_category
     - field.field.node.dh_project.field_dh_tool_implementation
@@ -13,7 +15,6 @@ dependencies:
     - field.field.node.dh_project.field_image
     - field.field.node.dh_project.field_link_to_more_information
     - field.field.node.dh_project.field_sponsor
-    - field.field.node.dh_project.field_sponsoring_department_or_s
     - field.field.node.dh_project.field_uva_or_non_uva
     - image.style.medium
     - node.type.dh_project
@@ -51,6 +52,8 @@ content:
     weight: 100
     region: content
 hidden:
+  field_affiliated_dh_projects: true
+  field_associated_dh_course: true
   field_contact_person: true
   field_dh_research_category: true
   field_dh_tool_implementation: true
@@ -58,5 +61,4 @@ hidden:
   field_events_associated_with_thi: true
   field_link_to_more_information: true
   field_sponsor: true
-  field_sponsoring_department_or_s: true
   field_uva_or_non_uva: true

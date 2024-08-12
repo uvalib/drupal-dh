@@ -6,4 +6,3 @@ name: 'DH Certificate Concentration'
 vid: dh_certificate_theme
 description: 'What is the thematic focus?'
 weight: 0
-new_revision: false

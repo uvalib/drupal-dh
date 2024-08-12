@@ -1,0 +1,26 @@
+uuid: bc0921b8-58b2-47ae-acdb-37f6dbfea610
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_tabs
+    - field.field.block_content.provus_tabs.field_provus_items
+    - field.field.block_content.provus_tabs.field_provus_orientation
+_core:
+  default_config_hash: m7eb1Odq0gvSiPKn53wPp8gGvEiRBUzRSa0VOC5Jzw4
+id: block_content.provus_tabs.default
+targetEntityType: block_content
+bundle: provus_tabs
+mode: default
+content:
+  field_provus_items:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: true
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  field_provus_orientation: true

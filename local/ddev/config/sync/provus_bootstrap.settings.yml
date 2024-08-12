@@ -7,7 +7,7 @@ features:
   favicon: 1
 logo:
   use_default: 0
-  path: 'public://library_rgb.png'
+  path: themes/custom/provus_bootstrap/logo.png
 favicon:
   use_default: 1
 bootstrap_barrio_source: '0'
@@ -98,35 +98,3 @@ bootstrap_barrio_system_messages: ''
 bootstrap_barrio_table_style: ''
 bootstrap_barrio_table_hover: 0
 bootstrap_barrio_table_head: ''
-bootstrap_barrio_enable_color: 0
-bootstrap_barrio_container: container
-bootstrap_barrio_region_width_alert_banner: 0
-bootstrap_barrio_region_width_top_header: 0
-bootstrap_barrio_region_width_top_header_form: 0
-bootstrap_barrio_region_width_header: 0
-bootstrap_barrio_region_width_header_form: 0
-bootstrap_barrio_region_width_primary_menu: 0
-bootstrap_barrio_region_width_secondary_menu: 0
-bootstrap_barrio_region_width_page_top: 0
-bootstrap_barrio_region_width_page_bottom: 0
-bootstrap_barrio_region_width_highlighted: 0
-bootstrap_barrio_region_width_featured_top: 0
-bootstrap_barrio_region_width_breadcrumb: 0
-bootstrap_barrio_region_clean_title: 0
-bootstrap_barrio_region_width_title: 0
-bootstrap_barrio_region_class_title: row
-bootstrap_barrio_region_width_content: 0
-bootstrap_barrio_region_width_sidebar_first: 0
-bootstrap_barrio_region_width_sidebar_second: 0
-bootstrap_barrio_region_width_featured_bottom_first: 0
-bootstrap_barrio_region_width_featured_bottom_second: 0
-bootstrap_barrio_region_width_featured_bottom_third: 0
-bootstrap_barrio_region_width_footer_first: 0
-bootstrap_barrio_region_width_footer_second: 0
-bootstrap_barrio_region_width_footer_third: 0
-bootstrap_barrio_region_width_footer_fourth: 0
-bootstrap_barrio_region_width_footer_fifth: 0
-bootstrap_barrio_breadcrumb_divider: ''
-bootstrap_barrio_button_type: primary
-bootstrap_barrio_float_label: 0
-bootstrap_barrio_checkbox: ''

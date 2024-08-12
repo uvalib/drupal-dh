@@ -1,4 +1,4 @@
-uuid: f0329f31-96aa-4a4c-a5ea-136bacbebfcf
+uuid: ca3c26b8-88b2-4fd7-a88a-560dc0f85d32
 langcode: en
 status: true
 dependencies:
@@ -9,8 +9,8 @@ id: node.event.field_non_user_contact
 field_name: field_non_user_contact
 entity_type: node
 bundle: event
-label: 'For more information, contact--'
-description: 'This field should accept any email, whether a DH Portal user or not'
+label: 'non-user contact email'
+description: 'Do not use this field if the contact is a registered DH Portal User Portal.  '
 required: false
 translatable: false
 default_value: {  }

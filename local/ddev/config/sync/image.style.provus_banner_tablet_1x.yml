@@ -1,0 +1,19 @@
+uuid: 5a363504-6f19-4f18-83be-5a499bf5a014
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+_core:
+  default_config_hash: 0dF_uv0ahTTq7p4N-8dfZ5mlO4L0oAbLrzZuHDi8t3s
+name: provus_banner_tablet_1x
+label: 'Banner | Tablet | 1x'
+effects:
+  21d8faa8-4864-47dd-9137-decaee0cb41e:
+    uuid: 21d8faa8-4864-47dd-9137-decaee0cb41e
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 1024
+      height: 500
+      crop_type: focal_point

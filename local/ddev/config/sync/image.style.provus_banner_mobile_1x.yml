@@ -1,0 +1,19 @@
+uuid: 8757d9e5-b1a0-48c5-812e-eccef7885368
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+_core:
+  default_config_hash: MKvwhpxy-SVQelkXvuhahP0r4ViyYeCslO1danOMyNU
+name: provus_banner_mobile_1x
+label: 'Banner | Mobile | 1x'
+effects:
+  db165976-dcb1-4e07-861f-7c8e1c62173d:
+    uuid: ''
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 390
+      height: 390
+      crop_type: focal_point

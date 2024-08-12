@@ -1,0 +1,23 @@
+uuid: fee3b61a-e94e-4887-b153-bddd6d2190b0
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - options
+_core:
+  default_config_hash: lSwDh-4OTiMpzzyDUx1BXLLIlYUkeW3BaYzKtTr-1Uo
+id: block_content.field_provus_item_display
+field_name: field_provus_item_display
+entity_type: block_content
+type: list_string
+settings:
+  allowed_values: {  }
+  allowed_values_function: provus_blocks_item_display_allowed_values
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

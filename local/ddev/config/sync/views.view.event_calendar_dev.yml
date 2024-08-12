@@ -1,6 +1,6 @@
 uuid: dc5a3fc5-41af-4fd5-ba3c-2559593a4226
 langcode: en
-status: false
+status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
@@ -472,7 +472,6 @@ display:
         type: mini
         options:
           offset: 0
-          pagination_heading_level: h4
           items_per_page: 10
           total_pages: null
           id: 0

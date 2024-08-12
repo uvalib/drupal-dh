@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - field.field.node.dh_project.body
+    - field.field.node.dh_project.field_affiliated_dh_projects
+    - field.field.node.dh_project.field_associated_dh_course
     - field.field.node.dh_project.field_contact_person
     - field.field.node.dh_project.field_dh_research_category
     - field.field.node.dh_project.field_dh_tool_implementation
@@ -12,7 +14,6 @@ dependencies:
     - field.field.node.dh_project.field_image
     - field.field.node.dh_project.field_link_to_more_information
     - field.field.node.dh_project.field_sponsor
-    - field.field.node.dh_project.field_sponsoring_department_or_s
     - field.field.node.dh_project.field_uva_or_non_uva
     - image.style.thumbnail
     - node.type.dh_project
@@ -42,6 +43,26 @@ content:
     weight: 10
     region: content
     settings: {  }
+    third_party_settings: {  }
+  field_affiliated_dh_projects:
+    type: entity_reference_autocomplete
+    weight: 123
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_associated_dh_course:
+    type: entity_reference_autocomplete
+    weight: 131
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
   field_contact_person:
     type: entity_reference_autocomplete
@@ -115,16 +136,6 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_sponsoring_department_or_s:
-    type: entity_reference_autocomplete
-    weight: 133
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_uva_or_non_uva:
     type: entity_reference_autocomplete
     weight: 122
@@ -179,10 +190,5 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
-    third_party_settings: {  }
-  url_redirects:
-    weight: 50
-    region: content
-    settings: {  }
     third_party_settings: {  }
 hidden: {  }

@@ -1,0 +1,27 @@
+_core:
+  default_config_hash: sBASC0DDHwfveJ_Vb0yfZV7yEDV0rv_1fgvxCL3Y2U0
+plugins:
+  background:
+    background_color:
+      enabled: true
+    background_media:
+      enabled: true
+  typography:
+    text_color:
+      enabled: false
+    text_alignment:
+      enabled: false
+  spacing:
+    padding:
+      enabled: true
+    margin:
+      enabled: true
+  border:
+    border:
+      enabled: false
+  animation:
+    scroll_effects:
+      enabled: true
+  shadow:
+    box_shadow:
+      enabled: false
