@@ -76,6 +76,7 @@ module:
   responsive_image: 0
   search: 0
   section_library: 0
+  select2: 0
   shortcut: 0
   simplesamlphp_auth: 0
   slick: 0
@@ -98,6 +99,7 @@ module:
   views_bootstrap: 0
   views_templates: 0
   views_ui: 0
+  webform: 0
   externalauth: 10
   views: 10
   standard: 1000
