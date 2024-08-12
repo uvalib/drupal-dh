@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: NmTxRwgEAw3apYjy9hMgwCCV5Fe7RXLRG5N8cMlwMLQ
 name: provus_card_background_mobile_2x
 label: 'Card Background | Mobile | 2x'
 effects:

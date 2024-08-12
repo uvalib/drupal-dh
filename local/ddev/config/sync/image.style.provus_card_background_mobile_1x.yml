@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: 8OPBGXfIgjBKtGwS26pwBJ7tMOnPGBQNiBqrcvpMiEU
 name: provus_card_background_mobile_1x
 label: 'Card Background | Mobile | 1x'
 effects:

@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: FwvRJjFEYHFk29VbN05BaMJzDgaAT0uqUSU31-hn6iY
 name: provus_card_background_desktop_1x
 label: 'Card Background | Desktop | 1x'
 effects:

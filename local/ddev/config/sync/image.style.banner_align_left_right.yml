@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: A770z5QErzc8uYQBaHJ_PsjTNYRoLrDIbqxQLxXppn0
 name: banner_align_left_right
 label: 'Banner - Align Left/Right'
 effects:

@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: 3o8SQ35UatlIgIjN6WzqWKuH5JDWxVjg5eKpqdx2gWE
 name: provus_circle_image
 label: 'Provus Circle Image'
 effects:
@@ -17,4 +15,3 @@ effects:
       width: 400
       height: 400
       anchor: center-center
-      crop_type: focal_point

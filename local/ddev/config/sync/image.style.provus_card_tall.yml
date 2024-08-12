@@ -2,8 +2,6 @@ uuid: d1294add-ebdb-4345-a361-ea7bc0226885
 langcode: en
 status: true
 dependencies: {  }
-_core:
-  default_config_hash: zMIYe8NhtuY1oAx38Tbcu-EFvCXtt1bclT9p9ms56NI
 name: provus_card_tall
 label: 'Card Tall'
 effects:

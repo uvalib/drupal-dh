@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: GKW7g9gfluHSVXinzxXPk_CK2PblP6qc8Raz-lQEJVA
 name: provus_card_background_tablet_2x
 label: 'Card Background | Tablet | 2x'
 effects:

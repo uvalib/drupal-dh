@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: dt_jspDBkULEJEBioC-6UUzLFQ21dabdF7FZbzTgeoI
 name: provus_card_background_desktop_2x
 label: 'Card Background | Desktop | 2x'
 effects:

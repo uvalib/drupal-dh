@@ -2,8 +2,6 @@ uuid: 01e2653c-37d8-4d3b-a19e-ec3daa647eef
 langcode: en
 status: true
 dependencies: {  }
-_core:
-  default_config_hash: v38Ntg0gaUCsF1rdjfySKF_3EMH38zohN4LgHEy1eTc
 name: provus_media_defaults_desktop_1x
 label: 'Media Defaults | Desktop | 1x'
 effects:

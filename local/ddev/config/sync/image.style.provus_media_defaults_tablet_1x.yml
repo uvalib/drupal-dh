@@ -2,8 +2,6 @@ uuid: f7ef200b-3fbf-4797-a248-edba9529a4fa
 langcode: en
 status: true
 dependencies: {  }
-_core:
-  default_config_hash: nAtYOfFgp2V4WUaHLfpOfD-V-IO75HKt2mFYFgi5Jrk
 name: provus_media_defaults_tablet_1x
 label: 'Media Defaults | Tablet | 1x'
 effects:

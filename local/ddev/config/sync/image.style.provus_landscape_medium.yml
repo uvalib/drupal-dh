@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: MGQqoaWjhU3ut-8mXuLBvrx8ghjciefK_7YVNSz8-Y4
 name: provus_landscape_medium
 label: 'Landscape Medium'
 effects:
@@ -17,4 +15,3 @@ effects:
       width: 680
       height: 340
       anchor: center-center
-      crop_type: focal_point

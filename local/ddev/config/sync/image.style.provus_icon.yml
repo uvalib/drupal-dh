@@ -2,8 +2,6 @@ uuid: c0d55bdc-29b0-4efa-84ac-443982c3c959
 langcode: en
 status: true
 dependencies: {  }
-_core:
-  default_config_hash: 5WkmSB1S4jUDF4OcZJf-tYt-3tuRNS9FDlGo1ghoPKg
 name: provus_icon
 label: Icon
 effects:

@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - media
-_core:
-  default_config_hash: gVvIGdXc8WQuR3vz93OGzaM1V6onU5ZZwmj3ldxzuao
 id: media.provus_card_background
 label: 'Card Background'
 description: ''

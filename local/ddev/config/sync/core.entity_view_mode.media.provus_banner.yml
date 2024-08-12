@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - media
-_core:
-  default_config_hash: gJ57eafGfhdLQzLPtAYWmgw37t_q8AXYkBFM8vABE84
 id: media.provus_banner
 label: Banner
 description: ''

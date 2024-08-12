@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: GliHuxLvaOSg-odA1aenAnfWAWzdkm57KLa8mUMDF24
 name: provus_banner_tablet_2x
 label: 'Banner | Tablet | 2x'
 effects:

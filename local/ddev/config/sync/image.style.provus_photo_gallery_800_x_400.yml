@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: uCKC1J-kqx7pEjAI5omf7XJW5DkRyag7DDl1q1o6Vk8
 name: provus_photo_gallery_800_x_400
 label: 'Photo Gallery - 800 x 400'
 effects:

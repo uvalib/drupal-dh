@@ -4,13 +4,10 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: fjwrQSGlSFFQkGrIDP-y6TWK3FDXYYWVZ_SQtMyBhtw
 name: provus_slideshow_block_mobile
 label: 'Slideshow Block | Mobile'
 effects:
   6aee0e11-5809-49e1-b0d2-dd2dc55b9bdd:
-    uuid: ''
     id: focal_point_scale_and_crop
     weight: 1
     data:

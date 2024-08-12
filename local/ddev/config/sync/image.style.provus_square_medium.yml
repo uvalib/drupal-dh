@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: _n_nWg90vq7Xq-DjV270TXRDQD3jNovt1dppo7dt30E
 name: provus_square_medium
 label: 'Square Medium'
 effects:

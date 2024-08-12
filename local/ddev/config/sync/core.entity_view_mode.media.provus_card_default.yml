@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - media
-_core:
-  default_config_hash: tcGKc0IXEdZVNfVgGt4QXdTNXdJaepe_1ZRC6cISOio
 id: media.provus_card_default
 label: 'Card Default'
 description: ''

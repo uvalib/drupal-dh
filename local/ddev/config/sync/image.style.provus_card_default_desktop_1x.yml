@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: bLIh-PaxDmNFWdmHG-H9LoDCjuMuTrKGxXBYUfGpbVg
 name: provus_card_default_desktop_1x
 label: 'Card Default | Desktop | 1X'
 effects:

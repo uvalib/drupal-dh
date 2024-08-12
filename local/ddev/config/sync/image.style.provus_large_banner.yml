@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: '-9bQY_Ugtwd7lDqfGGXI94RsU4eWE3FxwpwUH3VEiXI'
 name: provus_large_banner
 label: Banner
 effects:

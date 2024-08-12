@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: yemQTNfsNqyQDp2P4g8BI1FJY6NCDJ4tdmzV6RiE_q4
 name: provus_landscape_large
 label: 'Landscape Large'
 effects:

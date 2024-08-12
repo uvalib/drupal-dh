@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: phGfMCqSRgiWSiORJPXWwFBlNJ5RIqEY6_Wk93T3DfU
 name: provus_card_default_tablet_1x
 label: 'Card Default | Tablet | 1x'
 effects:

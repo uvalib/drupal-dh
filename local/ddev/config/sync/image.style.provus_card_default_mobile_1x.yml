@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: IC5_RfW4snFlv4pOzizJxo7oaM5IuQDvXRd5fsQtMN0
 name: provus_card_default_mobile_1x
 label: 'Card Default | Mobile | 1x'
 effects:

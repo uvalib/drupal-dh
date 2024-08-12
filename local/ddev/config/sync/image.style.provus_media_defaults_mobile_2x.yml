@@ -2,8 +2,6 @@ uuid: a6300873-c9ad-4329-a923-c99ecba06910
 langcode: en
 status: true
 dependencies: {  }
-_core:
-  default_config_hash: CWHSIAoZbagMUyJkBL4ecqVPU6coMWNbxe0Cok7ZM1Q
 name: provus_media_defaults_mobile_2x
 label: 'Media Defaults | Mobile | 2x'
 effects:

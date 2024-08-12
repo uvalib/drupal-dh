@@ -53,7 +53,7 @@
         "drupal/lb_copy_section": "^1.0",
         "drupal/libraries": "^4.0",
         "drupal/mailsystem": "^4.4",
-        "drupal/pathauto": "^1.12",
+        "drupal/pathauto": "^1.13",
         "drupal/redirect": "^1.9",
         "drupal/section_library": "^1.1",
         "drupal/select2": "^1.15",

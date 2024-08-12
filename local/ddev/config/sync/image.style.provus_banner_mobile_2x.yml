@@ -4,8 +4,6 @@ status: true
 dependencies:
   module:
     - focal_point
-_core:
-  default_config_hash: P3Buh48rYu9cL5nKS_PptII_FK3AJV-uc3ujH7vO-HI
 name: provus_banner_mobile_2x
 label: 'Banner | Mobile | 2x'
 effects:
