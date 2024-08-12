@@ -1,0 +1,29 @@
+uuid: f9d0ba43-6c49-405d-89ef-32ba261f9ce9
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_sponsoring_department_or_s
+    - node.type.dh_project
+    - taxonomy.vocabulary.university_department_or_school
+id: node.dh_project.field_sponsoring_department_or_s
+field_name: field_sponsoring_department_or_s
+entity_type: node
+bundle: dh_project
+label: 'Sponsoring Department or School'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      university_department_or_school: university_department_or_school
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

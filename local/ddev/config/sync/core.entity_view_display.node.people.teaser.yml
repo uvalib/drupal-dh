@@ -6,9 +6,12 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.people.body
     - field.field.node.people.field_attended_events
-    - field.field.node.people.field_department_or_school_ref
+    - field.field.node.people.field_dh_certificate_status
     - field.field.node.people.field_image
+    - field.field.node.people.field_orcid_id
     - field.field.node.people.field_organizations
+    - field.field.node.people.field_user_email
+    - field.field.node.people.field_vocab_department_or_school
     - image.style.medium
     - node.type.people
   module:
@@ -46,5 +49,8 @@ content:
     region: content
 hidden:
   field_attended_events: true
-  field_department_or_school_ref: true
+  field_dh_certificate_status: true
+  field_orcid_id: true
   field_organizations: true
+  field_user_email: true
+  field_vocab_department_or_school: true

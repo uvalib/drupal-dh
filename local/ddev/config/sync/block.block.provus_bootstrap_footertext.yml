@@ -2,10 +2,6 @@ uuid: 7290d063-d7f9-46c9-891c-336c14b98716
 langcode: en
 status: true
 dependencies:
-  content:
-    - 'block_content:basic:ebf4d73c-298b-4cac-b0cf-4a940c4c2790'
-  module:
-    - block_content
   theme:
     - provus_bootstrap
 id: provus_bootstrap_footertext

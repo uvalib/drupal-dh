@@ -1,6 +1,6 @@
 uuid: c91aa660-1240-4298-85df-258f399ddcb0
 langcode: en
-status: false
+status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
@@ -8,7 +8,6 @@ dependencies:
   module:
     - add_content_by_bundle
     - node
-    - smart_date
     - user
 _core:
   default_config_hash: ELeCdrj88G60p6OidJzcv993J_Q8V1AfLIaZNxwy-lE
@@ -79,6 +78,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 20
           total_pages: null
           id: 0

@@ -1,0 +1,9 @@
+uuid: ff961e2a-e13e-4f0b-a88d-eafbb78c71c3
+langcode: en
+status: true
+dependencies: {  }
+name: 'Department or School Vocabulary'
+vid: university_department_or_school
+description: 'This vocabulary is for University units that offer courses (so this is different from organizations)'
+weight: 0
+new_revision: false
