@@ -10,7 +10,7 @@ id: node.event.field_access
 field_name: field_access
 entity_type: node
 bundle: event
-label: Access
+label: 'In person, online, or hybrid?'
 description: ''
 required: true
 translatable: false

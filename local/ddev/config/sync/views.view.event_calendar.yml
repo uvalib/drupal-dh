@@ -1,6 +1,6 @@
 uuid: 49652d5e-e682-49f9-9c12-38f242a4dbb5
 langcode: en
-status: true
+status: false
 dependencies:
   config:
     - node.type.event
@@ -76,6 +76,7 @@ display:
         type: mini
         options:
           offset: 0
+          pagination_heading_level: h4
           items_per_page: 10
           total_pages: null
           id: 0
@@ -162,6 +163,7 @@ display:
       relationships: {  }
       header: {  }
       footer: {  }
+      display_extenders: {  }
     cache_metadata:
       max-age: -1
       contexts:

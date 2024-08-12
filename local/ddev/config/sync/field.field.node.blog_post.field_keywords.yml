@@ -1,0 +1,29 @@
+uuid: 44f7063a-ad3b-4804-88c2-a143b4a12ebb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_keywords
+    - node.type.blog_post
+    - taxonomy.vocabulary.dh_research_data_type
+id: node.blog_post.field_keywords
+field_name: field_keywords
+entity_type: node
+bundle: blog_post
+label: Keywords
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      dh_research_data_type: dh_research_data_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
