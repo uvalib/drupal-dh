@@ -1,0 +1,64 @@
+uuid: 29a1f22b-f14b-4946-aa68-9b7575fd3cf9
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.event.body
+    - field.field.node.event.field_access
+    - field.field.node.event.field_date_range1
+    - field.field.node.event.field_department_or_school
+    - field.field.node.event.field_dh_research_data_type
+    - field.field.node.event.field_event_type
+    - field.field.node.event.field_image
+    - field.field.node.event.field_link_to_more_information
+    - field.field.node.event.field_link_to_online_meeting
+    - field.field.node.event.field_non_user_contact
+    - field.field.node.event.field_uva_or_non_uva
+    - image.style.medium
+    - node.type.event
+  module:
+    - image
+    - text
+    - user
+_core:
+  default_config_hash: JXH8pUq_vvVHDKut84R4kfIxxTxbAEPsTM45lKJhVYk
+id: node.event.teaser
+targetEntityType: node
+bundle: event
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: content
+      image_style: medium
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: -1
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden:
+  field_access: true
+  field_date_range1: true
+  field_department_or_school: true
+  field_dh_research_data_type: true
+  field_event_type: true
+  field_link_to_more_information: true
+  field_link_to_online_meeting: true
+  field_non_user_contact: true
+  field_uva_or_non_uva: true

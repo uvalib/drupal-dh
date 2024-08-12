@@ -1,0 +1,8 @@
+uuid: e8bb7886-6af1-4cc0-9614-4e3ef3ae0289
+langcode: en
+status: true
+dependencies: {  }
+name: 'Event Access'
+vid: event_access
+description: 'Is this event being held in person, online, or as a hybrid?'
+weight: 0

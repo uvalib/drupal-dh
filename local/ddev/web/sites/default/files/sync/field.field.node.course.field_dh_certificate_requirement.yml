@@ -1,0 +1,29 @@
+uuid: d7ba3ba3-cc36-4e3e-bfba-5dbccda82076
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dh_certificate_requirement
+    - node.type.course
+    - taxonomy.vocabulary.dh_course_types
+id: node.course.field_dh_certificate_requirement
+field_name: field_dh_certificate_requirement
+entity_type: node
+bundle: course
+label: 'Which DH Certificate requirement does this course meet? '
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      dh_course_types: dh_course_types
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

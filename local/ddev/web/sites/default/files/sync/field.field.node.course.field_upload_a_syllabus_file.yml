@@ -1,0 +1,27 @@
+uuid: ee288f86-2e8f-4fe9-ba05-ac57f031ac22
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_upload_a_syllabus_file
+    - node.type.course
+  module:
+    - file
+id: node.course.field_upload_a_syllabus_file
+field_name: field_upload_a_syllabus_file
+entity_type: node
+bundle: course
+label: 'Upload a syllabus file'
+description: 'Upload your syllabus file here.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt pdf docx doc odt rtf'
+  max_filesize: '1 MB'
+  description_field: true
+field_type: file

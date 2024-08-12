@@ -1,0 +1,43 @@
+uuid: 57327b28-835a-49e4-b2e1-677696d1fad4
+langcode: en
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.university_affiliation
+  module:
+    - path
+    - text
+id: taxonomy_term.university_affiliation.default
+targetEntityType: taxonomy_term
+bundle: university_affiliation
+mode: default
+content:
+  description:
+    type: text_textarea
+    weight: 0
+    region: content
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  status:
+    type: options_buttons
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }
