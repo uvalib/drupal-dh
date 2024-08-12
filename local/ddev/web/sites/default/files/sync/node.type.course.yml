@@ -1,0 +1,18 @@
+uuid: c4d586cc-dc3b-4a0b-8f50-4fdb915b47c5
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus:
+      - main
+    parent: 'main:'
+name: Course
+type: course
+description: "DH required courses, elective courses, and DH-friendly non-electives\r\nThis content type should have a join with a bunch of other content types"
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

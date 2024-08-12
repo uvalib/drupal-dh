@@ -1,0 +1,28 @@
+uuid: 576cd1d9-65c7-450c-b3e6-6dada3d524cf
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_placeholder_label_to_conne
+  module:
+    - user
+id: user.user.field_placeholder_label_to_conne
+field_name: field_placeholder_label_to_conne
+entity_type: user
+bundle: user
+label: 'placeholder label to connect taxonomy to user'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles: {  }
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

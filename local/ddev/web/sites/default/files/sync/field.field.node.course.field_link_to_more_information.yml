@@ -1,0 +1,23 @@
+uuid: 051c2fb2-9273-4077-9f80-8e3bd13e53f5
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_link_to_more_information
+    - node.type.course
+  module:
+    - link
+id: node.course.field_link_to_more_information
+field_name: field_link_to_more_information
+entity_type: node
+bundle: course
+label: 'Link to online Syllabus'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 2
+  link_type: 17
+field_type: link

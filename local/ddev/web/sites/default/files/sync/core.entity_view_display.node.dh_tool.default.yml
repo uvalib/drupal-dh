@@ -1,0 +1,101 @@
+uuid: 9b466de4-28b0-4c86-a58f-a435bf24c1a4
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.dh_tool.body
+    - field.field.node.dh_tool.field_affiliated_dh_projects
+    - field.field.node.dh_tool.field_contact_person
+    - field.field.node.dh_tool.field_image
+    - field.field.node.dh_tool.field_is_located_in_this_departm
+    - field.field.node.dh_tool.field_link_to_more_information
+    - field.field.node.dh_tool.field_uva_non_uva
+    - field.field.node.dh_tool.field_works_on_this_dh_research
+    - image.style.wide
+    - node.type.dh_tool
+  module:
+    - image
+    - link
+    - options
+    - text
+    - user
+id: node.dh_tool.default
+targetEntityType: node
+bundle: dh_tool
+mode: default
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  field_affiliated_dh_projects:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 113
+    region: content
+  field_contact_person:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 111
+    region: content
+  field_image:
+    type: image
+    label: hidden
+    settings:
+      image_link: ''
+      image_style: wide
+      image_loading:
+        attribute: eager
+    third_party_settings: {  }
+    weight: -1
+    region: content
+  field_is_located_in_this_departm:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_link_to_more_information:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 108
+    region: content
+  field_uva_non_uva:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_works_on_this_dh_research:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 107
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden: {  }

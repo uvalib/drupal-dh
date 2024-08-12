@@ -1,0 +1,8 @@
+uuid: c02f2deb-e5f0-4ae9-b263-2592e04c8dc7
+langcode: en
+status: true
+dependencies: {  }
+name: Year
+vid: semester_and_year
+description: 'What year was this course offered?'
+weight: 0

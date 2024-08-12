@@ -1,0 +1,29 @@
+uuid: e764b230-259f-4d2b-afea-0bf2f1c5fc1e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_instructor_name
+    - node.type.course
+id: node.course.field_instructor_name
+field_name: field_instructor_name
+entity_type: node
+bundle: course
+label: 'Instructor name'
+description: 'Will need to create a User field'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    filter:
+      type: _none
+    include_anonymous: true
+field_type: entity_reference

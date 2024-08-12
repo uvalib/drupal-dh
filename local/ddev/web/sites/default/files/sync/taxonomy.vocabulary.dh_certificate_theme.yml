@@ -1,0 +1,8 @@
+uuid: 01753d04-b963-4a87-8b06-b87da13d6bef
+langcode: en
+status: true
+dependencies: {  }
+name: 'DH Certificate Concentration'
+vid: dh_certificate_theme
+description: 'What is the thematic focus?'
+weight: 0

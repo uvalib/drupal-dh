@@ -1,0 +1,29 @@
+uuid: 1e68d7b4-278a-4fd2-bbc8-640a1e4aefc7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_contact_person
+    - node.type.dh_project
+id: node.dh_project.field_contact_person
+field_name: field_contact_person
+entity_type: node
+bundle: dh_project
+label: 'Contact person'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    target_bundles: null
+    sort:
+      field: name
+      direction: ASC
+    auto_create: false
+    filter:
+      type: _none
+    include_anonymous: false
+field_type: entity_reference
