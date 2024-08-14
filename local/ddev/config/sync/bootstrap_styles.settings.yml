@@ -7,7 +7,7 @@ background_image:
   field: field_media_image
 background_local_video:
   bundle: local_video
-  field: field_media_video_file
+  field: field_field_media_video_file
 text_colors: "bs-text-white|White\r\nbs-text-black|Black"
 text_alignment: "bs-text-left|Left\r\nbs-text-center|Center\r\nbs-text-right|Right\r\nbs-text-justify|Justify"
 padding: "bs-p-1|Padding 1\r\nbs-p-2|Padding 2\r\nbs-p-3|Padding 3\r\nbs-p-4|Padding 4\r\nbs-p-5|Padding 5"
