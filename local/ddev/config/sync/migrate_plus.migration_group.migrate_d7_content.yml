@@ -2,6 +2,8 @@ uuid: fca17f2b-03c7-4071-aa95-379ed8161b3f
 langcode: en
 status: true
 dependencies: {  }
+_core:
+  default_config_hash: 8YRy4v4zpvV00lEdmwXwSqiB4AN1ajx-Zg0vv2B_rNA
 id: migrate_d7_content
 label: 'Import from Drupal 7'
 description: 'Migrations originally generated from drush migrate-upgrade --configure-only'

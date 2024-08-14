@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the migrate_d7_content module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ */
+function migrate_d7_content_uninstall() {
+  // Delete migration group configuration.
+  \Drupal::configFactory()->getEditable('migrate_plus.migration_group.migrate_d7_content')->delete();
+
+  // Delete migration configurations.
+  $config_factory = \Drupal::configFactory();
+  $configs_to_delete = [
+    'migrate_plus.migration.upgrade_d7_node_complete_people',
+    'migrate_plus.migration.upgrade_d7_node_complete_projects',
+    // Add any other migration configurations here
+  ];
+
+  foreach ($configs_to_delete as $config) {
+    $config_factory->getEditable($config)->delete();
+  }
+
+  // Clear all plugin caches.
+  \Drupal::service('plugin.cache_clearer')->clearCachedDefinitions();
+}

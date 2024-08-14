@@ -35,7 +35,6 @@ module:
   help: 0
   history: 0
   image: 0
-  jsonapi: 0
   layout_builder: 0
   layout_discovery: 0
   link: 0
@@ -61,7 +60,6 @@ module:
   redirect_domain: 0
   search: 0
   select2: 0
-  serialization: 0
   shortcut: 0
   simplesamlphp_auth: 0
   smart_date: 0

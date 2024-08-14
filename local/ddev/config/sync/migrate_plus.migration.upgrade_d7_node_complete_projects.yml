@@ -2,6 +2,8 @@ uuid: 755ffe18-4d8e-4770-a06a-bdb6de8ba26a
 langcode: en
 status: true
 dependencies: {  }
+_core:
+  default_config_hash: CLkjoeoBS7gpx53_z_4V6YFeS5GqDLBHaendSDoBNNE
 id: upgrade_d7_node_complete_projects
 class: Drupal\node\Plugin\migrate\D7NodeTranslation
 field_plugin_method: null
@@ -137,7 +139,7 @@ process:
 destination:
   plugin: 'entity_complete:node'
   translations: true
-  default_bundle: projects
+  default_bundle: dh_project
 migration_dependencies:
   required:
     - upgrade_d7_user

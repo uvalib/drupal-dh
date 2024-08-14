@@ -12,50 +12,37 @@ migration_tags:
 migration_group: migrate_d7_content
 label: 'Node complete (Profile)'
 source:
-  plugin: d7_node_complete
+  plugin: upgrade_d7_node_complete_people
   node_type: people
+  constants:
+    source_base_path: '/var/www/html/local/ddev/web/sites/drupal7/digitalhumanities.virginia.edu/files'
 process:
-  nid:
-    -
-      plugin: get
-      source: tnid
-  vid:
-    -
-      plugin: get
-      source: vid
+  nid: nid
+  vid: vid
   langcode:
-    -
-      plugin: default_value
-      source: language
-      default_value: und
+    plugin: default_value
+    source: language
+    default_value: "und"
+  type:
+    plugin: default_value
+    default_value: people
   title:
-    -
-      plugin: get
-      source: title
+    plugin: get
+    source: title
   uid:
-    -
-      plugin: get
-      source: node_uid
+    plugin: migration_lookup
+    migration: upgrade_d7_user
+    source: uid
   status:
-    -
-      plugin: get
-      source: status
+    plugin: get
+    source: status
   created:
-    -
-      plugin: get
-      source: created
+    plugin: get
+    source: created
   changed:
-    -
-      plugin: get
-      source: timestamp
-  promote:
-    -
-      plugin: get
-      source: promote
-  sticky:
-    -
-      plugin: get
-      source: sticky
+    plugin: get
+    source: changed
+  # Add more field mappings here, with appropriate processing
   revision_uid:
     -
       plugin: get
@@ -77,22 +64,12 @@ process:
       plugin: get
       source: comment
   'body/value':
-    plugin: extract
+    plugin: get
     source: body
-    default: ''
-    index:
-      - 0
-      - value
-  'body/summary':
-    plugin: extract
-    source: body
-    default: ''
-    index:
-      - 0
-      - summary
+    default_value: ''
   'body/format':
     plugin: default_value
-    default_value: 'full_html'
+    default_value: "full_html"
   field_name:
     -
       plugin: get
@@ -106,7 +83,7 @@ process:
   field_featured_image:
     -
       plugin: sub_process
-      source: field_featured_image
+      source: photo
       process:
         target_id: fid
         alt: alt
@@ -117,16 +94,24 @@ process:
     -
       plugin: get
       source: field_not_uva
-  field_email:
+  field_user_email/0/value:
     -
-      plugin: sub_process
-      source: field_email
-      process:
-        value: email
+      plugin: get
+      source: email
+      default_value: ''
+      # plugin: sub_process
+      # source: email
+      # process:
+      #   value: email
+  dump_photo:
+    plugin: callback
+    callable: var_dump
+    source: photo 
   field_link:
     -
       plugin: field_link
       source: field_link
+      default_value: ''
   field_uva_id:
     -
       plugin: get
@@ -135,10 +120,39 @@ process:
     -
       plugin: field_link
       source: field_blog
+      default_value: ''
   field_publications:
     -
       plugin: field_link
       source: field_publications
+      default_value: ''
+  field_image:
+    -
+      plugin: skip_on_empty
+      source: photo
+      method: process
+    -
+      plugin: get
+      source: photo
+    # -
+    #   plugin: entity_generate
+    #   source: photo
+    #   destination: file
+    #   file_validate: 'file_validate_extensions: "jpg jpeg png"'
+    #   reuse_existing: true
+    #   destination_field: uri
+    #   entity_type: file
+    # -
+    #   plugin: sub_process
+    #   source: photo
+    #   process:
+    #     target_id: fid
+    #     alt: alt
+    #     title: title
+    #     width: width
+    #     height: height
+    #   destination_field: field_image
+
 destination:
   plugin: 'entity_complete:node'
   translations: true
