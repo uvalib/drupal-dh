@@ -48,7 +48,11 @@ RUN pecl install apcu-5.1.22 && docker-php-ext-enable apcu
 
 WORKDIR /opt/drupal
 RUN ls -l
+RUN ls -l /opt/drupal/web/themes
+RUN ls -l /opt/drupal/web/modules
 RUN composer install
+RUN ls -l /opt/drupal/web/themes
+RUN ls -l /opt/drupal/web/modules
 RUN mkdir /var/run/sqlite && chown www-data:www-data /var/run/sqlite && \
 	mkdir -p /var/cache/simplesamlphp && chown www-data:www-data /var/cache/simplesamlphp
 
