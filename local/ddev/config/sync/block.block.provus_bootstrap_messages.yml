@@ -1,4 +1,4 @@
-uuid: 01c192cd-a1b6-43ec-816e-1d22ae88c63c
+uuid: 2eb0eaf3-8bd3-41de-a2f0-16a1c8deeb68
 langcode: en
 status: true
 dependencies:
@@ -11,7 +11,7 @@ _core:
 id: provus_bootstrap_messages
 theme: provus_bootstrap
 region: highlighted
-weight: -5
+weight: -7
 provider: null
 plugin: system_messages_block
 settings:

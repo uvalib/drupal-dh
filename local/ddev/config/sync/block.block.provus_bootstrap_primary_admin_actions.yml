@@ -1,4 +1,4 @@
-uuid: d5a15ef6-547a-4040-9a59-6dccf353588f
+uuid: 4c5fe492-6e11-46e4-ba69-bdaac9d28e43
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ _core:
 id: provus_bootstrap_primary_admin_actions
 theme: provus_bootstrap
 region: highlighted
-weight: -5
+weight: -8
 provider: null
 plugin: local_actions_block
 settings:

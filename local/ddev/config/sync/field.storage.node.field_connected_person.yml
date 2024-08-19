@@ -1,0 +1,20 @@
+uuid: 38e352a3-9434-46f9-abac-d003644fb29e
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - user
+id: node.field_connected_person
+field_name: field_connected_person
+entity_type: node
+type: entity_reference
+settings:
+  target_type: user
+module: core
+locked: false
+cardinality: 2
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

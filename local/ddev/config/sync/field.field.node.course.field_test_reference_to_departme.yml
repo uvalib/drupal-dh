@@ -10,7 +10,7 @@ id: node.course.field_test_reference_to_departme
 field_name: field_test_reference_to_departme
 entity_type: node
 bundle: course
-label: 'Test reference to Department Taxonomy'
+label: Department
 description: ''
 required: false
 translatable: false

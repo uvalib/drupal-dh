@@ -49,7 +49,6 @@ content:
     weight: 100
     region: content
 hidden:
-  addtoany: true
   field_affiliated_dh_projects: true
   field_contact_person: true
   field_is_located_in_this_departm: true

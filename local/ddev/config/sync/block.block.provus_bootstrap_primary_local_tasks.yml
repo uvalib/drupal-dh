@@ -1,4 +1,4 @@
-uuid: a0e14290-f018-43a7-abdd-3cbf055a8dba
+uuid: 1684d156-cd9a-43d0-b28c-5af864084d6f
 langcode: en
 status: true
 dependencies:
@@ -9,7 +9,7 @@ _core:
 id: provus_bootstrap_primary_local_tasks
 theme: provus_bootstrap
 region: highlighted
-weight: -4
+weight: -6
 provider: null
 plugin: local_tasks_block
 settings:

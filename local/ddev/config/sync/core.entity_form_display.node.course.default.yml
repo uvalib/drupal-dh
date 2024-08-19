@@ -4,14 +4,13 @@ status: true
 dependencies:
   config:
     - field.field.node.course.field_affiliated_dh_projects
+    - field.field.node.course.field_connected_person
     - field.field.node.course.field_course_description
     - field.field.node.course.field_course_mnemonic
-    - field.field.node.course.field_department_or_school
     - field.field.node.course.field_dh_certificate_requirement
     - field.field.node.course.field_dh_concentration
     - field.field.node.course.field_dh_research_data_type
     - field.field.node.course.field_dh_tool_implementation
-    - field.field.node.course.field_instructor_name
     - field.field.node.course.field_link_to_more_information
     - field.field.node.course.field_link_to_online_meeting
     - field.field.node.course.field_link_to_uva_sis_listing
@@ -24,6 +23,7 @@ dependencies:
   module:
     - file
     - link
+    - select2
     - text
 id: node.course.default
 targetEntityType: node
@@ -32,7 +32,7 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 17
+    weight: 18
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -45,6 +45,16 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  field_connected_person:
+    type: select2_entity_reference
+    weight: 26
+    region: content
+    settings:
+      width: 100%
+      autocomplete: false
+      match_operator: CONTAINS
+      match_limit: 10
     third_party_settings: {  }
   field_course_description:
     type: text_textarea_with_summary
@@ -64,57 +74,45 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_department_or_school:
-    type: entity_reference_autocomplete
+  field_dh_certificate_requirement:
+    type: select2_entity_reference
     weight: 6
     region: content
     settings:
+      width: 100%
+      autocomplete: false
       match_operator: CONTAINS
       match_limit: 10
-      size: 60
-      placeholder: 'Start typing the name of the department....'
-    third_party_settings: {  }
-  field_dh_certificate_requirement:
-    type: options_buttons
-    weight: 5
-    region: content
-    settings: {  }
     third_party_settings: {  }
   field_dh_concentration:
-    type: entity_reference_autocomplete
+    type: select2_entity_reference
     weight: 14
     region: content
     settings:
+      width: 100%
+      autocomplete: false
       match_operator: CONTAINS
       match_limit: 10
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_dh_research_data_type:
-    type: options_buttons
+    type: select2_entity_reference
     weight: 11
     region: content
-    settings: {  }
+    settings:
+      width: 100%
+      autocomplete: false
+      match_operator: CONTAINS
+      match_limit: 10
     third_party_settings: {  }
   field_dh_tool_implementation:
-    type: entity_reference_autocomplete
+    type: select2_entity_reference
     weight: 12
     region: content
     settings:
+      width: 100%
+      autocomplete: false
       match_operator: CONTAINS
       match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_instructor_name:
-    type: entity_reference_autocomplete
-    weight: 2
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_link_to_more_information:
     type: link_default
@@ -134,7 +132,7 @@ content:
     third_party_settings: {  }
   field_link_to_uva_sis_listing:
     type: link_default
-    weight: 26
+    weight: 15
     region: content
     settings:
       placeholder_url: ''
@@ -142,19 +140,19 @@ content:
     third_party_settings: {  }
   field_semester:
     type: options_buttons
-    weight: 3
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
   field_test_reference_to_departme:
-    type: entity_reference_autocomplete
-    weight: 134
+    type: select2_entity_reference
+    weight: 2
     region: content
     settings:
+      width: 100%
+      autocomplete: false
       match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+      match_limit: 2
     third_party_settings: {  }
   field_university_affiliation:
     type: options_buttons
@@ -164,20 +162,20 @@ content:
     third_party_settings: {  }
   field_upload_a_syllabus_file:
     type: file_generic
-    weight: 15
+    weight: 16
     region: content
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
   field_year:
     type: options_buttons
-    weight: 4
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 19
+    weight: 20
     region: content
     settings:
       display_label: true
@@ -192,7 +190,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 16
+    weight: 17
     region: content
     settings:
       match_operator: CONTAINS
@@ -201,7 +199,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   url_redirects:
-    weight: 18
+    weight: 19
     region: content
     settings: {  }
     third_party_settings: {  }

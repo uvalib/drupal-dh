@@ -50,7 +50,6 @@ content:
     weight: 100
     region: content
 hidden:
-  addtoany: true
   field_attachments: true
   field_author: true
   field_comments: true

@@ -11,8 +11,8 @@ third_party_settings:
     parent: 'main:'
 name: Course
 type: course
-description: "DH required courses, elective courses, and DH-friendly non-electives\r\nThis content type should have a join with a bunch of other content types"
-help: ''
+description: "DH required courses, elective courses, and DH-friendly non-electives\r\n"
+help: null
 new_revision: true
 preview_mode: 1
 display_submitted: true

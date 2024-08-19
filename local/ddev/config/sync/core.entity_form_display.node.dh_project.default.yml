@@ -185,6 +185,4 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden:
-  field_affiliated_dh_projects: true
-  field_associated_dh_course: true
+hidden: {  }

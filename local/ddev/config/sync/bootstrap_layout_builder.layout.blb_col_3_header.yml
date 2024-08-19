@@ -1,9 +1,0 @@
-uuid: a880e48e-fc15-4a92-94ea-321ce64a541d
-langcode: en
-status: true
-dependencies: {  }
-_core:
-  default_config_hash: AT55HeAItkp6me9Bb5Ix0iFGTGphWQ4ocdJ_hhnTHUA
-id: blb_col_3_header
-label: 'Bootstrap 3 Cols w/ Header'
-number_of_columns: 4

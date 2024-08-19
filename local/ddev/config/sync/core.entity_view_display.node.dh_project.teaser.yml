@@ -51,9 +51,6 @@ content:
     weight: 100
     region: content
 hidden:
-  addtoany: true
-  field_affiliated_dh_projects: true
-  field_associated_dh_course: true
   field_contact_person: true
   field_dh_research_category: true
   field_dh_tool_implementation: true

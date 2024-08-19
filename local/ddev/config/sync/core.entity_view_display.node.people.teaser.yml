@@ -48,7 +48,6 @@ content:
     weight: 100
     region: content
 hidden:
-  addtoany: true
   field_attended_events: true
   field_dh_certificate_status: true
   field_orcid_id: true

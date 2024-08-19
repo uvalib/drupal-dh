@@ -1,17 +1,15 @@
-uuid: a54acb5b-c326-42d2-8436-6e340c854eda
+uuid: ca5eaf19-584c-40d8-b19d-1597e6e148dd
 langcode: en
 status: true
 dependencies:
   module:
     - system
   theme:
-    - bootstrap_barrio
-_core:
-  default_config_hash: lE5hyDUbMWVcRxvlVMAwguAJFBiZH2Xf-59wmBIq9co
-id: bootstrap_barrio_site_branding
-theme: bootstrap_barrio
-region: header
-weight: -7
+    - provus_bootstrap
+id: provus_bootstrap_sitebranding
+theme: provus_bootstrap
+region: footer_first
+weight: 0
 provider: null
 plugin: system_branding_block
 settings:
@@ -20,6 +18,6 @@ settings:
   label_display: '0'
   provider: system
   use_site_logo: true
-  use_site_name: true
+  use_site_name: false
   use_site_slogan: false
 visibility: {  }

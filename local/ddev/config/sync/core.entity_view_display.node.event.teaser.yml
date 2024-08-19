@@ -54,7 +54,6 @@ content:
     weight: 2
     region: content
 hidden:
-  addtoany: true
   field_access: true
   field_date_range1: true
   field_department_or_school: true
