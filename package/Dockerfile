@@ -20,6 +20,7 @@ WORKDIR $APP_HOME
 
 # Move in necessary assets
 COPY package/data/container_bash_profile /root/.profile
+COPY package/data/files/opt/drupal/web/sites/default/settings.php /opt/drupal/web/sites/default/settings.php
 # COPY package/data/files/opt/drupal/composer.json /opt/drupal/composer.json
 # COPY package/data/files/opt/drupal/composer.lock /opt/drupal/composer.lock
 
