@@ -30,10 +30,11 @@ RUN 	mkdir /opt/drupal/util \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal/simplesaml \
 	&& ln -sf util/drupal-dh/local/ddev/composer.lock /opt/drupal/composer.lock \
 	&& ln -sf util/drupal-dh/local/ddev/composer.json /opt/drupal/composer.json \
-        && ln -sf util/drupal-dh/local/ddev/web /opt/drupal/web \
 	&& ln -sf util/drupal-dh/local/ddev/config /opt/drupal/config \
 	&& ln -sf util/drupal-dh/local/ddev/sites /opt/drupal/sites \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal/simplesaml \
+        && cp -r util/drupal-dh/local/ddev/web/modules /opt/drupal/web \
+        && cp -r util/drupal-dh/local/ddev/web/themes /opt/drupal/web \
 	&& ls -l /opt/drupal
 
 # install other dependancies
