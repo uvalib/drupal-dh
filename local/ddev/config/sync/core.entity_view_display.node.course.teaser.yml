@@ -35,6 +35,7 @@ content:
     weight: 100
     region: content
 hidden:
+  addtoany: true
   field_affiliated_dh_projects: true
   field_course_description: true
   field_course_mnemonic: true

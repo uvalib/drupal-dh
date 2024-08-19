@@ -1,0 +1,31 @@
+uuid: 4c0baf43-1068-4284-9e41-b94bc1009b51
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_banner
+    - field.storage.block_content.field_provus_media_image
+    - media.type.image
+_core:
+  default_config_hash: BLZfij0rjBeyQ6Tb06FyzyZQzJUup8_iRvEecv2ICKk
+id: block_content.provus_banner.field_provus_media_image
+field_name: field_provus_media_image
+entity_type: block_content
+bundle: provus_banner
+label: 'Banner image'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      image: image
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

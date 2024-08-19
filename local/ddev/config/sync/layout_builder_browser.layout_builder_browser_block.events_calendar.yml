@@ -1,0 +1,11 @@
+uuid: bbd06bd9-c90b-4194-9f2a-8cf7b905340a
+langcode: en
+status: true
+dependencies: {  }
+id: events_calendar
+block_id: 'views_block:events_calendar-block_1'
+category: provus_views
+label: 'Events Calendar'
+image_path: ''
+image_alt: ''
+weight: -100

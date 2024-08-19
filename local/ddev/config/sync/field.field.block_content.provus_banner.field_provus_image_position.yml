@@ -1,0 +1,25 @@
+uuid: 6e5c5355-76a8-4a81-97dc-1542d5413e2e
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_banner
+    - field.storage.block_content.field_provus_image_position
+  module:
+    - options
+_core:
+  default_config_hash: eXiT-FmR_6jx2CBeeU5xJoCph-2vEXZwpcZ6FLEqNuE
+id: block_content.provus_banner.field_provus_image_position
+field_name: field_provus_image_position
+entity_type: block_content
+bundle: provus_banner
+label: 'Image position'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: full
+default_value_callback: ''
+settings: {  }
+field_type: list_string

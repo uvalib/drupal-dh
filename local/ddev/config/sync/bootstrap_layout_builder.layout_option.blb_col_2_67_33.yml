@@ -1,0 +1,16 @@
+uuid: 4215f563-343c-4546-a9a4-ce4eeb5c4789
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: xoNeiFYZk4tHdCJ5rKCrnHWKQQVcDqboWydx_3Okrek
+id: blb_col_2_67_33
+layout_id: blb_col_2
+label: '67% 33%'
+structure: '8 4'
+default_breakpoints: null
+breakpoints:
+  desktop: desktop
+  tablet: tablet
+  mobile: mobile
+weight: 0

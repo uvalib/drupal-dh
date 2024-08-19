@@ -1,0 +1,50 @@
+/*
+Theme Name: Bootstrap 4 Sass
+Description: Bootstrap 4 with Sass
+*/
+
+// import files
+@import "global/variables";
+@import "bootstrap";
+@import "barrio";
+@import "global/mixins";
+@import "global/base";
+@import "admin/layout_builder";
+@import "admin/tour";
+@import "components/accordion";
+@import "components/banner";
+@import "components/basic-text";
+@import "components/buttons";
+@import "components/cards";
+@import "components/carousel";
+@import "components/cta";
+@import "components/events";
+@import "components/faq-group";
+@import "components/files";
+@import "components/forms";
+@import "components/google-translator";
+@import "components/group";
+@import "components/headings";
+@import "components/images";
+@import "components/links";
+@import "components/list";
+@import "components/media";
+@import "components/menus";
+@import "components/node";
+@import "components/nodes";
+@import "components/pager";
+@import "components/photo-gallery";
+@import "components/slide-show-with-items";
+@import "components/slideshows";
+@import "components/table";
+@import "components/tabs";
+@import "components/text";
+@import "layout/alert";
+@import "layout/banner";
+@import "layout/footer";
+@import "layout/header";
+@import "layout/navigation";
+@import "layout/sections";
+@import "layout/sidebar";
+@import "layout/utility";
+@import "pages/search";

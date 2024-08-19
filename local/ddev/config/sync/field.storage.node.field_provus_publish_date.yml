@@ -1,0 +1,22 @@
+uuid: b3b0b5b6-be14-4805-94a1-1f03ef5f1549
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - node
+_core:
+  default_config_hash: X8D-TYXXJwyL0hoSMyNeO5gb5t9MtmyEVQ7BHzTJbek
+id: node.field_provus_publish_date
+field_name: field_provus_publish_date
+entity_type: node
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

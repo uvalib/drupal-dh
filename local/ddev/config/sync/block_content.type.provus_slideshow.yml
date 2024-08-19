@@ -1,0 +1,10 @@
+uuid: 2b334771-0c12-486a-8ae8-28aa6b22083e
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Ze-EddioCbJNbykGmhU_TT3eLMrvSoXykWDJXorIDGc
+id: provus_slideshow
+label: Slideshow
+revision: 0
+description: ''

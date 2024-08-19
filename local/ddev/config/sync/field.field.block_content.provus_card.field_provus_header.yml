@@ -1,0 +1,21 @@
+uuid: ee4190e7-57ca-4082-8dc8-b75166d1c250
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_card
+    - field.storage.block_content.field_provus_header
+_core:
+  default_config_hash: eSErq0R9SnM0mOCpC1kqniw76LPmknha5VXkhz8PSa4
+id: block_content.provus_card.field_provus_header
+field_name: field_provus_header
+entity_type: block_content
+bundle: provus_card
+label: Header
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

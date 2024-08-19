@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.provus_banner
+label: Banner
+targetEntityType: media
+cache: true

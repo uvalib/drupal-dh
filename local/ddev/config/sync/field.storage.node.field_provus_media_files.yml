@@ -1,0 +1,22 @@
+uuid: 05331fd5-7e0f-43a1-8383-ff75fda1faeb
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+    - node
+_core:
+  default_config_hash: NVpeS0lWjIgDagwXztiXrfp3OUydbzZ2kMSO8Zaj4R0
+id: node.field_provus_media_files
+field_name: field_provus_media_files
+entity_type: node
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

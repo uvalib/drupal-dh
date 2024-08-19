@@ -1,0 +1,46 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_basic_text
+    - block_content.type.provus_button
+    - block_content.type.provus_card
+    - block_content.type.provus_divider_line
+    - block_content.type.provus_files_list
+    - block_content.type.provus_group
+    - block_content.type.provus_group_automatic
+    - block_content.type.provus_heading
+    - block_content.type.provus_list
+    - block_content.type.provus_media
+    - block_content.type.provus_tab_item
+    - field.storage.block_content.field_provus_items
+id: block_content.provus_tab_item.field_provus_items
+field_name: field_provus_items
+entity_type: block_content
+bundle: provus_tab_item
+label: 'Tab Content'
+description: "This is the content that will load when you click the tab navigation link.  You can add an unlimited number of components inside this content area all stacked on top of each other.  Select the type of component you want to add and click 'Add new content block'."
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:block_content'
+  handler_settings:
+    target_bundles:
+      provus_basic_text: provus_basic_text
+      provus_button: provus_button
+      provus_card: provus_card
+      provus_divider_line: provus_divider_line
+      provus_files_list: provus_files_list
+      provus_group: provus_group
+      provus_group_automatic: provus_group_automatic
+      provus_heading: provus_heading
+      provus_list: provus_list
+      provus_media: provus_media
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: provus_basic_text
+field_type: entity_reference

@@ -1,0 +1,23 @@
+uuid: 2b32b54a-c6bf-46eb-9eed-f33a3e9fe8bc
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_slideshow
+    - field.storage.block_content.field_provus_slideshow_speed
+_core:
+  default_config_hash: oC8x0W0xL6BDaFhxKYXf9UJIcAGiTH81rlLgG0-CdZI
+id: block_content.provus_slideshow.field_provus_slideshow_speed
+field_name: field_provus_slideshow_speed
+entity_type: block_content
+bundle: provus_slideshow
+label: 'Transition speed'
+description: '* in milliseconds'
+required: false
+translatable: false
+default_value:
+  -
+    value: '2000'
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,6 +1,6 @@
-uuid: d8203ae0-2fd4-444b-a27d-94b45dd6226b
+uuid: 2d0bead6-c918-4cf7-8a6a-942adacae066
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - system
@@ -11,7 +11,7 @@ _core:
 id: provus_bootstrap_powered
 theme: provus_bootstrap
 region: alert_banner
-weight: -7
+weight: 0
 provider: null
 plugin: system_powered_by_block
 settings:

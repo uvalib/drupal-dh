@@ -127,4 +127,7 @@ content:
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  addtoany: true
+  field_affiliated_dh_projects: true
+  field_associated_dh_course: true

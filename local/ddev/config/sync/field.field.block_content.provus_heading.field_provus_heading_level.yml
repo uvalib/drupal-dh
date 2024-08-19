@@ -1,0 +1,25 @@
+uuid: 293bfd2a-aac0-4756-bd0f-2575808d23a5
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_heading
+    - field.storage.block_content.field_provus_heading_level
+  module:
+    - options
+_core:
+  default_config_hash: 6PBuenAmHpW7PeIUvy5s7rAVp7_xmB9rhrWPp2tmylk
+id: block_content.provus_heading.field_provus_heading_level
+field_name: field_provus_heading_level
+entity_type: block_content
+bundle: provus_heading
+label: 'Heading Level'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: H2
+default_value_callback: ''
+settings: {  }
+field_type: list_string

@@ -1,0 +1,8 @@
+name: 'Provus Layout Builder'
+type: module
+description: 'Custom Provus layout builder configuration.'
+package: 'Provus'
+core_version_requirement: ^9 || ^10
+dependencies:
+  - bootstrap_layout_builder
+  - drupal:layout_builder

@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: provus_card_background_tablet_2x
+label: 'Card Background | Tablet | 2x'
+effects:
+  3017230e-d604-4d14-bd55-f18f1c8dc007:
+    uuid: 3017230e-d604-4d14-bd55-f18f1c8dc007
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 678
+      height: 600
+      crop_type: focal_point

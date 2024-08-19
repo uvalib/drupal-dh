@@ -1,0 +1,25 @@
+uuid: 25994fef-c4fc-488a-84ff-648d783401c0
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_list
+    - field.storage.block_content.field_provus_list_orientation
+  module:
+    - options
+_core:
+  default_config_hash: VMd92x2zaEU5GtyJMqAPXX3AOHX-9VgCP9duvtlz1t8
+id: block_content.provus_list.field_provus_list_orientation
+field_name: field_provus_list_orientation
+entity_type: block_content
+bundle: provus_list
+label: 'List Orientation'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: stacked
+default_value_callback: ''
+settings: {  }
+field_type: list_string

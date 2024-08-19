@@ -1,0 +1,14 @@
+uuid: 06593930-c17a-4ed3-b9c3-230e524c278e
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_divider_line
+_core:
+  default_config_hash: a7cufwnYYsFJHTz9yxKiEA66CVlZg2AgAeMUGsQbNUo
+id: block_content.provus_divider_line.default
+targetEntityType: block_content
+bundle: provus_divider_line
+mode: default
+content: {  }
+hidden: {  }

@@ -1,0 +1,11 @@
+uuid: 452972fd-2c7c-4054-afcb-892ca1826fa8
+langcode: en
+status: true
+dependencies:
+  module:
+    - media
+id: media.provus_card_background
+label: 'Card Background'
+description: ''
+targetEntityType: media
+cache: true

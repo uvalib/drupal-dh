@@ -1,0 +1,11 @@
+_core:
+  default_config_hash: eq8Y7Qgza6UWdL6XuFGsoW_4WOf6i2z920Jf-F_x7Ec
+status: 1
+pattern: '[block_content:field_provus_testimonial_name] (Testimonial) - [random:number]'
+escape: false
+preserve_titles: false
+save: false
+chunk: 50
+dependencies:
+  config:
+    - block_content.type.provus_testimonial
