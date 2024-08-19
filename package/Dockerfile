@@ -31,6 +31,7 @@ RUN 	mkdir /opt/drupal/util \
 	&& ln -sf util/drupal-dh/local/ddev/composer.json /opt/drupal/composer.json \
         && ln -sf util/drupal-dh/local/ddev/web /opt/drupal/web \
 	&& ln -sf util/drupal-dh/local/ddev/config /opt/drupal/config \
+	&& ln -sf util/drupal-dh/local/ddev/sites /opt/drupal/sites \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal/simplesaml \
 	&& ls -l /opt/drupal
 
