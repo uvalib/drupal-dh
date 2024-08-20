@@ -1,6 +1,6 @@
-uuid: c8becb01-cf51-4259-9bd1-dfe70142cb05
+uuid: 48687212-ee06-4e46-95d2-bc4a7a501758
 langcode: en
-status: false
+status: true
 dependencies:
   module:
     - node
@@ -11,7 +11,7 @@ _core:
 id: provus_bootstrap_syndicate
 theme: provus_bootstrap
 region: alert_banner
-weight: -6
+weight: 0
 provider: null
 plugin: node_syndicate_block
 settings:

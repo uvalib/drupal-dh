@@ -1,0 +1,25 @@
+uuid: 217c583d-88cf-48a8-987e-7a8d7709e03d
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_button
+    - field.storage.block_content.field_provus_button_arrangement
+  module:
+    - options
+_core:
+  default_config_hash: R7VZ6mZWaXwl8WNQBprSjZEgLFhK3VPxlx7xG6irg3U
+id: block_content.provus_button.field_provus_button_arrangement
+field_name: field_provus_button_arrangement
+entity_type: block_content
+bundle: provus_button
+label: 'Button arrangement'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: inline
+default_value_callback: ''
+settings: {  }
+field_type: list_string

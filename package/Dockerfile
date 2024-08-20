@@ -20,18 +20,23 @@ WORKDIR $APP_HOME
 
 # Move in necessary assets
 COPY package/data/container_bash_profile /root/.profile
+COPY package/data/files/opt/drupal/web/sites/default/settings.php /opt/drupal/web/sites/default/settings.php
 # COPY package/data/files/opt/drupal/composer.json /opt/drupal/composer.json
 # COPY package/data/files/opt/drupal/composer.lock /opt/drupal/composer.lock
 
-# github checkout drupal-dh dir and symlink
+# github checkout drupal-dh dir and symlink appropriate directories
 RUN 	mkdir /opt/drupal/util \
 	&& git clone https://github.com/uvalib/drupal-dh /opt/drupal/util/drupal-dh \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal/simplesaml \
 	&& ln -sf util/drupal-dh/local/ddev/composer.lock /opt/drupal/composer.lock \
 	&& ln -sf util/drupal-dh/local/ddev/composer.json /opt/drupal/composer.json \
 	&& ln -sf util/drupal-dh/local/ddev/config /opt/drupal/config \
+	&& ln -sf util/drupal-dh/local/ddev/sites /opt/drupal/sites \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal/simplesaml \
-	&& ls -l /opt/drupal
+	&& ls -l /opt/drupal/web/modules /opt/drupal/web/themes \
+        && cp -r /opt/drupal/util/drupal-dh/local/ddev/web/modules /opt/drupal/web \
+        && cp -r /opt/drupal/util/drupal-dh/local/ddev/web/themes /opt/drupal/web \
+	&& ls -l /opt/drupal/web/modules /opt/drupal/web/themes
 
 # install other dependancies
 RUN pecl install apcu-5.1.22 && docker-php-ext-enable apcu
@@ -43,7 +48,11 @@ RUN pecl install apcu-5.1.22 && docker-php-ext-enable apcu
 
 WORKDIR /opt/drupal
 RUN ls -l
+RUN ls -l /opt/drupal/web/themes
+RUN ls -l /opt/drupal/web/modules
 RUN composer install
+RUN ls -l /opt/drupal/web/themes
+RUN ls -l /opt/drupal/web/modules
 RUN mkdir /var/run/sqlite && chown www-data:www-data /var/run/sqlite && \
 	mkdir -p /var/cache/simplesamlphp && chown www-data:www-data /var/cache/simplesamlphp
 

@@ -1,0 +1,21 @@
+uuid: 2f3a25fe-2aaa-4ad6-8444-1b1e3ada9756
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_testimonial
+    - field.storage.block_content.field_provus_testimonial_body
+_core:
+  default_config_hash: RcZN2ufgDiwe0b1IfnO3phfocET5Smdxh5lo_Ug5rzI
+id: block_content.provus_testimonial.field_provus_testimonial_body
+field_name: field_provus_testimonial_body
+entity_type: block_content
+bundle: provus_testimonial
+label: 'Testimonial content'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

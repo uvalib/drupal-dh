@@ -1,0 +1,13 @@
+uuid: 5f162899-d51d-462c-bd1b-27e8315a64b7
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: 2ihm9j-8iSNz9hbYWpb__vDsPsdIH_g8BWivCwWpOik
+id: node.provus_card_right
+label: 'Card Image Right'
+description: ''
+targetEntityType: node
+cache: true

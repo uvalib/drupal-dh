@@ -1,0 +1,20 @@
+uuid: 50f80831-6bfb-44a6-962e-7a6264b34cde
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+_core:
+  default_config_hash: gCJeh7qIihUC9-mNEQZzwC8HjJI5_DiDeapwXj1AzIA
+id: block_content.field_provus_short_banner
+field_name: field_provus_short_banner
+entity_type: block_content
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

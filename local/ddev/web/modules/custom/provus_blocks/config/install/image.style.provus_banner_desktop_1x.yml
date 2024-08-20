@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: provus_banner_desktop_1x
+label: 'Banner | Desktop | 1x'
+effects:
+  a46bdcde-e3ab-4c62-9bdc-2e0f324925ac:
+    uuid: a46bdcde-e3ab-4c62-9bdc-2e0f324925ac
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 1440
+      height: 500
+      crop_type: focal_point

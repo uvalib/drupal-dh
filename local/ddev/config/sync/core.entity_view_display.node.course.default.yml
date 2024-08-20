@@ -177,6 +177,299 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 3
             additional: {  }
+          b2649813-b318-41e8-af62-9716d365b6d5:
+            uuid: b2649813-b318-41e8-af62-9716d365b6d5
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_course_mnemonic'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          b18a1ed0-b37a-4d4c-be7b-f412659ed11b:
+            uuid: b18a1ed0-b37a-4d4c-be7b-f412659ed11b
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_department_or_school'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          fe66a5c8-add2-48fc-b765-29c7328cf01d:
+            uuid: fe66a5c8-add2-48fc-b765-29c7328cf01d
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_university_affiliation'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          7302259e-70c3-44ea-a6cc-08903b36efa7:
+            uuid: 7302259e-70c3-44ea-a6cc-08903b36efa7
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_semester'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          6a533801-22bf-48e0-ac5b-c55707b39f0e:
+            uuid: 6a533801-22bf-48e0-ac5b-c55707b39f0e
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_year'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          3dddab25-662d-4e27-bf45-0ce97d75ce6e:
+            uuid: 3dddab25-662d-4e27-bf45-0ce97d75ce6e
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_instructor_name'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 5
+            additional: {  }
+          f91d4c7f-f940-46f8-bec2-f8a6ab3dc354:
+            uuid: f91d4c7f-f940-46f8-bec2-f8a6ab3dc354
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_dh_certificate_requirement'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
+          2dd6ff6d-d38b-4f12-893b-741b2ac6cfe1:
+            uuid: 2dd6ff6d-d38b-4f12-893b-741b2ac6cfe1
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_course_description'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 7
+            additional: {  }
+          3b4cd284-316d-4603-9863-3d7981301c42:
+            uuid: 3b4cd284-316d-4603-9863-3d7981301c42
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_dh_research_data_type'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 8
+            additional: {  }
+          7ec97646-674f-4c5e-a8d4-3c3d5cb563cd:
+            uuid: 7ec97646-674f-4c5e-a8d4-3c3d5cb563cd
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_dh_concentration'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 9
+            additional: {  }
+          2e66018a-b026-45a4-a444-fcf03cd70ceb:
+            uuid: 2e66018a-b026-45a4-a444-fcf03cd70ceb
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_link_to_more_information'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: above
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 10
+            additional: {  }
+          029b29cf-b1f7-4b16-80c4-644f7a2105b2:
+            uuid: 029b29cf-b1f7-4b16-80c4-644f7a2105b2
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_link_to_online_meeting'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: above
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 11
+            additional: {  }
+          7cd50ee1-b11b-4d07-b277-2f8a1d0a76ea:
+            uuid: 7cd50ee1-b11b-4d07-b277-2f8a1d0a76ea
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_affiliated_dh_projects'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 12
+            additional: {  }
+          1a5c47a6-1471-4fa6-9923-4907334504a8:
+            uuid: 1a5c47a6-1471-4fa6-9923-4907334504a8
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_dh_tool_implementation'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 13
+            additional: {  }
+          661768ba-48b5-44b5-b4d2-762b55308e43:
+            uuid: 661768ba-48b5-44b5-b4d2-762b55308e43
+            region: content
+            configuration:
+              id: 'extra_field_block:node:course:links'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 14
+            additional: {  }
+          535d758e-d270-46a6-8a27-b26a020383e3:
+            uuid: 535d758e-d270-46a6-8a27-b26a020383e3
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_upload_a_syllabus_file'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: file_default
+                label: above
+                settings:
+                  use_description_as_link_text: true
+                third_party_settings: {  }
+            weight: 15
+            additional: {  }
+          794f01f4-e595-46b3-8b35-1874bc744885:
+            uuid: 794f01f4-e595-46b3-8b35-1874bc744885
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_link_to_uva_sis_listing'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: above
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 16
+            additional: {  }
+          f74e5648-0fb3-426a-9a2d-a2d44209caa4:
+            uuid: f74e5648-0fb3-426a-9a2d-a2d44209caa4
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_test_reference_to_departme'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 17
+            additional: {  }
         third_party_settings: {  }
       -
         layout_id: layout_onecol
@@ -526,4 +819,5 @@ content:
     third_party_settings: {  }
     weight: 14
     region: content
-hidden: {  }
+hidden:
+  addtoany: true

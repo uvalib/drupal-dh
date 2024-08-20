@@ -1,0 +1,21 @@
+uuid: f3eb2bf7-8c75-4e08-973e-97995ca36aa8
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+_core:
+  default_config_hash: L6O7ntFlW07l8CtD4k6TqHFYqBveGLHjmEKAHEebCx4
+id: block_content.field_provus_list_items
+field_name: field_provus_list_items
+entity_type: block_content
+type: entity_reference
+settings:
+  target_type: block_content
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

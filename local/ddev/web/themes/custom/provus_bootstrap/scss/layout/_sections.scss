@@ -83,6 +83,12 @@
   }
 }
 
+.layout-builder__section:has(.section-overlap-icon-list) {
+  .section-overlap-icon-list {
+    margin-top: 0;
+  }
+}
+
 // Special processing for list of icon cards.
 .section-overlap-icon-list {
   position: relative;
@@ -122,6 +128,7 @@
                   font-size: rem-calc(16);
                   line-height: rem-calc(24);
                   text-transform: uppercase;
+                  text-align: center;
                 }
               }
               &:hover {

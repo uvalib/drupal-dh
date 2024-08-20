@@ -1,0 +1,25 @@
+uuid: 9ea74dbd-c1f3-4ac2-a3a3-f95c7091effc
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_button
+    - field.storage.block_content.field_provus_links
+  module:
+    - link
+_core:
+  default_config_hash: X_NF24b4vBpZGH9A8nQVxKnYCePHW4zxT-9F8NYS_iA
+id: block_content.provus_button.field_provus_links
+field_name: field_provus_links
+entity_type: block_content
+bundle: provus_button
+label: Links
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

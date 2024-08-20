@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: provus_portrait_medium
+label: 'Portrait Medium'
+effects:
+  da5a67ac-39ca-43cf-a40b-fdb364261896:
+    uuid: da5a67ac-39ca-43cf-a40b-fdb364261896
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 340
+      height: 460
+      crop_type: focal_point
