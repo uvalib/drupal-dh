@@ -48,9 +48,21 @@ process:
   body/format:
     plugin: default_value
     default_value: 'full_html'
-  user_email/0/value:
-    plugin: get
-    source: email
+#  field_user_email:
+#    plugin: sub_process
+#    source: email
+#    process:
+#      0:
+#        plugin: get
+#        source: '@source'
+  field_user_email:
+    -
+      plugin: sub_process
+      source: email
+      process:
+        0:
+          plugin: get
+          source: '@source'
 destination:
   plugin: 'entity_complete:node'
   translations: true
