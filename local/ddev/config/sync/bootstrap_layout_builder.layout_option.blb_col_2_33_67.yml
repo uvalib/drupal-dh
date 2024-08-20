@@ -8,9 +8,9 @@ id: blb_col_2_33_67
 layout_id: blb_col_2
 label: '33% 67%'
 structure: '4 8'
-default_breakpoints: null
 breakpoints:
   desktop: desktop
   tablet: tablet
   mobile: mobile
+default_breakpoints: null
 weight: 0

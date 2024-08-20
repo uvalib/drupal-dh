@@ -4,8 +4,8 @@ status: 1
 pattern: '[block_content:field_provus_title] (Files List) - [random:number]'
 escape: false
 preserve_titles: false
+save: false
+chunk: 50
 dependencies:
   config:
     - block_content.type.provus_files_list
-save: 0
-chunk: '50'

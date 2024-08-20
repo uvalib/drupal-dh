@@ -6,5 +6,5 @@ _core:
   default_config_hash: rFpRSz0if2arh6tDp9DpemEdjFdSfH9vHsH35jzwLSg
 id: provus_media
 label: Media
-revision: 0
+revision: false
 description: ''

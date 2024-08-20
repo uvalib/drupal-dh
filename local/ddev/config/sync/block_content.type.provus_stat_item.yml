@@ -6,5 +6,5 @@ _core:
   default_config_hash: UX91gX1dRLu-cMnPrBvfn3aEKdMCoda41WYZNfgwYWs
 id: provus_stat_item
 label: 'Stat Item'
-revision: 0
+revision: false
 description: ''

@@ -6,5 +6,5 @@ _core:
   default_config_hash: swr1liNwCb_k8hcr8V4nnTiqNZ73HgBMUoUcGcuDl5U
 id: provus_divider_line
 label: 'Divider Line'
-revision: 0
+revision: false
 description: ''

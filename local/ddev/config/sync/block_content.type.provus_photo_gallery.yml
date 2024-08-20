@@ -6,5 +6,5 @@ _core:
   default_config_hash: qMUdvdshe2I_uF69CObdBcjuhltEkVWPLFL6WfYKzGE
 id: provus_photo_gallery
 label: 'Photo Gallery'
-revision: 0
+revision: false
 description: ''

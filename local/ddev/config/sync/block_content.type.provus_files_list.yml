@@ -6,5 +6,5 @@ _core:
   default_config_hash: '-E9Hq7cmGXRAIYgBc25tFijkL9oLb6FCfV6sXhM06CA'
 id: provus_files_list
 label: 'Files List'
-revision: 0
+revision: false
 description: ''

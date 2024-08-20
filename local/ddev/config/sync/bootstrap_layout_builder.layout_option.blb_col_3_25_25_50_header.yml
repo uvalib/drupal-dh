@@ -8,9 +8,9 @@ id: blb_col_3_25_25_50_header
 layout_id: blb_col_3_header
 label: '25% 25% 50% w/ Header'
 structure: '12 3 3 6'
-default_breakpoints: null
 breakpoints:
   desktop: desktop
   tablet: tablet
   mobile: mobile
+default_breakpoints: null
 weight: 0

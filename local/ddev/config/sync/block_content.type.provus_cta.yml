@@ -6,5 +6,5 @@ _core:
   default_config_hash: SJ_vzQdZaX2JA46nWscrBOhiHBb6dRfoWpRQUAuwwGw
 id: provus_cta
 label: CTA
-revision: 0
+revision: false
 description: ''

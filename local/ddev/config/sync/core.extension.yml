@@ -79,8 +79,8 @@ module:
   page_cache: 0
   path: 0
   path_alias: 0
-  phpass: 0
   pathauto: 0
+  phpass: 0
   provus_blocks: 0
   provus_core: 0
   provus_layout_builder: 0

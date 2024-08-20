@@ -6,5 +6,5 @@ _core:
   default_config_hash: Iy9hkImv4hUqiq3fIdws0i1_93p52d0fWkbjxVoTtwE
 id: provus_tab_item
 label: 'Tab Item'
-revision: 0
+revision: false
 description: ''

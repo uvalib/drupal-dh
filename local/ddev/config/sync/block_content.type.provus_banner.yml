@@ -6,5 +6,5 @@ _core:
   default_config_hash: 4ep3ifdql-nZM1ojUEgSZTmXYAl92yZ82LDPi0mYnmw
 id: provus_banner
 label: Banner
-revision: 0
+revision: false
 description: ''

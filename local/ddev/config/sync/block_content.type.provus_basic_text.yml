@@ -6,5 +6,5 @@ _core:
   default_config_hash: xNfixOjzK2Zt0VeFZumx_x2n57COq72IYcVnMCIzVr0
 id: provus_basic_text
 label: 'Basic Text'
-revision: 0
+revision: false
 description: ''

@@ -8,12 +8,12 @@ id: blb_col_3_three_equal_columns_header
 layout_id: blb_col_3_header
 label: 'Three equal columns w/ Header'
 structure: '12 4 4 4'
-default_breakpoints:
-  desktop: desktop
-  tablet: tablet
-  mobile: '0'
 breakpoints:
   desktop: desktop
   tablet: tablet
   mobile: mobile
+default_breakpoints:
+  desktop: desktop
+  tablet: tablet
+  mobile: '0'
 weight: -10

@@ -42,6 +42,15 @@ process:
   changed:
     plugin: get
     source: changed
+  body/value:  
+    plugin: get
+    source: body
+  body/format:
+    plugin: default_value
+    default_value: 'full_html'
+  user_email/0/value:
+    plugin: get
+    source: email
 destination:
   plugin: 'entity_complete:node'
   translations: true
