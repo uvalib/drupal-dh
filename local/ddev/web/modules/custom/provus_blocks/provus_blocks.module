@@ -249,9 +249,6 @@ function provus_blocks_preprocess_block(&$vars) {
       $display_type = explode('_', $group_display);
       $vars['group_number'] = !empty($display_type[1]) ? $display_type[1] : NULL;
     }
-    elseif ($block_type == 'provus_media') {
-      _provus_preprocess_media($vars, $block);
-    };
   }
 }
 
@@ -424,27 +421,6 @@ function _provus_preprocess_accordion(&$vars, $block) {
       }
     }
   }
-}
-
-
-/**
- * Preprocess function for media.
- */
-
- function _provus_preprocess_media(&$vars, $block) {
-  if (!$block->get('field_provus_media_style')->isEmpty()) {
-    $image_style_block = $block->get('field_provus_media_style')->value;
-    $media = $vars['content']['field_provus_media'][0]['#media'];
-    if ($media->hasField('field_media_image')) {
-      $fid = $media->field_media_image->target_id;
-      $field_media_image = \Drupal::entityTypeManager()
-        ->getStorage('file')->load($fid);
-      $image = ImageStyle::load($image_style_block)
-        ->buildUrl($field_media_image->getFileUri());
-      $vars['image_style_src'] = $image;
-    }
-  }
-
 }
 
 /**
