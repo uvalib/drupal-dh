@@ -58,14 +58,10 @@ RUN ls -l /opt/drupal/web/modules
 RUN mkdir /var/run/sqlite && chown www-data:www-data /var/run/sqlite && \
 	mkdir -p /var/cache/simplesamlphp && chown www-data:www-data /var/cache/simplesamlphp
 
-WORKDIR $APP_HOME
+WORKDIR /opt/drupal
 # Add the build tag
 ARG BUILD_TAG
 RUN test -n "$BUILD_TAG" && touch $APP_HOME/buildtag.build-$BUILD_TAG || touch $APP_HOME/buildtag.build-0
-
-RUN ls -l
-RUN cat /opt/drupal/composer.json
-
 #
 # end of file
 
