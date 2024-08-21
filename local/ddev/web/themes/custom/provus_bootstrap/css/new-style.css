@@ -29,3 +29,7 @@ color: #1a4c7e;
 .layout-builder-active #drupal-off-canvas .block-categories details .details-wrapper a {
     display: block;
 }
+
+#drupal-off-canvas-wrapper .ui-dialog-titlebar-close {
+    color: black;
+}
