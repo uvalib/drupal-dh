@@ -34,7 +34,9 @@ RUN 	mkdir /opt/drupal/util \
 	&& ln -sf util/drupal-dh/local/ddev/sites /opt/drupal/sites \
 	&& ln -sf util/drupal-dh/package/data/files/opt/drupal/simplesaml /opt/drupal/simplesaml \
 	&& ls -l /opt/drupal/web/modules /opt/drupal/web/themes \
+        && rm -rf /opt/drupal/util/drupal-dh/local/ddev/web/modules \
         && ln -sf /opt/drupal/util/drupal-dh/local/ddev/web/modules /opt/drupal/web \
+        && rm -rf /opt/drupal/util/drupal-dh/local/ddev/web/themes \
         && ln -sf /opt/drupal/util/drupal-dh/local/ddev/web/themes /opt/drupal/web \
 	&& ls -l /opt/drupal/web/modules /opt/drupal/web/themes
 
@@ -60,6 +62,8 @@ WORKDIR $APP_HOME
 # Add the build tag
 ARG BUILD_TAG
 RUN test -n "$BUILD_TAG" && touch $APP_HOME/buildtag.build-$BUILD_TAG || touch $APP_HOME/buildtag.build-0
+
+RUN composer install
 
 #
 # end of file
