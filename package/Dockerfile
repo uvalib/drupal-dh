@@ -63,7 +63,8 @@ WORKDIR $APP_HOME
 ARG BUILD_TAG
 RUN test -n "$BUILD_TAG" && touch $APP_HOME/buildtag.build-$BUILD_TAG || touch $APP_HOME/buildtag.build-0
 
-RUN composer install
+RUN ls -l
+RUN cat /opt/drupal/composer.json
 
 #
 # end of file
