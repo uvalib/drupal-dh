@@ -2,9 +2,9 @@ _core:
   default_config_hash: VDJxTZtQR21qB4lvOq8zszJZLvLKrSPQpdn2E3T71Ww
 langcode: en
 uuid: 0d866bb3-8cd2-44a9-83d1-23ceae4c0479
-name: 'Drush Site-Install'
+name: 'DH Portal'
 mail: ys2n@virginia.edu
-slogan: ''
+slogan: 'Your Portal to the Digital Humanities at the University of Virginia'
 page:
   403: ''
   404: ''
