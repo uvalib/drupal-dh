@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.course.field_dh_concentration
     - field.field.node.course.field_dh_research_data_type
     - field.field.node.course.field_dh_tool_implementation
+    - field.field.node.course.field_dhcert_course_requirements
     - field.field.node.course.field_instructor_name
     - field.field.node.course.field_link_to_more_information
     - field.field.node.course.field_link_to_online_meeting
@@ -44,6 +45,7 @@ hidden:
   field_dh_concentration: true
   field_dh_research_data_type: true
   field_dh_tool_implementation: true
+  field_dhcert_course_requirements: true
   field_instructor_name: true
   field_link_to_more_information: true
   field_link_to_online_meeting: true

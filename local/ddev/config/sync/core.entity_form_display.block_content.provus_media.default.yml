@@ -1,0 +1,42 @@
+uuid: faffb39c-6edb-4fd1-93bc-4a6333097fc5
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_media
+    - field.field.block_content.provus_media.field_provus_alt_text
+    - field.field.block_content.provus_media.field_provus_media
+  module:
+    - media_library
+id: block_content.provus_media.default
+targetEntityType: block_content
+bundle: provus_media
+mode: default
+content:
+  field_provus_alt_text:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_provus_media:
+    type: media_library_widget
+    weight: 0
+    region: content
+    settings:
+      media_types:
+        - document
+        - image
+        - remote_video
+    third_party_settings: {  }
+  info:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }
