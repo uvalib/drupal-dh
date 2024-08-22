@@ -877,4 +877,4 @@ $databases['default']['default'] = array(
   'driver' => 'mysql',
 ); 
 
-$settings['config_sync_directory'] = '/opt/drupal/util/drupal-dh/local/ddev/config';
+$settings['config_sync_directory'] = '/opt/drupal/local/config/sync';
