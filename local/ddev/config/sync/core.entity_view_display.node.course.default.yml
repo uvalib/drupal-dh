@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.course.field_dh_concentration
     - field.field.node.course.field_dh_research_data_type
     - field.field.node.course.field_dh_tool_implementation
+    - field.field.node.course.field_dhcert_course_requirements
     - field.field.node.course.field_instructor_name
     - field.field.node.course.field_link_to_more_information
     - field.field.node.course.field_link_to_online_meeting
@@ -470,6 +471,21 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 17
             additional: {  }
+          3d23a9d4-8d8f-4963-9093-446e9f2fca09:
+            uuid: 3d23a9d4-8d8f-4963-9093-446e9f2fca09
+            region: second
+            configuration:
+              id: 'field_block:node:course:field_dhcert_course_requirements'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
         third_party_settings: {  }
       -
         layout_id: layout_onecol
@@ -722,6 +738,13 @@ content:
     third_party_settings: {  }
     weight: 13
     region: content
+  field_dhcert_course_requirements:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 119
+    region: first
   field_instructor_name:
     type: entity_reference_label
     label: above

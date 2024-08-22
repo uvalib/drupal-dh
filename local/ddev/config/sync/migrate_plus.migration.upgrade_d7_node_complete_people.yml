@@ -42,25 +42,18 @@ process:
   changed:
     plugin: get
     source: changed
-  body/value:  
+  body/value:
     plugin: get
     source: body
   body/format:
     plugin: default_value
-    default_value: 'full_html'
-#  field_user_email:
-#    plugin: sub_process
-#    source: email
-#    process:
-#      0:
-#        plugin: get
-#        source: '@source'
+    default_value: full_html
   field_user_email:
     -
       plugin: sub_process
       source: email
       process:
-        0:
+        -
           plugin: get
           source: '@source'
 destination:
