@@ -70,6 +70,23 @@ process:
     -
       plugin: get
       source: timestamp
+  body/value:
+    plugin: extract
+    source: body
+    index:
+      - 0
+      - value
+    default: ''
+  body/summary:
+    plugin: extract
+    source: body
+    index:
+      - 0
+      - summary
+    default: ''
+  body/format:
+    plugin: default_value
+    default_value: full_html
   content_translation_source:
     -
       plugin: get
@@ -78,10 +95,6 @@ process:
     -
       plugin: get
       source: comment
-  body:
-    -
-      plugin: get
-      source: body
   field_content_type:
     -
       plugin: sub_process
