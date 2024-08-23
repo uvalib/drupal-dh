@@ -1,0 +1,30 @@
+uuid: 01b53cc4-ac69-48de-a673-daa5acf57e94
+langcode: en
+status: true
+dependencies: {  }
+id: upgrade_focal_point_settings
+class: Drupal\migrate\Plugin\Migration
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - 'Drupal 7'
+  - Configuration
+migration_group: migrate_drupal_7
+label: 'Focal Point Settings'
+source:
+  plugin: md_empty
+  source_module: focal_point
+  constants:
+    entity_type: file
+    crop_type: focal_point
+process:
+  crop_type:
+    -
+      plugin: get
+      source: constants/crop_type
+destination:
+  plugin: config
+  config_name: focal_point.settings
+migration_dependencies:
+  required: {  }
+  optional: {  }
