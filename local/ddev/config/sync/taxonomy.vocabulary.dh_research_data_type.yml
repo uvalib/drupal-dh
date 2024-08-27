@@ -6,3 +6,4 @@ name: 'DH Research Data Type'
 vid: dh_research_data_type
 description: 'What is the structure of your research data? '
 weight: -10
+new_revision: false

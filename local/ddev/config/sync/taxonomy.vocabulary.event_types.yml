@@ -6,3 +6,4 @@ name: 'Event types'
 vid: event_types
 description: 'Event types that also might be reusable for other content types?'
 weight: -8
+new_revision: false
