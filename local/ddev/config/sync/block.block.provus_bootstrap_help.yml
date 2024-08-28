@@ -10,8 +10,8 @@ _core:
   default_config_hash: VfPFqqxfkomud5CO8DUijw85QIl9GIxh_nIxLOYESxg
 id: provus_bootstrap_help
 theme: provus_bootstrap
-region: alert_banner
-weight: 0
+region: footer_fifth
+weight: -6
 provider: null
 plugin: help_block
 settings:

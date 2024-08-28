@@ -4,11 +4,11 @@ langcode: en
 uuid: 0d866bb3-8cd2-44a9-83d1-23ceae4c0479
 name: 'DH Portal'
 mail: ys2n@virginia.edu
-slogan: 'Your Portal to the Digital Humanities at the University of Virginia'
+slogan: 'at the University of Virginia'
 page:
   403: ''
   404: ''
-  front: /node
+  front: //DHP-homepage
 admin_compact_mode: false
 weight_select_max: 100
 default_langcode: en
