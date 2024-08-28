@@ -55,6 +55,7 @@
         "drupal/libraries": "^4.0",
         "drupal/mailsystem": "^4.4",
         "drupal/metatag_ai": "^1.0",
+        "drupal/migrate_devel": "^2.3",
         "drupal/migrate_plus": "^6.0",
         "drupal/migrate_tools": "^6.0",
         "drupal/migrate_upgrade": "^4.0",
