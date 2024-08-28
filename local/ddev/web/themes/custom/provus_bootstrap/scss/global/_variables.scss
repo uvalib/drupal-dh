@@ -3,11 +3,11 @@
 /* Colors Variables Export */
 $background-colors-background-grey: #d6d6d6;
 $background-colors-background-light: #fbfbfc;
-$background-colors-background-lightblue: #eff6ff;
+$background-colors-background-lightblue: #284374; // #eff6ff;
 $background-colors-background-lightteal: #e7f6f9;
 $background-colors-background-white: #ffffff;
 $primary-colors-primary: #2563eb;
-$primary-colors-primary-accent: #1c2b54;
+$primary-colors-primary-accent: #232d4b; // #1c2b54;
 $primary-colors-primary-contrast: #ffffff;
 $primary-colors-primary-hover: #114cae;
 $secondary-colors-secondary: #008299;
@@ -38,8 +38,10 @@ $text-colors-text-secondary: #646f79;
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');
-$font-body: 'Inter', sans-serif;
-$font-heading: 'Inter', sans-serif;
+$font-family-default: 'franklin-gothic-urw', sans-serif, arial;
+$font-body: 'franklin-gothic-urw', sans-serif, arial;
+$font-heading: 'franklin-gothic-urw', sans-serif, arial;
+$font-family-serif: 'adobe-caslon-pro', serif, Georgia;
 
 // Primary Color Mappings.
 $primary: $primary-colors-primary;
