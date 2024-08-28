@@ -8,7 +8,7 @@ slogan: 'Your Portal to the Digital Humanities at the University of Virginia'
 page:
   403: ''
   404: ''
-  front: /node
+  front: /node/8361
 admin_compact_mode: false
 weight_select_max: 100
 default_langcode: en
