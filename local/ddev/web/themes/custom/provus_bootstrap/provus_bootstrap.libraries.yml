@@ -9,6 +9,7 @@ global-styling:
     component:
       css/style.css: { weight: 100  }
       css/new-style.css: { weight: 100  }
+      //use.typekit.net/yur4oyr.css: {}
   dependencies:
     - core/jquery
     - core/drupal
