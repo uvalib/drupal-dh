@@ -1,5 +1,6 @@
 _core:
   default_config_hash: mTDsmPALEAuqHvb9yCBNY05ZfE8IuZ4PFri2vxCw9qM
+langcode: en
 google_translator_active_languages_display_mode: SIMPLE
 google_translator_active_languages:
   - pt

@@ -6,3 +6,4 @@ name: Semester
 vid: semester
 description: 'Fall, spring, or not applicable?'
 weight: 0
+new_revision: false

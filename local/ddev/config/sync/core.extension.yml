@@ -51,6 +51,7 @@ module:
   layout_builder: 0
   layout_builder_block_clone: 0
   layout_builder_browser: 0
+  layout_builder_expose_all_field_blocks: 0
   layout_builder_iframe_modal: 0
   layout_builder_reorder: 0
   layout_builder_restrictions: 0
@@ -69,6 +70,7 @@ module:
   metatag_ai: 0
   migrate: 0
   migrate_d7_content: 0
+  migrate_devel: 0
   migrate_drupal: 0
   migrate_plus: 0
   migrate_tools: 0

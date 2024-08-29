@@ -1,5 +1,6 @@
 _core:
   default_config_hash: fMTQlRT4MXb9WtflmxsvPI0VnKTQNjOnlx9oCWO3vYo
+langcode: en
 buttons_size: 32
 additional_html: |
   <a class="a2a_button_facebook"></a>
