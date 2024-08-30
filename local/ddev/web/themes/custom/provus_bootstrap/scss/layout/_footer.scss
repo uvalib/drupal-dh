@@ -1,6 +1,6 @@
 footer.site-footer {
   background: $primary-accent;
-  padding: rem-calc(60 0);
+  padding: rem-calc(30 0 0 0);
   color: $text-primary;
   font-size: rem-calc(14);
   .container {
@@ -8,18 +8,26 @@ footer.site-footer {
       max-width: rem-calc(1510);
     }
   }
+  .menu--footer-links {
+    columns: auto 2;
+  }
   h2 {
     @include heading-small;
   }
-  .region-footer-fifth p {
-    color: $white;
-    font-size: .9em;
-    text-transform:uppercase;
-  }
   .nav-link, .navlink:focus, .nav-link:hover {
     color: $white;
+    padding: 0;
+  }
+  .region-footer-fifth p {
+    color: $white;
+    font-family: 'franklin-gothic-urw', sans-serif, arial;
     font-size: .9em;
-    text-transform:uppercase;
+    text-transform: uppercase;
+  }
+  .region-footer-fifth .nav-link, .region-footer-fifth .navlink:focus, .region-footer-fifth .nav-link:hover {
+    color: $white;
+    font-size: .9em;
+    text-transform: uppercase;
     padding: 0;
   }
   a.navbar-brand {
@@ -40,16 +48,10 @@ footer.site-footer {
     }
   }
   
-  .container.site-footer__bottom{
-    margin: 0 4%;
-    padding: 0;
-    width: 100%;
-  }
   .site-footer__bottom {
     background-color: $background-lightblue;
-    //border-top: 1px solid $hr-color;
-    padding-top: 1rem;
-    margin: 0 4%;
+    padding: 1em 2em 0 2em;
+    margin-top: 1rem;
     section {
       justify-content: space-between;
       > * {
