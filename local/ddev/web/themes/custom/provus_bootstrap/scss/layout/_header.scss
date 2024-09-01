@@ -89,6 +89,9 @@
   background: $white;
   box-shadow: inset 0px -1.0369px 0px #E5E7EB;
   padding: 0;
+  .region-header span{
+    font-family: 'bodoni-urw';
+  }
   .navbar-nav {
     @include media-breakpoint-down(lg) {
       display: block;
