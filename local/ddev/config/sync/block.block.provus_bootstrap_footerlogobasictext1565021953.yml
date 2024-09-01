@@ -1,0 +1,25 @@
+uuid: 92951304-aec4-4f34-89ab-d900f12eaf99
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:provus_basic_text:0ff37322-0acb-4cf2-9483-1aa7d4fc6f5b'
+  module:
+    - block_content
+  theme:
+    - provus_bootstrap
+id: provus_bootstrap_footerlogobasictext1565021953
+theme: provus_bootstrap
+region: footer_first
+weight: 0
+provider: null
+plugin: 'block_content:0ff37322-0acb-4cf2-9483-1aa7d4fc6f5b'
+settings:
+  id: 'block_content:0ff37322-0acb-4cf2-9483-1aa7d4fc6f5b'
+  label: 'footer logo'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

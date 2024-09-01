@@ -16,6 +16,7 @@
     ],
     "require": {
         "composer/installers": "^2.0",
+        "cweagans/composer-patches": "^1.7",
         "drupal/add_content_by_bundle": "^1.2",
         "drupal/addtoany": "^2.0",
         "drupal/admin_toolbar": "^3.4",
@@ -30,6 +31,7 @@
         "drupal/core-composer-scaffold": "^10.2",
         "drupal/core-project-message": "^10.2",
         "drupal/core-recommended": "^10.2",
+        "drupal/default_content": "^2.0@alpha",
         "drupal/entity_browser": "^2.10",
         "drupal/externalauth": "^2.0",
         "drupal/field_image_style": "^2.0",
@@ -90,11 +92,17 @@
             "phpstan/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "php-http/discovery": true,
-            "simplesamlphp/composer-module-installer": true
+            "simplesamlphp/composer-module-installer": true,
+            "cweagans/composer-patches": true
         },
         "sort-packages": true
     },
     "extra": {
+	"patches": {
+          "drupal/default_content": {
+            "Patch to support layout_builder": "https://www.drupal.org/files/issues/2022-12-06/default_content-3160146-53.patch"
+          }
+        },
         "drupal-scaffold": {
             "locations": {
                 "web-root": "web/"

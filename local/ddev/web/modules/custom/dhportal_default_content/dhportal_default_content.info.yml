@@ -1,0 +1,7 @@
+name: 'DH Portal Default Content'
+type: module
+description: 'Provides default content for DH Portal.'
+package: Custom
+core_version_requirement: ^10
+dependencies:
+  - drupal:default_content

@@ -1,6 +1,6 @@
 footer.site-footer {
-  background-color: $background-lightblue;
-  padding: rem-calc(60 0);
+  background: $primary-accent;
+  padding: rem-calc(30 0 0 0);
   color: $text-primary;
   font-size: rem-calc(14);
   .container {
@@ -8,11 +8,26 @@ footer.site-footer {
       max-width: rem-calc(1510);
     }
   }
+  .menu--footer-links {
+    columns: auto 2;
+  }
   h2 {
     @include heading-small;
   }
-  a.nav-link {
-    color: $text-primary;
+  .nav-link, .navlink:focus, .nav-link:hover {
+    color: $white;
+    padding: 0;
+  }
+  .region-footer-fifth p {
+    color: $white;
+    font-family: 'franklin-gothic-urw', sans-serif, arial;
+    font-size: .9em;
+    text-transform: uppercase;
+  }
+  .region-footer-fifth .nav-link, .region-footer-fifth .navlink:focus, .region-footer-fifth .nav-link:hover {
+    color: $white;
+    font-size: .9em;
+    text-transform: uppercase;
     padding: 0;
   }
   a.navbar-brand {
@@ -32,10 +47,11 @@ footer.site-footer {
       }
     }
   }
+  
   .site-footer__bottom {
-    border-top: 1px solid $hr-color;
-    padding-top: rem-calc(32);
-    margin-top: rem-calc(64);
+    background-color: $background-lightblue;
+    padding: 1em 2em 0 2em;
+    margin-top: 1rem;
     section {
       justify-content: space-between;
       > * {
