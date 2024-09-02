@@ -28,7 +28,7 @@ a.list-group-item {
 }
 
 /* Apply to the Program link that needs to look like a button */
-.page-node-8363 .inline-blockprovus-button.block-provus-button.block.block-layout-builder.block-inline-blockprovus-button.button-align-inline a {
+a[title="Application portal"] {
   border-radius: rem-calc(8);
   padding: rem-calc(12);
   font-size: 1.2rem;
@@ -40,8 +40,8 @@ a.list-group-item {
   background-color: $primary-colors-primary;
   border: 1px solid $primary-colors-primary;
 }
-.page-node-8363 .inline-blockprovus-button.block-provus-button.block.block-layout-builder.block-inline-blockprovus-button.button-align-inline a:focus,
-.page-node-8363 .inline-blockprovus-button.block-provus-button.block.block-layout-builder.block-inline-blockprovus-button.button-align-inline a:hover {
+a[title="Application portal"]:focus,
+a[title="Application portal"]:hover {
   text-decoration: underline;
   border: 1px solid $primary-colors-primary-accent;
 }
