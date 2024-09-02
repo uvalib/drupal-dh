@@ -26,3 +26,22 @@ a.list-group-item {
     color: $primary-shade;
   }
 }
+
+/* Apply to the Program link that needs to look like a button */
+.page-node-8363 .inline-blockprovus-button.block-provus-button.block.block-layout-builder.block-inline-blockprovus-button.button-align-inline a {
+  border-radius: rem-calc(8);
+  padding: rem-calc(12);
+  font-size: 1.2rem;
+  line-height: 1.2rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0px 5px 4px -4px rgba(0, 0, 0, 0.02), 0px 1px 2px 0px rgba(0, 0, 0, 0.06);
+  color: $white;
+  background-color: $primary-colors-primary;
+  border: 1px solid $primary-colors-primary;
+}
+.page-node-8363 .inline-blockprovus-button.block-provus-button.block.block-layout-builder.block-inline-blockprovus-button.button-align-inline a:focus,
+.page-node-8363 .inline-blockprovus-button.block-provus-button.block.block-layout-builder.block-inline-blockprovus-button.button-align-inline a:hover {
+  text-decoration: underline;
+  border: 1px solid $primary-colors-primary-accent;
+}
