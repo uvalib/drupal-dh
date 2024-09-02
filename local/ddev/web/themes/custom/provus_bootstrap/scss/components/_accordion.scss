@@ -73,3 +73,15 @@
     }
   }
 }
+
+/* custom styling for accordion button text */
+.accordion .accordion-item .accordion-header .accordion-button {
+  font-size: 1.5rem;
+  font-family: "bodoni-urw";
+  font-weight: 700;
+  font-style: normal;
+  line-height: 2rem;
+  letter-spacing: 0.02875rem;
+  text-decoration: none;
+  text-transform: none;
+}
