@@ -3,8 +3,8 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
-	    ],
-    "content-hash": "d3748ca86f39cfc08cf9b3af13ed95fc",
+    ],
+    "content-hash": "4ccfa50ac27020c7c8b4280b343bfc55",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -12327,7 +12327,6 @@
         "drupal/calendar_datetime": 10,
         "drupal/conditional_fields": 15,
         "drupal/default_content": 15,
-        "drupal/fontawesome_iconpicker": 5,
         "drupal/inline_entity_form": 5
     },
     "prefer-stable": true,
