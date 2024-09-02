@@ -1,7 +1,7 @@
 // Main Navigation
 #navbar-main .navbar-nav {
   margin-top: rem-calc(20);
-  gap: rem-calc(20);
+  gap: rem-calc(10); // rem-calc(20);
   .nav-item {
     .nav-link {
       color: $primary-accent;
@@ -22,7 +22,7 @@
   }
   @include media-breakpoint-up(lg) {
     margin-top: 0;
-    gap: rem-calc(40);
+    gap: rem-calc(20);// rem-calc(40);
   }
 }
 
