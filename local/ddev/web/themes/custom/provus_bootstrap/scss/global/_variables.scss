@@ -163,3 +163,8 @@ $grid-breakpoints: (
   xxl: 1400px,
   xxxl: 1680px
 );
+
+/* Add a border below a view filter to distinguish it from the results below it. */
+div.view-filters {
+  border-bottom: 2px solid $primary-colors-primary-accent;
+}
