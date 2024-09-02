@@ -17598,7 +17598,7 @@ html {
 
 body {
   overflow-x: hidden;
-  font-family: "franklin-gothic-urw", sans-serif, arial;
+  font-family: "franklin-gothic-urw", "bodoni-urw", sans-serif, arial;
 }
 
 .main {
@@ -20351,7 +20351,7 @@ body.js-off-canvas-dialog-open::after {
   border: solid 1px #2c2e30;
   border-radius: 0.25rem;
   text-align: center;
-  font-family: "franklin-gothic-urw", sans-serif, arial;
+  font-family: "franklin-gothic-urw", "bodoni-urw", sans-serif, arial;
   font-weight: 500;
   font-size: 1rem;
   line-height: 1.4375rem;
@@ -20739,7 +20739,7 @@ h1,
 h1 .title,
 .h1 .title {
   color: #2c2e30;
-  font-family: "franklin-gothic-urw", sans-serif, arial;
+  font-family: "franklin-gothic-urw", "bodoni-urw", sans-serif, arial;
   font-weight: 600;
   font-style: normal;
   font-size: 5rem;
@@ -20766,7 +20766,7 @@ h2,
 .text-long h2,
 .text-long .h2 {
   color: #2c2e30;
-  font-family: "franklin-gothic-urw", sans-serif, arial;
+  font-family: "franklin-gothic-urw", "bodoni-urw", sans-serif, arial;
   font-weight: 500;
   font-style: normal;
   font-size: 2.25rem;
@@ -20788,7 +20788,7 @@ h3,
 .text-long h3,
 .text-long .h3 {
   color: #2c2e30;
-  font-family: "franklin-gothic-urw", sans-serif, arial;
+  font-family: "franklin-gothic-urw", "bodoni-urw", sans-serif, arial;
   font-weight: 600;
   font-style: normal;
   font-size: 1.5rem;
@@ -20810,7 +20810,7 @@ h4,
 .text-long h4,
 .text-long .h4 {
   color: #2c2e30;
-  font-family: "franklin-gothic-urw", sans-serif, arial;
+  font-family: "franklin-gothic-urw", "bodoni-urw", sans-serif, arial;
   font-weight: 500;
   font-style: normal;
   font-size: 1.125rem;
@@ -20836,7 +20836,7 @@ h6,
 .text-long h6,
 .text-long .h6 {
   color: #2c2e30;
-  font-family: "franklin-gothic-urw", sans-serif, arial;
+  font-family: "franklin-gothic-urw", "bodoni-urw", sans-serif, arial;
   font-weight: 600;
   font-style: normal;
   font-size: 1rem;
@@ -21637,7 +21637,7 @@ body.lg-on #page-wrapper {
   position: absolute;
   width: 100%;
   bottom: 0;
-  font-family: "franklin-gothic-urw", sans-serif, arial;
+  font-family: "franklin-gothic-urw", "bodoni-urw", sans-serif, arial;
   font-weight: 400;
   font-size: 1.375rem;
   line-height: 2.4375rem;
@@ -22078,7 +22078,7 @@ footer.site-footer .menu--footer-links {
 }
 footer.site-footer h2, footer.site-footer .h2 {
   color: #2c2e30;
-  font-family: "franklin-gothic-urw", sans-serif, arial;
+  font-family: "franklin-gothic-urw", "bodoni-urw", sans-serif, arial;
   font-weight: 500;
   font-style: normal;
   font-size: 1.125rem;

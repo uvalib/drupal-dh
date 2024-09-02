@@ -38,9 +38,9 @@ $text-colors-text-secondary: #646f79;
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Inter:100,200,300,400,500,600,700,800,900&display=swap');
-$font-family-default: 'franklin-gothic-urw', sans-serif, arial;
-$font-body: 'franklin-gothic-urw', sans-serif, arial;
-$font-heading: 'franklin-gothic-urw', sans-serif, arial;
+$font-family-default: 'franklin-gothic-urw', 'bodoni-urw', sans-serif, arial;
+$font-body: 'franklin-gothic-urw', 'bodoni-urw', sans-serif, arial;
+$font-heading: 'franklin-gothic-urw', 'bodoni-urw', sans-serif, arial;
 $font-family-serif: 'adobe-caslon-pro', serif, Georgia;
 
 // Primary Color Mappings.

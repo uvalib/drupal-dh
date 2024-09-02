@@ -1,0 +1,8 @@
+uuid: 617eddc9-642c-49d3-b5f2-3f7bb807c016
+langcode: en
+status: true
+dependencies: {  }
+id: footer-links
+label: 'Footer links'
+description: ''
+locked: false
