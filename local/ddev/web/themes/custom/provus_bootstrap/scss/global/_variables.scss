@@ -195,3 +195,17 @@ div.view-filters {
 .field-blocknodecoursefield-course-description .field--name-field-course-description .field__item {
   font-size: 1.2rem;
 }
+
+/* Landing page headings should have Bodoni font family used. */
+.node--type-landing-page {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'bodoni-urw', sans-serif, arial;
+  }
+}
+/* Landing pages should have a larger default text size for blocks of text and strings of text which are used as subheadings */
+.node--type-landing-page .field--type-text-with-summary.field__item {
+  font-size: 1.25rem;
+}
+.node--type-landing-page .field--type-string.field__item {
+  font-size: 1.375rem;
+}
