@@ -1,0 +1,20 @@
+uuid: 6fe48e85-c8f8-4624-b647-df117b4ec068
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_full_course_title
+field_name: field_full_course_title
+entity_type: node
+type: text
+settings:
+  max_length: 300
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

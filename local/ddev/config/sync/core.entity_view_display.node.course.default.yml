@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.course.field_dh_research_data_type
     - field.field.node.course.field_dh_tool_implementation
     - field.field.node.course.field_dhcert_course_requirements
+    - field.field.node.course.field_full_course_title
     - field.field.node.course.field_instructor_name
     - field.field.node.course.field_link_to_more_information
     - field.field.node.course.field_link_to_online_meeting
@@ -25,6 +26,7 @@ dependencies:
   module:
     - file
     - layout_builder
+    - layout_builder_restrictions
     - layout_discovery
     - link
     - text
@@ -35,15 +37,33 @@ third_party_settings:
     allow_custom: false
     sections:
       -
-        layout_id: layout_twocol_section
+        layout_id: layout_onecol
         layout_settings:
-          label: 'Mnemonic and Course Title'
+          label: ''
           context_mapping: {  }
-          column_widths: 33-67
         components:
-          72d8f236-8e43-4959-a047-08606085b091:
-            uuid: 72d8f236-8e43-4959-a047-08606085b091
-            region: first
+          3ef8744e-7dc1-44e5-8a25-97ccb244b347:
+            uuid: 3ef8744e-7dc1-44e5-8a25-97ccb244b347
+            region: content
+            configuration:
+              id: 'field_block:node:course:title'
+              label: Title
+              label_display: visible
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: above
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          1d8c9d14-10f3-4686-a7c3-a0078c3a9da4:
+            uuid: 1d8c9d14-10f3-4686-a7c3-a0078c3a9da4
+            region: content
             configuration:
               id: 'field_block:node:course:field_course_mnemonic'
               label: 'Course Mnemonic'
@@ -54,15 +74,34 @@ third_party_settings:
                 view_mode: view_mode
               formatter:
                 type: string
-                label: hidden
+                label: above
                 settings:
                   link_to_entity: false
                 third_party_settings: {  }
-            weight: 0
+            weight: 2
             additional: {  }
-          cd4a268e-35c7-4b7f-bc74-f9bb46405ab7:
-            uuid: cd4a268e-35c7-4b7f-bc74-f9bb46405ab7
-            region: first
+          70811e73-2b3d-4afe-990f-9959083ec9ba:
+            uuid: 70811e73-2b3d-4afe-990f-9959083ec9ba
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_instructor_name'
+              label: Instructor
+              label_display: visible
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          8a934283-6b5c-4fd1-aa31-d101d00b2068:
+            uuid: 8a934283-6b5c-4fd1-aa31-d101d00b2068
+            region: content
             configuration:
               id: 'field_block:node:course:field_semester'
               label: Semester
@@ -73,53 +112,15 @@ third_party_settings:
                 view_mode: view_mode
               formatter:
                 type: entity_reference_label
-                label: hidden
-                settings:
-                  link: false
-                third_party_settings: {  }
-            weight: 1
-            additional: {  }
-          aac2119c-d28a-4221-a98a-decdbbe690ac:
-            uuid: aac2119c-d28a-4221-a98a-decdbbe690ac
-            region: second
-            configuration:
-              id: 'field_block:node:course:field_instructor_name'
-              label: 'Instructor name'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: entity_reference_label
-                label: hidden
+                label: above
                 settings:
                   link: true
                 third_party_settings: {  }
-            weight: 0
+            weight: 4
             additional: {  }
-          fd7f461a-6e29-4d39-a0f9-73976c4ec306:
-            uuid: fd7f461a-6e29-4d39-a0f9-73976c4ec306
-            region: second
-            configuration:
-              id: 'field_block:node:course:field_department_or_school'
-              label: 'Department or School'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: entity_reference_label
-                label: hidden
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 1
-            additional: {  }
-          1824cb4f-9b81-4888-aa51-2b8c8cd17c2f:
-            uuid: 1824cb4f-9b81-4888-aa51-2b8c8cd17c2f
-            region: first
+          e16b59e9-193e-44ef-8c60-6467b4af9a54:
+            uuid: e16b59e9-193e-44ef-8c60-6467b4af9a54
+            region: content
             configuration:
               id: 'field_block:node:course:field_year'
               label: Year
@@ -130,15 +131,34 @@ third_party_settings:
                 view_mode: view_mode
               formatter:
                 type: entity_reference_label
-                label: hidden
+                label: above
                 settings:
-                  link: false
+                  link: true
                 third_party_settings: {  }
-            weight: 2
+            weight: 5
             additional: {  }
-          69ffcee5-b7b4-4eb7-a7dd-6619d9ed72f0:
-            uuid: 69ffcee5-b7b4-4eb7-a7dd-6619d9ed72f0
-            region: second
+          40e5526d-6956-4906-9477-72f8526a81a9:
+            uuid: 40e5526d-6956-4906-9477-72f8526a81a9
+            region: content
+            configuration:
+              id: 'field_block:node:course:field_department_or_school'
+              label: 'Department or School'
+              label_display: visible
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
+          f74afd75-e75a-4fca-893d-94bcaa42415e:
+            uuid: f74afd75-e75a-4fca-893d-94bcaa42415e
+            region: content
             configuration:
               id: 'field_block:node:course:field_dh_certificate_requirement'
               label: 'DH Certificate Requirement'
@@ -149,186 +169,41 @@ third_party_settings:
                 view_mode: view_mode
               formatter:
                 type: entity_reference_label
-                label: hidden
+                label: above
                 settings:
-                  link: false
+                  link: true
                 third_party_settings: {  }
-            weight: 2
+            weight: 7
             additional: {  }
-          12074b15-1d48-4210-9b93-acaff78219f2:
-            uuid: 12074b15-1d48-4210-9b93-acaff78219f2
-            region: first
+          ebf6fe8c-25ae-4d56-b5a9-9d92b0ceaab0:
+            uuid: ebf6fe8c-25ae-4d56-b5a9-9d92b0ceaab0
+            region: content
             configuration:
-              id: 'field_block:node:course:field_link_to_uva_sis_listing'
-              label: 'link to UVA SIS listing'
+              id: 'field_block:node:course:field_course_description'
+              label: 'Course Description'
               label_display: visible
               provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
                 view_mode: view_mode
               formatter:
-                type: link
-                label: hidden
-                settings:
-                  trim_length: 100
-                  url_only: false
-                  url_plain: false
-                  rel: '0'
-                  target: _blank
-                third_party_settings: {  }
-            weight: 3
-            additional: {  }
-          b2649813-b318-41e8-af62-9716d365b6d5:
-            uuid: b2649813-b318-41e8-af62-9716d365b6d5
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_course_mnemonic'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: string
-                label: above
-                settings:
-                  link_to_entity: false
-                third_party_settings: {  }
-            weight: 0
-            additional: {  }
-          b18a1ed0-b37a-4d4c-be7b-f412659ed11b:
-            uuid: b18a1ed0-b37a-4d4c-be7b-f412659ed11b
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_department_or_school'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 1
-            additional: {  }
-          fe66a5c8-add2-48fc-b765-29c7328cf01d:
-            uuid: fe66a5c8-add2-48fc-b765-29c7328cf01d
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_university_affiliation'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 2
-            additional: {  }
-          7302259e-70c3-44ea-a6cc-08903b36efa7:
-            uuid: 7302259e-70c3-44ea-a6cc-08903b36efa7
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_semester'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 3
-            additional: {  }
-          6a533801-22bf-48e0-ac5b-c55707b39f0e:
-            uuid: 6a533801-22bf-48e0-ac5b-c55707b39f0e
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_year'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 4
-            additional: {  }
-          3dddab25-662d-4e27-bf45-0ce97d75ce6e:
-            uuid: 3dddab25-662d-4e27-bf45-0ce97d75ce6e
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_instructor_name'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 5
-            additional: {  }
-          f91d4c7f-f940-46f8-bec2-f8a6ab3dc354:
-            uuid: f91d4c7f-f940-46f8-bec2-f8a6ab3dc354
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_dh_certificate_requirement'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 6
-            additional: {  }
-          2dd6ff6d-d38b-4f12-893b-741b2ac6cfe1:
-            uuid: 2dd6ff6d-d38b-4f12-893b-741b2ac6cfe1
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_course_description'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
                 type: text_default
                 label: above
                 settings: {  }
                 third_party_settings: {  }
-            weight: 7
-            additional: {  }
-          3b4cd284-316d-4603-9863-3d7981301c42:
-            uuid: 3b4cd284-316d-4603-9863-3d7981301c42
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_dh_research_data_type'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
             weight: 8
             additional: {  }
-          7ec97646-674f-4c5e-a8d4-3c3d5cb563cd:
-            uuid: 7ec97646-674f-4c5e-a8d4-3c3d5cb563cd
+          7cc08e18-2a99-442d-bd75-4f2eb370b4e4:
+            uuid: 7cc08e18-2a99-442d-bd75-4f2eb370b4e4
             region: content
             configuration:
-              id: 'field_block:node:course:field_dh_concentration'
-              label_display: '0'
+              id: 'field_block:node:course:field_affiliated_dh_projects'
+              label: 'Affiliated DH Projects'
+              label_display: visible
+              provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
+                view_mode: view_mode
               formatter:
                 type: entity_reference_label
                 label: above
@@ -337,339 +212,14 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 9
             additional: {  }
-          2e66018a-b026-45a4-a444-fcf03cd70ceb:
-            uuid: 2e66018a-b026-45a4-a444-fcf03cd70ceb
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_link_to_more_information'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: link
-                label: above
-                settings:
-                  trim_length: 80
-                  url_only: false
-                  url_plain: false
-                  rel: ''
-                  target: ''
-                third_party_settings: {  }
-            weight: 10
-            additional: {  }
-          029b29cf-b1f7-4b16-80c4-644f7a2105b2:
-            uuid: 029b29cf-b1f7-4b16-80c4-644f7a2105b2
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_link_to_online_meeting'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: link
-                label: above
-                settings:
-                  trim_length: 80
-                  url_only: false
-                  url_plain: false
-                  rel: ''
-                  target: ''
-                third_party_settings: {  }
-            weight: 11
-            additional: {  }
-          7cd50ee1-b11b-4d07-b277-2f8a1d0a76ea:
-            uuid: 7cd50ee1-b11b-4d07-b277-2f8a1d0a76ea
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_affiliated_dh_projects'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 12
-            additional: {  }
-          1a5c47a6-1471-4fa6-9923-4907334504a8:
-            uuid: 1a5c47a6-1471-4fa6-9923-4907334504a8
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_dh_tool_implementation'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 13
-            additional: {  }
-          661768ba-48b5-44b5-b4d2-762b55308e43:
-            uuid: 661768ba-48b5-44b5-b4d2-762b55308e43
-            region: content
-            configuration:
-              id: 'extra_field_block:node:course:links'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-            weight: 14
-            additional: {  }
-          535d758e-d270-46a6-8a27-b26a020383e3:
-            uuid: 535d758e-d270-46a6-8a27-b26a020383e3
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_upload_a_syllabus_file'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: file_default
-                label: above
-                settings:
-                  use_description_as_link_text: true
-                third_party_settings: {  }
-            weight: 15
-            additional: {  }
-          794f01f4-e595-46b3-8b35-1874bc744885:
-            uuid: 794f01f4-e595-46b3-8b35-1874bc744885
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_link_to_uva_sis_listing'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: link
-                label: above
-                settings:
-                  trim_length: 80
-                  url_only: false
-                  url_plain: false
-                  rel: ''
-                  target: ''
-                third_party_settings: {  }
-            weight: 16
-            additional: {  }
-          f74e5648-0fb3-426a-9a2d-a2d44209caa4:
-            uuid: f74e5648-0fb3-426a-9a2d-a2d44209caa4
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_test_reference_to_departme'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 17
-            additional: {  }
-          3d23a9d4-8d8f-4963-9093-446e9f2fca09:
-            uuid: 3d23a9d4-8d8f-4963-9093-446e9f2fca09
-            region: second
-            configuration:
-              id: 'field_block:node:course:field_dhcert_course_requirements'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: text_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 3
-            additional: {  }
         third_party_settings: {  }
-      -
-        layout_id: layout_onecol
-        layout_settings:
-          label: ''
-        components:
-          9b418e62-aa83-4db1-af0a-d59b847103e2:
-            uuid: 9b418e62-aa83-4db1-af0a-d59b847103e2
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_course_description'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: text_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 8
-            additional: {  }
-          77e92966-9e60-4586-901d-3bd65f0147e1:
-            uuid: 77e92966-9e60-4586-901d-3bd65f0147e1
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_dh_research_data_type'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 12
-            additional: {  }
-          6c833cd8-cc2a-4051-b171-681825cdd704:
-            uuid: 6c833cd8-cc2a-4051-b171-681825cdd704
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_dh_concentration'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 13
-            additional: {  }
-          05c784f6-2112-4d44-8bb4-2a9565cdce7b:
-            uuid: 05c784f6-2112-4d44-8bb4-2a9565cdce7b
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_link_to_online_meeting'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: link
-                label: above
-                settings:
-                  trim_length: 80
-                  url_only: false
-                  url_plain: false
-                  rel: ''
-                  target: ''
-                third_party_settings: {  }
-            weight: 15
-            additional: {  }
-          f46599d6-ec85-438f-bcde-5f00cf53a2ff:
-            uuid: f46599d6-ec85-438f-bcde-5f00cf53a2ff
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_affiliated_dh_projects'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 16
-            additional: {  }
-          8c805b16-0146-4f4e-8314-ce010a925737:
-            uuid: 8c805b16-0146-4f4e-8314-ce010a925737
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_dh_tool_implementation'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 17
-            additional: {  }
-          1080322b-d872-4b90-be4f-485f40595c6f:
-            uuid: 1080322b-d872-4b90-be4f-485f40595c6f
-            region: content
-            configuration:
-              id: 'extra_field_block:node:course:links'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-            weight: 18
-            additional: {  }
-          65b2e055-a271-4ba8-a3d2-7ed8e3872e2f:
-            uuid: 65b2e055-a271-4ba8-a3d2-7ed8e3872e2f
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_university_affiliation'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 14
-            additional: {  }
-          bb186f3b-afd3-4d38-8a8c-868679863d00:
-            uuid: bb186f3b-afd3-4d38-8a8c-868679863d00
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_link_to_more_information'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: link
-                label: above
-                settings:
-                  trim_length: 80
-                  url_only: false
-                  url_plain: false
-                  rel: ''
-                  target: ''
-                third_party_settings: {  }
-            weight: 10
-            additional: {  }
-          3e8dac89-8d61-405d-b3a0-363ede541e08:
-            uuid: 3e8dac89-8d61-405d-b3a0-363ede541e08
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_upload_a_syllabus_file'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: file_default
-                label: above
-                settings:
-                  use_description_as_link_text: true
-                third_party_settings: {  }
-            weight: 11
-            additional: {  }
-          4d690f7d-9413-461e-bc2d-344955157669:
-            uuid: 4d690f7d-9413-461e-bc2d-344955157669
-            region: content
-            configuration:
-              id: 'field_block:node:course:field_test_reference_to_departme'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 7
-            additional: {  }
-        third_party_settings: {  }
+  layout_builder_restrictions:
+    allowed_block_categories: {  }
+    entity_view_mode_restriction:
+      allowed_layouts: {  }
+      denylisted_blocks: {  }
+      allowlisted_blocks: {  }
+      restricted_categories: {  }
 id: node.course.default
 targetEntityType: node
 bundle: course
@@ -844,3 +394,4 @@ content:
     region: content
 hidden:
   addtoany: true
+  field_full_course_title: true

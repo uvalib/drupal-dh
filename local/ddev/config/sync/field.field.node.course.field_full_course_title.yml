@@ -1,0 +1,29 @@
+uuid: 5e0b7ac2-da35-4bdb-8f58-4cfcc3c28b11
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_full_course_title
+    - filter.format.basic_html
+    - filter.format.full_html
+    - node.type.course
+  module:
+    - text
+id: node.course.field_full_course_title
+field_name: field_full_course_title
+entity_type: node
+bundle: course
+label: 'full course title'
+description: ''
+required: true
+translatable: false
+default_value:
+  -
+    value: 'Full Course Title: Subtitle'
+    format: full_html
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+    - full_html
+field_type: text
