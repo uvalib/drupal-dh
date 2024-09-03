@@ -168,3 +168,30 @@ $grid-breakpoints: (
 div.view-filters {
   border-bottom: 2px solid $primary-colors-primary-accent;
 }
+
+/* Add styling for the course page detail content; similar to the event page detail. */
+.field-blocknodecoursetitle .field--name-title {
+  font-family: 'bodoni-urw', sans-serif, arial;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 48px;
+  line-height: 5.5rem;
+  margin: 1rem 0;
+}
+.field-blocknodecoursefield-course-mnemonic .field--name-field-course-mnemonic .field__label,
+.field-blocknodecoursefield-semester .field--name-field-semester .field__label,
+.field-blocknodecoursefield-year .field--name-field-year .field__label,
+.field-blocknodecoursefield-link-to-uva-sis-listing .field--name-link-to-uva-sis-listing .field__label,
+.field-blocknodecoursefield-course-description .field--name-field-course-description .field__label {
+  font-family: 'franklin-gothic-urw', sans-serif, arial;
+  font-weight: 600;
+  padding-top: rem-calc(10);
+  padding-bottom: rem-calc(10);
+}
+.field-blocknodecoursefield-course-mnemonic .field--name-field-course-mnemonic .field__item,
+.field-blocknodecoursefield-semester .field--name-field-semester .field__item,
+.field-blocknodecoursefield-year .field--name-field-year .field__item,
+.field-blocknodecoursefield-link-to-uva-sis-listing .field--name-link-to-uva-sis-listing .field__item,
+.field-blocknodecoursefield-course-description .field--name-field-course-description .field__item {
+  font-size: 1.2rem;
+}
