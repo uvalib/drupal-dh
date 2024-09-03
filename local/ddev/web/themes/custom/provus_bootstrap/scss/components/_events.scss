@@ -177,3 +177,10 @@
   padding-top: rem-calc(10);
   padding-bottom: rem-calc(10);
 }
+.field-blocknodeeventfield-date-range1 .field--name-field-date-range1 .field__item,
+.field-blocknodeeventfield-event-location .field--name-field-event-location .field__item,
+.field-blocknodeeventfield-event-type .field--name-field-event-type .field__item,
+.field-blocknodeeventbody .field--name-body .field__item,
+.field-blocknodeeventfield-uva-or-non-uva .field--name-field-uva-or-non-uva .field__item {
+  font-size: 1.2rem;
+}
