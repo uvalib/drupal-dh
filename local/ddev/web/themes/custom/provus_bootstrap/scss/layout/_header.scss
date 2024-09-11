@@ -259,3 +259,18 @@
     }
   }
 }
+
+.navbar .container { 
+  position: relative; 
+}
+.region-top-header { 
+  position: absolute; 
+  left: 0; 
+}
+
+/* Media query for xs (smart phone) */
+@media only all and (max-width: 576px) {
+  .region-top-header {
+    margin-bottom: 100px;
+  }
+}
