@@ -68,3 +68,24 @@
 .system-menu-blockaccount {
   width: auto;
 }
+
+/* Media query for xs (smart phone) */
+@media only all and (max-width: 576px) {
+  .region-secondary-menu {
+    flex-direction: column;
+  }
+  .region-secondary-menu .region-top-header {
+    order: 1;
+  }
+  .region-secondary-menu .region-top-header .content img {
+    max-width: 175px;
+    height: auto;
+  }
+  .region-secondary-menu #block-provus-bootstrap-search-form-narrow {
+    order: 2;
+    margin-top: 75px;
+  }
+  .region-secondary-menu #block-provus-bootstrap-account-menu {
+    order: 3;
+  }
+}
