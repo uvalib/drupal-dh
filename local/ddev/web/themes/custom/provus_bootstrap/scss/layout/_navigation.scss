@@ -70,7 +70,7 @@
 }
 
 /* Media query for xs (smart phone) */
-@media only all and (max-width: 576px) {
+@include media-breakpoint-down(sm) {
   .region-secondary-menu {
     flex-direction: column;
   }
