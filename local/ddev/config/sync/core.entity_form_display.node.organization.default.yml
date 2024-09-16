@@ -7,8 +7,12 @@ dependencies:
     - field.field.node.organization.field_affiliated_dh_projects
     - field.field.node.organization.field_contact_person
     - field.field.node.organization.field_image
-    - field.field.node.organization.field_link_to_more_information
+    - field.field.node.organization.field_link_to_department_web_pag
+    - field.field.node.organization.field_link_to_uva_department
+    - field.field.node.organization.field_resident_expert
+    - field.field.node.organization.field_uva_non_uva
     - field.field.node.organization.field_uva_or_non_uva
+    - field.field.node.organization.layout_builder__layout
     - image.style.thumbnail
     - node.type.organization
   module:
@@ -65,13 +69,37 @@ content:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-  field_link_to_more_information:
+  field_link_to_department_web_pag:
     type: link_default
-    weight: 11
+    weight: 26
     region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
+    third_party_settings: {  }
+  field_link_to_uva_department:
+    type: link_default
+    weight: 125
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+  field_resident_expert:
+    type: entity_reference_autocomplete
+    weight: 124
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_uva_non_uva:
+    type: options_select
+    weight: 14
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_uva_or_non_uva:
     type: entity_reference_autocomplete
@@ -133,4 +161,5 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  layout_builder__layout: true

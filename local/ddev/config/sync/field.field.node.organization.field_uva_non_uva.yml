@@ -1,0 +1,21 @@
+uuid: c8e85601-c646-4f52-a62f-f0a6c17954d3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_uva_non_uva
+    - node.type.organization
+  module:
+    - options
+id: node.organization.field_uva_non_uva
+field_name: field_uva_non_uva
+entity_type: node
+bundle: organization
+label: UVA/non-UVA
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

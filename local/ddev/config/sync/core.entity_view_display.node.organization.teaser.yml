@@ -8,8 +8,12 @@ dependencies:
     - field.field.node.organization.field_affiliated_dh_projects
     - field.field.node.organization.field_contact_person
     - field.field.node.organization.field_image
-    - field.field.node.organization.field_link_to_more_information
+    - field.field.node.organization.field_link_to_department_web_pag
+    - field.field.node.organization.field_link_to_uva_department
+    - field.field.node.organization.field_resident_expert
+    - field.field.node.organization.field_uva_non_uva
     - field.field.node.organization.field_uva_or_non_uva
+    - field.field.node.organization.layout_builder__layout
     - image.style.medium
     - node.type.organization
   module:
@@ -46,7 +50,13 @@ content:
     weight: 100
     region: content
 hidden:
+  addtoany: true
+  breadcrumbs: true
   field_affiliated_dh_projects: true
   field_contact_person: true
-  field_link_to_more_information: true
+  field_link_to_department_web_pag: true
+  field_link_to_uva_department: true
+  field_resident_expert: true
+  field_uva_non_uva: true
   field_uva_or_non_uva: true
+  layout_builder__layout: true

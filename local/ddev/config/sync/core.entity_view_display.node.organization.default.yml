@@ -7,15 +7,204 @@ dependencies:
     - field.field.node.organization.field_affiliated_dh_projects
     - field.field.node.organization.field_contact_person
     - field.field.node.organization.field_image
-    - field.field.node.organization.field_link_to_more_information
+    - field.field.node.organization.field_link_to_department_web_pag
+    - field.field.node.organization.field_link_to_uva_department
+    - field.field.node.organization.field_resident_expert
+    - field.field.node.organization.field_uva_non_uva
     - field.field.node.organization.field_uva_or_non_uva
+    - field.field.node.organization.layout_builder__layout
     - image.style.wide
     - node.type.organization
   module:
     - image
+    - layout_builder
+    - layout_builder_restrictions
+    - layout_discovery
     - link
+    - options
     - text
     - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: true
+    sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: ''
+        components:
+          5028da84-ad39-4ccc-9298-a31d239019be:
+            uuid: 5028da84-ad39-4ccc-9298-a31d239019be
+            region: content
+            configuration:
+              id: 'field_block:node:organization:field_image'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: image
+                label: hidden
+                settings:
+                  image_link: ''
+                  image_style: wide
+                  image_loading:
+                    attribute: eager
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          dea0be2d-efd6-4710-b53c-a141eedca552:
+            uuid: dea0be2d-efd6-4710-b53c-a141eedca552
+            region: content
+            configuration:
+              id: 'extra_field_block:node:organization:links'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+            weight: 1
+            additional: {  }
+          b13fd071-6466-43e7-a3b5-0b0ded382d9b:
+            uuid: b13fd071-6466-43e7-a3b5-0b0ded382d9b
+            region: content
+            configuration:
+              id: 'field_block:node:organization:body'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          a6fa6fa3-a4d4-4056-8a1e-7cbb607d5217:
+            uuid: a6fa6fa3-a4d4-4056-8a1e-7cbb607d5217
+            region: content
+            configuration:
+              id: 'field_block:node:organization:field_link_to_department_web_pag'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: above
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 3
+            additional: {  }
+          0b7a5055-1b9c-4d36-92cf-595fafd47b76:
+            uuid: 0b7a5055-1b9c-4d36-92cf-595fafd47b76
+            region: content
+            configuration:
+              id: 'field_block:node:organization:field_contact_person'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          b277f139-291b-4eb7-abc9-82b94dcfc365:
+            uuid: b277f139-291b-4eb7-abc9-82b94dcfc365
+            region: content
+            configuration:
+              id: 'field_block:node:organization:field_uva_or_non_uva'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 5
+            additional: {  }
+          0367e59a-5484-4be9-a8f6-6cad5008056a:
+            uuid: 0367e59a-5484-4be9-a8f6-6cad5008056a
+            region: content
+            configuration:
+              id: 'field_block:node:organization:field_affiliated_dh_projects'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 6
+            additional: {  }
+          347bf4f5-d5dd-47ff-98c4-22dcf06fd20f:
+            uuid: 347bf4f5-d5dd-47ff-98c4-22dcf06fd20f
+            region: content
+            configuration:
+              id: 'field_block:node:organization:field_resident_expert'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 7
+            additional: {  }
+          ebfb7f87-b4e0-4431-ba84-f31ce8b97952:
+            uuid: ebfb7f87-b4e0-4431-ba84-f31ce8b97952
+            region: content
+            configuration:
+              id: 'field_block:node:organization:field_uva_non_uva'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: list_default
+                label: above
+                settings: {  }
+                third_party_settings: {  }
+            weight: 8
+            additional: {  }
+          955fb6dc-8bbe-44c8-a401-f63158917ad1:
+            uuid: 955fb6dc-8bbe-44c8-a401-f63158917ad1
+            region: content
+            configuration:
+              id: 'field_block:node:organization:field_link_to_uva_department'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: link
+                label: above
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: ''
+                  target: ''
+                third_party_settings: {  }
+            weight: 9
+            additional: {  }
+        third_party_settings: {  }
+  layout_builder_restrictions:
+    allowed_block_categories: {  }
+    entity_view_mode_restriction:
+      allowed_layouts: {  }
+      denylisted_blocks: {  }
+      allowlisted_blocks: {  }
+      restricted_categories: {  }
 id: node.organization.default
 targetEntityType: node
 bundle: organization
@@ -55,7 +244,7 @@ content:
     third_party_settings: {  }
     weight: -1
     region: content
-  field_link_to_more_information:
+  field_link_to_department_web_pag:
     type: link
     label: above
     settings:
@@ -65,7 +254,34 @@ content:
       rel: ''
       target: ''
     third_party_settings: {  }
-    weight: 108
+    weight: 103
+    region: content
+  field_link_to_uva_department:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 116
+    region: content
+  field_resident_expert:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 114
+    region: content
+  field_uva_non_uva:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 115
     region: content
   field_uva_or_non_uva:
     type: entity_reference_label
@@ -80,4 +296,7 @@ content:
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  addtoany: true
+  breadcrumbs: true
+  layout_builder__layout: true

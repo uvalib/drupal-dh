@@ -1,17 +1,17 @@
-uuid: b4630bde-d6b1-451f-af41-6422de0fd274
+uuid: 1738247d-a004-4c1d-b149-a12eda477bda
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_link_to_more_information
+    - field.storage.node.field_link_to_department_web_pag
     - node.type.organization
   module:
     - link
-id: node.organization.field_link_to_more_information
-field_name: field_link_to_more_information
+id: node.organization.field_link_to_department_web_pag
+field_name: field_link_to_department_web_pag
 entity_type: node
 bundle: organization
-label: 'Link to more information'
+label: 'link to department web page'
 description: ''
 required: false
 translatable: false
