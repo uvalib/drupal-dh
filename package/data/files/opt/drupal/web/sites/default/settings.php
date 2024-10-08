@@ -877,4 +877,5 @@ $databases['default']['default'] = array(
   'driver' => 'mysql',
 ); 
 
+$settings['devops_label'] = getenv('DEVOPS_LABEL') ?: "unknown";
 $settings['config_sync_directory'] = '/opt/drupal/config/sync';
