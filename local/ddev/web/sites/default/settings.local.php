@@ -9,3 +9,5 @@ $databases['migrate']['default'] = array (
   'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
   'driver' => 'mysql',
 );
+
+$settings['devops_label']='ddev local';
