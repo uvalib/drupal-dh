@@ -26,3 +26,5 @@ Icon?
 .noindex
 
 .vscode
+
+node_modules/
