@@ -1,0 +1,5 @@
+name: 'DH User-People module'
+type: module
+description: 'Provides linkage and permissions between a User and the People entity associated with the user'
+package: Custom
+core_version_requirement: ^10

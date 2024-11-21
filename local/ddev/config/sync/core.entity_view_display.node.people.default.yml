@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.people.field_image
     - field.field.node.people.field_orcid_id
     - field.field.node.people.field_organizations
+    - field.field.node.people.field_user
     - field.field.node.people.field_user_email
     - field.field.node.people.field_vocab_department_or_school
     - image.style.wide
@@ -173,6 +174,22 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 8
             additional: {  }
+          a4f2fe52-001f-415e-9449-5c944e789932:
+            uuid: a4f2fe52-001f-415e-9449-5c944e789932
+            region: content
+            configuration:
+              id: 'field_block:node:people:field_user'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 9
+            additional: {  }
         third_party_settings: {  }
 id: node.people.default
 targetEntityType: node
@@ -233,6 +250,14 @@ content:
     third_party_settings: {  }
     weight: 4
     region: content
+  field_user:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 9
+    region: content
   field_user_email:
     type: basic_string
     label: above
@@ -255,3 +280,4 @@ content:
     region: content
 hidden:
   addtoany: true
+  breadcrumbs: true

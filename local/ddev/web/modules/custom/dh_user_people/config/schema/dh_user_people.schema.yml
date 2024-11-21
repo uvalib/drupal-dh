@@ -1,0 +1,7 @@
+block.settings.dh_user_people_dh_user_people:
+  type: block_settings
+  label: 'dh_user_people block'
+  mapping:
+    example:
+      type: string
+      label: Example

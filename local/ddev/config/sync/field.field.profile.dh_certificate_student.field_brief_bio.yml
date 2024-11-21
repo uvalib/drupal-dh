@@ -1,0 +1,26 @@
+uuid: bf010fd6-5a25-43b2-ac65-d20b3f61e6a1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_brief_bio
+    - filter.format.full_html
+    - profile.type.dh_certificate_student
+  module:
+    - text
+id: profile.dh_certificate_student.field_brief_bio
+field_name: field_brief_bio
+entity_type: profile
+bundle: dh_certificate_student
+label: 'Brief Bio'
+description: ' A brief bio'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: true
+  allowed_formats:
+    - full_html
+field_type: text_with_summary
