@@ -17,13 +17,18 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
+  breadcrumbs:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
   field_contribution_field:
     type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 7
+    weight: 4
     region: content
   field_placeholder_label_to_conne:
     type: entity_reference_label
@@ -31,12 +36,12 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 6
+    weight: 3
     region: content
   member_for:
     settings: {  }
     third_party_settings: {  }
-    weight: 5
+    weight: 2
     region: content
   user_picture:
     type: image
@@ -47,6 +52,6 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 0
+    weight: 1
     region: content
 hidden: {  }

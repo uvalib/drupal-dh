@@ -1,0 +1,72 @@
+<?php
+
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Field\FieldDefinitionInterface;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Field\FieldItemListInterface;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_entity_field_access().
+ */
+function dh_user_people_entity_field_access(
+  $operation,
+  FieldDefinitionInterface $field_definition,
+  AccountInterface $account,
+  ?FieldItemListInterface $items = NULL
+) {
+  
+  $is_admin=\Drupal::currentUser()->hasPermission('administer');
+
+  // Check if we have a node entity of type 'people'.
+  $entity = $items ? $items->getEntity() : NULL;
+  if ($entity instanceof NodeInterface && $entity->bundle() === 'people') {
+    \Drupal::logger('dh_user_people')->info('Entity is a "people" node, proceeding with access check.');
+
+    // Get the field name being accessed.
+    $field_name = $field_definition->getName();
+
+    if ($is_admin) {
+      // defer the decision
+      return AccessResult::neutral();
+    }
+
+    // Only check for 'edit' access.
+    if ($operation === 'edit') {
+      \Drupal::logger('dh_user_people')->info('Operation is "edit" for field "@field"', ['@field' => $field_name]);
+
+      // Get the user reference ID from the node.
+      $user_reference = $entity->get('field_user')->target_id;
+      \Drupal::logger('dh_user_people')->info('Node is associated with user ID @user_reference', ['@user_reference' => $user_reference]);
+
+      // Check if the current user is the one referenced in the node.
+      if ($account->id() == $user_reference) {
+        \Drupal::logger('dh_user_people')->info('User ID @uid matches the node reference. Checking field access.', ['@uid' => $account->id()]);
+
+        // Allow access to specific fields.
+        // if (in_array($field_name, ['field_specific_field1', 'field_specific_field2'])) {
+          \Drupal::logger('dh_user_people')->info('Access granted to field "@field" for user ID @uid.', [
+            '@field' => $field_name,
+            '@uid' => $account->id(),
+          ]);
+          return AccessResult::allowed();
+        // } else {
+          // \Drupal::logger('dh_user_people')->warning('Access denied to field "@field" for user ID @uid.', [
+            // '@field' => $field_name,
+            // '@uid' => $account->id(),
+          // ]);
+        // }
+      } else {
+        \Drupal::logger('dh_user_people')->warning('User ID @uid does not match the node reference. Access denied.', [
+          '@uid' => $account->id(),
+        ]);
+      }
+      return AccessResult::forbidden();
+    }
+  } else {
+    \Drupal::logger('dh_user_people')->info('Entity is not of type "people". Skipping access check.');
+  }
+
+  // For all other cases, return a neutral access result.
+  return AccessResult::neutral();
+}
