@@ -1,0 +1,12 @@
+uuid: 3c68092c-a323-4e60-b667-6e32ddf2a363
+langcode: en
+status: true
+dependencies: {  }
+id: dh_cert_student
+label: 'dh cert student'
+display_label: 'DH Certificate Student'
+multiple: false
+registration: false
+roles: {  }
+allow_revisions: true
+new_revision: true

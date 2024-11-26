@@ -1,16 +1,16 @@
-uuid: 0b29bfd2-79d3-413d-b7fd-65b97c2c40de
+uuid: 1c184d82-53ab-4c2d-98e0-ff9c8cfe6a5b
 langcode: en
 status: true
 dependencies:
   module:
     - profile
-    - text
-id: profile.field_brief_bio
-field_name: field_brief_bio
+id: profile.field_my_story
+field_name: field_my_story
 entity_type: profile
-type: text_with_summary
-settings: {  }
-module: text
+type: string_long
+settings:
+  case_sensitive: false
+module: core
 locked: false
 cardinality: 1
 translatable: true

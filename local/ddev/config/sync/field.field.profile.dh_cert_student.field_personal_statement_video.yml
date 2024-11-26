@@ -1,4 +1,4 @@
-uuid: 48185a87-80f5-470d-9318-f03d06559071
+uuid: b5a9be59-2e14-42a4-a556-0e234347fbce
 langcode: en
 status: true
 dependencies:
@@ -8,13 +8,13 @@ dependencies:
     - media.type.local_video
     - media.type.remote_video
     - media.type.video
-    - profile.type.dh_certificate_student
-id: profile.dh_certificate_student.field_personal_statement_video
+    - profile.type.dh_cert_student
+id: profile.dh_cert_student.field_personal_statement_video
 field_name: field_personal_statement_video
 entity_type: profile
-bundle: dh_certificate_student
+bundle: dh_cert_student
 label: 'Personal Statement Video'
-description: 'Talk about yourself'
+description: ''
 required: false
 translatable: false
 default_value: {  }
@@ -31,5 +31,5 @@ settings:
       field: _none
       direction: ASC
     auto_create: false
-    auto_create_bundle: remote_video
+    auto_create_bundle: audio
 field_type: entity_reference
