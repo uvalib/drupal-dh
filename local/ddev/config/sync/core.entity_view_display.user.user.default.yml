@@ -38,6 +38,11 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
+  masquerade:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 50
+    region: content
   member_for:
     settings: {  }
     third_party_settings: {  }
@@ -54,4 +59,5 @@ content:
     third_party_settings: {  }
     weight: 1
     region: content
-hidden: {  }
+hidden:
+  dh_certificate_student_profiles: true

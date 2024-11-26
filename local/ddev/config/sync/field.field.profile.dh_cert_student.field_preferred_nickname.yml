@@ -1,0 +1,22 @@
+uuid: 2fed1b16-e277-4db4-9cda-7ac85d19a998
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_preferred_nickname
+    - profile.type.dh_cert_student
+  module:
+    - text
+id: profile.dh_cert_student.field_preferred_nickname
+field_name: field_preferred_nickname
+entity_type: profile
+bundle: dh_cert_student
+label: 'Preferred Nickname'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text

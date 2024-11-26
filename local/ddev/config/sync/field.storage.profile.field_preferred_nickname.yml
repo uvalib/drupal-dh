@@ -1,17 +1,17 @@
-uuid: 6cec9708-7177-49dc-93ef-9600e1aa2a21
+uuid: a1941d29-75d2-4dc5-8609-fdcdc3fd9f78
 langcode: en
 status: true
 dependencies:
   module:
-    - media
     - profile
-id: profile.field_personal_statement_video
-field_name: field_personal_statement_video
+    - text
+id: profile.field_preferred_nickname
+field_name: field_preferred_nickname
 entity_type: profile
-type: entity_reference
+type: text
 settings:
-  target_type: media
-module: core
+  max_length: 255
+module: text
 locked: false
 cardinality: 1
 translatable: true
