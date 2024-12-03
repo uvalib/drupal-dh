@@ -5,7 +5,3 @@ domain_redirects:
     -
       sub_path: '/*'
       destination: dh-portal-2024.internal.lib.virginia.edu
-  'dh:library:virginia:edu':
-    -
-      sub_path: '/*'
-      destination: dh.virginia.edu
