@@ -1,0 +1,30 @@
+uuid: 65db335d-36ce-4a87-995d-28677bc87ffb
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_personal_statement
+    - filter.format.basic_html
+    - filter.format.plain_text
+    - filter.format.restricted_html
+    - profile.type.dhcert
+  module:
+    - text
+id: profile.dhcert.field_personal_statement
+field_name: field_personal_statement
+entity_type: profile
+bundle: dhcert
+label: 'Personal Statement'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+  allowed_formats:
+    - basic_html
+    - restricted_html
+    - plain_text
+field_type: text_with_summary

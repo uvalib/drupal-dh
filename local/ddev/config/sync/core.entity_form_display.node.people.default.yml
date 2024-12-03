@@ -9,7 +9,6 @@ dependencies:
     - field.field.node.people.field_image
     - field.field.node.people.field_orcid_id
     - field.field.node.people.field_organizations
-    - field.field.node.people.field_user
     - field.field.node.people.field_user_email
     - field.field.node.people.field_vocab_department_or_school
     - image.style.thumbnail
@@ -70,16 +69,6 @@ content:
       autocomplete: false
       match_operator: CONTAINS
       match_limit: 0
-    third_party_settings: {  }
-  field_user:
-    type: entity_reference_autocomplete
-    weight: 27
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
     third_party_settings: {  }
   field_user_email:
     type: email_default

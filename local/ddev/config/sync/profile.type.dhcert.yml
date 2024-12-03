@@ -1,0 +1,12 @@
+uuid: 6096102d-1e0a-4ce6-a73d-cb22bc8a15d5
+langcode: en
+status: true
+dependencies: {  }
+id: dhcert
+label: dhcert
+display_label: 'DH Certificate Program'
+multiple: false
+registration: false
+roles: {  }
+allow_revisions: false
+new_revision: false

@@ -17,18 +17,13 @@ targetEntityType: user
 bundle: user
 mode: default
 content:
-  breadcrumbs:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 0
-    region: content
   field_contribution_field:
     type: entity_reference_label
     label: above
     settings:
       link: true
     third_party_settings: {  }
-    weight: 4
+    weight: 7
     region: content
   field_placeholder_label_to_conne:
     type: entity_reference_label
@@ -36,17 +31,12 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 3
-    region: content
-  masquerade:
-    settings: {  }
-    third_party_settings: {  }
-    weight: 50
+    weight: 6
     region: content
   member_for:
     settings: {  }
     third_party_settings: {  }
-    weight: 2
+    weight: 5
     region: content
   user_picture:
     type: image
@@ -57,7 +47,6 @@ content:
       image_loading:
         attribute: lazy
     third_party_settings: {  }
-    weight: 1
+    weight: 0
     region: content
-hidden:
-  dh_certificate_student_profiles: true
+hidden: {  }
