@@ -5,5 +5,5 @@ home_link: Home
 current_page: true
 current_page_link: true
 trim_title: 0
-admin_pages_disable: true
-site_wide: true
+admin_pages_disable: false
+site_wide: false

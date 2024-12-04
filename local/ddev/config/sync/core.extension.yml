@@ -32,6 +32,7 @@ module:
   dblog: 0
   dynamic_page_cache: 0
   editor: 0
+  entity: 0
   entity_browser: 0
   field: 0
   field_image_style: 0
@@ -85,6 +86,7 @@ module:
   path_alias: 0
   pathauto: 0
   phpass: 0
+  profile: 0
   provus_blocks: 0
   provus_core: 0
   provus_layout_builder: 0

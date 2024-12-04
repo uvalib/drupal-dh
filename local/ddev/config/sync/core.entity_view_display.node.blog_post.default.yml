@@ -14,14 +14,13 @@ dependencies:
     - field.field.node.blog_post.field_keywords
     - field.field.node.blog_post.field_link_to_more_information
     - field.field.node.blog_post.field_publication_date
-    - image.style.wide
     - node.type.blog_post
   module:
     - comment
     - datetime
     - file
-    - image
     - link
+    - responsive_image
     - text
     - user
 id: node.blog_post.default
@@ -69,11 +68,11 @@ content:
     weight: 106
     region: content
   field_image:
-    type: image
+    type: responsive_image
     label: hidden
     settings:
+      responsive_image_style: ''
       image_link: ''
-      image_style: wide
       image_loading:
         attribute: eager
     third_party_settings: {  }
@@ -122,3 +121,4 @@ content:
     region: content
 hidden:
   addtoany: true
+  breadcrumbs: true

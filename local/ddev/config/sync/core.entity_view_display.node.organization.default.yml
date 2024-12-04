@@ -9,11 +9,10 @@ dependencies:
     - field.field.node.organization.field_image
     - field.field.node.organization.field_link_to_more_information
     - field.field.node.organization.field_uva_or_non_uva
-    - image.style.wide
     - node.type.organization
   module:
-    - image
     - link
+    - responsive_image
     - text
     - user
 id: node.organization.default
@@ -45,11 +44,11 @@ content:
     weight: 111
     region: content
   field_image:
-    type: image
+    type: responsive_image
     label: hidden
     settings:
+      responsive_image_style: ''
       image_link: ''
-      image_style: wide
       image_loading:
         attribute: eager
     third_party_settings: {  }
@@ -80,4 +79,6 @@ content:
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  addtoany: true
+  breadcrumbs: true
