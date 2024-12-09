@@ -1,0 +1,11 @@
+certificate-progress:
+  version: 1.x
+  css:
+    theme:
+      css/certificate-progress.css: {}
+
+certificate-deadlines:
+  version: 1.x
+  css:
+    theme:
+      css/certificate-deadlines.css: {}

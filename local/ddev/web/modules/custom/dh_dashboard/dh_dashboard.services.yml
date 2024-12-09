@@ -1,0 +1,3 @@
+services:
+  dh_dashboard.manager:
+    class: Drupal\dh_dashboard\Services\DashboardManager

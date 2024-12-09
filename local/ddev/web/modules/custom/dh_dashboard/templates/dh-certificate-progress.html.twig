@@ -1,0 +1,13 @@
+{# templates/dh-certificate-progress.html.twig #}
+<div class="certificate-progress">
+  <h3>{% trans %}Certificate Progress{% endtrans %}</h3>
+  <div class="progress-bar">
+    <div class="progress" style="width: {{ progress.completed / progress.total * 100 }}%"></div>
+  </div>
+  <div class="progress-stats">
+    <span>{{ progress.completed }}/{{ progress.total }} {% trans %}modules completed{% endtrans %}</span>
+  </div>
+  <div class="next-module">
+    <strong>{% trans %}Next module:{% endtrans %}</strong> {{ progress.next_module }}
+  </div>
+</div>
