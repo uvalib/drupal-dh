@@ -64,6 +64,7 @@ module:
   libraries: 0
   link: 0
   mailsystem: 0
+  masquerade: 0
   media: 0
   media_library: 0
   media_library_form_element: 0

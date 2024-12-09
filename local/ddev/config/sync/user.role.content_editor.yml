@@ -26,6 +26,7 @@ dependencies:
     - media
     - node
     - path
+    - profile
     - statistics
     - system
     - toolbar
@@ -42,6 +43,7 @@ permissions:
   - 'access contextual links'
   - 'access files overview'
   - 'access media overview'
+  - 'access profile overview'
   - 'access site in maintenance mode'
   - 'access toolbar'
   - 'administer contact forms'

@@ -118,16 +118,16 @@
         },
         {
             "name": "aws/aws-sdk-php",
-            "version": "3.334.0",
+            "version": "3.334.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "8afe50cb2a93051dafef21eb616e297a449764aa"
+                "reference": "3938b3467f64a30fed7ee1762a6785f808a5ae4d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/8afe50cb2a93051dafef21eb616e297a449764aa",
-                "reference": "8afe50cb2a93051dafef21eb616e297a449764aa",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/3938b3467f64a30fed7ee1762a6785f808a5ae4d",
+                "reference": "3938b3467f64a30fed7ee1762a6785f808a5ae4d",
                 "shasum": ""
             },
             "require": {
@@ -210,9 +210,9 @@
             "support": {
                 "forum": "https://forums.aws.amazon.com/forum.jspa?forumID=80",
                 "issues": "https://github.com/aws/aws-sdk-php/issues",
-                "source": "https://github.com/aws/aws-sdk-php/tree/3.334.0"
+                "source": "https://github.com/aws/aws-sdk-php/tree/3.334.1"
             },
-            "time": "2024-12-04T19:09:04+00:00"
+            "time": "2024-12-05T01:17:41+00:00"
         },
         {
             "name": "chi-teck/drupal-code-generator",
@@ -1427,29 +1427,27 @@
         },
         {
             "name": "doctrine/deprecations",
-            "version": "1.1.3",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/deprecations.git",
-                "reference": "dfbaa3c2d2e9a9df1118213f3b8b0c597bb99fab"
+                "reference": "31610dbb31faa98e6b5447b62340826f54fbc4e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/dfbaa3c2d2e9a9df1118213f3b8b0c597bb99fab",
-                "reference": "dfbaa3c2d2e9a9df1118213f3b8b0c597bb99fab",
+                "url": "https://api.github.com/repos/doctrine/deprecations/zipball/31610dbb31faa98e6b5447b62340826f54fbc4e9",
+                "reference": "31610dbb31faa98e6b5447b62340826f54fbc4e9",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.1 || ^8.0"
             },
             "require-dev": {
-                "doctrine/coding-standard": "^9",
-                "phpstan/phpstan": "1.4.10 || 1.10.15",
-                "phpstan/phpstan-phpunit": "^1.0",
+                "doctrine/coding-standard": "^9 || ^12",
+                "phpstan/phpstan": "1.4.10 || 2.0.3",
+                "phpstan/phpstan-phpunit": "^1.0 || ^2",
                 "phpunit/phpunit": "^7.5 || ^8.5 || ^9.5",
-                "psalm/plugin-phpunit": "0.18.4",
-                "psr/log": "^1 || ^2 || ^3",
-                "vimeo/psalm": "4.30.0 || 5.12.0"
+                "psr/log": "^1 || ^2 || ^3"
             },
             "suggest": {
                 "psr/log": "Allows logging deprecations via PSR-3 logger implementation"
@@ -1457,7 +1455,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Doctrine\\Deprecations\\": "lib/Doctrine/Deprecations"
+                    "Doctrine\\Deprecations\\": "src"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1468,9 +1466,9 @@
             "homepage": "https://www.doctrine-project.org/",
             "support": {
                 "issues": "https://github.com/doctrine/deprecations/issues",
-                "source": "https://github.com/doctrine/deprecations/tree/1.1.3"
+                "source": "https://github.com/doctrine/deprecations/tree/1.1.4"
             },
-            "time": "2024-01-30T19:34:25+00:00"
+            "time": "2024-12-07T21:18:45+00:00"
         },
         {
             "name": "doctrine/event-manager",
@@ -4823,7 +4821,7 @@
                     "homepage": "https://www.drupal.org/user/748208"
                 },
                 {
-                    "name": "Jeff Cardwell",
+                    "name": "jeff cardwell",
                     "homepage": "https://www.drupal.org/user/2913129"
                 },
                 {
@@ -5025,7 +5023,7 @@
                     "homepage": "https://www.drupal.org/user/116002"
                 },
                 {
-                    "name": "Pol",
+                    "name": "pol",
                     "homepage": "https://www.drupal.org/user/47194"
                 },
                 {
@@ -6100,28 +6098,28 @@
         },
         {
             "name": "drupal/simplesamlphp_auth",
-            "version": "4.0.0",
+            "version": "4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://git.drupalcode.org/project/simplesamlphp_auth.git",
-                "reference": "4.0.0"
+                "reference": "4.0.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://ftp.drupal.org/files/projects/simplesamlphp_auth-4.0.0.zip",
-                "reference": "4.0.0",
-                "shasum": "b0c71f45ceaa0257bc1583ab4c2a620ff26f9472"
+                "url": "https://ftp.drupal.org/files/projects/simplesamlphp_auth-4.0.1.zip",
+                "reference": "4.0.1",
+                "shasum": "624a1b918a282b997d20425726d080eb0a1eda8c"
             },
             "require": {
                 "drupal/core": "^9.4 || ^10",
                 "drupal/externalauth": "^1.1 || ^2.0",
-                "simplesamlphp/simplesamlphp": "^1.19 || ^2.1 || dev-simplesamlphp-2.1"
+                "simplesamlphp/simplesamlphp": "^1.19 || ^2.3.5"
             },
             "type": "drupal-module",
             "extra": {
                 "drupal": {
-                    "version": "4.0.0",
-                    "datestamp": "1699460960",
+                    "version": "4.0.1",
+                    "datestamp": "1733475098",
                     "security-coverage": {
                         "status": "covered",
                         "message": "Covered by Drupal's security advisory policy"
@@ -6134,7 +6132,7 @@
             ],
             "authors": [
                 {
-                    "name": "Berdir",
+                    "name": "berdir",
                     "homepage": "https://www.drupal.org/user/214652"
                 },
                 {
@@ -6647,7 +6645,7 @@
             ],
             "authors": [
                 {
-                    "name": "Chi",
+                    "name": "chi",
                     "homepage": "https://www.drupal.org/user/556138"
                 }
             ],
@@ -7838,16 +7836,16 @@
         },
         {
             "name": "league/uri-interfaces",
-            "version": "7.4.1",
+            "version": "7.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/uri-interfaces.git",
-                "reference": "8d43ef5c841032c87e2de015972c06f3865ef718"
+                "reference": "08cfc6c4f3d811584fb09c37e2849e6a7f9b0742"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/8d43ef5c841032c87e2de015972c06f3865ef718",
-                "reference": "8d43ef5c841032c87e2de015972c06f3865ef718",
+                "url": "https://api.github.com/repos/thephpleague/uri-interfaces/zipball/08cfc6c4f3d811584fb09c37e2849e6a7f9b0742",
+                "reference": "08cfc6c4f3d811584fb09c37e2849e6a7f9b0742",
                 "shasum": ""
             },
             "require": {
@@ -7910,7 +7908,7 @@
                 "docs": "https://uri.thephpleague.com",
                 "forum": "https://thephpleague.slack.com",
                 "issues": "https://github.com/thephpleague/uri-src/issues",
-                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.4.1"
+                "source": "https://github.com/thephpleague/uri-interfaces/tree/7.5.0"
             },
             "funding": [
                 {
@@ -7918,7 +7916,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-03-23T07:42:40+00:00"
+            "time": "2024-12-08T08:18:47+00:00"
         },
         {
             "name": "masterminds/html5",
@@ -8990,16 +8988,16 @@
         },
         {
             "name": "psy/psysh",
-            "version": "v0.12.5",
+            "version": "v0.12.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bobthecow/psysh.git",
-                "reference": "36a03ff27986682c22985e56aabaf840dd173cb5"
+                "reference": "3b5ea0efaa791cd1c65ecc493aec3e2aa55ff57c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/36a03ff27986682c22985e56aabaf840dd173cb5",
-                "reference": "36a03ff27986682c22985e56aabaf840dd173cb5",
+                "url": "https://api.github.com/repos/bobthecow/psysh/zipball/3b5ea0efaa791cd1c65ecc493aec3e2aa55ff57c",
+                "reference": "3b5ea0efaa791cd1c65ecc493aec3e2aa55ff57c",
                 "shasum": ""
             },
             "require": {
@@ -9063,9 +9061,9 @@
             ],
             "support": {
                 "issues": "https://github.com/bobthecow/psysh/issues",
-                "source": "https://github.com/bobthecow/psysh/tree/v0.12.5"
+                "source": "https://github.com/bobthecow/psysh/tree/v0.12.6"
             },
-            "time": "2024-11-29T06:14:30+00:00"
+            "time": "2024-12-07T20:08:52+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -9221,16 +9219,16 @@
         },
         {
             "name": "simplesamlphp/assert",
-            "version": "v1.5.0",
+            "version": "v1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/assert.git",
-                "reference": "f6872f002d34b8e20c19d0823b107d2c74ddfd9d"
+                "reference": "057a9e90660c4b16c00dab9dd0e337296f7d983e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/assert/zipball/f6872f002d34b8e20c19d0823b107d2c74ddfd9d",
-                "reference": "f6872f002d34b8e20c19d0823b107d2c74ddfd9d",
+                "url": "https://api.github.com/repos/simplesamlphp/assert/zipball/057a9e90660c4b16c00dab9dd0e337296f7d983e",
+                "reference": "057a9e90660c4b16c00dab9dd0e337296f7d983e",
                 "shasum": ""
             },
             "require": {
@@ -9274,32 +9272,32 @@
             "description": "A wrapper around webmozart/assert to make it useful beyond checking method arguments",
             "support": {
                 "issues": "https://github.com/simplesamlphp/assert/issues",
-                "source": "https://github.com/simplesamlphp/assert/tree/v1.5.0"
+                "source": "https://github.com/simplesamlphp/assert/tree/v1.6.0"
             },
-            "time": "2024-11-19T18:52:10+00:00"
+            "time": "2024-12-04T23:41:43+00:00"
         },
         {
             "name": "simplesamlphp/composer-module-installer",
-            "version": "v1.3.5",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/composer-module-installer.git",
-                "reference": "7bf413c2d28e48dff6755d74a7e45087cf144604"
+                "reference": "edb2155d200e2a208816d06f42cfa78bfd9e7cf4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/composer-module-installer/zipball/7bf413c2d28e48dff6755d74a7e45087cf144604",
-                "reference": "7bf413c2d28e48dff6755d74a7e45087cf144604",
+                "url": "https://api.github.com/repos/simplesamlphp/composer-module-installer/zipball/edb2155d200e2a208816d06f42cfa78bfd9e7cf4",
+                "reference": "edb2155d200e2a208816d06f42cfa78bfd9e7cf4",
                 "shasum": ""
             },
             "require": {
-                "composer-plugin-api": "^1.1 || ^2.0",
-                "php": "^7.4 || ^8.0",
-                "simplesamlphp/assert": "^0.8.0 || ^1.0"
+                "composer-plugin-api": "^2.6",
+                "php": "^8.1",
+                "simplesamlphp/assert": "^1.6"
             },
             "require-dev": {
-                "composer/composer": "^2.4",
-                "simplesamlphp/simplesamlphp-test-framework": "^1.2.1"
+                "composer/composer": "^2.8.3",
+                "simplesamlphp/simplesamlphp-test-framework": "^1.8.0"
             },
             "type": "composer-plugin",
             "extra": {
@@ -9317,9 +9315,9 @@
             "description": "A Composer plugin that allows installing SimpleSAMLphp modules through Composer.",
             "support": {
                 "issues": "https://github.com/simplesamlphp/composer-module-installer/issues",
-                "source": "https://github.com/simplesamlphp/composer-module-installer/tree/v1.3.5"
+                "source": "https://github.com/simplesamlphp/composer-module-installer/tree/v1.4.0"
             },
-            "time": "2024-11-16T09:42:27+00:00"
+            "time": "2024-12-08T16:57:03+00:00"
         },
         {
             "name": "simplesamlphp/composer-xmlprovider-installer",
@@ -9556,16 +9554,16 @@
         },
         {
             "name": "simplesamlphp/simplesamlphp-assets-base",
-            "version": "v2.3.2",
+            "version": "v2.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/simplesamlphp-assets-base.git",
-                "reference": "3f83d1afb16a2a807ac26f6a6a8e2f03bad75abe"
+                "reference": "cff63ee9c1ac1571117e60b982bc5d0c3cb99ac6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-assets-base/zipball/3f83d1afb16a2a807ac26f6a6a8e2f03bad75abe",
-                "reference": "3f83d1afb16a2a807ac26f6a6a8e2f03bad75abe",
+                "url": "https://api.github.com/repos/simplesamlphp/simplesamlphp-assets-base/zipball/cff63ee9c1ac1571117e60b982bc5d0c3cb99ac6",
+                "reference": "cff63ee9c1ac1571117e60b982bc5d0c3cb99ac6",
                 "shasum": ""
             },
             "require": {
@@ -9586,22 +9584,22 @@
             "description": "Assets for the SimpleSAMLphp main repository",
             "support": {
                 "issues": "https://github.com/simplesamlphp/simplesamlphp-assets-base/issues",
-                "source": "https://github.com/simplesamlphp/simplesamlphp-assets-base/tree/v2.3.2"
+                "source": "https://github.com/simplesamlphp/simplesamlphp-assets-base/tree/v2.3.3"
             },
-            "time": "2024-12-01T01:26:55+00:00"
+            "time": "2024-12-08T11:15:19+00:00"
         },
         {
             "name": "simplesamlphp/xml-common",
-            "version": "v1.20.1",
+            "version": "v1.21.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/xml-common.git",
-                "reference": "525095b5c09072996217d7f4acb9052af9bc9578"
+                "reference": "542827f801b117551cbb0f32817b76ec62e6bf8b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/xml-common/zipball/525095b5c09072996217d7f4acb9052af9bc9578",
-                "reference": "525095b5c09072996217d7f4acb9052af9bc9578",
+                "url": "https://api.github.com/repos/simplesamlphp/xml-common/zipball/542827f801b117551cbb0f32817b76ec62e6bf8b",
+                "reference": "542827f801b117551cbb0f32817b76ec62e6bf8b",
                 "shasum": ""
             },
             "require": {
@@ -9649,20 +9647,20 @@
                 "issues": "https://github.com/simplesamlphp/xml-common/issues",
                 "source": "https://github.com/simplesamlphp/xml-common"
             },
-            "time": "2024-12-03T07:51:40+00:00"
+            "time": "2024-12-04T23:03:06+00:00"
         },
         {
             "name": "simplesamlphp/xml-security",
-            "version": "v1.10.0",
+            "version": "v1.11.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplesamlphp/xml-security.git",
-                "reference": "2f478b2308b06c10542488ce9690a98baaf2fdfa"
+                "reference": "f489162a79f2f968f47b337bbb8873995a2185cc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplesamlphp/xml-security/zipball/2f478b2308b06c10542488ce9690a98baaf2fdfa",
-                "reference": "2f478b2308b06c10542488ce9690a98baaf2fdfa",
+                "url": "https://api.github.com/repos/simplesamlphp/xml-security/zipball/f489162a79f2f968f47b337bbb8873995a2185cc",
+                "reference": "f489162a79f2f968f47b337bbb8873995a2185cc",
                 "shasum": ""
             },
             "require": {
@@ -9673,8 +9671,8 @@
                 "ext-pcre": "*",
                 "ext-spl": "*",
                 "php": "^8.1",
-                "simplesamlphp/assert": "^1.5",
-                "simplesamlphp/xml-common": "^1.20.0"
+                "simplesamlphp/assert": "^1.6",
+                "simplesamlphp/xml-common": "^1.21.0"
             },
             "require-dev": {
                 "simplesamlphp/simplesamlphp-test-framework": "^1.7"
@@ -9711,9 +9709,9 @@
             ],
             "support": {
                 "issues": "https://github.com/simplesamlphp/xml-security/issues",
-                "source": "https://github.com/simplesamlphp/xml-security/tree/v1.10.0"
+                "source": "https://github.com/simplesamlphp/xml-security/tree/v1.11.0"
             },
-            "time": "2024-12-01T23:34:04+00:00"
+            "time": "2024-12-08T00:01:24+00:00"
         },
         {
             "name": "simshaun/recurr",
@@ -11310,8 +11308,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -11466,8 +11464,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -11712,8 +11710,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -11870,8 +11868,8 @@
             "type": "metapackage",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -11935,8 +11933,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -12015,8 +12013,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
@@ -12092,8 +12090,8 @@
             "type": "library",
             "extra": {
                 "thanks": {
-                    "name": "symfony/polyfill",
-                    "url": "https://github.com/symfony/polyfill"
+                    "url": "https://github.com/symfony/polyfill",
+                    "name": "symfony/polyfill"
                 }
             },
             "autoload": {
