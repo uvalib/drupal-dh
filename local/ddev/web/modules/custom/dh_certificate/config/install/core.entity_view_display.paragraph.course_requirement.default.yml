@@ -1,0 +1,52 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.course_requirement.field_completed
+    - field.field.paragraph.course_requirement.field_course_name
+    - field.field.paragraph.course_requirement.field_course_number
+    - field.field.paragraph.course_requirement.field_semester_taken
+    - paragraphs.paragraphs_type.course_requirement
+  module:
+    - datetime
+id: paragraph.course_requirement.default
+targetEntityType: paragraph
+bundle: course_requirement
+mode: default
+content:
+  field_course_name:
+    type: string
+    label: inline
+    weight: 0
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  field_course_number:
+    type: string
+    label: inline
+    weight: 1
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  field_semester_taken:
+    type: datetime_default
+    label: inline
+    weight: 2
+    region: content
+    settings:
+      format_type: medium
+      timezone_override: ''
+    third_party_settings: {  }
+  field_completed:
+    type: boolean
+    label: inline
+    weight: 3
+    region: content
+    settings:
+      format: custom
+      format_custom_true: Completed
+      format_custom_false: 'Not Completed'
+    third_party_settings: {  }
+

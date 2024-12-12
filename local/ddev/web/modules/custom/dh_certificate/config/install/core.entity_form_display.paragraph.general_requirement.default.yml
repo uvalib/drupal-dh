@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.general_requirement.field_completed
+    - field.field.paragraph.general_requirement.field_requirement_name
+    - paragraphs.paragraphs_type.general_requirement
+id: paragraph.general_requirement.default
+targetEntityType: paragraph
+bundle: general_requirement
+mode: default
+content:
+  field_requirement_name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_completed:
+    type: boolean_checkbox
+    weight: 1
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+

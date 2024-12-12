@@ -1,11 +1,11 @@
-certificate-progress:
+certificate_progress:
   version: 1.x
   css:
     theme:
       css/certificate-progress.css: {}
+  js:
+    js/certificate-progress.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
 
-certificate-deadlines:
-  version: 1.x
-  css:
-    theme:
-      css/certificate-deadlines.css: {}

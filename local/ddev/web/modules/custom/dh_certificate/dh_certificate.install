@@ -1,0 +1,120 @@
+<?php
+// dh_certificate/dh_certificate.install
+
+use Drupal\paragraphs\Entity\Paragraph;
+
+/**
+ * Implements hook_install().
+ */
+function dh_certificate_install() {
+  // Define default requirements
+  $default_requirements = [
+    'courses' => [
+      [
+        'name' => 'Introduction to Digital Humanities',
+        'number' => 'DH 101',
+        'required' => TRUE,
+      ],
+      [
+        'name' => 'Digital Methods',
+        'number' => 'DH 201',
+        'required' => TRUE,
+      ],
+      [
+        'name' => 'Digital Project Management',
+        'number' => 'DH 301',
+        'required' => FALSE,
+      ],
+    ],
+    'general' => [
+      'Digital Portfolio Creation',
+      'Attendance at DH Workshop',
+      'Final Project Presentation',
+    ],
+  ];
+
+  try {
+    // Get all users
+    $users = \Drupal::entityTypeManager()
+      ->getStorage('user')
+      ->loadMultiple();
+
+    foreach ($users as $user) {
+      if ($user->id() > 0) { // Skip anonymous user
+        // Add course requirements
+        foreach ($default_requirements['courses'] as $course) {
+          $paragraph = Paragraph::create([
+            'type' => 'course_requirement',
+            'field_course_name' => $course['name'],
+            'field_course_number' => $course['number'],
+            'field_completed' => FALSE,
+          ]);
+          $paragraph->save();
+          $user->field_dh_requirements[] = [
+            'target_id' => $paragraph->id(),
+            'target_revision_id' => $paragraph->getRevisionId(),
+          ];
+        }
+
+        // Add general requirements
+        foreach ($default_requirements['general'] as $requirement) {
+          $paragraph = Paragraph::create([
+            'type' => 'general_requirement',
+            'field_requirement_name' => $requirement,
+            'field_completed' => FALSE,
+          ]);
+          $paragraph->save();
+          $user->field_dh_requirements[] = [
+            'target_id' => $paragraph->id(),
+            'target_revision_id' => $paragraph->getRevisionId(),
+          ];
+        }
+
+        $user->save();
+      }
+    }
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('dh_certificate')->error('Error creating default requirements: @message', ['@message' => $e->getMessage()]);
+  }
+
+
+  try {
+    $config_factory = \Drupal::configFactory();
+    $required_configs = [
+      'field.storage.paragraph.field_course_name',
+      'field.storage.paragraph.field_course_number',
+      'field.storage.paragraph.field_semester_taken',
+      'field.storage.paragraph.field_completed',
+      'field.storage.paragraph.field_requirement_name',
+      'field.storage.user.field_dh_requirements',
+      'field.field.paragraph.course_requirement.field_completed',
+      'field.field.paragraph.course_requirement.field_course_name',
+      'field.field.paragraph.course_requirement.field_course_number',
+      'field.field.paragraph.course_requirement.field_semester_taken',
+      'field.field.paragraph.general_requirement.field_completed',
+      'field.field.paragraph.general_requirement.field_requirement_name',
+      'field.field.user.user.field_dh_requirements',
+      'paragraphs.paragraphs_type.course_requirement',
+      'paragraphs.paragraphs_type.general_requirement',
+    ];
+
+    $missing_configs = [];
+    foreach ($required_configs as $config_name) {
+      if (!$config_factory->get($config_name)->get()) {
+        $missing_configs[] = $config_name;
+      }
+    }
+
+    if (!empty($missing_configs)) {
+      \Drupal::logger('dh_certificate')->error('Missing configurations after installation: @configs', 
+        ['@configs' => implode(', ', $missing_configs)]);
+    } else {
+      \Drupal::logger('dh_certificate')->notice('All required configurations installed successfully.');
+    }
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('dh_certificate')->error('Error verifying installation: @message', 
+      ['@message' => $e->getMessage()]);
+  }
+}

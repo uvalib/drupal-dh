@@ -1,78 +1,105 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\dh_dashboard\Controller\DashboardController.
- */
-
 namespace Drupal\dh_dashboard\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\dh_dashboard\Services\DashboardManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Layout\LayoutPluginManagerInterface;
+use Drupal\Core\Block\BlockManagerInterface;
 
-class DashboardController extends ControllerBase {
-  protected $dashboardManager;
-  protected $layoutPluginManager;
+class DashboardController extends ControllerBase
+{
+    protected $dashboardManager;
+    protected $layoutPluginManager;
+    protected $blockManager;
 
-  /**
-   * Constructs a new DashboardController object.
-   *
-   * @param \Drupal\dh_dashboard\Services\DashboardManager $dashboard_manager
-   *   The dashboard manager service.
-   * @param \Drupal\Core\Layout\LayoutPluginManagerInterface $layout_plugin_manager
-   *   The layout plugin manager service.
-   */
-  public function __construct(
-    DashboardManager $dashboard_manager,
-    LayoutPluginManagerInterface $layout_plugin_manager
-  ) {
-    $this->dashboardManager = $dashboard_manager;
-    $this->layoutPluginManager = $layout_plugin_manager;
-  }
+    public function __construct(
+        DashboardManager $dashboard_manager,
+        LayoutPluginManagerInterface $layout_plugin_manager,
+        BlockManagerInterface $block_manager
+    ) {
+        $this->dashboardManager = $dashboard_manager;
+        $this->layoutPluginManager = $layout_plugin_manager;
+        $this->blockManager = $block_manager;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('dh_dashboard.manager'),
-      $container->get('plugin.manager.core.layout')
-    );
-  }
+    public static function create(ContainerInterface $container)
+    {
+        return new static(
+            $container->get('dh_dashboard.manager'),
+            $container->get('plugin.manager.core.layout'),
+            $container->get('plugin.manager.block')
+        );
+    }
 
-  /**
-   * Loads and builds the dashboard layout.
-   *
-   * @param string $dashboard_type
-   *   The type of dashboard to load.
-   *
-   * @return array
-   *   A render array for the dashboard.
-   */
-  protected function loadDashboardLayout($dashboard_type) {
-    // For now, let's return a simple layout with placeholder content
-    $layout = $this->layoutPluginManager->createInstance('layout_twocol');
+    protected function loadCertificateDashboard()
+    {
+      // Use a three column layout for certificate dashboard
+        $layout = $this->layoutPluginManager->createInstance('layout_threecol_25_50_25');
     
-    $build = $layout->build([
-      'first' => [
-        '#markup' => $this->t('First column content for @type dashboard', 
-          ['@type' => $dashboard_type]),
-      ],
-      'second' => [
-        '#markup' => $this->t('Second column content for @type dashboard',
-          ['@type' => $dashboard_type]),
-      ],
-    ]);
-
-    return $build;
-  }
-
-  public function content() {
-    $account = $this->currentUser();
-    $dashboard_type = $this->dashboardManager->getUserDashboard($account);
+      // Create block instances
+        $progress_block = $this->blockManager
+        ->createInstance('dh_certificate_progress')
+        ->build();
     
-    return $this->loadDashboardLayout($dashboard_type);
-  }
+        $deadlines_block = $this->blockManager
+        ->createInstance('dh_certificate_deadlines')
+        ->build();
+    
+      // Create a view block for recent certificate content
+        $recent_content = views_embed_view('certificate_content', 'block_1');
+
+        $build = $layout->build([
+        'first' => [
+        'progress' => $progress_block,
+        'deadlines' => $deadlines_block,
+        ],
+        'second' => [
+        'content' => $recent_content,
+        ],
+        'third' => [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['quick-links']],
+        'links' => [
+          '#theme' => 'item_list',
+          '#items' => [
+            ['#markup' => $this->t('Certificate Requirements')],
+            ['#markup' => $this->t('Submit Assignment')],
+            ['#markup' => $this->t('Contact Advisor')],
+          ],
+        ],
+        ],
+        ]);
+
+        return $build;
+    }
+
+    protected function loadDefaultDashboard()
+    {
+      // Implement default dashboard layout
+        $layout = $this->layoutPluginManager->createInstance('layout_twocol');
+    
+        return $layout->build([
+        'first' => [
+        '#markup' => $this->t('<h2>Welcome to your dashboard</h2>'),
+        ],
+        'second' => [
+        '#markup' => $this->t('Quick links and notifications will appear here'),
+        ],
+        ]);
+    }
+
+    public function content()
+    {
+        $account = $this->currentUser();
+        $dashboard_type = $this->dashboardManager->getUserDashboard($account);
+    
+        if ($dashboard_type === 'dh_certificate') {
+            return $this->loadCertificateDashboard();
+        }
+    
+        return $this->loadCertificateDashboard();
+      // return $this->loadDefaultDashboard();
+    }
 }

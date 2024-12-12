@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: course_requirement
+label: 'Course Requirement'
+icon_uuid: null
+icon_default: null
+description: 'Tracks completed courses for DH Certificate'
+behavior_plugins: {  }

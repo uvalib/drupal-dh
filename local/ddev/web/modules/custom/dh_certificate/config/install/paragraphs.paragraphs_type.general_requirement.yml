@@ -1,0 +1,11 @@
+
+langcode: en
+status: true
+dependencies: {  }
+id: general_requirement
+label: 'General Requirement'
+icon_uuid: null
+icon_default: null
+description: 'General checkbox requirements for DH Certificate'
+behavior_plugins: {  }
+

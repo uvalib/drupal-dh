@@ -1,13 +1,34 @@
-{# templates/dh-certificate-progress.html.twig #}
-<div class="certificate-progress">
-  <h3>{% trans %}Certificate Progress{% endtrans %}</h3>
-  <div class="progress-bar">
-    <div class="progress" style="width: {{ progress.completed / progress.total * 100 }}%"></div>
+<div class="dh-certificate-progress">
+  <h2>{% trans %}Certificate Progress{% endtrans %}</h2>
+  
+  <div class="progress-summary">
+    <div class="progress-bar">
+      <div class="progress-fill" style="width: {{ progress.total_completed / progress.total_requirements * 100 }}%"></div>
+    </div>
+    <div class="progress-text">
+      {{ progress.total_completed }}/{{ progress.total_requirements }} requirements completed
+    </div>
   </div>
-  <div class="progress-stats">
-    <span>{{ progress.completed }}/{{ progress.total }} {% trans %}modules completed{% endtrans %}</span>
+
+  <h3>{% trans %}Course Requirements{% endtrans %}</h3>
+  <div class="course-requirements">
+    {% for course in progress.courses %}
+      <div class="requirement-item {{ course.completed ? 'completed' : 'incomplete' }}">
+        <span class="course-number">{{ course.number }}</span>
+        <span class="course-name">{{ course.name }}</span>
+        <span class="semester">{{ course.semester }}</span>
+        <span class="status">{{ course.completed ? '✓' : '○' }}</span>
+      </div>
+    {% endfor %}
   </div>
-  <div class="next-module">
-    <strong>{% trans %}Next module:{% endtrans %}</strong> {{ progress.next_module }}
+
+  <h3>{% trans %}General Requirements{% endtrans %}</h3>
+  <div class="general-requirements">
+    {% for req in progress.general %}
+      <div class="requirement-item {{ req.completed ? 'completed' : 'incomplete' }}">
+        <span class="requirement-name">{{ req.name }}</span>
+        <span class="status">{{ req.completed ? '✓' : '○' }}</span>
+      </div>
+    {% endfor %}
   </div>
 </div>

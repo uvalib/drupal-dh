@@ -1,4 +1,3 @@
-// dh_dashboard/src/Plugin/Block/DashboardBlockBase.php
 <?php
 
 /**

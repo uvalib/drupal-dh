@@ -1,7 +1,8 @@
 name: DH Dashboard
 type: module
 description: 'Manages user-specific DH dashboards'
-core_version_requirement: ^10
+package: Digital Humanities
+core_version_requirement: ^9 || ^10
 dependencies:
   - drupal:layout_builder
   - drupal:views

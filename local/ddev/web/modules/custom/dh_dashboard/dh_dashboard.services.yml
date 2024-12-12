@@ -1,3 +1,4 @@
 services:
   dh_dashboard.manager:
     class: Drupal\dh_dashboard\Services\DashboardManager
+    arguments: ['@entity_type.manager']
