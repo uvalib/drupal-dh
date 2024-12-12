@@ -1,0 +1,16 @@
+{# modules/custom/dh_certificate/templates/dh-certificate-deadlines.html.twig #}
+<div class="dh-certificate-deadlines">
+  {% if deadlines|length > 0 %}
+    <h3>{{ 'Upcoming Deadlines'|t }}</h3>
+    <ul class="deadlines-list">
+      {% for deadline in deadlines %}
+        <li class="deadline-item">
+          <span class="deadline-date">{{ deadline.date }}</span>
+          <span class="deadline-description">{{ deadline.description }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>{{ 'No upcoming deadlines.'|t }}</p>
+  {% endif %}
+</div>

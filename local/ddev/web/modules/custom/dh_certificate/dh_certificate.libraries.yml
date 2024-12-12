@@ -1,0 +1,5 @@
+certificate_progress:
+  version: 1.x
+  css:
+    theme:
+      css/dh-certificate.css: {}
