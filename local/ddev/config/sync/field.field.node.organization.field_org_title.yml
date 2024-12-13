@@ -1,0 +1,24 @@
+uuid: b5374b4c-f501-4365-9f0f-95fcb0aa1eae
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_org_title
+    - filter.format.full_html
+    - node.type.organization
+  module:
+    - text
+id: node.organization.field_org_title
+field_name: field_org_title
+entity_type: node
+bundle: organization
+label: 'Org Title'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - full_html
+field_type: text

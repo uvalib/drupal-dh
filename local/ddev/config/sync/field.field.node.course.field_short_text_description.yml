@@ -1,0 +1,22 @@
+uuid: 0c8f1655-2aa9-4b60-8bcf-f3c75d73ff85
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_short_text_description
+    - node.type.course
+  module:
+    - text
+id: node.course.field_short_text_description
+field_name: field_short_text_description
+entity_type: node
+bundle: course
+label: 'Short text description'
+description: 'No more than 2'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text

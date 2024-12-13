@@ -1,19 +1,19 @@
-uuid: c97ce7c0-57e5-4cde-833e-6ebd1bf51703
+uuid: 2e49e86a-ca5c-43c2-b63c-2a50d3508976
 langcode: en
 status: true
 dependencies:
   module:
     - node
-    - taxonomy
-id: node.field_test_reference_to_departme
-field_name: field_test_reference_to_departme
+    - profile
+id: node.field_course_instructor
+field_name: field_course_instructor
 entity_type: node
 type: entity_reference
 settings:
-  target_type: taxonomy_term
+  target_type: profile
 module: core
 locked: false
-cardinality: 10
+cardinality: 2
 translatable: true
 indexes: {  }
 persist_with_no_fields: false
