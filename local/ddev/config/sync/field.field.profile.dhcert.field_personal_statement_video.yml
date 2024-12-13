@@ -1,0 +1,31 @@
+uuid: 5637c02c-4c6e-4027-b9aa-81fb2f48ab25
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_personal_statement_video
+    - media.type.audio
+    - media.type.video
+    - profile.type.dhcert
+id: profile.dhcert.field_personal_statement_video
+field_name: field_personal_statement_video
+entity_type: profile
+bundle: dhcert
+label: 'Personal Statement Video'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:media'
+  handler_settings:
+    target_bundles:
+      audio: audio
+      video: video
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: audio
+field_type: entity_reference

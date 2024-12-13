@@ -7,12 +7,12 @@ dependencies:
 id: courses
 label: Courses
 type: 'canonical_entities:node'
-pattern: 'course/[node:field_year:entity]/[node:field_department_or_school]/[node:title]'
+pattern: 'course/[node:field_year:entity]/[node:field_department_or_school]/[node:field_course_mnemonic]'
 selection_criteria:
-  b98afef2-12f4-4774-b89e-87ec34732ca4:
+  0011390e-6e06-4466-a958-3bffb690d108:
     id: 'entity_bundle:node'
     negate: false
-    uuid: b98afef2-12f4-4774-b89e-87ec34732ca4
+    uuid: 0011390e-6e06-4466-a958-3bffb690d108
     context_mapping:
       node: node
     bundles:

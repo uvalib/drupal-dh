@@ -6,3 +6,4 @@ name: 'University Affiliation'
 vid: university_affiliation
 description: 'Is this UVA or non-UVA?'
 weight: 0
+new_revision: false

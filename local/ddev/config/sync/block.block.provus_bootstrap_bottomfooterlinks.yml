@@ -1,0 +1,25 @@
+uuid: 56b0c890-f10a-4017-af23-950a567062f4
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.bottom-footer-links
+  module:
+    - system
+  theme:
+    - provus_bootstrap
+id: provus_bootstrap_bottomfooterlinks
+theme: provus_bootstrap
+region: footer_fifth
+weight: -5
+provider: null
+plugin: 'system_menu_block:bottom-footer-links'
+settings:
+  id: 'system_menu_block:bottom-footer-links'
+  label: 'Bottom footer links'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility: {  }

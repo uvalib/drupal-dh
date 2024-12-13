@@ -52,6 +52,7 @@ function provus_bootstrap_preprocess_html(array &$variables) {
   if (isset($path_args[1]) && isset($path_args[2]) && isset($path_args[3]) && ($path_args[1] == 'node') && (is_numeric($path_args[2])) && ($path_args[3] == 'layout')) {
     $variables['attributes']['class'][] = 'layout-builder-active';
   }
+ 
 }
 
 /**
@@ -122,3 +123,8 @@ function provus_preprocess_node(&$vars) {
     $vars['content_date'] = date('F d, Y', $vars['node']->getCreatedTime());
   }
 }
+
+function provus_bootstrap_preprocess_page(&$variables) {
+  $variables['devops_label'] = \Drupal::service('settings')->get('devops_label') ?: "unknown";
+}
+

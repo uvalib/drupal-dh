@@ -1,0 +1,25 @@
+uuid: 02ec1002-3b49-47b4-b2de-05f235facd82
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:provus_basic_text:dca3e947-58f3-4d2c-b6f2-2efbbf0c1985'
+  module:
+    - block_content
+  theme:
+    - provus_bootstrap
+id: provus_bootstrap_copyrightnoticebasictext1211405487
+theme: provus_bootstrap
+region: footer_fifth
+weight: -6
+provider: null
+plugin: 'block_content:dca3e947-58f3-4d2c-b6f2-2efbbf0c1985'
+settings:
+  id: 'block_content:dca3e947-58f3-4d2c-b6f2-2efbbf0c1985'
+  label: 'Copyright notice'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

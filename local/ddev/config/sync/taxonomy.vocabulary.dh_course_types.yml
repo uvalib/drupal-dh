@@ -6,3 +6,4 @@ name: 'DH Course Types'
 vid: dh_course_types
 description: 'Does this satisfy DH Cert Requirements?'
 weight: 0
+new_revision: false

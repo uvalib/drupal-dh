@@ -10,8 +10,8 @@ _core:
   default_config_hash: yEBET0cqDbk8dkWzaJw-8CKft0961VBflsISoSR6Lj8
 id: provus_bootstrap_search_form_narrow
 theme: provus_bootstrap
-region: primary_menu
-weight: -4
+region: secondary_menu
+weight: -7
 provider: null
 plugin: search_form_block
 settings:

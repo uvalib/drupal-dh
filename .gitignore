@@ -1,3 +1,4 @@
+
 package/scripts/build.ksh
 package/scripts/shell.ksh
 # macOS files
@@ -26,3 +27,8 @@ Icon?
 .noindex
 
 .vscode
+
+node_modules/
+local/ddev/backups/*.sql.gz
+
+

@@ -1,5 +1,6 @@
 _core:
   default_config_hash: HENvUIeX6xNPGRB1w3z6rT9a71LM_hKXATF6XrM9WvM
+langcode: en
 smtp_on: false
 smtp_host: out.mail.virginia.edu
 smtp_hostbackup: ''
@@ -13,9 +14,10 @@ smtp_from: xw5d@virginia.edu
 smtp_fromname: ''
 smtp_client_hostname: ''
 smtp_client_helo: ''
-smtp_allowhtml: '1'
+smtp_allowhtml: true
 smtp_test_address: xw5dva@gmail.com
 smtp_reroute_address: ''
 smtp_debugging: false
+smtp_debug_level: 1
 prev_mail_system: php_mail
 smtp_keepalive: false
