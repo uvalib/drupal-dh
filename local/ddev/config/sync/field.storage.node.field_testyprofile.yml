@@ -1,16 +1,16 @@
-uuid: 1a38836e-a6be-4a64-92d8-94ed65e25adf
+uuid: ebcb901f-1aa9-4667-b20f-f5274e31e3d1
 langcode: en
 status: true
 dependencies:
   module:
     - node
-    - user
-id: node.field_instructor_name
-field_name: field_instructor_name
+    - profile
+id: node.field_testyprofile
+field_name: field_testyprofile
 entity_type: node
 type: entity_reference
 settings:
-  target_type: user
+  target_type: profile
 module: core
 locked: false
 cardinality: 1

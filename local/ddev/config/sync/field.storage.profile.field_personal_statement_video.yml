@@ -1,16 +1,16 @@
-uuid: 6bf226f0-21b9-4a8e-8ea7-4aa09d93404d
+uuid: f8de2b3a-302a-4850-a38a-c000980d88e5
 langcode: en
 status: true
 dependencies:
   module:
-    - node
-    - taxonomy
-id: node.field_year
-field_name: field_year
-entity_type: node
+    - media
+    - profile
+id: profile.field_personal_statement_video
+field_name: field_personal_statement_video
+entity_type: profile
 type: entity_reference
 settings:
-  target_type: taxonomy_term
+  target_type: media
 module: core
 locked: false
 cardinality: 1

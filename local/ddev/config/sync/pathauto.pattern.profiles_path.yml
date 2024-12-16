@@ -1,0 +1,14 @@
+uuid: ee57699f-4cd6-40d1-a403-f82effc37a5a
+langcode: en
+status: true
+dependencies:
+  module:
+    - profile
+id: profiles_path
+label: 'profiles path'
+type: 'canonical_entities:profile'
+pattern: '/profile/[profile:uid:entity:account-name]'
+selection_criteria: {  }
+selection_logic: and
+weight: 0
+relationships: {  }

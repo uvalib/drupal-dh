@@ -1,15 +1,16 @@
-uuid: d55231ca-99c4-40b3-8d8e-320bab92d339
+uuid: 5c208747-9eee-4242-8f57-efb2c9fea67c
 langcode: en
 status: true
 dependencies:
   module:
     - node
     - text
-id: node.field_dhcert_course_requirements
-field_name: field_dhcert_course_requirements
+id: node.field_org_title
+field_name: field_org_title
 entity_type: node
-type: text_long
-settings: {  }
+type: text
+settings:
+  max_length: 255
 module: text
 locked: false
 cardinality: 1

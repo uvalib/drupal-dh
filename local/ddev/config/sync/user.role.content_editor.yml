@@ -3,6 +3,7 @@ langcode: en
 status: true
 dependencies:
   config:
+    - core.entity_view_display.node.dh_tool.default
     - media.type.audio
     - media.type.document
     - media.type.image
@@ -23,9 +24,11 @@ dependencies:
     - contextual
     - field_validation
     - file
+    - layout_builder
     - media
     - node
     - path
+    - profile
     - statistics
     - system
     - toolbar
@@ -42,12 +45,15 @@ permissions:
   - 'access contextual links'
   - 'access files overview'
   - 'access media overview'
+  - 'access profile overview'
   - 'access site in maintenance mode'
   - 'access toolbar'
   - 'administer contact forms'
   - 'administer field validation rule set'
   - 'administer url aliases'
   - 'change own username'
+  - 'configure all dh_tool node layout overrides'
+  - 'configure editable dh_tool node layout overrides'
   - 'create article content'
   - 'create audio media'
   - 'create course content'

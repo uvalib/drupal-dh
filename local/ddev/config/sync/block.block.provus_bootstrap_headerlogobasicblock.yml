@@ -1,0 +1,25 @@
+uuid: 0d98f1e2-d6ee-4e04-b2d1-daac48f9d8ad
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:de82a6f8-9a99-4d86-85e4-f22924312edf'
+  module:
+    - block_content
+  theme:
+    - provus_bootstrap
+id: provus_bootstrap_headerlogobasicblock
+theme: provus_bootstrap
+region: top_header
+weight: 0
+provider: null
+plugin: 'block_content:de82a6f8-9a99-4d86-85e4-f22924312edf'
+settings:
+  id: 'block_content:de82a6f8-9a99-4d86-85e4-f22924312edf'
+  label: 'header logo - basic block'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

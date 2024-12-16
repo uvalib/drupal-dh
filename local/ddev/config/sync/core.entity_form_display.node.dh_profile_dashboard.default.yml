@@ -1,25 +1,18 @@
-uuid: 736a3558-8e33-40e2-9022-84a1eee011d3
+uuid: 6b668de2-56c7-4906-834d-83766118de88
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.organization.body
-    - field.field.node.organization.field_affiliated_dh_projects
-    - field.field.node.organization.field_contact_person
-    - field.field.node.organization.field_image
-    - field.field.node.organization.field_link_to_more_information
-    - field.field.node.organization.field_org_title
-    - field.field.node.organization.field_uva_or_non_uva
-    - image.style.thumbnail
-    - node.type.organization
+    - field.field.node.dh_profile_dashboard.body
+    - field.field.node.dh_profile_dashboard.field_testyprofile
+    - field.field.node.dh_profile_dashboard.field_testyuserfield_no_clue_wha
+    - node.type.dh_profile_dashboard
   module:
-    - image
-    - link
     - path
     - text
-id: node.organization.default
+id: node.dh_profile_dashboard.default
 targetEntityType: node
-bundle: organization
+bundle: dh_profile_dashboard
 mode: default
 content:
   body:
@@ -38,53 +31,19 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_affiliated_dh_projects:
-    type: entity_reference_autocomplete
-    weight: 123
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_contact_person:
-    type: entity_reference_autocomplete
-    weight: 13
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_image:
-    type: image_image
-    weight: 1
-    region: content
-    settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
-    third_party_settings: {  }
-  field_link_to_more_information:
-    type: link_default
-    weight: 11
-    region: content
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-  field_org_title:
-    type: text_textfield
-    weight: 124
-    region: content
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_uva_or_non_uva:
+  field_testyprofile:
     type: entity_reference_autocomplete
     weight: 122
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_testyuserfield_no_clue_wha:
+    type: entity_reference_autocomplete
+    weight: 123
     region: content
     settings:
       match_operator: CONTAINS

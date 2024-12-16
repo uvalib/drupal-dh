@@ -1,0 +1,36 @@
+uuid: 28fd8cc0-643a-471c-a527-f4466d2d74c4
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.dh_profile_dashboard.body
+    - field.field.node.dh_profile_dashboard.field_testyprofile
+    - field.field.node.dh_profile_dashboard.field_testyuserfield_no_clue_wha
+    - node.type.dh_profile_dashboard
+  module:
+    - text
+    - user
+id: node.dh_profile_dashboard.teaser
+targetEntityType: node
+bundle: dh_profile_dashboard
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  addtoany: true
+  breadcrumbs: true
+  field_testyprofile: true
+  field_testyuserfield_no_clue_wha: true

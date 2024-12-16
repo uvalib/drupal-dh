@@ -5,25 +5,24 @@ dependencies:
   config:
     - field.field.node.course.field_affiliated_dh_projects
     - field.field.node.course.field_course_description
+    - field.field.node.course.field_course_instructor
+    - field.field.node.course.field_course_meets_what_requirem
     - field.field.node.course.field_course_mnemonic
+    - field.field.node.course.field_course_year
     - field.field.node.course.field_department_or_school
-    - field.field.node.course.field_dh_certificate_requirement
     - field.field.node.course.field_dh_concentration
     - field.field.node.course.field_dh_research_data_type
     - field.field.node.course.field_dh_tool_implementation
-    - field.field.node.course.field_dhcert_course_requirements
-    - field.field.node.course.field_instructor_name
     - field.field.node.course.field_link_to_more_information
-    - field.field.node.course.field_link_to_online_meeting
     - field.field.node.course.field_link_to_uva_sis_listing
     - field.field.node.course.field_semester
-    - field.field.node.course.field_test_reference_to_departme
+    - field.field.node.course.field_short_text_description
     - field.field.node.course.field_university_affiliation
     - field.field.node.course.field_upload_a_syllabus_file
-    - field.field.node.course.field_year
     - node.type.course
   module:
     - file
+    - inline_entity_form
     - link
     - text
 id: node.course.default
@@ -49,13 +48,37 @@ content:
     third_party_settings: {  }
   field_course_description:
     type: text_textarea_with_summary
-    weight: 7
+    weight: 8
     region: content
     settings:
       rows: 9
       summary_rows: 3
       placeholder: ''
       show_summary: false
+    third_party_settings: {  }
+  field_course_instructor:
+    type: inline_entity_form_complex
+    weight: 5
+    region: content
+    settings:
+      form_mode: default
+      override_labels: false
+      label_singular: ''
+      label_plural: ''
+      allow_new: true
+      allow_existing: false
+      match_operator: CONTAINS
+      allow_duplicate: false
+      collapsible: false
+      collapsed: false
+      revision: false
+      removed_reference: optional
+    third_party_settings: {  }
+  field_course_meets_what_requirem:
+    type: options_buttons
+    weight: 3
+    region: content
+    settings: {  }
     third_party_settings: {  }
   field_course_mnemonic:
     type: string_textfield
@@ -65,9 +88,19 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
+  field_course_year:
+    type: entity_reference_autocomplete
+    weight: 2
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_department_or_school:
     type: entity_reference_autocomplete
-    weight: 6
+    weight: 7
     region: content
     settings:
       match_operator: CONTAINS
@@ -75,21 +108,11 @@ content:
       size: 60
       placeholder: 'Start typing the name of the department....'
     third_party_settings: {  }
-  field_dh_certificate_requirement:
-    type: options_buttons
-    weight: 5
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   field_dh_concentration:
-    type: entity_reference_autocomplete
+    type: options_select
     weight: 14
     region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
+    settings: {  }
     third_party_settings: {  }
   field_dh_research_data_type:
     type: options_buttons
@@ -107,33 +130,7 @@ content:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_dhcert_course_requirements:
-    type: text_textarea
-    weight: 135
-    region: content
-    settings:
-      rows: 5
-      placeholder: ''
-    third_party_settings: {  }
-  field_instructor_name:
-    type: entity_reference_autocomplete
-    weight: 2
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
   field_link_to_more_information:
-    type: link_default
-    weight: 9
-    region: content
-    settings:
-      placeholder_url: ''
-      placeholder_title: ''
-    third_party_settings: {  }
-  field_link_to_online_meeting:
     type: link_default
     weight: 10
     region: content
@@ -143,7 +140,7 @@ content:
     third_party_settings: {  }
   field_link_to_uva_sis_listing:
     type: link_default
-    weight: 26
+    weight: 20
     region: content
     settings:
       placeholder_url: ''
@@ -151,23 +148,21 @@ content:
     third_party_settings: {  }
   field_semester:
     type: options_buttons
-    weight: 3
+    weight: 1
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_test_reference_to_departme:
-    type: entity_reference_autocomplete
-    weight: 134
+  field_short_text_description:
+    type: text_textfield
+    weight: 26
     region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }
   field_university_affiliation:
     type: options_buttons
-    weight: 8
+    weight: 9
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -178,12 +173,6 @@ content:
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
-  field_year:
-    type: options_buttons
-    weight: 4
-    region: content
-    settings: {  }
-    third_party_settings: {  }
   status:
     type: boolean_checkbox
     weight: 19
@@ -193,7 +182,7 @@ content:
     third_party_settings: {  }
   title:
     type: string_textfield
-    weight: 1
+    weight: 4
     region: content
     settings:
       size: 60
