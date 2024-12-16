@@ -125,7 +125,6 @@ third_party_settings:
               provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
-                view_mode: view_mode
               formatter:
                 type: entity_reference_label
                 label: hidden
