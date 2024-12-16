@@ -1,18 +1,18 @@
-uuid: b0b08134-18bd-453d-bd95-f0eeef1a8661
+uuid: 8d9d6a95-7bb1-4ad5-9335-1ded58f3ab96
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_test_reference_to_departme
+    - field.storage.node.field_course_year
     - node.type.course
-    - taxonomy.vocabulary.university_department_or_school
-id: node.course.field_test_reference_to_departme
-field_name: field_test_reference_to_departme
+    - taxonomy.vocabulary.semester_and_year
+id: node.course.field_course_year
+field_name: field_course_year
 entity_type: node
 bundle: course
-label: 'Test reference to Department Taxonomy'
+label: 'Course year'
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
@@ -20,7 +20,7 @@ settings:
   handler: 'default:taxonomy_term'
   handler_settings:
     target_bundles:
-      university_department_or_school: university_department_or_school
+      semester_and_year: semester_and_year
     sort:
       field: name
       direction: asc

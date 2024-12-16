@@ -40,6 +40,10 @@ div.view-filters {
   font-size: 1.2rem;
 }
 
+.custom-line-spacing {
+  line-height: 1.5; /* Adjust the value as needed */
+}
+
 /* Landing page headings should have Bodoni font family used. */
 .node--type-landing-page .node__content h1, .node--type-landing-page .node__content .h1, .node--type-landing-page .node__content h2, .node--type-landing-page .node__content .h2, .node--type-landing-page .node__content h3, .node--type-landing-page .node__content .h3, .node--type-landing-page .node__content h4, .node--type-landing-page .node__content .h4 {
   font-family: "bodoni-urw";

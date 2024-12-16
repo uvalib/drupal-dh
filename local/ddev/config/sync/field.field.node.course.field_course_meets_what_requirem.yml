@@ -1,18 +1,18 @@
-uuid: d7ba3ba3-cc36-4e3e-bfba-5dbccda82076
+uuid: f20b9622-9753-47c3-9b57-76a73f5f19c5
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_dh_certificate_requirement
+    - field.storage.node.field_course_meets_what_requirem
     - node.type.course
     - taxonomy.vocabulary.dh_course_types
-id: node.course.field_dh_certificate_requirement
-field_name: field_dh_certificate_requirement
+id: node.course.field_course_meets_what_requirem
+field_name: field_course_meets_what_requirem
 entity_type: node
 bundle: course
-label: 'DH Certificate Requirement'
+label: 'Course meets what requirement'
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

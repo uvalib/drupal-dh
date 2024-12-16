@@ -6,22 +6,20 @@ dependencies:
     - core.entity_view_mode.node.teaser
     - field.field.node.course.field_affiliated_dh_projects
     - field.field.node.course.field_course_description
+    - field.field.node.course.field_course_instructor
+    - field.field.node.course.field_course_meets_what_requirem
     - field.field.node.course.field_course_mnemonic
+    - field.field.node.course.field_course_year
     - field.field.node.course.field_department_or_school
-    - field.field.node.course.field_dh_certificate_requirement
     - field.field.node.course.field_dh_concentration
     - field.field.node.course.field_dh_research_data_type
     - field.field.node.course.field_dh_tool_implementation
-    - field.field.node.course.field_dhcert_course_requirements
-    - field.field.node.course.field_instructor_name
     - field.field.node.course.field_link_to_more_information
-    - field.field.node.course.field_link_to_online_meeting
     - field.field.node.course.field_link_to_uva_sis_listing
     - field.field.node.course.field_semester
-    - field.field.node.course.field_test_reference_to_departme
+    - field.field.node.course.field_short_text_description
     - field.field.node.course.field_university_affiliation
     - field.field.node.course.field_upload_a_syllabus_file
-    - field.field.node.course.field_year
     - node.type.course
   module:
     - user
@@ -37,21 +35,20 @@ content:
     region: content
 hidden:
   addtoany: true
+  breadcrumbs: true
   field_affiliated_dh_projects: true
   field_course_description: true
+  field_course_instructor: true
+  field_course_meets_what_requirem: true
   field_course_mnemonic: true
+  field_course_year: true
   field_department_or_school: true
-  field_dh_certificate_requirement: true
   field_dh_concentration: true
   field_dh_research_data_type: true
   field_dh_tool_implementation: true
-  field_dhcert_course_requirements: true
-  field_instructor_name: true
   field_link_to_more_information: true
-  field_link_to_online_meeting: true
   field_link_to_uva_sis_listing: true
   field_semester: true
-  field_test_reference_to_departme: true
+  field_short_text_description: true
   field_university_affiliation: true
   field_upload_a_syllabus_file: true
-  field_year: true
