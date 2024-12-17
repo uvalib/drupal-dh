@@ -19,8 +19,25 @@ use Drupal\dh_dashboard\Services\DashboardManager;
  */
 class DHCertificateProgressBlock extends BlockBase implements ContainerFactoryPluginInterface
 {
+    /**
+     * The dashboard manager service.
+     *
+     * @var \Drupal\dh_dashboard\Services\DashboardManager
+     */
     protected $dashboardManager;
 
+    /**
+     * Constructs a new DHCertificateProgressBlock instance.
+     *
+     * @param array $configuration
+     *   The plugin configuration.
+     * @param string $plugin_id
+     *   The plugin_id for the plugin instance.
+     * @param mixed $plugin_definition
+     *   The plugin implementation definition.
+     * @param \Drupal\dh_dashboard\Services\DashboardManager $dashboard_manager
+     *   The dashboard manager service.
+     */
     public function __construct(
         array $configuration,
         $plugin_id,
@@ -31,6 +48,9 @@ class DHCertificateProgressBlock extends BlockBase implements ContainerFactoryPl
         $this->dashboardManager = $dashboard_manager;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
     {
         return new static(
@@ -43,26 +63,17 @@ class DHCertificateProgressBlock extends BlockBase implements ContainerFactoryPl
 
     public function build()
     {
-        $account = \Drupal::currentUser();
-        $progress = $this->dashboardManager->getDHCertificateProgress($account);
-
-        if ($progress['field_missing']) {
-            return [
-            '#markup' => $this->t(
-                'DH Certificate tracking is not yet configured. Please install the DH Certificate module first.'
-            ),
-            '#cache' => [
-            'tags' => ['config:field.storage.user.field_dh_requirements'],
-            ],
-            ];
-        }
-
         return [
-        '#theme' => 'dh_certificate_progress',
-        '#progress' => $progress,
-        '#attached' => [
-        'library' => ['dh_dashboard/certificate_progress'],
-        ],
+            '#theme' => 'dh_certificate_progress',
+            '#progress' => $this->dashboardManager->getMockProgress(),
+            '#attached' => [
+                'library' => [
+                    'dh_dashboard/certificate-progress',
+                ],
+            ],
+            '#cache' => [
+                'contexts' => ['user'],
+            ],
         ];
     }
 }

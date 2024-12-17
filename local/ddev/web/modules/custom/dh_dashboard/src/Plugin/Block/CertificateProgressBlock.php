@@ -5,72 +5,87 @@ namespace Drupal\dh_dashboard\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\dh_dashboard\Services\DashboardManager;
 
 /**
  * Provides a block displaying certificate progress.
  *
+ * @category DH_Dashboard
+ * @package  DH_Dashboard
+ * @author   Yuji Shinozaki <yuji@virginia.edu>
+ * @license  https://www.gnu.org/licenses/gpl-2.0.html GPL-2.0-or-later
+ * @link     https://www.drupal.org/project/dh_dashboard
+ *
  * @Block(
- *   id = "dh_certificate_progress",
- *   admin_label = @Translation("DH Certificate Progress"),
+ *   id = "certificate_progress_block",
+ *   admin_label = @Translation("Certificate Progress"),
  *   category = @Translation("DH Dashboard")
  * )
  */
-class CertificateProgressBlock extends BlockBase implements ContainerFactoryPluginInterface {
-  
-  /**
-   * The current user.
-   *
-   * @var \Drupal\Core\Session\AccountProxyInterface
-   */
-  protected $currentUser;
+class CertificateProgressBlock extends BlockBase implements ContainerFactoryPluginInterface
+{
 
-  /**
-   * Constructs a new CertificateProgressBlock instance.
-   *
-   * @param array $configuration
-   *   The plugin configuration.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param \Drupal\Core\Session\AccountProxyInterface $current_user
-   *   The current user.
-   */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, AccountProxyInterface $current_user) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->currentUser = $current_user;
-  }
+    /**
+     * Dashboard manager service.
+     *
+     * @var \Drupal\dh_dashboard\Services\DashboardManager
+     */
+    protected $dashboardManager;
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('current_user')
-    );
-  }
+    /**
+     * Constructs a new CertificateProgressBlock instance.
+     *
+     * @param array                                           $configuration
+     *   A configuration array containing information about the plugin instance.
+     *   A configuration array containing information about the plugin instance.
+     * @param string $plugin_id
+     *   The plugin ID for the plugin instance.
+     * @param mixed $plugin_definition
+     *   The plugin implementation definition.
+     * @param \Drupal\dh_dashboard\Services\DashboardManager $dashboard_manager
+     *   The dashboard manager service.
+     */
+    public function __construct(array $configuration, $plugin_id, $plugin_definition, DashboardManager $dashboard_manager)
+    {
+        parent::__construct($configuration, $plugin_id, $plugin_definition);
+        $this->dashboardManager = $dashboard_manager;
+    }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function build() {
-    // Mock progress data - replace with actual progress tracking
-    $progress = [
-      'completed' => 3,
-      'total' => 8,
-      'next_module' => 'Research Methods',
-    ];
+    /**
+     * {@inheritdoc}
+     */
+    public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition)
+    {
+        return new static(
+            $configuration,
+            $plugin_id,
+            $plugin_definition,
+            $container->get('dh_dashboard.manager')
+        );
+    }
 
-    return [
-      '#theme' => 'dh_certificate_progress',
-      '#progress' => $progress,
-      '#attached' => [
-        'library' => ['dh_dashboard/certificate-progress'],
-      ],
-    ];
-  }
+    public function build()
+    {
+        $route_match = \Drupal::routeMatch();
+        $user = $route_match->getParameter('user');
+        
+        if (!$user) {
+            $user = \Drupal::currentUser();
+        }
+
+        $progress = $this->dashboardManager->getDHCertificateProgress($user);
+
+        return [
+            '#theme' => 'certificate_progress',
+            '#progress' => $progress,
+            '#attached' => [
+                'library' => ['dh_dashboard/certificate-progress'],
+            ],
+            '#cache' => [
+                'max-age' => 0, // Temporarily disable caching for debugging
+                'contexts' => ['user'],
+                'tags' => ['user:' . $user->id()],
+            ],
+        ];
+    }
 }

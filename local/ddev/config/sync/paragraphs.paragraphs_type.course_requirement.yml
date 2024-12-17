@@ -1,0 +1,12 @@
+uuid: c9919c20-a265-41a4-bc10-08b8c00aa0a4
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: cjuws4Ad5YkbmOGsl8aH-Q9qaTwRtNKL7kJZDqJGvKs
+id: course_requirement
+label: 'Course Requirement'
+icon_uuid: null
+icon_default: null
+description: 'Tracks completed courses for DH Certificate'
+behavior_plugins: {  }

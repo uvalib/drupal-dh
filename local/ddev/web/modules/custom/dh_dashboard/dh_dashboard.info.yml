@@ -1,8 +1,15 @@
 name: DH Dashboard
 type: module
-description: 'Manages user-specific DH dashboards'
+description: 'Digital Humanities Certificate Dashboard'
 package: Digital Humanities
 core_version_requirement: ^9 || ^10
 dependencies:
   - drupal:layout_builder
   - drupal:views
+  - drupal:block
+  - drupal:user
+  - drupal:field
+  - drupal:options
+  - drupal:profile
+libraries:
+  - dh_dashboard/certificate-progress

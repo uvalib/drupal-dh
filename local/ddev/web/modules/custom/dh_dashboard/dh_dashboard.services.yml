@@ -1,4 +1,8 @@
 services:
+  plugin.manager.dh_requirement:
+    class: Drupal\dh_dashboard\Plugin\DHRequirementPluginManager
+    parent: default_plugin_manager
+
   dh_dashboard.manager:
     class: Drupal\dh_dashboard\Services\DashboardManager
-    arguments: ['@entity_type.manager']
+    arguments: ['@current_user', '@plugin.manager.dh_requirement', '@entity_type.manager']

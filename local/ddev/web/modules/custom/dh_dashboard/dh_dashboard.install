@@ -1,0 +1,45 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the DH Dashboard module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function dh_dashboard_install() {
+  // Clear layout builder settings if they exist
+  \Drupal::configFactory()->getEditable('layout_builder.layout.dh_certificate')->delete();
+  
+  // Place the certificate progress block
+  $block_config = \Drupal::configFactory()->getEditable('block.block.certificateprogressblock');
+  if ($block_config->isNew()) {
+    $block_config
+      ->set('id', 'certificateprogressblock')
+      ->set('theme', 'bootstrap_sass')
+      ->set('region', 'content')
+      ->set('status', TRUE)
+      ->set('plugin', 'certificate_progress_block')
+      ->set('settings', [
+        'id' => 'certificate_progress_block',
+        'label' => 'Certificate Progress',
+        'label_display' => 'visible',
+        'provider' => 'dh_dashboard'
+      ])
+      ->save(TRUE);
+  }
+
+  // Clear all caches to ensure new configuration is loaded
+  drupal_flush_all_caches();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function dh_dashboard_uninstall() {
+  // Remove the layout builder configuration
+  \Drupal::configFactory()->getEditable('layout_builder.layout.dh_certificate')->delete();
+  // Remove the block configuration
+  \Drupal::configFactory()->getEditable('block.block.certificateprogressblock')->delete();
+}

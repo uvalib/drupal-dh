@@ -1,0 +1,25 @@
+uuid: 573a6fa5-e94a-468b-a046-9f17f62ce4b8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dhcert_course_requirements
+    - node.type.course
+  module:
+    - text
+id: node.course.field_dhcert_course_requirements
+field_name: field_dhcert_course_requirements
+entity_type: node
+bundle: course
+label: 'DHCert Course Requirements'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: "<h3>The DH Certificate requires 12 credit hours, to be taken at UVA while the student is enrolled in graduate school.</h3><p><strong>For Students enrolled in and after Fall 2023:</strong></p><ul><li>Introduction to Digital Humanities (DH 8991)</li><li>Data Design and Methods for Humanities: DH Practicum (DS 7800)</li><li>Two electives, either chosen from this list or by customizing a non-Digital Humanities course in the student's home department.</li></ul><p><strong>For Students enrolled before Fall 2023:</strong></p><ul><li>Introduction to Digital Humanities (DH 8991)</li><li>Digital Humanities Practicum (DH 8000) or Data Design and Methods for Humanities: DH Practicum (DS 7800)</li><li>Two electives, either chosen from this list or by customizing a non-Digital Humanities course in the student's home department.</li></ul>"
+    format: basic_html
+default_value_callback: ''
+settings:
+  allowed_formats: {  }
+field_type: text_long

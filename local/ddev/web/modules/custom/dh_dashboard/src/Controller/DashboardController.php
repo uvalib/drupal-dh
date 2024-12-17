@@ -7,6 +7,7 @@ use Drupal\dh_dashboard\Services\DashboardManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Layout\LayoutPluginManagerInterface;
 use Drupal\Core\Block\BlockManagerInterface;
+use Drupal\Core\Session\AccountInterface;
 
 class DashboardController extends ControllerBase
 {
@@ -101,5 +102,14 @@ class DashboardController extends ControllerBase
     
         return $this->loadCertificateDashboard();
       // return $this->loadDefaultDashboard();
+    }
+
+    public function certificateProgress(AccountInterface $user) {
+        $block = $this->blockManager->createInstance('certificate_progress_block');
+        return [
+            '#type' => 'container',
+            '#attributes' => ['class' => ['certificate-progress-page']],
+            'progress' => $block->build(),
+        ];
     }
 }

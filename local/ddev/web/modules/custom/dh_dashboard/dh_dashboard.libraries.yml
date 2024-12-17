@@ -1,5 +1,4 @@
-certificate_progress:
-  version: 1.x
+certificate-progress:
   css:
     theme:
       css/certificate-progress.css: {}
@@ -8,4 +7,5 @@ certificate_progress:
   dependencies:
     - core/drupal
     - core/jquery
+    - core/once
 

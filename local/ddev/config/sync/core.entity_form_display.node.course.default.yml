@@ -204,6 +204,12 @@ content:
     settings: {  }
     third_party_settings: {  }
 hidden:
+  field_dh_certificate_requirement: true
+  field_dhcert_course_requirements: true
+  field_instructor_name: true
+  field_link_to_online_meeting: true
+  field_test_reference_to_departme: true
+  field_year: true
   path: true
   promote: true
   sticky: true

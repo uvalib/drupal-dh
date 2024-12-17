@@ -1,0 +1,21 @@
+uuid: 2de85321-c339-475a-8866-7fdabd1ebd5f
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_requirement_name
+    - paragraphs.paragraphs_type.general_requirement
+_core:
+  default_config_hash: 8mEJwD2e4wnEfU-dfoEN6_kYlOYEWrPu8tMBVlO8yGc
+id: paragraph.general_requirement.field_requirement_name
+field_name: field_requirement_name
+entity_type: paragraph
+bundle: general_requirement
+label: 'Requirement Name'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

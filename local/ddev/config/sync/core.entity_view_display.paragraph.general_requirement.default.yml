@@ -1,0 +1,35 @@
+uuid: 0f3d3af5-f281-4e7d-bdec-8ffb81115d8d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.general_requirement.field_completed
+    - field.field.paragraph.general_requirement.field_requirement_name
+    - paragraphs.paragraphs_type.general_requirement
+_core:
+  default_config_hash: wWqHyP9AlgxcQgdiUfDliPv88gr7CnLDEO11Yw3EVFE
+id: paragraph.general_requirement.default
+targetEntityType: paragraph
+bundle: general_requirement
+mode: default
+content:
+  field_completed:
+    type: boolean
+    label: inline
+    weight: 1
+    region: content
+    settings:
+      format: custom
+      format_custom_true: Completed
+      format_custom_false: 'Not Completed'
+    third_party_settings: {  }
+  field_requirement_name:
+    type: string
+    label: inline
+    weight: 0
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden:
+  breadcrumbs: true

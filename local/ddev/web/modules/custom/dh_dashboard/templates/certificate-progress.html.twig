@@ -1,0 +1,66 @@
+<div class="certificate-progress debug-border">
+  <div class="progress-header debug-bg">
+    <h2>DH Certificate Progress</h2>
+    <div class="progress-overview">
+      {% set percentage = progress.total_completed is defined and progress.total_requirements > 0 
+          ? (progress.total_completed / progress.total_requirements * 100)|round 
+          : 0 %}
+      
+      <div class="custom-progress-container">
+        <div class="custom-progress-bar">
+          <div class="custom-progress-fill" style="width: {{ percentage }}%;">
+            <span>{{ percentage }}%</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="progress-text">
+        {{ progress.total_completed }} of {{ progress.total_requirements }} requirements completed
+      </div>
+    </div>
+  </div>
+
+  <div class="requirements-section">
+    <h3>Course Requirements</h3>
+    <div class="requirements-grid courses">
+      {% for course in progress.courses %}
+        <div class="requirement-item {{ course.completed ? 'completed' : '' }}">
+          <div class="requirement-header">
+            <span class="course-number">{{ course.number }}</span>
+            <span class="completion-status">
+              {% if course.completed %}
+                <i class="fas fa-check-circle"></i>
+              {% else %}
+                <i class="fas fa-circle"></i>
+              {% endif %}
+            </span>
+          </div>
+          <div class="requirement-name">{{ course.name }}</div>
+          {% if course.semester %}
+            <div class="requirement-meta">{{ course.semester }}</div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="requirements-section">
+    <h3>General Requirements</h3>
+    <div class="requirements-grid general">
+      {% for requirement in progress.general %}
+        <div class="requirement-item {{ requirement.completed ? 'completed' : '' }}">
+          <div class="requirement-header">
+            <span class="requirement-name">{{ requirement.name }}</span>
+            <span class="completion-status">
+              {% if requirement.completed %}
+                <i class="fas fa-check-circle"></i>
+              {% else %}
+                <i class="fas fa-circle"></i>
+              {% endif %}
+            </span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>

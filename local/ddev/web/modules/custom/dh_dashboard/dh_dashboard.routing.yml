@@ -2,6 +2,15 @@ dh_dashboard.user_dashboard:
   path: '/dashboard'
   defaults:
     _controller: '\Drupal\dh_dashboard\Controller\DashboardController::content'
-    _title: 'My Dashboard'
+    _title: 'My DH Progress'
   requirements:
-    _role: 'authenticated'
+    _permission: 'access dh dashboard'
+
+dh_dashboard.certificate_progress:
+  path: '/user/{user}/certificate-progress'
+  defaults:
+    _controller: '\Drupal\dh_dashboard\Controller\DashboardController::certificateProgress'
+    _title: 'Certificate Progress'
+  requirements:
+    _permission: 'access content'
+    user: \d+

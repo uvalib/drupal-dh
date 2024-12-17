@@ -30,10 +30,13 @@ module:
   datetime: 0
   datetime_range: 0
   dblog: 0
+  dh_certificate: 0
+  dh_dashboard: 0
   dynamic_page_cache: 0
   editor: 0
   entity: 0
   entity_browser: 0
+  entity_reference_revisions: 0
   field: 0
   field_image_style: 0
   field_ui: 0
@@ -123,6 +126,7 @@ module:
   webform_ui: 0
   externalauth: 10
   views: 10
+  paragraphs: 11
   standard: 1000
 theme:
   olivero: 0

@@ -1,0 +1,12 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function dh_dashboard_theme() {
+  return [
+    'certificate_progress' => [
+      'variables' => ['progress' => NULL],
+    ],
+  ];
+}

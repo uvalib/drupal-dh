@@ -1,0 +1,32 @@
+uuid: f33c7786-72a2-43ed-833b-e901093e036c
+langcode: en
+status: false
+dependencies:
+  module:
+    - dh_dashboard
+    - system
+  theme:
+    - bootstrap_sass
+id: certificateprogressblock
+theme: bootstrap_sass
+region: ''
+weight: 0
+provider: null
+plugin: certificate_progress_block
+settings:
+  id: certificate_progress_block
+  label: 'Certificate Progress'
+  label_display: visible
+  provider: dh_dashboard
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '/user/*/certificate-progress'
+  user_role:
+    id: user_role
+    negate: false
+    context_mapping:
+      user: '@user.current_user'
+    roles:
+      authenticated: authenticated

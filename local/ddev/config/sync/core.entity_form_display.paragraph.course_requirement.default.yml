@@ -1,0 +1,51 @@
+uuid: 4baea48b-786f-4a96-b164-66a765ad79c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.course_requirement.field_completed
+    - field.field.paragraph.course_requirement.field_course_name
+    - field.field.paragraph.course_requirement.field_course_number
+    - field.field.paragraph.course_requirement.field_semester_taken
+    - paragraphs.paragraphs_type.course_requirement
+  module:
+    - datetime
+_core:
+  default_config_hash: f5h4XbWVJeD2dpghlNX0vdAt3iODA687UetNjaVrQrU
+id: paragraph.course_requirement.default
+targetEntityType: paragraph
+bundle: course_requirement
+mode: default
+content:
+  field_completed:
+    type: boolean_checkbox
+    weight: 3
+    region: content
+    settings:
+      display_label: true
+    third_party_settings: {  }
+  field_course_name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_course_number:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_semester_taken:
+    type: datetime_default
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  created: true
+  status: true

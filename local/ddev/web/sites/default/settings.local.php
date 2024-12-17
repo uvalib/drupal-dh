@@ -11,3 +11,6 @@ $databases['migrate']['default'] = array (
 );
 
 $settings['devops_label']='ddev local';
+
+$config['system.performance']['css']['preprocess'] = FALSE;
+$config['system.performance']['js']['preprocess'] = FALSE;
