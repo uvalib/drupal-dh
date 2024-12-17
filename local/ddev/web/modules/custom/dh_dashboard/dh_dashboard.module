@@ -7,6 +7,7 @@ function dh_dashboard_theme() {
   return [
     'certificate_progress' => [
       'variables' => ['progress' => NULL],
+      'template' => 'dh-certificate-progress',
     ],
   ];
 }

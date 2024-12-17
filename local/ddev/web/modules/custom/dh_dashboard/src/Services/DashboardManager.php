@@ -49,60 +49,8 @@ class DashboardManager
 
     public function getDHCertificateProgress($account)
     {
-        // Load the certificate progress profile using EntityTypeManager
-        $profile_storage = $this->entityTypeManager->getStorage('profile');
-        $profile = $profile_storage->loadByProperties([
-            'type' => 'dh_certificate',
-            'uid' => $account->id(),
-            'status' => 1,
-        ]);
-        
-        $profile = reset($profile) ?: null;
-        
-        if (!$profile) {
-            // Create new profile if none exists
-            $profile = Profile::create([
-                'type' => 'dh_certificate',
-                'uid' => $account->id(),
-                'status' => 1,
-            ]);
-        }
-
-        // Populate with mock data if the profile is new or empty
-        if ($profile->isNew() || empty($profile->get('field_dh_courses')->getValue())) {
-            $profile = $this->populateProfileWithMockData($profile);
-        }
-
-        $requirements = $this->requirementManager->getDefinitions();
-        $courses = [];
-        $general = [];
-        $completed = 0;
-
-        foreach ($requirements as $id => $definition) {
-            $requirement = $this->requirementManager->createInstance($id);
-            $data = [
-                'number' => $requirement->getId(),
-                'name' => $requirement->getLabel(),
-                'completed' => $requirement->isCompleted($profile),
-            ] + $requirement->getMetadata($profile);
-
-            if ($data['completed']) {
-                $completed++;
-            }
-
-            if ($requirement->getType() === 'course') {
-                $courses[] = $data;
-            } else {
-                $general[] = $data;
-            }
-        }
-
-        return [
-            'total_completed' => $completed,
-            'total_requirements' => count($requirements),
-            'courses' => $courses,
-            'general' => $general,
-        ];
+        // Just return mock data directly for now
+        return $this->getMockProgress();
     }
 
     protected function populateProfileWithMockData(Profile $profile) {

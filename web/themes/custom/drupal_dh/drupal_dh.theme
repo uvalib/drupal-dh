@@ -1,0 +1,8 @@
+/**
+ * Implements hook_theme().
+ */
+function drupal_dh_theme($existing, $type, $theme, $path) {
+  return [
+    // Remove the certificate_progress entry, keep any other theme hooks
+  ];
+}
