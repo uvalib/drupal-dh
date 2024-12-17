@@ -1,0 +1,7 @@
+{
+  "name": "drupal/fullcalendar_io",
+  "description": "TBD",
+  "type": "drupal-library",
+  "homepage": "https://fullcalendar.io/",
+  "license": "MIT"
+}
