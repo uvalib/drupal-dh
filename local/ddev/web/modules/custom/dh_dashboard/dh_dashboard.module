@@ -3,11 +3,41 @@
 /**
  * Implements hook_theme().
  */
-function dh_dashboard_theme() {
+function dh_dashboard_theme($existing, $type, $theme, $path) {
   return [
-    'certificate_progress' => [
-      'variables' => ['progress' => NULL],
-      'template' => 'dh-certificate-progress',
+    'dh_certificate_progress' => [
+      'variables' => [
+        'progress' => NULL,
+      ],
     ],
   ];
+}
+
+/**
+ * Implements template_preprocess_dh_certificate_progress().
+ */
+function template_preprocess_dh_certificate_progress(&$variables) {  // Changed preprocess function name
+  $variables['#attached']['library'][] = 'dh_dashboard/dashboard';
+
+  // Set example data if none provided
+  if (empty($variables['progress'])) {
+    $variables['progress'] = [
+      'total_completed' => 3,
+      'total_requirements' => 10,
+      'courses' => [
+        [
+          'number' => 'CS101',
+          'name' => 'Introduction to Programming',
+          'completed' => TRUE,
+          'semester' => 'Fall 2023',
+        ],
+      ],
+      'general' => [
+        [
+          'name' => 'GPA Requirement',
+          'completed' => TRUE,
+        ],
+      ],
+    ];
+  }
 }

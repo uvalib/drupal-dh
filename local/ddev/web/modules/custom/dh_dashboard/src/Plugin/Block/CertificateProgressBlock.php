@@ -76,7 +76,7 @@ class CertificateProgressBlock extends BlockBase implements ContainerFactoryPlug
         $progress = $this->dashboardManager->getDHCertificateProgress($user);
 
         return [
-            '#theme' => 'certificate_progress',
+            '#theme' => 'dh_certificate_progress',
             '#progress' => $progress,
             '#attached' => [
                 'library' => ['dh_dashboard/certificate-progress'],
