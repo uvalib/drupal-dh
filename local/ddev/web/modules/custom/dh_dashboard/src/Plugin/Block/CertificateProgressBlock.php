@@ -74,15 +74,13 @@ class CertificateProgressBlock extends BlockBase implements ContainerFactoryPlug
         }
 
         $progress = $this->dashboardManager->getDHCertificateProgress($user);
-
+        
+        // Always pass progress (even if empty) to allow mock data to be merged
         return [
             '#theme' => 'dh_certificate_progress',
             '#progress' => $progress,
-            '#attached' => [
-                'library' => ['dh_dashboard/certificate-progress'],
-            ],
             '#cache' => [
-                'max-age' => 0, // Temporarily disable caching for debugging
+                'max-age' => 0,
                 'contexts' => ['user'],
                 'tags' => ['user:' . $user->id()],
             ],

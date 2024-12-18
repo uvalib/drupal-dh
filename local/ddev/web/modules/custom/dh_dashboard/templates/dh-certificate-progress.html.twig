@@ -1,8 +1,19 @@
 {# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-certificate-progress.html.twig #}
 <div class="dh-certificate-progress">
   {% if progress %}
-    <div class="main-card progress-card">
-      <h2>{% trans %}Certificate Progress{% endtrans %}</h2>
+    <div class="main-card student-overview">
+      <div class="student-info">
+        <h2 class="user-name">{{ progress.user.name }}</h2>
+        <div class="user-meta">
+          <span class="graduation-year">{% trans %}Expected Graduation:{% endtrans %} {{ progress.user.graduation_year }}</span>
+          {% if progress.user.url %}
+            <span class="personal-url">
+              <a href="{{ progress.user.url }}" target="_blank">{{ progress.user.url }}</a>
+            </span>
+          {% endif %}
+        </div>
+      </div>
+
       <div class="progress-summary">
         {% set percentage = progress.total_requirements ? (progress.total_completed / progress.total_requirements * 100)|round : 0 %}
         <div class="progress-bar">

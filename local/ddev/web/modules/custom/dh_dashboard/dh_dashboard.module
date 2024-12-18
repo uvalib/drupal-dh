@@ -16,28 +16,46 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
 /**
  * Implements template_preprocess_dh_certificate_progress().
  */
-function template_preprocess_dh_certificate_progress(&$variables) {  // Changed preprocess function name
-  $variables['#attached']['library'][] = 'dh_dashboard/dashboard';
+function template_preprocess_dh_certificate_progress(&$variables) {
+  $variables['#attached']['library'][] = 'dh_dashboard/certificate-progress';
 
-  // Set example data if none provided
-  if (empty($variables['progress'])) {
-    $variables['progress'] = [
-      'total_completed' => 3,
-      'total_requirements' => 10,
-      'courses' => [
-        [
-          'number' => 'CS101',
-          'name' => 'Introduction to Programming',
-          'completed' => TRUE,
-          'semester' => 'Fall 2023',
-        ],
+  // Always merge with mock data for testing, using actual data where it exists
+  $mock_data = [
+    'user' => [
+      'name' => 'Jane Smith',
+      'graduation_year' => '2025',
+      'url' => 'https://scholars.dh.virginia.edu/jsmith',
+    ],
+    'total_completed' => 3,
+    'total_requirements' => 10,
+    'courses' => [
+      [
+        'number' => 'CS101',
+        'name' => 'Introduction to Programming',
+        'completed' => TRUE,
+        'semester' => 'Fall 2023',
       ],
-      'general' => [
-        [
-          'name' => 'GPA Requirement',
-          'completed' => TRUE,
-        ],
+      [
+        'number' => 'DH201',
+        'name' => 'Digital Humanities Methods',
+        'completed' => FALSE,
+        'semester' => 'Spring 2024',
       ],
-    ];
-  }
+    ],
+    'general' => [
+      [
+        'name' => 'GPA Requirement',
+        'completed' => TRUE,
+      ],
+      [
+        'name' => 'Portfolio Submission',
+        'completed' => FALSE,
+      ],
+    ],
+  ];
+
+  // Merge existing progress with mock data, preferring existing data
+  $variables['progress'] = !empty($variables['progress']) 
+    ? array_merge($mock_data, $variables['progress']) 
+    : $mock_data;
 }
