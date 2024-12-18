@@ -1,13 +1,13 @@
 :root {
-  --color-primary: #2196F3;
-  --color-bg-light: #f5f5f5;
+  --color-primary: #1976D2; /* Darker blue */
+  --color-bg-light: #f0f0f0;
   --color-success-bg: #e8f5e9;
-  --color-success-border: #c8e6c9;
-  --color-text-primary: #2c3e50;
-  --color-text-muted: #666;
-  --color-border: #e9ecef;
+  --color-success-border: #66bb6a; /* Darker green border */
+  --color-text-primary: #1a1a1a; /* Darker text */
+  --color-text-muted: #595959; /* Darker muted text */
+  --color-border: #c4c4c4; /* Darker border */
   --color-white: #fff;
-  --color-shadow: rgba(0, 0, 0, 0.1);
+  --color-shadow: rgba(0, 0, 0, 0.15); /* Increased shadow opacity */
   --spacing-base: 20px;
   --border-radius: 8px;
 }
@@ -34,18 +34,17 @@
 
 /* Progress Summary */
 .progress-summary {
-  background: var(--color-bg-light);
-  padding: var(--spacing-base);
-  border-radius: var(--border-radius);
-  margin-bottom: 30px;
+  background: transparent;
+  padding: 0;
+  margin-bottom: 0;
 }
 
 .progress-bar {
-  background: #e0e0e0;
+  background: var(--color-bg-light);
   border-radius: 20px;
-  padding: 4px;
-  margin-bottom: 10px;
   height: 30px;
+  margin: 1rem 0;
+  border: 2px solid var(--color-border); /* Thicker border */
   overflow: hidden;
 }
 
@@ -57,6 +56,13 @@
   align-items: center;
   justify-content: center;
   transition: width 0.3s ease;
+  color: var(--color-white);
+}
+
+.requirements-count {
+  text-align: center;
+  color: var(--color-text-muted);
+  margin-top: 10px;
 }
 
 .progress-text {
@@ -70,8 +76,9 @@
 .main-card {
   background: var(--color-white);
   border-radius: var(--border-radius);
-  box-shadow: 0 2px 4px var(--color-shadow);
+  box-shadow: 0 2px 6px var(--color-shadow); /* Increased shadow */
   padding: var(--spacing-base);
+  border: 1px solid var(--color-border); /* Added border */
 }
 
 .requirements-grid {
@@ -88,6 +95,7 @@
   background: #f8f9fa;
   border-radius: 6px;
   border: 1px solid var(--color-border);
+  box-shadow: 0 1px 2px var(--color-shadow); /* Added subtle shadow */
 }
 
 .requirement-card.completed {
@@ -98,7 +106,7 @@
 .status-icon {
   font-size: 1.5em;
   margin-right: 15px;
-  color: #bdbdbd;
+  color: #757575; /* Darker uncompleted status */
 }
 
 .completed .status-icon {
@@ -123,4 +131,13 @@
 .requirement-name {
   color: var(--color-text-primary);
   font-weight: 500;
+}
+
+/* Progress Card */
+.progress-card {
+  margin-bottom: 2rem;
+}
+
+.progress-card h2 {
+  margin-bottom: 1rem;
 }
