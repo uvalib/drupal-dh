@@ -3,7 +3,6 @@ langcode: en
 status: true
 dependencies:
   config:
-    - block_content.type.provus_basic_text
     - field.field.node.course.field_affiliated_dh_projects
     - field.field.node.course.field_course_description
     - field.field.node.course.field_course_instructor
@@ -21,10 +20,7 @@ dependencies:
     - field.field.node.course.field_university_affiliation
     - field.field.node.course.field_upload_a_syllabus_file
     - node.type.course
-  content:
-    - 'block_content:provus_media:7bdbece4-0d33-4f60-a903-7071867aed63'
   module:
-    - block_content
     - file
     - layout_builder
     - layout_builder_restrictions
@@ -224,43 +220,6 @@ third_party_settings:
                   link: false
                 third_party_settings: {  }
             weight: 3
-            additional: {  }
-        third_party_settings: {  }
-      -
-        layout_id: layout_twocol_section
-        layout_settings:
-          label: 'DH Cert Requirements'
-          context_mapping: {  }
-          column_widths: 67-33
-        components:
-          4ad8fae5-790d-453e-8357-833a48c08086:
-            uuid: 4ad8fae5-790d-453e-8357-833a48c08086
-            region: first
-            configuration:
-              id: 'inline_block:provus_basic_text'
-              label: 'DH Certificate Requirements'
-              label_display: ''
-              provider: layout_builder
-              view_mode: full
-              context_mapping: {  }
-              block_id: 64
-              block_revision_id: 128
-              block_serialized: null
-            weight: 0
-            additional: {  }
-          e794931c-c3d0-4207-9c9f-9c720fc7460f:
-            uuid: e794931c-c3d0-4207-9c9f-9c720fc7460f
-            region: second
-            configuration:
-              id: 'block_content:7bdbece4-0d33-4f60-a903-7071867aed63'
-              label: '(Media) - 1378384239'
-              label_display: '0'
-              provider: block_content
-              status: true
-              info: ''
-              view_mode: full
-              context_mapping: {  }
-            weight: 0
             additional: {  }
         third_party_settings: {  }
   layout_builder_restrictions:
