@@ -10,6 +10,18 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
         'progress' => NULL,
       ],
     ],
+    'dh_news_feed' => [
+      'variables' => [
+        'news' => [],
+      ],
+      'template' => 'dh-news-feed',
+    ],
+    'dh_program_info' => [
+      'variables' => [
+        'announcements' => [],
+      ],
+      'template' => 'dh-program-info',
+    ],
   ];
 }
 

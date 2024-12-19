@@ -1,0 +1,20 @@
+<div class="program-info">
+  <h2>{% trans %}Program Information{% endtrans %}</h2>
+  {% if announcements %}
+    {% for announcement in announcements %}
+      <div class="announcement {{ announcement.type }} {{ announcement.priority ? 'priority-' ~ announcement.priority }}">
+        <h3 class="announcement-title">{{ announcement.title }}</h3>
+        <div class="announcement-content">
+          {{ announcement.content }}
+          {% if announcement.location %}
+            <div class="announcement-location">
+              {% trans %}Location:{% endtrans %} {{ announcement.location }}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>{% trans %}No announcements available.{% endtrans %}</p>
+  {% endif %}
+</div>

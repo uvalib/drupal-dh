@@ -34,75 +34,63 @@ class DashboardController extends ControllerBase
         );
     }
 
-    protected function loadCertificateDashboard()
-    {
-      // Use a three column layout for certificate dashboard
+    public function content() {
+        \Drupal::messenger()->deleteAll();
+        \Drupal::messenger()->addStatus('Dashboard loaded at: ' . date('H:i:s'));
+        
         $layout = $this->layoutPluginManager->createInstance('layout_threecol_25_50_25');
-    
-      // Create block instances
-        $progress_block = $this->blockManager
-        ->createInstance('dh_certificate_progress')
-        ->build();
-    
-        $deadlines_block = $this->blockManager
-        ->createInstance('dh_certificate_deadlines')
-        ->build();
-    
-      // Create a view block for recent certificate content
-        $recent_content = views_embed_view('certificate_content', 'block_1');
-
+        $progress_block = $this->blockManager->createInstance('certificate_progress_block');
+        
         $build = $layout->build([
-        'first' => [
-        'progress' => $progress_block,
-        'deadlines' => $deadlines_block,
-        ],
-        'second' => [
-        'content' => $recent_content,
-        ],
-        'third' => [
-        '#type' => 'container',
-        '#attributes' => ['class' => ['quick-links']],
-        'links' => [
-          '#theme' => 'item_list',
-          '#items' => [
-            ['#markup' => $this->t('Certificate Requirements')],
-            ['#markup' => $this->t('Submit Assignment')],
-            ['#markup' => $this->t('Contact Advisor')],
-          ],
-        ],
-        ],
+            'first' => [
+                '#theme' => 'dh_news_feed',
+                '#news' => [
+                    [
+                        'date' => '2024-01-15',
+                        'title' => 'DH Certificate Updates',
+                        'excerpt' => 'Important changes to certificate requirements coming in Fall 2024...',
+                        'link' => '/news/certificate-updates',
+                    ],
+                    [
+                        'date' => '2024-01-10',
+                        'title' => 'Student Project Showcase',
+                        'excerpt' => 'Join us for presentations of digital humanities projects...',
+                        'link' => '/news/project-showcase',
+                    ],
+                ],
+            ],
+            'second' => [
+                'progress' => $progress_block->build(),
+            ],
+            'third' => [
+                '#theme' => 'dh_program_info',
+                '#announcements' => [
+                    [
+                        'type' => 'deadline',
+                        'title' => 'Spring 2024 Deadlines',
+                        'content' => 'Certificate completion forms due April 1st',
+                        'priority' => 'high',
+                    ],
+                    [
+                        'type' => 'event',
+                        'title' => 'Certificate Information Session',
+                        'content' => 'Learn about the DH Certificate Program',
+                        'location' => 'Wilson Hall 142',
+                        'date' => 'February 1st, 3PM',
+                    ],
+                ],
+            ],
         ]);
+
+        $build['#prefix'] = '<div class="dh-dashboard-wrapper">';
+        $build['#suffix'] = '</div>';
+        $build['#attached']['library'][] = 'dh_dashboard/dashboard';
 
         return $build;
     }
 
-    protected function loadDefaultDashboard()
-    {
-      // Implement default dashboard layout
-        $layout = $this->layoutPluginManager->createInstance('layout_twocol');
-    
-        return $layout->build([
-        'first' => [
-        '#markup' => $this->t('<h2>Welcome to your dashboard</h2>'),
-        ],
-        'second' => [
-        '#markup' => $this->t('Quick links and notifications will appear here'),
-        ],
-        ]);
-    }
-
-    public function content()
-    {
-        $account = $this->currentUser();
-        $dashboard_type = $this->dashboardManager->getUserDashboard($account);
-    
-        if ($dashboard_type === 'dh_certificate') {
-            return $this->loadCertificateDashboard();
-        }
-    
-        return $this->loadCertificateDashboard();
-      // return $this->loadDefaultDashboard();
-    }
+    // Remove or comment out loadCertificateDashboard() and loadDefaultDashboard() 
+    // as they're no longer needed - we're using content() directly
 
     public function certificateProgress(AccountInterface $user) {
         $block = $this->blockManager->createInstance('certificate_progress_block');

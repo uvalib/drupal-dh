@@ -9,3 +9,13 @@ certificate-progress:
     - core/jquery
     - core/once
 
+dashboard:
+  css:
+    theme:
+      css/dashboard.css: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
+    - dh_dashboard/certificate-progress
+

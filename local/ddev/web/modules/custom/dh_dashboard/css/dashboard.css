@@ -1,0 +1,99 @@
+.dh-dashboard-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Adjust layout_twocol for dashboard */
+.layout--twocol {
+  display: grid;
+  gap: 2rem;
+  margin: 2rem auto;
+}
+
+@media (min-width: 768px) {
+  .layout--twocol {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+.layout--threecol-25-50-25 {
+  display: grid;
+  gap: 2rem;
+  margin: 2rem auto;
+}
+
+@media (min-width: 992px) {
+  .layout--threecol-25-50-25 {
+    grid-template-columns: 1fr 2fr 1fr;
+  }
+}
+
+/* Ensure consistent card styling */
+.layout__region--first,
+.layout__region--second,
+.layout__region--third {
+  background: var(--color-white, #fff);
+  border-radius: var(--border-radius, 8px);
+  box-shadow: 0 2px 6px var(--color-shadow, rgba(0, 0, 0, 0.15));
+  border: 1px solid var(--color-border, #c4c4c4);
+  padding: var(--spacing-base, 20px);
+  margin-bottom: 1rem;
+}
+
+/* Update region selectors to match layout */
+.layout__region--left,
+.layout__region--middle,
+.layout__region--right {
+  background: var(--color-white, #fff);
+  border-radius: var(--border-radius, 8px);
+  box-shadow: 0 2px 6px var(--color-shadow, rgba(0, 0, 0, 0.15));
+  border: 1px solid var(--color-border, #c4c4c4);
+  padding: var(--spacing-base, 20px);
+  margin-bottom: 1rem;
+}
+
+.layout__region {
+  background: #fff;
+  border: 1px solid #333;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* News Feed Styles */
+.news-item {
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-date {
+  color: var(--color-text-muted);
+  font-size: 0.9em;
+}
+
+/* Program Info Styles */
+.announcement {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.announcement.priority-high {
+  background: var(--color-bg-light);
+  border-left: 4px solid var(--color-primary);
+}
+
+.announcement-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.test-content {
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
