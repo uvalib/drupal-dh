@@ -1,0 +1,40 @@
+/* Compact Progress Column */
+.compact-progress-column {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+/* News Feed Column */
+.news-feed-column {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+/* Program Info Column */
+.program-info-column {
+  padding: 15px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+/* Additional styles for consistency */
+.layout-region {
+  box-sizing: border-box;
+}
+
+.main-card {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.main-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}

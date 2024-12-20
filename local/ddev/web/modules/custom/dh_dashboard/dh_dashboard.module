@@ -22,6 +22,17 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'dh-program-info',
     ],
+    'dh_user_info' => [
+      'variables' => [
+        'user' => NULL,
+      ],
+      'template' => 'dh-user-info',
+    ],
+    'dh_certificate_progress_compact' => [
+      'variables' => [
+        'progress' => NULL,
+      ],
+    ],
   ];
 }
 

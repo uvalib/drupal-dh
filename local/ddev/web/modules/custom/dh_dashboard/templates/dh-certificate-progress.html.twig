@@ -1,9 +1,9 @@
 {# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-certificate-progress.html.twig #}
 <div class="dh-certificate-progress">
   {% if progress %}
-    <div class="main-card student-overview">
+    <div class="progress-card">
       <div class="student-info">
-        <h2 class="user-name">{{ progress.user.name }}</h2>
+        <h2>{{ progress.user.name }}</h2>
         <div class="user-meta">
           <span class="graduation-year">{% trans %}Expected Graduation:{% endtrans %} {{ progress.user.graduation_year }}</span>
           {% if progress.user.url %}
@@ -14,6 +14,7 @@
         </div>
       </div>
 
+      <h2>{% trans %}Certificate Progress{% endtrans %}</h2>
       <div class="progress-summary">
         {% set percentage = progress.total_requirements ? (progress.total_completed / progress.total_requirements * 100)|round : 0 %}
         <div class="progress-bar">
@@ -28,7 +29,7 @@
     </div>
 
     <div class="certificate-progress__grid">
-      <div class="main-card course-requirements">
+      <div class="course-requirements">
         <h2>{% trans %}Course Requirements{% endtrans %}</h2>
         <div class="requirements-grid">
           {% for course in progress.courses %}
@@ -37,16 +38,16 @@
               <div class="card-content">
                 <div class="course-number">{{ course.number }}</div>
                 <div class="course-name">{{ course.name }}</div>
+                {% if course.semester %}
+                  <div class="semester">{{ course.semester }}</div>
+                {% endif %}
               </div>
-              {% if course.semester %}
-                <div class="semester">{{ course.semester }}</div>
-              {% endif %}
             </div>
           {% endfor %}
         </div>
       </div>
 
-      <div class="main-card general-requirements">
+      <div class="general-requirements">
         <h2>{% trans %}General Requirements{% endtrans %}</h2>
         <div class="requirements-grid">
           {% for requirement in progress.general %}

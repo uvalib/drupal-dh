@@ -1,8 +1,8 @@
-<div class="news-feed">
+<div class="news-feed main-card">
   <h2>{% trans %}Latest News{% endtrans %}</h2>
   {% if news %}
     {% for item in news %}
-      <div class="news-item">
+      <div class="news-item {{ item.type }} {{ item.priority ? 'priority-' ~ item.priority }}">
         <div class="news-date">{{ item.date|date('F j, Y') }}</div>
         <h3 class="news-title">
           <a href="{{ item.link }}">{{ item.title }}</a>
