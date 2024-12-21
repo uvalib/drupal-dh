@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_course_name
+    - paragraphs.paragraphs_type.course_requirement
+id: paragraph.course_requirement.field_course_name
+field_name: field_course_name
+entity_type: paragraph
+bundle: course_requirement
+label: 'Course Name'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

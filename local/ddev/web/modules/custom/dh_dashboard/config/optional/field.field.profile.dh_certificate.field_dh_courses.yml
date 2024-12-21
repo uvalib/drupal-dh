@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_dh_courses
+    - profile.type.dh_certificate
+id: profile.dh_certificate.field_dh_courses
+field_name: field_dh_courses
+entity_type: profile
+bundle: dh_certificate
+label: 'DH Courses'
+description: 'Courses completed or in progress for the DH Certificate'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map

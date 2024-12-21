@@ -66,7 +66,7 @@ $lb-window-gray-dark: #d9d9d9;
   background: transparent;
 }
 
-.layout-builder-active {
+body {
   #drupal-off-canvas-wrapper {
     padding: 0;
     background-color: #fff;
@@ -552,8 +552,8 @@ $lb-window-gray-dark: #d9d9d9;
 // LAYOUT BUILDER
 // =============================================================================
 
-.layout-builder-active .layout-builder__section > a.layout-builder__link,
-.layout-builder-active .layout-builder__section > div > a.layout-builder__link {
+.layout-builder__section > a.layout-builder__link,
+.layout-builder__section > div > a.layout-builder__link {
   overflow: hidden;
   padding-top: 13px !important;
   transition: all 0.3s ease-in-out;
@@ -600,7 +600,7 @@ $lb-window-gray-dark: #d9d9d9;
   }
 }
 
-.layout-builder-active .layout-builder__add-section > a.layout-builder__link {
+.layout-builder__add-section > a.layout-builder__link {
   text-indent: 30px;
   overflow: hidden;
   padding-top: 13px !important;
@@ -611,15 +611,14 @@ $lb-window-gray-dark: #d9d9d9;
     &:hover,
     &:focus {
       width: rem-calc(150);
-      background: transparent !important;
     }
   }
 
   &.layout-builder__link--import-from-library {
+    background: transparent !important;
     &:hover,
     &:focus {
       width: rem-calc(190);
-      background: transparent !important;
     }
   }
 
@@ -628,7 +627,6 @@ $lb-window-gray-dark: #d9d9d9;
     &:hover,
     &:focus {
       width: rem-calc(180);
-      background: transparent !important;
     }
   }
   
@@ -648,7 +646,7 @@ a > .layout-builder__link-wrapped {
   color: #000;
 }
 
-.layout-builder-active {
+body {
 
   .region-title h1.title {
     display: none;
@@ -665,20 +663,13 @@ a > .layout-builder__link-wrapped {
       .nav-item, {
         flex-grow: 0;
         background-color: white;
-        border: 1px solid $lb-border-color;
-        border-right: 0;
-
-        &:first-child {
-          border-radius: 5px 0 0 5px;
-        }
-
-        &:last-child {
-          border-radius: 0 5px 5px 0;
-          border-right: 1px solid $lb-border-color;
-        }
+        border: 0.5px solid $background-colors-background-grey;
+        border-radius: 0;
 
         a {
-          font-size: 14px;
+          @include text-style-headline-h-5();
+          margin-top: 0;
+          margin-bottom: 0;
         }
 
         &.active {
@@ -686,11 +677,10 @@ a > .layout-builder__link-wrapped {
           border-color: $lb-border-color;
 
           a {
-            background-color: $lb-button-active;
-            border-color: $lb-button-active;
             border-radius: 0;
             margin-bottom: 0 !important;
             color: $primary;
+            margin-top: 0;
           }
         }
       }
@@ -817,7 +807,7 @@ a > .layout-builder__link-wrapped {
 
 
       &:hover {
-        background-color: white !important;
+        background-color: white;
         text-decoration: none;
       }
 
@@ -887,7 +877,6 @@ a > .layout-builder__link-wrapped {
 
   .layout-builder__link,
   .layout-builder__link:not(:focus) {
-    background: transparent !important;
     border: 0 !important;
     border-radius: 0 !important;
     border-right: 1px solid $lb-border-color !important;
@@ -897,7 +886,7 @@ a > .layout-builder__link-wrapped {
     margin: 0 !important;
     line-height: 1 !important;
     padding: 10px !important;
-    transition: border-color .3s ease;
+    transition: all .3s ease;
     width: auto;
     position: relative;
     text-indent: -9999px;
@@ -936,6 +925,13 @@ a > .layout-builder__link-wrapped {
       width: 20px;
       height: 20px;
       color: $primary-accent !important;
+    }
+
+    &.layout-builder__link--add {
+      &:hover {
+        background: transparent !important;
+        text-decoration: underline !important;
+      }
     }
 
     &.layout-builder__link--import-from-library {
@@ -1006,7 +1002,7 @@ a > .layout-builder__link-wrapped {
     mask-image: none !important;
     padding: 10px 15px !important;
     text-indent: -999em;
-    transition: border-color .3s ease;
+    transition: all .3s ease;
     width: 38px;
     position: absolute !important;
     right: 130px;
@@ -1032,7 +1028,7 @@ a > .layout-builder__link-wrapped {
     margin: 0 !important;
     padding: 10px 15px !important;
     text-decoration: none;
-    transition: border-color .3s ease;
+    transition: all .3s ease;
     display: block !important;
     position: absolute !important;
     right: 90px;
@@ -1064,7 +1060,7 @@ a > .layout-builder__link-wrapped {
     margin: 0 !important;
     padding: 10px 15px !important;
     text-decoration: none;
-    transition: border-color .3s ease;
+    transition: all .3s ease;
     display: inline-block !important;
     position: absolute !important;
     right: 50px;
@@ -1213,7 +1209,7 @@ a > .layout-builder__link-wrapped {
     margin: 0 !important;
     padding: 10px 15px !important;
     text-decoration: none;
-    transition: border-color .3s ease;
+    transition: all .3s ease;
     display: inline-block !important;
     position: absolute !important;
     right: 10px;
@@ -1241,8 +1237,9 @@ a > .layout-builder__link-wrapped {
       flex-wrap: wrap;
       padding: 0 !important;
 
-      a {
-        flex-basis: 33%;
+      .layout-builder-browser-block-item {
+        flex-basis: 33.33333333%;
+        width: 33.33333333%;
         padding: 1rem 0;
         font-size: rem-calc(12);
         box-shadow: 0 0 0 1px $lb-border-color;
@@ -1251,6 +1248,19 @@ a > .layout-builder__link-wrapped {
         color: black;
         text-align: center;
         margin: 0 !important;
+
+        a {
+          color: black;
+          text-decoration: none;
+          display: block;
+          width: 100%;
+
+          &:hover, &:focus {
+            color: #7F56D9;
+            background-color: none;
+            box-shadow: none;
+          }
+        }
 
         &:hover, &:focus {
           box-shadow: 0 0 0 1px $lb-window-summary;
@@ -1353,7 +1363,7 @@ a > .layout-builder__link-wrapped {
   }
 }
 
-.layout-builder-active {
+body {
   .ui-resizable-handle.ui-resizable-w {
     display: none !important;
   }
@@ -1612,11 +1622,11 @@ a > .layout-builder__link-wrapped {
 }
 
 @media only screen and (max-width: 767px) {
-  .layout-builder-active .ui-widget.ui-dialog.ui-dialog-off-canvas .ui-dialog-titlebar .ui-dialog-titlebar-close {
+  .ui-widget.ui-dialog.ui-dialog-off-canvas .ui-dialog-titlebar .ui-dialog-titlebar-close {
     right: 30px;
   }
 
-  .layout-builder-active nav.tabs ul .nav-item a {
+  nav.tabs ul .nav-item a {
     padding: .5rem;
   }
 

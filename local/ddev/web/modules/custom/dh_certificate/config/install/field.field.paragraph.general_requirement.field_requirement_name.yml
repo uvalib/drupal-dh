@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_requirement_name
+    - paragraphs.paragraphs_type.general_requirement
+id: paragraph.general_requirement.field_requirement_name
+field_name: field_requirement_name
+entity_type: paragraph
+bundle: general_requirement
+label: 'Requirement Name'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
+

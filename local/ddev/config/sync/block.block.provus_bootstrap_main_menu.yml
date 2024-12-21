@@ -13,7 +13,7 @@ _core:
 id: provus_bootstrap_main_menu
 theme: provus_bootstrap
 region: primary_menu
-weight: 0
+weight: -8
 provider: null
 plugin: 'system_menu_block:main'
 settings:

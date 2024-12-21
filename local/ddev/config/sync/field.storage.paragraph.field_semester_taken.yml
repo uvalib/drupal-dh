@@ -1,0 +1,22 @@
+uuid: d0f3c968-8b33-4499-add7-7636b94eca88
+langcode: en
+status: true
+dependencies:
+  module:
+    - datetime
+    - paragraphs
+_core:
+  default_config_hash: M1PsK5vjQVEiG6JwyrkJCK_vfPBzBQAhqZlfjNbO6ok
+id: paragraph.field_semester_taken
+field_name: field_semester_taken
+entity_type: paragraph
+type: datetime
+settings:
+  datetime_type: date
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

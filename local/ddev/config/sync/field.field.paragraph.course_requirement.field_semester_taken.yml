@@ -1,0 +1,23 @@
+uuid: ce700c9c-a00b-4432-9528-b5284b1af7c3
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_semester_taken
+    - paragraphs.paragraphs_type.course_requirement
+  module:
+    - datetime
+_core:
+  default_config_hash: UBNJIqRoelZK2hLCi-rzNH5DNGMA8868zektzygwgyM
+id: paragraph.course_requirement.field_semester_taken
+field_name: field_semester_taken
+entity_type: paragraph
+bundle: course_requirement
+label: 'Semester Taken'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

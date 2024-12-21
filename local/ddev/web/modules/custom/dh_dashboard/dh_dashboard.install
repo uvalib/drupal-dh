@@ -1,0 +1,332 @@
+<?php
+
+use Drupal\block_content\Entity\BlockContent;
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+
+/**
+ * @file
+ * Install, update and uninstall functions for the DH Dashboard module.
+ */
+
+/**
+ * Implements hook_install_tasks().
+ */
+function dh_dashboard_install_tasks(): array {
+  return [
+    'dh_dashboard_cleanup_existing_entities' => [
+      'display_name' => t('Clean up existing entities'),
+      'display' => FALSE,
+      'type' => 'normal',
+      'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
+    ],
+    'dh_dashboard_create_blocks' => [
+      'display_name' => t('Create default blocks'),
+      'display' => FALSE,
+      'type' => 'normal',
+      'run' => INSTALL_TASK_RUN_IF_NOT_COMPLETED,
+    ],
+  ];
+}
+
+/**
+ * Task callback: Clean up existing entities.
+ */
+function dh_dashboard_cleanup_existing_entities() {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  
+  // Clean up entity view displays
+  $displays_to_delete = [
+    'block_content.dh_dashboard_news_feed.default',
+    'node.dashboard.default',
+    'node.page.default', // Add this display to cleanup list
+  ];
+  
+  foreach ($displays_to_delete as $id) {
+    try {
+      $storage = $entity_type_manager->getStorage('entity_view_display');
+      if ($display = $storage->load($id)) {
+        $display->delete();
+      }
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_dashboard')->error('Failed to delete display @id: @message', [
+        '@id' => $id,
+        '@message' => $e->getMessage(),
+      ]);
+    }
+  }
+}
+
+/**
+ * Task callback: Create default blocks.
+ */
+function dh_dashboard_create_blocks() {
+  $blocks = [
+    'dh_dashboard_news_feed' => [
+      'type' => 'dh_dashboard_news_feed',
+      'info' => 'Dashboard News Feed',
+    ],
+    'dh_certificate_progress' => [
+      'type' => 'dh_certificate_progress',
+      'info' => 'Certificate Progress',
+    ],
+  ];
+
+  $storage = \Drupal::entityTypeManager()->getStorage('block_content');
+  
+  foreach ($blocks as $id => $block_info) {
+    try {
+      $existing_blocks = $storage->loadByProperties([
+        'type' => $block_info['type'],
+        'info' => $block_info['info'],
+      ]);
+
+      if (empty($existing_blocks)) {
+        $block = BlockContent::create($block_info);
+        $block->save();
+        
+        $config = \Drupal::configFactory()->getEditable('dh_dashboard.settings');
+        $saved_uuids = $config->get('block_uuids') ?: [];
+        $saved_uuids[$id] = $block->uuid();
+        $config->set('block_uuids', $saved_uuids)->save();
+      }
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_dashboard')->error('Failed to create block @id: @message', [
+        '@id' => $id,
+        '@message' => $e->getMessage()],
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_install().
+ */
+function dh_dashboard_install() {
+  // Delay layout builder configuration until after module installation
+  \Drupal::messenger()->addStatus(t('DH Dashboard: Installation initialized.'));
+  
+  // Create required blocks first
+  _dh_dashboard_ensure_blocks();
+
+  // Create sample news content
+  $news_items = [
+    [
+      'title' => 'New Digital Humanities Certificate Program Launched',
+      'body' => 'We are excited to announce the launch of our new DH certificate program, offering comprehensive training in digital tools and methodologies.',
+      'created' => strtotime('-2 days'),
+    ],
+    [
+      'title' => 'Upcoming Workshop: Text Analysis with R',
+      'body' => 'Join us next month for an intensive workshop on text analysis using R programming language.',
+      'created' => strtotime('-5 days'),
+    ],
+    [
+      'title' => 'Digital Archives Project Receives Grant',
+      'body' => 'Our digital archives initiative has been awarded a significant grant to expand its collection.',
+      'created' => strtotime('-7 days'),
+    ],
+  ];
+
+  // Create sample program content
+  $programs = [
+    [
+      'title' => 'Digital Archives and Preservation',
+      'description' => 'Learn fundamental concepts and practical skills in digital preservation, metadata management, and archive curation.',
+    ],
+    [
+      'title' => 'Data Visualization',
+      'description' => 'Master the art of presenting complex data through interactive visualizations using modern tools and techniques.',
+    ],
+    [
+      'title' => 'Computational Text Analysis',
+      'description' => 'Explore methods for analyzing large text corpora using computational tools and statistical approaches.',
+    ],
+  ];
+
+  _dh_dashboard_create_content($news_items, 'news');
+  _dh_dashboard_create_content($programs, 'program_info');
+}
+
+/**
+ * Helper function to create content.
+ */
+function _dh_dashboard_create_content($items, $type) {
+  foreach ($items as $item) {
+    $node = \Drupal\node\Entity\Node::create([
+      'type' => $type,
+      'title' => $item['title'],
+    ]);
+
+    if ($type === 'news') {
+      $node->set('body', [
+        'value' => $item['body'],
+        'format' => 'basic_html',
+      ]);
+      $node->setCreatedTime($item['created']);
+    } else {
+      $node->set('field_description', [
+        'value' => $item['description'],
+        'format' => 'basic_html',
+      ]);
+    }
+    
+    $node->save();
+  }
+}
+
+/**
+ * Helper function to create required blocks.
+ */
+function _dh_dashboard_ensure_blocks() {
+  $blocks = [
+    'dh_news' => 'Dashboard News Feed',
+    'dh_cert' => 'Certificate Progress',
+    'dh_program_info' => 'Program Information',  // Add program info block
+  ];
+
+  $storage = \Drupal::entityTypeManager()->getStorage('block_content');
+  
+  foreach ($blocks as $type => $info) {
+    try {
+      $existing = $storage->loadByProperties([
+        'type' => $type,
+        'info' => $info,
+      ]);
+      
+      if (empty($existing)) {
+        $block = BlockContent::create([
+          'type' => $type,
+          'info' => $info,
+        ]);
+        $block->save();
+      }
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_dashboard')->error('Failed to create block @type: @message', [
+        '@type' => $type,
+        '@message' => $e->getMessage(),
+      ]);
+    }
+  }
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function dh_dashboard_update_8001() {
+  // If you need to modify the display, do it in an update hook instead
+  $display = EntityViewDisplay::load('node.page.default');
+  if ($display) {
+    // Modify the existing display if needed
+    $display->save();
+  }
+}
+
+/**
+ * Pre-install cleanup function.
+ */
+function _dh_dashboard_cleanup_pre_install() {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  
+  // 1. Remove block content type configurations
+  $config_factory = \Drupal::configFactory();
+  $configs_to_delete = [
+    'block_content.type.dh_news',
+    'block_content.type.dh_cert',
+    'block_content.type.dh_prog',
+    'block_content.type.dh_dashboard_news_feed',
+    'block_content.type.dh_certificate_progress',
+    'core.entity_view_display.block_content.dh_news.default',
+    'core.entity_form_display.block_content.dh_news.default',
+    'core.entity_view_display.block_content.dh_cert.default',
+    'core.entity_form_display.block_content.dh_cert.default',
+    'core.entity_view_display.node.page.default', // Add this config to cleanup
+    'node.type.dashboard', // Add node type to configs to delete
+  ];
+  
+  foreach ($configs_to_delete as $config_name) {
+    try {
+      $config_factory->getEditable($config_name)->delete();
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_dashboard')->error('Failed to delete config @name: @message', [
+        '@name' => $config_name,
+        '@message' => $e->getMessage(),
+      ]);
+    }
+  }
+
+  // 2. Remove existing blocks
+  try {
+    $block_storage = $entity_type_manager->getStorage('block_content');
+    $query = $block_storage->getQuery()
+      ->condition('type', ['dh_news', 'dh_cert', 'dh_prog'], 'IN')
+      ->accessCheck(FALSE);
+    $block_ids = $query->execute();
+
+    if (!empty($block_ids)) {
+      $blocks = $block_storage->loadMultiple($block_ids);
+      $block_storage->delete($blocks);
+    }
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('dh_dashboard')->error('Pre-install cleanup failed: @message', ['@message' => $e->getMessage()]);
+  }
+
+  // 3. Remove entity view displays
+  try {
+    $display_storage = $entity_type_manager->getStorage('entity_view_display');
+    // Add specific check for node.page.default
+    $display = $display_storage->load('node.page.default');
+    if ($display) {
+      $display->delete();
+    }
+    
+    // Continue with other display cleanup
+    $displays = $display_storage->loadByProperties([
+      'targetEntityType' => 'block_content',
+      'bundle' => ['dh_dashboard_news_feed', 'dh_certificate_progress'],
+    ]);
+    if (!empty($displays)) {
+      $display_storage->delete($displays);
+    }
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('dh_dashboard')->error('Failed to delete view displays: @message', ['@message' => $e->getMessage()]);
+  }
+
+  // Add node type cleanup
+  try {
+    $node_type_storage = $entity_type_manager->getStorage('node_type');
+    $dashboard_type = $node_type_storage->load('dashboard');
+    if ($dashboard_type) {
+      $dashboard_type->delete();
+    }
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('dh_dashboard')->error('Failed to delete dashboard node type: @message', ['@message' => $e->getMessage()]);
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function dh_dashboard_uninstall() {
+  // Use the cleanup service directly
+  \Drupal::service('dh_dashboard.cleanup')->cleanup();
+}
+
+/**
+ * Implements hook_module_preinstall().
+ */
+function dh_dashboard_module_preinstall($module) {
+  if ($module !== 'dh_dashboard') {
+    return;
+  }
+
+  // Force cleanup of block content types
+  _dh_dashboard_cleanup_pre_install();
+}

@@ -1,0 +1,29 @@
+uuid: 9fd7e8f5-6497-4abc-8d6c-0895ba09ab84
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_course_instructor
+    - node.type.course
+    - profile.type.dhcert
+id: node.course.field_course_instructor
+field_name: field_course_instructor
+entity_type: node
+bundle: course
+label: 'Course Instructor'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:profile'
+  handler_settings:
+    target_bundles:
+      dhcert: dhcert
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -158,3 +158,29 @@
     overflow: hidden;
   }
 }
+/* customize DH event styles for field labels */
+.field-blocknodeeventtitle .field--name-title {
+  font-family: 'bodoni-urw', sans-serif, arial;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 48px;
+  line-height: 5.5rem;
+  margin: 1rem 0;
+}
+.field-blocknodeeventfield-date-range1 .field--name-field-date-range1 .field__label,
+.field-blocknodeeventfield-event-location .field--name-field-event-location .field__label,
+.field-blocknodeeventfield-event-type .field--name-field-event-type .field__label,
+.field-blocknodeeventbody .field--name-body .field__label,
+.field-blocknodeeventfield-uva-or-non-uva .field--name-field-uva-or-non-uva .field__label {
+  font-family: 'franklin-gothic-urw', sans-serif, arial;
+  font-weight: 600;
+  padding-top: rem-calc(10);
+  padding-bottom: rem-calc(10);
+}
+.field-blocknodeeventfield-date-range1 .field--name-field-date-range1 .field__item,
+.field-blocknodeeventfield-event-location .field--name-field-event-location .field__item,
+.field-blocknodeeventfield-event-type .field--name-field-event-type .field__item,
+.field-blocknodeeventbody .field--name-body .field__item,
+.field-blocknodeeventfield-uva-or-non-uva .field--name-field-uva-or-non-uva .field__item {
+  font-size: 1.2rem;
+}

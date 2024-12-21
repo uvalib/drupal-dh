@@ -1,0 +1,21 @@
+uuid: eee3e27e-b3bc-4bb4-a60d-c397967a61f0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_course_name
+    - paragraphs.paragraphs_type.course_requirement
+_core:
+  default_config_hash: xu182pvyfx6bCBSDExzhKVWntocjPVRzLd4OfsdYAPQ
+id: paragraph.course_requirement.field_course_name
+field_name: field_course_name
+entity_type: paragraph
+bundle: course_requirement
+label: 'Course Name'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

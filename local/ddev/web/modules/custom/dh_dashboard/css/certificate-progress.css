@@ -1,0 +1,338 @@
+:root {
+  --color-primary: #1976D2; /* Darker blue */
+  --color-bg-light: #f0f0f0;
+  --color-success-bg: #e8f5e9;
+  --color-success-border: #66bb6a; /* Darker green border */
+  --color-text-primary: #1a1a1a; /* Darker text */
+  --color-text-muted: #595959; /* Darker muted text */
+  --color-border: #c4c4c4; /* Darker border */
+  --color-white: #fff;
+  --color-shadow: rgba(0, 0, 0, 0.15); /* Increased shadow opacity */
+  --spacing-base: 20px;
+  --border-radius: 8px;
+}
+
+/* Layout */
+.dh-certificate-progress {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-base);
+}
+
+.certificate-progress__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 30px;
+  margin: 2rem auto;
+}
+
+@media (min-width: 768px) {
+  .certificate-progress__grid {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+/* Progress Summary */
+.progress-summary {
+  background: transparent;
+  padding: 0;
+  margin-bottom: 0;
+  padding-top: 0.5rem;
+}
+
+.progress-bar {
+  background: var(--color-bg-light);
+  border-radius: 20px;
+  height: 30px;
+  margin: 1rem 0;
+  border: 2px solid var(--color-border); /* Thicker border */
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  background: var(--color-primary);
+  height: 100%;
+  min-width: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: width 0.3s ease;
+  color: var(--color-white);
+}
+
+.requirements-count {
+  text-align: center;
+  color: var(--color-text-muted);
+  margin-top: 10px;
+}
+
+.progress-text {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+/* Cards */
+.main-card {
+  background: var(--color-white);
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 6px var(--color-shadow); /* Increased shadow */
+  padding: var(--spacing-base);
+  border: 1px solid var(--color-border); /* Added border */
+}
+
+.requirements-grid {
+  display: grid;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+/* Requirement Cards */
+.requirement-card {
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 1px 2px var(--color-shadow); /* Added subtle shadow */
+}
+
+.requirement-card.completed {
+  background: var(--color-success-bg);
+  border-color: var(--color-success-border);
+}
+
+.status-icon {
+  font-size: 1.5em;
+  margin-right: 15px;
+  color: #757575; /* Darker uncompleted status */
+}
+
+.completed .status-icon {
+  color: var(--color-primary);
+}
+
+.card-content {
+  flex-grow: 1;
+}
+
+/* Typography */
+.course-number {
+  font-weight: bold;
+  color: var(--color-text-primary);
+}
+
+.semester {
+  color: var(--color-text-muted);
+  font-size: 0.9em;
+}
+
+.requirement-name {
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+/* Student Overview Card */
+.student-overview {
+  margin-bottom: 2rem;
+  padding: var(--spacing-base);
+}
+
+.student-info {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.student-info h2 {
+  margin: 0 0 1rem 0;
+  color: var(--color-text-primary);
+}
+
+.user-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  color: var(--color-text-muted);
+}
+
+/* Remove the now unused card styles */
+.progress-card,
+.user-info-card,
+.user-info-grid {
+  /* Remove these classes or comment them out */
+}
+
+/* Progress Card */
+.progress-card {
+  margin-bottom: 2rem;
+}
+
+.progress-card h2 {
+  margin-bottom: 1rem;
+}
+
+/* User Info Card */
+.user-info-card {
+  margin-bottom: 2rem;
+}
+
+.user-info-grid {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.user-details h2 {
+  margin: 0 0 0.5rem 0;
+  color: var(--color-text-primary);
+}
+
+.user-meta {
+  display: flex;
+  gap: 2rem;
+  color: var(--color-text-muted);
+}
+
+.personal-url a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.personal-url a:hover {
+  text-decoration: underline;
+}
+
+/* Full Progress Display */
+.certificate-progress-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.certificate-progress-page .dh-certificate-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.certificate-progress-page .progress-card {
+  background: var(--color-white, #fff);
+  border-radius: var(--border-radius, 8px);
+  box-shadow: 0 2px 6px var(--color-shadow, rgba(0, 0, 0, 0.15));
+  border: 1px solid var(--color-border, #c4c4c4);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.certificate-progress-page .student-info {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.certificate-progress-page .student-info h2 {
+  font-size: 1.5rem;
+  margin: 0 0 1rem 0;
+  color: var(--color-text-primary);
+}
+
+.certificate-progress-page .user-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  color: var(--color-text-muted);
+}
+
+.certificate-progress-page .personal-url a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+
+.certificate-progress-page .personal-url a:hover {
+  text-decoration: underline;
+}
+
+.certificate-progress-page .certificate-progress__grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 3fr 2fr;
+}
+
+.certificate-progress-page .main-card {
+  background: var(--color-white, #fff);
+  border-radius: var(--border-radius, 8px);
+  box-shadow: 0 2px 6px var(--color-shadow, rgba(0, 0, 0, 0.15));
+  border: 1px solid var(--color-border, #c4c4c4);
+  padding: 1rem;
+}
+
+.certificate-progress-page .requirements-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.certificate-progress-page .requirement-card {
+  display: flex;
+  align-items: center;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  margin-bottom: 0.25rem;
+}
+
+.certificate-progress-page .requirement-card.completed {
+  background: var(--color-success-bg, #e8f5e9);
+  border-color: var(--color-success-border, #66bb6a);
+}
+
+/* Compact progress styles */
+.certificate-progress-compact {
+  padding: 1rem;
+}
+
+.certificate-progress-compact .progress-summary {
+  margin-bottom: 1rem;
+}
+
+.certificate-progress-compact .progress-bar {
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.certificate-progress-compact .progress-text {
+  position: absolute;
+  right: 0;
+  top: -20px;
+  font-size: 0.9em;
+  color: var(--color-text-muted);
+}
+
+.certificate-progress-compact .requirement-item {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.certificate-progress-compact .view-all-link {
+  display: block;
+  padding: 0.5rem 0;
+  text-align: center;
+  color: var(--color-primary);
+  text-decoration: none;
+  margin-top: 0.5rem;
+  font-size: 0.9em;
+}
+
+/* ...existing styles for progress bar, status icons, etc... */

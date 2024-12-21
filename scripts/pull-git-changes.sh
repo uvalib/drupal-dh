@@ -7,6 +7,6 @@ changes=`git diff --name-only origin/main| wc -l`
 if [ $changes -gt 0 ]; then
         echo $changes changes detected.
         git pull && \
-	drush cim -y && \
+		( cd /opt/drupal ; composer install ) && \
         drush cr
 fi

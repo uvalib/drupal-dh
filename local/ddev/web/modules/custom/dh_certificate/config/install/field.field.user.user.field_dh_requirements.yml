@@ -1,0 +1,33 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_dh_requirements
+  module:
+    - entity_reference_revisions
+    - user
+id: user.user.field_dh_requirements
+field_name: field_dh_requirements
+entity_type: user
+bundle: user
+label: 'DH Certificate Requirements'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    target_bundles:
+      course_requirement: course_requirement
+      general_requirement: general_requirement
+    negate: 0
+    target_bundles_drag_drop:
+      course_requirement:
+        weight: 2
+        enabled: true
+      general_requirement:
+        weight: 3
+        enabled: true
+field_type: entity_reference_revisions

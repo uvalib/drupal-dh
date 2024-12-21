@@ -1,0 +1,9 @@
+name: DH Certificate
+type: module
+description: 'Tracks Digital Humanities Certificate requirements'
+package: Digital Humanities
+core_version_requirement: ^9 || ^10
+dependencies:
+  - drupal:paragraphs
+  - drupal:field
+  - drupal:user

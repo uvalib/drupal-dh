@@ -1,0 +1,15 @@
+uuid: d922e79c-d610-4a15-aa29-a70d2519be78
+langcode: en
+status: true
+dependencies: {  }
+id: courses
+label: Courses
+description: 'Custom breadcrumbs for Courses'
+entityType: node
+entityBundle: course
+language: und
+breadcrumbPaths: "/dh-course-list\r\n<nolink>\r\n<nolink>\r\n<nolink>\r\n[current-page:url]"
+breadcrumbTitles: "Courses\r\n[node:field_year:entity:name]\r\n[node:field_semester:entity:name]\r\n[node:field_course_mnemonic]"
+type: '1'
+pathPattern: ''
+extraCacheContexts: 'url.query_args:search'

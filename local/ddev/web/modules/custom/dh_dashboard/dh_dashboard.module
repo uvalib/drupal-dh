@@ -1,0 +1,91 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function dh_dashboard_theme($existing, $type, $theme, $path) {
+  return [
+    'dh_certificate_progress' => [
+      'variables' => [
+        'progress' => NULL,
+      ],
+    ],
+    'dh_news_feed' => [
+      'variables' => [
+        'news' => [],
+      ],
+      'template' => 'dh-news-feed',
+    ],
+    'dh_program_info' => [
+      'variables' => [
+        'announcements' => [],
+      ],
+      'template' => 'dh-program-info',
+    ],
+    'dh_user_info' => [
+      'variables' => [
+        'user' => NULL,
+      ],
+      'template' => 'dh-user-info',
+    ],
+    'dh_certificate_progress_compact' => [
+      'variables' => [
+        'progress' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for block templates.
+ */
+function dh_dashboard_preprocess_block(&$variables) {
+  $variables['#attached']['library'][] = 'dh_dashboard/dh_dashboard';
+}
+
+/**
+ * Implements template_preprocess_dh_certificate_progress().
+ */
+function template_preprocess_dh_certificate_progress(&$variables) {
+  $variables['#attached']['library'][] = 'dh_dashboard/certificate-progress';
+
+  // Always merge with mock data for testing, using actual data where it exists
+  $mock_data = [
+    'user' => [
+      'name' => 'Jane Smith',
+      'graduation_year' => '2025',
+      'url' => 'https://scholars.dh.virginia.edu/jsmith',
+    ],
+    'total_completed' => 3,
+    'total_requirements' => 10,
+    'courses' => [
+      [
+        'number' => 'CS101',
+        'name' => 'Introduction to Programming',
+        'completed' => TRUE,
+        'semester' => 'Fall 2023',
+      ],
+      [
+        'number' => 'DH201',
+        'name' => 'Digital Humanities Methods',
+        'completed' => FALSE,
+        'semester' => 'Spring 2024',
+      ],
+    ],
+    'general' => [
+      [
+        'name' => 'GPA Requirement',
+        'completed' => TRUE,
+      ],
+      [
+        'name' => 'Portfolio Submission',
+        'completed' => FALSE,
+      ],
+    ],
+  ];
+
+  // Merge existing progress with mock data, preferring existing data
+  $variables['progress'] = !empty($variables['progress']) 
+    ? array_merge($mock_data, $variables['progress']) 
+    : $mock_data;
+}

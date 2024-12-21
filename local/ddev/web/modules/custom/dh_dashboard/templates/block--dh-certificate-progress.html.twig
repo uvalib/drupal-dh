@@ -1,0 +1,14 @@
+<div class="certificate-progress">
+  {% if progress %}
+    <div class="progress-summary">
+      <div class="progress-bar">
+        <div class="progress" style="width: {{ progress.percentage }}%"></div>
+      </div>
+      <div class="progress-stats">
+        {{ progress.completed }}/{{ progress.total }} requirements complete
+      </div>
+    </div>
+  {% else %}
+    <p>No certificate progress found.</p>
+  {% endif %}
+</div>

@@ -1,0 +1,30 @@
+certificate-progress:
+  css:
+    theme:
+      css/certificate-progress.css: {}
+  js:
+    js/certificate-progress.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/once
+
+dh_dashboard:
+  version: 1.x
+  css:
+    theme:
+      css/dh_dashboard.css: { weight: 100 }  # Higher weight to override other styles
+  js:
+    js/dh_dashboard.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - layout_builder/drupal.layout_builder
+
+# Removed duplicate 'dashboard' configuration
+program_info:
+  css:
+    theme:
+      css/program-info.css: {}
+

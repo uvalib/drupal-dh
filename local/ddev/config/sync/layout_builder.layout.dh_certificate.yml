@@ -1,0 +1,19 @@
+_core:
+  default_config_hash: miDTJ7EihgQCurH96AhImPl9b1j0W3Q1kZ4Ca9INqIk
+id: dh_certificate
+label: 'DH Certificate Dashboard'
+layout:
+  -
+    section:
+      layout_id: layout_twocol
+      components:
+        -
+          uuid: component-1
+          region: first
+          configuration:
+            id: 'views_block:dh_progress_block'
+        -
+          uuid: component-2
+          region: second
+          configuration:
+            id: dh_dashboard_requirements

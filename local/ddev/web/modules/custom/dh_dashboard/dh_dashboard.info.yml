@@ -1,0 +1,24 @@
+name: DH Dashboard
+type: module
+description: 'Provides a customized dashboard interface'
+package: Custom
+core_version_requirement: ^9 || ^10
+configure: dh_dashboard.settings
+weight: 100  # Add this line to ensure late loading
+dependencies:
+  - drupal:block
+  - drupal:layout_builder
+  - drupal:user
+  - drupal:block_content
+  - drupal:node
+  - drupal:layout_discovery
+libraries:
+  - dh_dashboard/certificate-progress
+layout:
+  - layout_threecol_33_34_33
+  - layout_discovery
+
+component-libraries:
+  dh_dashboard:
+    paths:
+      - templates

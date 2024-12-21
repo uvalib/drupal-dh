@@ -5,6 +5,7 @@ dependencies:
   config:
     - core.entity_view_mode.user.compact
     - field.field.user.user.field_contribution_field
+    - field.field.user.user.field_dh_requirements
     - field.field.user.user.field_placeholder_label_to_conne
     - field.field.user.user.user_picture
     - image.style.thumbnail
@@ -18,6 +19,11 @@ targetEntityType: user
 bundle: user
 mode: compact
 content:
+  masquerade:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 50
+    region: content
   user_picture:
     type: image
     label: hidden
@@ -30,6 +36,9 @@ content:
     weight: 0
     region: content
 hidden:
+  breadcrumbs: true
+  dhcert_profiles: true
   field_contribution_field: true
+  field_dh_requirements: true
   field_placeholder_label_to_conne: true
   member_for: true

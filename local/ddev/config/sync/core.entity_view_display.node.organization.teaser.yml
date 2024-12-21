@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.organization.field_contact_person
     - field.field.node.organization.field_image
     - field.field.node.organization.field_link_to_more_information
+    - field.field.node.organization.field_org_title
     - field.field.node.organization.field_uva_or_non_uva
     - image.style.medium
     - node.type.organization
@@ -46,7 +47,10 @@ content:
     weight: 100
     region: content
 hidden:
+  addtoany: true
+  breadcrumbs: true
   field_affiliated_dh_projects: true
   field_contact_person: true
   field_link_to_more_information: true
+  field_org_title: true
   field_uva_or_non_uva: true

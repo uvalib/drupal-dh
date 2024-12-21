@@ -1,0 +1,16 @@
+access dh dashboard:
+  title: 'Access DH Dashboard'
+  description: 'View and interact with the DH Certificate dashboard'
+
+view dh certificate progress:
+  title: 'View DH Certificate Progress'
+  description: 'View progress towards DH Certificate completion'
+  depends_on:
+    - 'profile:view own profile'
+
+manage dh certificate progress:
+  title: 'Manage DH Certificate Progress'
+  description: 'Update progress towards DH Certificate completion'
+  depends_on:
+    - 'profile:edit own profile'
+    - 'profile:view own profile'

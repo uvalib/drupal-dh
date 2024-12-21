@@ -1,0 +1,67 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-certificate-progress.html.twig #}
+<div class="dh-certificate-progress">
+  {% if progress %}
+    <div class="progress-card">
+      <div class="student-info">
+        <h2>{{ progress.user.name }}</h2>
+        <div class="user-meta">
+          <span class="graduation-year">{% trans %}Expected Graduation:{% endtrans %} {{ progress.user.graduation_year }}</span>
+          {% if progress.user.url %}
+            <span class="personal-url">
+              <a href="{{ progress.user.url }}" target="_blank">{{ progress.user.url }}</a>
+            </span>
+          {% endif %}
+        </div>
+      </div>
+
+      <h2>{% trans %}Certificate Progress{% endtrans %}</h2>
+      <div class="progress-summary">
+        {% set percentage = progress.total_requirements ? (progress.total_completed / progress.total_requirements * 100)|round : 0 %}
+        <div class="progress-bar">
+          <div class="progress-bar-fill" style="width: {{ percentage }}%">
+            <span class="progress-text">{{ percentage }}%</span>
+          </div>
+        </div>
+        <div class="requirements-count">
+          {{ progress.total_completed|default(0) }} of {{ progress.total_requirements|default(1) }} requirements completed
+        </div>
+      </div>
+    </div>
+
+    <div class="certificate-progress__grid">
+      <div class="course-requirements">
+        <h2>{% trans %}Course Requirements{% endtrans %}</h2>
+        <div class="requirements-grid">
+          {% for course in progress.courses %}
+            <div class="requirement-card {{ course.completed ? 'completed' : '' }}">
+              <div class="status-icon">{{ course.completed ? '✓' : '○' }}</div>
+              <div class="card-content">
+                <div class="course-number">{{ course.number }}</div>
+                <div class="course-name">{{ course.name }}</div>
+                {% if course.semester %}
+                  <div class="semester">{{ course.semester }}</div>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="general-requirements">
+        <h2>{% trans %}General Requirements{% endtrans %}</h2>
+        <div class="requirements-grid">
+          {% for requirement in progress.general %}
+            <div class="requirement-card {{ requirement.completed ? 'completed' : '' }}">
+              <div class="status-icon">{{ requirement.completed ? '✓' : '○' }}</div>
+              <div class="card-content">
+                <div class="requirement-name">{{ requirement.name }}</div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <p>{% trans %}No progress data available.{% endtrans %}</p>
+  {% endif %}
+</div>

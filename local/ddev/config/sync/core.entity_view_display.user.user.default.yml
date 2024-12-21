@@ -4,6 +4,7 @@ status: true
 dependencies:
   config:
     - field.field.user.user.field_contribution_field
+    - field.field.user.user.field_dh_requirements
     - field.field.user.user.field_placeholder_label_to_conne
     - field.field.user.user.user_picture
     - image.style.thumbnail
@@ -33,6 +34,11 @@ content:
     third_party_settings: {  }
     weight: 6
     region: content
+  masquerade:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 50
+    region: content
   member_for:
     settings: {  }
     third_party_settings: {  }
@@ -49,4 +55,7 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-hidden: {  }
+hidden:
+  breadcrumbs: true
+  dhcert_profiles: true
+  field_dh_requirements: true

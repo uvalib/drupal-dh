@@ -1,0 +1,12 @@
+uuid: 3fa08b16-257c-40f9-bbb6-d2278e9f315b
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: O0cwxOJb3wtIadbcFZoKAhLkuRsCK2_T6zgkRfR_9T8
+id: general_requirement
+label: 'General Requirement'
+icon_uuid: null
+icon_default: null
+description: 'General checkbox requirements for DH Certificate'
+behavior_plugins: {  }

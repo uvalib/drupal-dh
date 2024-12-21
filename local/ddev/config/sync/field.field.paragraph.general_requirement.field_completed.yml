@@ -1,0 +1,25 @@
+uuid: d0060c8d-d7eb-44bf-85c7-8ff363530f12
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_completed
+    - paragraphs.paragraphs_type.general_requirement
+_core:
+  default_config_hash: FpKFwHhkceJVKClzapWYrOkKsmWNMSQ3QA-2yDTNVfs
+id: paragraph.general_requirement.field_completed
+field_name: field_completed
+entity_type: paragraph
+bundle: general_requirement
+label: Completed
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Completed
+  off_label: 'Not Completed'
+field_type: boolean

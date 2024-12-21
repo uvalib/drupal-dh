@@ -1,0 +1,23 @@
+uuid: 77db774c-3d98-419c-bee4-18d539057a2f
+langcode: en
+status: true
+dependencies:
+  module:
+    - paragraphs
+_core:
+  default_config_hash: q1aLAKC49LAc7Y0V_8iqtvf-UxHEfBxhSI-fuiyEcaE
+id: paragraph.field_course_number
+field_name: field_course_number
+entity_type: paragraph
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

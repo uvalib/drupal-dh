@@ -1,0 +1,34 @@
+<div class="certificate-progress">
+  {% if progress %}
+    <div class="progress-summary">
+      {{ progress.completed }}/{{ progress.total }} requirements complete
+    </div>
+
+    {% if progress.courses %}
+      <div class="course-requirements">
+        <h3>Course Requirements</h3>
+        {% for course in progress.courses %}
+          <div class="course-item {{ course.status }}">
+            <div class="course-header">
+              <span class="course-code">{{ course.code }}</span>
+              <span class="course-name">{{ course.title }}</span>
+              <span class="course-credits">{{ course.credits }} credits</span>
+            </div>
+            <div class="course-details">
+              {% if course.term %}
+                <span class="course-term">{{ course.term }}</span>
+              {% endif %}
+              <span class="course-status">
+                {% if course.completed %}
+                  <span class="status-complete">✓</span>
+                {% else %}
+                  <span class="status-incomplete">○</span>
+                {% endif %}
+              </span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endif %}
+</div>

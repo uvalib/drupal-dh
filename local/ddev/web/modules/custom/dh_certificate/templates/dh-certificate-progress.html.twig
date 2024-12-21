@@ -1,0 +1,45 @@
+{# modules/custom/dh_certificate/templates/dh-certificate-progress.html.twig #}
+<div class="dh-certificate-progress">
+  <div class="progress-summary">
+    {% if progress.total_requirements > 0 %}
+      <div class="progress-percentage">
+        {{ (progress.total_completed / progress.total_requirements * 100)|round }}% Complete
+      </div>
+      <div class="progress-details">
+        {{ progress.total_completed }} of {{ progress.total_requirements }} requirements completed
+      </div>
+    {% else %}
+      <div class="no-requirements">
+        {{ 'No requirements configured yet.'|t }}
+      </div>
+    {% endif %}
+  </div>
+
+  {% if progress.courses|length > 0 %}
+    <h3>{{ 'Course Requirements'|t }}</h3>
+    <div class="course-requirements">
+      {% for course in progress.courses %}
+        <div class="requirement-item {{ course.completed ? 'completed' : 'pending' }}">
+          <span class="course-number">{{ course.number }}</span>
+          <span class="course-name">{{ course.name }}</span>
+          {% if course.semester %}
+            <span class="semester">{{ course.semester }}</span>
+          {% endif %}
+          <span class="status">{{ course.completed ? '✓'|t : '○'|t }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% if progress.general|length > 0 %}
+    <h3>{{ 'General Requirements'|t }}</h3>
+    <div class="general-requirements">
+      {% for req in progress.general %}
+        <div class="requirement-item {{ req.completed ? 'completed' : 'pending' }}">
+          <span class="requirement-name">{{ req.name }}</span>
+          <span class="status">{{ req.completed ? '✓'|t : '○'|t }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

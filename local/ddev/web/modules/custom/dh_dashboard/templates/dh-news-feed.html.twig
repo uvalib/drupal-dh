@@ -1,0 +1,16 @@
+<div class="news-feed main-card">
+  <h2>{% trans %}Latest News{% endtrans %}</h2>
+  {% if news %}
+    {% for item in news %}
+      <div class="news-item {{ item.type }} {{ item.priority ? 'priority-' ~ item.priority }}">
+        <div class="news-date">{{ item.date|date('F j, Y') }}</div>
+        <h3 class="news-title">
+          <a href="{{ item.link }}">{{ item.title }}</a>
+        </h3>
+        <div class="news-excerpt">{{ item.excerpt }}</div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>{% trans %}No news items available.{% endtrans %}</p>
+  {% endif %}
+</div>

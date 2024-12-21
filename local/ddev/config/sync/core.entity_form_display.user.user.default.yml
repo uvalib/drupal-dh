@@ -4,11 +4,13 @@ status: true
 dependencies:
   config:
     - field.field.user.user.field_contribution_field
+    - field.field.user.user.field_dh_requirements
     - field.field.user.user.field_placeholder_label_to_conne
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
     - image
+    - path
     - user
 _core:
   default_config_hash: FaQ9Ptcpxpg30AtiqRDtl_8zbJArHP1LPfug_s59TOA
@@ -46,6 +48,12 @@ content:
   language:
     weight: 0
     region: content
+  path:
+    type: path
+    weight: 30
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   timezone:
     weight: 6
     region: content
@@ -57,4 +65,6 @@ content:
       progress_indicator: throbber
       preview_image_style: thumbnail
     third_party_settings: {  }
-hidden: {  }
+hidden:
+  dhcert_profiles: true
+  field_dh_requirements: true

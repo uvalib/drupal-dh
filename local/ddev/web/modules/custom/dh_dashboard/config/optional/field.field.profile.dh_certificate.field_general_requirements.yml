@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_general_requirements
+    - profile.type.dh_certificate
+id: profile.dh_certificate.field_general_requirements
+field_name: field_general_requirements
+entity_type: profile
+bundle: dh_certificate
+label: 'General Requirements'
+description: 'General requirements for completing the DH Certificate'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: map
