@@ -42,18 +42,19 @@ class DashboardManager
         $this->entityTypeManager = $entityTypeManager;
     }
 
-    public function getUserDashboard($account)
+    public function getUserDashboard($account): string
     {
         return 'dh_certificate';
     }
 
-    public function getDHCertificateProgress($account)
+    public function getDHCertificateProgress($account): array
     {
         // Just return mock data directly for now
         return $this->getMockProgress();
     }
 
-    protected function populateProfileWithMockData(Profile $profile) {
+    protected function populateProfileWithMockData(Profile $profile): Profile
+    {
         $mockCourses = [
             [
                 'number' => 'DH 5000',
@@ -103,7 +104,8 @@ class DashboardManager
         return $profile;
     }
 
-    protected function getDefaultProgress() {
+    protected function getDefaultProgress(): array
+    {
         return [
             'total_completed' => 0,
             'total_requirements' => 6,
@@ -112,7 +114,8 @@ class DashboardManager
         ];
     }
 
-    protected function getProfileCourses($profile) {
+    protected function getProfileCourses(Profile $profile): array
+    {
         $courses = [];
         if ($profile->hasField('field_dh_courses')) {
             // ...process course data from profile...
@@ -120,7 +123,8 @@ class DashboardManager
         return $courses;
     }
 
-    protected function getProfileGeneralRequirements($profile) {
+    protected function getProfileGeneralRequirements(Profile $profile): array
+    {
         $requirements = [];
         if ($profile->hasField('field_general_requirements')) {
             // ...process general requirements data from profile...
@@ -128,7 +132,8 @@ class DashboardManager
         return $requirements;
     }
 
-    public function checkCourseCompletion($course_number) {
+    public function checkCourseCompletion(string $course_number): bool
+    {
         $progress = $this->getMockProgress();
         foreach ($progress['courses'] as $course) {
             if ($course['number'] === $course_number) {
@@ -138,7 +143,8 @@ class DashboardManager
         return false;
     }
 
-    public function checkGeneralRequirements($requirement_name) {
+    public function checkGeneralRequirements(string $requirement_name): bool
+    {
         $progress = $this->getMockProgress();
         foreach ($progress['general'] as $requirement) {
             if ($requirement['name'] === $requirement_name) {
@@ -148,7 +154,8 @@ class DashboardManager
         return false;
     }
 
-    public function getMockProgress() {
+    public function getMockProgress(): array
+    {
         return [
             'total_completed' => 3,
             'total_requirements' => 6,

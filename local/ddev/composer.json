@@ -72,6 +72,7 @@
         "drupal/pathauto": "^1.13",
         "drupal/profile": "^1.11",
         "drupal/redirect": "^1.9",
+        "drupal/rules": "^4.0",
         "drupal/section_library": "^1.1",
         "drupal/security_review": "^3.0",
         "drupal/select2": "^1.15",

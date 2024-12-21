@@ -6,7 +6,7 @@ namespace Drupal\dh_dashboard\Plugin\Block;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\dh_dashboard\Services\DashboardManager;
+use Drupal\dh_dashboard\Services\CertificateService;
 
 /**
  * Provides a block displaying DH Certificate progress.
@@ -20,11 +20,11 @@ use Drupal\dh_dashboard\Services\DashboardManager;
 class DHCertificateProgressBlock extends BlockBase implements ContainerFactoryPluginInterface
 {
     /**
-     * The dashboard manager service.
+     * The certificate service.
      *
-     * @var \Drupal\dh_dashboard\Services\DashboardManager
+     * @var \Drupal\dh_dashboard\Services\CertificateService
      */
-    protected $dashboardManager;
+    protected $certificateService;
 
     /**
      * Constructs a new DHCertificateProgressBlock instance.
@@ -35,17 +35,17 @@ class DHCertificateProgressBlock extends BlockBase implements ContainerFactoryPl
      *   The plugin_id for the plugin instance.
      * @param mixed $plugin_definition
      *   The plugin implementation definition.
-     * @param \Drupal\dh_dashboard\Services\DashboardManager $dashboard_manager
-     *   The dashboard manager service.
+     * @param \Drupal\dh_dashboard\Services\CertificateService $certificate_service
+     *   The certificate service.
      */
     public function __construct(
         array $configuration,
         $plugin_id,
         $plugin_definition,
-        DashboardManager $dashboard_manager
+        CertificateService $certificate_service
     ) {
         parent::__construct($configuration, $plugin_id, $plugin_definition);
-        $this->dashboardManager = $dashboard_manager;
+        $this->certificateService = $certificate_service;
     }
 
     /**
@@ -57,15 +57,17 @@ class DHCertificateProgressBlock extends BlockBase implements ContainerFactoryPl
             $configuration,
             $plugin_id,
             $plugin_definition,
-            $container->get('dh_dashboard.manager')
+            $container->get('dh_dashboard.certificate_service')
         );
     }
 
     public function build()
     {
+        $progress_data = $this->certificateService->getCurrentProgress(\Drupal::currentUser()->id());
+
         return [
             '#theme' => 'dh_certificate_progress',
-            '#progress' => $this->dashboardManager->getMockProgress(),
+            '#progress' => $progress_data,
             '#attached' => [
                 'library' => [
                     'dh_dashboard/certificate-progress',
