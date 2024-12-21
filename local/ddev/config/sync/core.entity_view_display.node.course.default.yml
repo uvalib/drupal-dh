@@ -24,6 +24,7 @@ dependencies:
     - file
     - layout_builder
     - layout_builder_restrictions
+    - layout_discovery
     - link
     - text
     - user
@@ -32,6 +33,32 @@ third_party_settings:
     enabled: true
     allow_custom: false
     sections:
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: 'Course Title'
+          context_mapping: {  }
+        components:
+          8a349533-38d2-4933-9f13-7b6997b52972:
+            uuid: 8a349533-38d2-4933-9f13-7b6997b52972
+            region: content
+            configuration:
+              id: 'field_block:node:course:title'
+              label: 'Course Title'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: string
+                label: hidden
+                settings:
+                  link_to_entity: false
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+        third_party_settings: {  }
       -
         layout_id: layout_twocol_section
         layout_settings:
@@ -77,13 +104,13 @@ third_party_settings:
                 third_party_settings: {  }
             weight: 1
             additional: {  }
-          16d95c0a-7d76-432d-8fe1-9124d8e739a9:
-            uuid: 16d95c0a-7d76-432d-8fe1-9124d8e739a9
-            region: second
+          8f377c99-5969-4001-8709-54b0cd25cb70:
+            uuid: 8f377c99-5969-4001-8709-54b0cd25cb70
+            region: first
             configuration:
-              id: 'field_block:node:course:title'
-              label: Title
-              label_display: '0'
+              id: 'field_block:node:course:field_course_meets_what_requirem'
+              label: 'DH Certificate Course Requirement'
+              label_display: visible
               provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
@@ -93,6 +120,84 @@ third_party_settings:
                 label: hidden
                 settings:
                   link_to_entity: false
+                third_party_settings: {  }
+            weight: 4
+            additional: {  }
+          773a1996-dd53-40c9-a8ad-268b2e4ea0b4:
+            uuid: 773a1996-dd53-40c9-a8ad-268b2e4ea0b4
+            region: first
+            configuration:
+              id: 'field_block:node:course:field_dh_research_data_type'
+              label: 'DH Data'
+              label_display: visible
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: hidden
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 5
+            additional: {  }
+          d3b81359-503d-4247-ad67-87b311006357:
+            uuid: d3b81359-503d-4247-ad67-87b311006357
+            region: second
+            configuration:
+              id: 'field_block:node:course:field_course_instructor'
+              label: 'Course Instructor'
+              label_display: visible
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: hidden
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
+          7b625c3d-cecc-4b70-841f-4c67fe02791a:
+            uuid: 7b625c3d-cecc-4b70-841f-4c67fe02791a
+            region: second
+            configuration:
+              id: 'field_block:node:course:field_link_to_uva_sis_listing'
+              label: 'UVA SIS listing'
+              label_display: visible
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: link
+                label: hidden
+                settings:
+                  trim_length: 80
+                  url_only: false
+                  url_plain: false
+                  rel: '0'
+                  target: _blank
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          12eb5ad3-1e0f-4496-9192-8a398dfc96e9:
+            uuid: 12eb5ad3-1e0f-4496-9192-8a398dfc96e9
+            region: second
+            configuration:
+              id: 'field_block:node:course:field_short_text_description'
+              label: 'Short text description'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
                 third_party_settings: {  }
             weight: 0
             additional: {  }
@@ -113,108 +218,7 @@ third_party_settings:
                 settings:
                   link: false
                 third_party_settings: {  }
-            weight: 2
-            additional: {  }
-          8f377c99-5969-4001-8709-54b0cd25cb70:
-            uuid: 8f377c99-5969-4001-8709-54b0cd25cb70
-            region: first
-            configuration:
-              id: 'field_block:node:course:field_course_meets_what_requirem'
-              label: 'DH Certificate Course Requirement'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: hidden
-                settings:
-                  link: true
-                third_party_settings: {  }
             weight: 3
-            additional: {  }
-          ec074342-d8bd-4f15-a5e6-63fd24190e4a:
-            uuid: ec074342-d8bd-4f15-a5e6-63fd24190e4a
-            region: second
-            configuration:
-              id: 'field_block:node:course:field_course_instructor'
-              label: 'Course Instructor'
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: entity_reference_label
-                label: inline
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 1
-            additional: {  }
-        third_party_settings: {  }
-      -
-        layout_id: layout_twocol_section
-        layout_settings:
-          label: 'Description plus thematics'
-          context_mapping: {  }
-          column_widths: 67-33
-        components:
-          8e53a5b9-861b-4c84-ba24-9fdcc350cd17:
-            uuid: 8e53a5b9-861b-4c84-ba24-9fdcc350cd17
-            region: second
-            configuration:
-              id: 'field_block:node:course:field_dh_research_data_type'
-              label: 'DH Research Data Type'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: entity_reference_label
-                label: inline
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 0
-            additional: {  }
-          bb40372c-8489-4326-b501-6aaa52070294:
-            uuid: bb40372c-8489-4326-b501-6aaa52070294
-            region: second
-            configuration:
-              id: 'field_block:node:course:field_dh_concentration'
-              label: 'DH Concentration'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: entity_reference_label
-                label: inline
-                settings:
-                  link: false
-                third_party_settings: {  }
-            weight: 1
-            additional: {  }
-          6f1e1fd6-080e-4fea-a59e-6f5077644266:
-            uuid: 6f1e1fd6-080e-4fea-a59e-6f5077644266
-            region: first
-            configuration:
-              id: 'field_block:node:course:field_short_text_description'
-              label: 'Short text description'
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: text_default
-                label: above
-                settings: {  }
-                third_party_settings: {  }
-            weight: 0
             additional: {  }
         third_party_settings: {  }
   layout_builder_restrictions:
@@ -250,8 +254,8 @@ content:
     settings:
       link: true
     third_party_settings: {  }
-    weight: 120
-    region: content
+    weight: 124
+    region: first
   field_course_meets_what_requirem:
     type: entity_reference_label
     label: above
@@ -379,9 +383,3 @@ content:
 hidden:
   addtoany: true
   breadcrumbs: true
-  field_dh_certificate_requirement: true
-  field_dhcert_course_requirements: true
-  field_instructor_name: true
-  field_link_to_online_meeting: true
-  field_test_reference_to_departme: true
-  field_year: true

@@ -6,5 +6,5 @@ _core:
   default_config_hash: ywEZtt6Vfd7lnC4B1wHyhia2JBW9ktDd1_d-r9ACHr0
 id: provus_card
 label: Card
-revision: false
-description: ''
+revision: true
+description: 'all the information students need to understand course requirements'

@@ -43,18 +43,12 @@ hidden:
   field_course_mnemonic: true
   field_course_year: true
   field_department_or_school: true
-  field_dh_certificate_requirement: true
   field_dh_concentration: true
   field_dh_research_data_type: true
   field_dh_tool_implementation: true
-  field_dhcert_course_requirements: true
-  field_instructor_name: true
   field_link_to_more_information: true
-  field_link_to_online_meeting: true
   field_link_to_uva_sis_listing: true
   field_semester: true
   field_short_text_description: true
-  field_test_reference_to_departme: true
   field_university_affiliation: true
   field_upload_a_syllabus_file: true
-  field_year: true
