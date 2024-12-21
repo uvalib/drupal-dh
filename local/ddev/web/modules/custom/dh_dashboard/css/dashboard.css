@@ -1,0 +1,552 @@
+.dh-dashboard-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Adjust layout_twocol for dashboard */
+.layout--twocol {
+  display: grid;
+  gap: 2rem;
+  margin: 2rem auto;
+}
+
+@media (min-width: 768px) {
+  .layout--twocol {
+    grid-template-columns: 3fr 2fr;
+  }
+}
+
+/* Ensure consistent card styling */
+.layout__region {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  height: fit-content;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* News Feed Styles */
+.news-item {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-date {
+  color: var(--color-text-muted);
+  font-size: 0.9em;
+}
+
+/* Program Info Styles */
+.announcement {
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 4px;
+}
+
+.announcement.priority-high {
+  background: var(--color-bg-light);
+  border-left: 4px solid var(--color-primary);
+}
+
+.announcement-title {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.test-content {
+  padding: 1rem;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.dashboard-header {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.dashboard-header .user-info-wrapper {
+  max-width: 100%;
+  margin: 0;
+}
+
+/* User Info Card Styles */
+.user-info-card {
+  background: var(--color-white, #fff);
+  border-radius: var(--border-radius, 8px);
+  box-shadow: 0 2px 6px var(--color-shadow, rgba(0, 0, 0, 0.15));
+  border: 1px solid var(--color-border, #c4c4c4);
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.user-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-name {
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--color-text-primary);
+}
+
+.user-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  color: var(--color-text-muted);
+}
+
+.user-meta .label {
+  font-weight: 500;
+  margin-right: 0.5rem;
+}
+
+.personal-url a {
+  color: var(--color-primary);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.personal-url a:hover {
+  text-decoration: underline;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.compact-progress {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.progress-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.progress-link:hover {
+  opacity: 0.9;
+}
+
+.compact-progress-column {
+  max-width: none;
+  margin: 0;
+}
+
+.compact-progress-column .progress-card {
+  margin-bottom: 1rem;
+}
+
+.compact-progress-column .progress-bar {
+  height: 16px;
+  margin: 0.5rem 0;
+  width: 100%;
+}
+
+.compact-progress-column .requirements-count {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.compact-progress-column .certificate-progress__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.compact-progress-column .progress-overview {
+  margin-bottom: 1rem;
+}
+
+.compact-progress-column .main-card {
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.compact-progress-column .main-card h2 {
+  font-size: 1rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.compact-progress-column .requirements-grid {
+  max-height: 150px;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+}
+
+.compact-progress-column .requirement-card {
+  padding: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-size: 0.9em;
+}
+
+.compact-progress-column .status-icon {
+  font-size: 1em;
+  margin-right: 0.5rem;
+}
+
+.compact-progress-column .main-card {
+  margin-bottom: 1rem;
+}
+
+.compact-progress-column .requirements-grid {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.compact-progress-column .progress-only-card h2 {
+  font-size: 1.2rem;
+  margin: 0 0 1rem 0;
+  color: var(--color-text-primary);
+}
+
+.compact-progress-column .progress-summary {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.compact-progress-column .requirements-grid {
+  margin-top: 0.5rem;
+}
+
+/* Remove height limitation and scrolling */
+.compact-progress-column .requirements-grid {
+  max-height: none;
+  overflow-y: visible;
+}
+
+.compact-progress-column .requirements-section {
+  margin-top: 1rem;
+}
+
+.compact-progress-column .requirements-section h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--color-text-primary);
+}
+
+.compact-progress-column .requirements-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.compact-progress-column .requirement-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.9em;
+}
+
+.compact-progress-column .requirement-item:last-child {
+  border-bottom: none;
+}
+
+.compact-progress-column .requirement-item.completed .status-icon {
+  color: var(--color-primary);
+}
+
+.compact-progress-column .item-details {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.compact-progress-column .course-number {
+  font-weight: 500;
+  min-width: 4em;
+}
+
+/* Remove card styles */
+.compact-progress-column .main-card,
+.compact-progress-column .progress-only-card {
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin: 0;
+}
+
+.view-full-progress {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  background: var(--color-primary);
+  color: white;
+  text-decoration: none;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.view-full-progress:hover {
+  opacity: 0.9;
+}
+
+/* ...existing code... */
+
+.progress-only-card {
+  margin-bottom: 2rem;
+}
+
+.progress-only-card .progress-summary {
+  padding: 1rem;
+}
+
+.progress-only-card .progress-bar {
+  margin: 0.5rem 0;
+}
+
+.progress-only-card .requirements-count {
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+/* Column styles */
+.news-feed-column,
+.compact-progress-column,
+.program-info-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  height: 100%;
+}
+
+/* News feed scrolling */
+.news-feed {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+/* Program info scrolling */
+.program-info {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+/* Keep certificate progress visible */
+.compact-progress-column {
+  max-width: none;
+}
+
+.dh-certificate-progress-compact {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.news-feed-column h2,
+.compact-progress-column h2,
+.program-info-column h2 {
+  margin: 0 0 0.75rem 0;
+  font-size: 1.2rem;
+  color: var(--color-text-primary);
+}
+
+.news-feed-column h3,
+.compact-progress-column h3,
+.program-info-column h3 {
+  margin: 0 0 1rem 0;
+  padding: 0;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+  color: var(--color-text-primary, #333);
+}
+
+/* Remove title from progress card */
+.progress-only-card h2 {
+  display: none;
+}
+
+/* Adjust card spacing */
+.main-card {
+  margin: 0;
+  padding: 1rem;
+}
+
+.requirement-card {
+  margin-bottom: 0.25rem;
+}
+
+/* Add "More..." link */
+.news-feed::after,
+.program-info::after {
+  content: "More...";
+  display: block;
+  padding: 0.5rem 0;
+  color: var(--color-primary);
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+  margin-top: 0.5rem;
+}
+
+/* Custom scrollbar */
+.news-feed,
+.program-info {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0,0,0,0.2) transparent;
+}
+
+.news-feed::-webkit-scrollbar,
+.program-info::-webkit-scrollbar {
+  width: 6px;
+}
+
+.news-feed::-webkit-scrollbar-thumb,
+.program-info::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+/* ...existing code... */
+
+/* Compact Progress Styles */
+.dh-certificate-progress-compact {
+  font-size: 0.9em;
+}
+
+.dh-certificate-progress-compact .progress-bar {
+  height: 16px;
+  margin: 0.5rem 0;
+}
+
+.dh-certificate-progress-compact .requirements-list {
+  margin-top: 1rem;
+}
+
+.dh-certificate-progress-compact h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 1rem 0 0.5rem 0;
+  color: var(--color-text-primary);
+}
+
+.dh-certificate-progress-compact .requirement-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dh-certificate-progress-compact .status-icon {
+  color: var(--color-text-muted);
+}
+
+.dh-certificate-progress-compact .completed .status-icon {
+  color: var(--color-primary);
+}
+
+.dh-certificate-progress-compact .course-number {
+  font-weight: 500;
+  min-width: 4em;
+}
+
+/* ...existing code... */
+
+/* Three column layout */
+.layout--threecol-33-34-33 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media (min-width: 992px) {
+  .layout--threecol-33-34-33 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Hide empty regions */
+.layout__region--top,
+.layout__region--bottom {
+  display: none;
+}
+
+/* Column content */
+.news-feed-column,
+.compact-progress-column,
+.program-info-column {
+  width: 100%;
+  height: 100%;
+}
+
+/* Remove all other layout-related styles that might conflict */
+.layout--threecol-25-50-25,
+.layout--threecol,
+.layout__region--first,
+.layout__region--second,
+.layout__region--third,
+.layout__region--left,
+.layout__region--middle,
+.layout__region--right {
+  all: unset;
+}
+
+/* Reset any conflicting styles */
+.layout-column {
+  all: revert;
+}
+
+/* ...existing code for other components... */
+
+/* Card styles */
+.main-card {
+  background: var(--color-white, #fff);
+  border-radius: var(--border-radius, 8px);
+  box-shadow: 0 2px 6px var(--color-shadow, rgba(0, 0, 0, 0.15));
+  border: 1px solid var(--color-border, #c4c4c4);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.progress-card {
+  margin-bottom: 2rem;
+}
+
+.requirement-card {
+  background: #f8f9fa;
+  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.requirement-card.completed {
+  background: var(--color-success-bg, #e8f5e9);
+  border-color: var(--color-success-border, #66bb6a);
+}
