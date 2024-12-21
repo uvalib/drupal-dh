@@ -66,7 +66,7 @@ $lb-window-gray-dark: #d9d9d9;
   background: transparent;
 }
 
-body {
+.layout-builder-active {
   #drupal-off-canvas-wrapper {
     padding: 0;
     background-color: #fff;
@@ -552,8 +552,8 @@ body {
 // LAYOUT BUILDER
 // =============================================================================
 
-.layout-builder__section > a.layout-builder__link,
-.layout-builder__section > div > a.layout-builder__link {
+.layout-builder-active .layout-builder__section > a.layout-builder__link,
+.layout-builder-active .layout-builder__section > div > a.layout-builder__link {
   overflow: hidden;
   padding-top: 13px !important;
   transition: all 0.3s ease-in-out;
@@ -600,7 +600,7 @@ body {
   }
 }
 
-.layout-builder__add-section > a.layout-builder__link {
+.layout-builder-active .layout-builder__add-section > a.layout-builder__link {
   text-indent: 30px;
   overflow: hidden;
   padding-top: 13px !important;
@@ -611,14 +611,15 @@ body {
     &:hover,
     &:focus {
       width: rem-calc(150);
+      background: transparent !important;
     }
   }
 
   &.layout-builder__link--import-from-library {
-    background: transparent !important;
     &:hover,
     &:focus {
       width: rem-calc(190);
+      background: transparent !important;
     }
   }
 
@@ -627,6 +628,7 @@ body {
     &:hover,
     &:focus {
       width: rem-calc(180);
+      background: transparent !important;
     }
   }
   
@@ -646,7 +648,7 @@ a > .layout-builder__link-wrapped {
   color: #000;
 }
 
-body {
+.layout-builder-active {
 
   .region-title h1.title {
     display: none;
@@ -663,13 +665,20 @@ body {
       .nav-item, {
         flex-grow: 0;
         background-color: white;
-        border: 0.5px solid $background-colors-background-grey;
-        border-radius: 0;
+        border: 1px solid $lb-border-color;
+        border-right: 0;
+
+        &:first-child {
+          border-radius: 5px 0 0 5px;
+        }
+
+        &:last-child {
+          border-radius: 0 5px 5px 0;
+          border-right: 1px solid $lb-border-color;
+        }
 
         a {
-          @include text-style-headline-h-5();
-          margin-top: 0;
-          margin-bottom: 0;
+          font-size: 14px;
         }
 
         &.active {
@@ -677,10 +686,11 @@ body {
           border-color: $lb-border-color;
 
           a {
+            background-color: $lb-button-active;
+            border-color: $lb-button-active;
             border-radius: 0;
             margin-bottom: 0 !important;
             color: $primary;
-            margin-top: 0;
           }
         }
       }
@@ -807,7 +817,7 @@ body {
 
 
       &:hover {
-        background-color: white;
+        background-color: white !important;
         text-decoration: none;
       }
 
@@ -877,6 +887,7 @@ body {
 
   .layout-builder__link,
   .layout-builder__link:not(:focus) {
+    background: transparent !important;
     border: 0 !important;
     border-radius: 0 !important;
     border-right: 1px solid $lb-border-color !important;
@@ -886,7 +897,7 @@ body {
     margin: 0 !important;
     line-height: 1 !important;
     padding: 10px !important;
-    transition: all .3s ease;
+    transition: border-color .3s ease;
     width: auto;
     position: relative;
     text-indent: -9999px;
@@ -925,13 +936,6 @@ body {
       width: 20px;
       height: 20px;
       color: $primary-accent !important;
-    }
-
-    &.layout-builder__link--add {
-      &:hover {
-        background: transparent !important;
-        text-decoration: underline !important;
-      }
     }
 
     &.layout-builder__link--import-from-library {
@@ -1002,7 +1006,7 @@ body {
     mask-image: none !important;
     padding: 10px 15px !important;
     text-indent: -999em;
-    transition: all .3s ease;
+    transition: border-color .3s ease;
     width: 38px;
     position: absolute !important;
     right: 130px;
@@ -1028,7 +1032,7 @@ body {
     margin: 0 !important;
     padding: 10px 15px !important;
     text-decoration: none;
-    transition: all .3s ease;
+    transition: border-color .3s ease;
     display: block !important;
     position: absolute !important;
     right: 90px;
@@ -1060,7 +1064,7 @@ body {
     margin: 0 !important;
     padding: 10px 15px !important;
     text-decoration: none;
-    transition: all .3s ease;
+    transition: border-color .3s ease;
     display: inline-block !important;
     position: absolute !important;
     right: 50px;
@@ -1209,7 +1213,7 @@ body {
     margin: 0 !important;
     padding: 10px 15px !important;
     text-decoration: none;
-    transition: all .3s ease;
+    transition: border-color .3s ease;
     display: inline-block !important;
     position: absolute !important;
     right: 10px;
@@ -1237,9 +1241,8 @@ body {
       flex-wrap: wrap;
       padding: 0 !important;
 
-      .layout-builder-browser-block-item {
-        flex-basis: 33.33333333%;
-        width: 33.33333333%;
+      a {
+        flex-basis: 33%;
         padding: 1rem 0;
         font-size: rem-calc(12);
         box-shadow: 0 0 0 1px $lb-border-color;
@@ -1248,19 +1251,6 @@ body {
         color: black;
         text-align: center;
         margin: 0 !important;
-
-        a {
-          color: black;
-          text-decoration: none;
-          display: block;
-          width: 100%;
-
-          &:hover, &:focus {
-            color: #7F56D9;
-            background-color: none;
-            box-shadow: none;
-          }
-        }
 
         &:hover, &:focus {
           box-shadow: 0 0 0 1px $lb-window-summary;
@@ -1363,7 +1353,7 @@ body {
   }
 }
 
-body {
+.layout-builder-active {
   .ui-resizable-handle.ui-resizable-w {
     display: none !important;
   }
@@ -1622,11 +1612,11 @@ body {
 }
 
 @media only screen and (max-width: 767px) {
-  .ui-widget.ui-dialog.ui-dialog-off-canvas .ui-dialog-titlebar .ui-dialog-titlebar-close {
+  .layout-builder-active .ui-widget.ui-dialog.ui-dialog-off-canvas .ui-dialog-titlebar .ui-dialog-titlebar-close {
     right: 30px;
   }
 
-  nav.tabs ul .nav-item a {
+  .layout-builder-active nav.tabs ul .nav-item a {
     padding: .5rem;
   }
 
