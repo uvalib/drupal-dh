@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - dh_dashboard
+id: certificate_progress
+theme: default
+region: content
+weight: 0
+provider: block_content
+plugin: block_content:certificate_progress
+settings:
+  id: certificate_progress
+  label: 'Certificate Progress'
+  provider: block_content
+  label_display: visible
+  view_mode: full
+  block_revision_id: 1
+visibility: {  }

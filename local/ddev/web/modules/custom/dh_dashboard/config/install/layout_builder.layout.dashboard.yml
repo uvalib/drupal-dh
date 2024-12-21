@@ -1,0 +1,45 @@
+uuid: dh_dashboard_layout
+layout_id: layout_onecol
+label: 'Dashboard Layout'
+template: templates/layout--onecol
+library: layout_discovery/onecol
+sections:
+  -
+    layout_id: layout_threecol_33_34_33
+    layout_settings:
+      label: 'Three column layout'
+      column_widths: '33-34-33'
+    components:
+      -
+        uuid: news_block_uuid
+        region: first
+        configuration:
+          id: 'dh_dashboard_news'
+          label: 'News Feed'
+          provider: dh_dashboard
+          label_display: visible
+        additional:
+          class: news-feed-block
+        weight: 0
+      -
+        uuid: program_info_uuid
+        region: second
+        configuration:
+          id: 'dh_program_info'
+          label: 'Program Information'
+          provider: dh_dashboard
+          label_display: visible
+        additional:
+          class: program-info-block
+        weight: 0
+      -
+        uuid: certificate_progress_uuid
+        region: third
+        configuration:
+          id: 'certificate_progress'
+          label: 'Certificate Progress'
+          provider: dh_dashboard
+          label_display: visible
+        additional:
+          class: certificate-progress-block
+        weight: 0

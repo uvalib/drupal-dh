@@ -1,0 +1,10 @@
+uuid: 1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+type: basic
+info: 'Dashboard News Feed'
+changed: 1636737600
+default_langcode: en

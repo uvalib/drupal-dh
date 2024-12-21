@@ -1,0 +1,19 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - dh_dashboard
+  theme:
+    - olivero
+id: dh_program_info
+theme: olivero
+region: content
+weight: 0
+provider: null
+plugin: program_info_block
+settings:
+  id: program_info_block
+  label: 'Program Information'
+  label_display: visible
+  provider: dh_dashboard
+visibility: {  }

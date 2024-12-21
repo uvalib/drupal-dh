@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.dashboard
+    - block_content.type.dh_dashboard_news_feed
+    - block_content.type.dh_certificate_progress
+  module:
+    - layout_builder
+    - block_content
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: true
+    sections:
+      -
+        layout_id: layout_twocol
+        layout_settings:
+          label: ''
+        components: {  }
+id: node.dashboard.default
+targetEntityType: node
+bundle: dashboard
+mode: default
+content: {  }
+hidden: {  }

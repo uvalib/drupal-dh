@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+third_party_settings:
+  node:
+    bundle_entity_type: node_type
+    bundle: program_info
+name: Program
+type: program_info
+description: 'Use for program information entries'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

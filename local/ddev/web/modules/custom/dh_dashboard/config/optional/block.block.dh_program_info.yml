@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - dh_dashboard
+id: dh_program_info
+theme: default
+region: content
+weight: 0
+provider: block_content
+plugin: block_content:dh_program_info
+settings:
+  id: dh_program_info
+  label: 'Program Info'
+  provider: block_content
+  label_display: visible
+  view_mode: full
+  block_revision_id: 1
+visibility: {  }

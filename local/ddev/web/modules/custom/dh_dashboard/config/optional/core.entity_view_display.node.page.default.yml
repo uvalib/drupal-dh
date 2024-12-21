@@ -1,0 +1,49 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.page
+  module:
+    - layout_builder
+    - block
+    - dh_dashboard
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: true
+id: node.page.default
+targetEntityType: node
+bundle: page
+mode: default
+content:
+  layout_builder__layout:
+    region: content
+    weight: 0
+    settings: {  }
+    third_party_settings: {  }
+    components:
+      - uuid: 1a2b3c4d-5e6f-7g8h-9i0j-1k2l3m4n5o6p
+        region: first
+        configuration:
+          id: block_content:dh_news
+          label: 'Dashboard News Feed'
+          provider: block_content
+          label_display: visible
+          view_mode: full
+      - uuid: 2b3c4d5e-6f7g-8h9i-0j1k-2l3m4n5o6p7q
+        region: second
+        configuration:
+          id: block_content:dh_cert
+          label: 'Certificate Progress'
+          provider: block_content
+          label_display: visible
+          view_mode: full
+      - uuid: 3c4d5e6f-7g8h-9i0j-1k2l-3m4n5o6p7q8r
+        region: third
+        configuration:
+          id: block_content:dh_prog
+          label: 'Program Info'
+          provider: block_content
+          label_display: visible
+          view_mode: full
+hidden: {  }

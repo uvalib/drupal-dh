@@ -1,0 +1,23 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/certificate-progress-compact.html.twig #}
+<div class="certificate-progress-compact">
+  <div class="progress-summary">
+    <div class="progress-bar" style="width: {{ progress.percentage }}%">
+      <span class="progress-text">{{ progress.percentage }}% Complete</span>
+    </div>
+  </div>
+  
+  <div class="requirements-overview">
+    {% for requirement in progress.requirements|slice(0, 5) %}
+      <div class="requirement-item {{ requirement.status }}">
+        <span class="status-icon">{{ requirement.status == 'completed' ? '✓' : '○' }}</span>
+        <span class="requirement-title">{{ requirement.title }}</span>
+      </div>
+    {% endfor %}
+    
+    {% if progress.requirements|length > 5 %}
+      <a href="/dashboard/certificate-progress/{{ user.id }}" class="view-all-link">
+        View all {{ progress.requirements|length }} requirements...
+      </a>
+    {% endif %}
+  </div>
+</div>

@@ -1,0 +1,12 @@
+
+.program-item {
+  margin-bottom: 2em;
+  padding: 1em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.program-item h3 {
+  margin-top: 0;
+  color: #333;
+}

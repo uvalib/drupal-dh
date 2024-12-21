@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+third_party_settings:
+  node:
+    bundle_entity_type: node_type
+    bundle: news
+name: News
+type: news
+description: 'Use for news entries'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

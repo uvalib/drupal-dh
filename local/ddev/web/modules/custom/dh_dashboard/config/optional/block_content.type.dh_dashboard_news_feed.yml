@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {}
+id: dh_dashboard_news_feed
+label: 'Dashboard News Feed'
+revision: 0
+description: 'News feed block for the dashboard'

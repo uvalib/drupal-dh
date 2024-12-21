@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - dh_dashboard
+    - layout_builder
+id: dashboard
+label: Dashboard
+sections:
+  -
+    layout_id: layout_onecol
+    layout_settings:
+      label: 'Main Content'
+    components:
+      -
+        uuid: news-feed-block
+        region: content
+        configuration:
+          id: 'block_content:dh_dashboard_news_feed'
+          label: 'News Feed'
+          provider: block_content
+          label_display: visible
+        additional:
+          component_attributes: {}
+        weight: 0
+    third_party_settings: {}

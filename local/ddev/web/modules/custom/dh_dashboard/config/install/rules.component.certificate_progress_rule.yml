@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies: { }
+id: certificate_progress_rule
+label: 'Certificate Progress Rule'
+component_type: rule
+configuration:
+  context_definitions:
+    progress:
+      type: any
+      label: Progress
+      description: 'Progress data'
+    user_id:
+      type: integer
+      label: 'User ID'
+      description: 'The user ID'
+expression:
+  id: rules_rule
+  uuid: a9268314-4409-4466-9744-f459a9b7a24c
+  weight: 0
+  conditions: []
+  actions:
+    -
+      id: certificate_progress
+      uuid: 2d984f85-3bdd-4f28-8e32-ac87436da871
+      weight: 0
+      context_values: {}
+      context_mapping:
+        progress: progress
+        user_id: user_id

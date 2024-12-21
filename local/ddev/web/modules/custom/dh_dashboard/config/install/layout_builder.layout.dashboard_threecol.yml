@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - dh_dashboard
+id: dashboard_threecol
+label: 'Dashboard Three Column'
+layout:
+  id: layout_threecol_33_34_33
+  settings:
+    label: 'Dashboard Main Content'
+  regions:
+    first:
+      - news_feed
+    second:
+      - certificate_progress
+    third:
+      - program_info
