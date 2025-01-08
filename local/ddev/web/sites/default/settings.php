@@ -861,10 +861,9 @@ if (getenv('IS_DDEV_PROJECT') == 'true' && file_exists(__DIR__ . '/settings.ddev
  *
  * Keep this code block at the end of this file to take full effect.
  */
-#
 $settings['config_sync_directory'] = '../config/sync';
 if (file_exists($app_root . '/' . $site_path . '/settings.local.php')) {
-   include $app_root . '/' . $site_path . '/settings.local.php';
+  include $app_root . '/' . $site_path . '/settings.local.php';
 }
 
 $config['system.logging']['error_level'] = 'verbose';

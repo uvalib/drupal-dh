@@ -1,0 +1,13 @@
+dh_dashboard.main:
+  title: 'DH Dashboard'
+  description: 'Access the Digital Humanities Dashboard'
+  route_name: dh_dashboard.main
+  menu_name: main
+  weight: 100
+
+dh_dashboard.admin:
+  title: 'DH Admin Dashboard'
+  description: 'Digital Humanities Administrative Dashboard'
+  parent: system.admin
+  route_name: dh_dashboard.admin
+  weight: 100

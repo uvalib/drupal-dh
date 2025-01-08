@@ -1,0 +1,47 @@
+.dh-dashboard {
+  padding: 2rem;
+}
+
+.dh-dashboard-content {
+  margin-top: 2rem;
+}
+
+.dh-dashboard-news,
+.dh-dashboard-progress,
+.dh-dashboard-certificate-info {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.news-item {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+}
+
+.course-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+}
+
+.course-item.completed {
+  color: green;
+}
+
+.course-item.in_progress {
+  color: orange;
+}
+
+.requirements-list,
+.announcements-list {
+  list-style: none;
+  padding: 0;
+}
+
+.requirements-list li,
+.announcements-list li {
+  margin-bottom: 0.5rem;
+}

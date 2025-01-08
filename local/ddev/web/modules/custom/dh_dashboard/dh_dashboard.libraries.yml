@@ -1,0 +1,14 @@
+dashboard:
+  version: 1.x
+  css:
+    theme:
+      css/dashboard.css: {}
+  js:
+    js/dashboard.js: {}
+  dependencies:
+    - core/drupal
+
+progress:
+  css:
+    theme:
+      css/dh-dashboard.css: {}

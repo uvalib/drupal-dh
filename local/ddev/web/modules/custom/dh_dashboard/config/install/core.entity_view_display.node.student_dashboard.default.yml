@@ -1,0 +1,59 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.student_dashboard
+  enforced:
+    module:
+      - dh_dashboard
+  module:
+    - user
+    - layout_builder
+id: node.student_dashboard.default
+targetEntityType: node
+bundle: student_dashboard
+mode: default
+content: {}
+hidden: {}
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: false
+    sections:
+      -
+        layout_id: layout_threecol_33_34_33
+        layout_settings:
+          label: ''
+          column_widths: 33-34-33
+        components:
+          9a87c8d7-8574-4c78-9e21-5e278a3e7543:
+            uuid: 9a87c8d7-8574-4c78-9e21-5e278a3e7543
+            region: first
+            configuration:
+              id: 'dh_dashboard_news'
+              label: 'DH News'
+              label_display: visible
+              provider: dh_dashboard
+            weight: 0
+            additional: {}
+          b6d3e8f1-2c54-4a93-8e15-7f9d6c2e4b12:
+            uuid: b6d3e8f1-2c54-4a93-8e15-7f9d6c2e4b12
+            region: second
+            configuration:
+              id: 'dh_dashboard_progress'
+              label: 'Certificate Progress'
+              label_display: visible
+              provider: dh_dashboard
+            weight: 0
+            additional: {}
+          c5f2d9e0-3b65-4d82-9f10-8a7b1e3c5d34:
+            uuid: c5f2d9e0-3b65-4d82-9f10-8a7b1e3c5d34
+            region: third
+            configuration:
+              id: 'dh_dashboard_certificate_info'
+              label: 'Certificate Information'
+              label_display: visible
+              provider: dh_dashboard
+            weight: 0
+            additional: {}
+        third_party_settings: {}

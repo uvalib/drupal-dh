@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the DH Dashboard module.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function dh_dashboard_install() {
+  // Grant permissions to roles
+  $permissions = [
+    'authenticated' => ['access dh dashboard'],
+    'administrator' => ['access dh dashboard', 'access dh admin dashboard'],
+  ];
+  
+  foreach ($permissions as $role_id => $role_permissions) {
+    $role = \Drupal\user\Entity\Role::load($role_id);
+    if ($role) {
+      foreach ($role_permissions as $permission) {
+        $role->grantPermission($permission);
+      }
+      $role->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function dh_dashboard_uninstall() {
+  // Clean up permissions when uninstalling.
+  $roles = \Drupal\user\Entity\Role::loadMultiple();
+  foreach ($roles as $role) {
+    $role->revokePermission('access dh dashboard');
+    $role->save();
+  }
+}

@@ -1,0 +1,15 @@
+dh_dashboard.main:
+  path: '/dashboard'
+  defaults:
+    _controller: '\Drupal\dh_dashboard\Controller\DashboardController::content'
+    _title: 'Digital Humanities Dashboard'
+  requirements:
+    _permission: 'access dh dashboard'
+
+dh_dashboard.admin:
+  path: '/admin/dh/dashboard'
+  defaults:
+    _controller: '\Drupal\dh_dashboard\Controller\AdminDashboardController::content'
+    _title: 'DH Admin Dashboard'
+  requirements:
+    _permission: 'access dh admin dashboard'

@@ -1,0 +1,13 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/block--dh-dashboard-certificate-info.html.twig #}
+<div class="dh-dashboard-certificate">
+  <h3>Certificate Information</h3>
+  {% if info.requirements %}
+    <ul>
+      {% for requirement in info.requirements %}
+        <li>{{ requirement }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Contact your advisor for certificate requirements.</p>
+  {% endif %}
+</div>

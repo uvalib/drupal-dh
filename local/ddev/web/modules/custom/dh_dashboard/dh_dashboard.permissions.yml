@@ -1,0 +1,12 @@
+access dh admin dashboard:
+  title: 'Access DH Admin Dashboard'
+  description: 'View and interact with the Digital Humanities Administrative Dashboard'
+  restrict access: true
+
+access dh student dashboard:
+  title: 'Access DH Student Dashboard'
+  description: 'View and interact with the Digital Humanities Student Dashboard'
+
+access dh dashboard:
+  title: 'Access DH Dashboard'
+  description: 'View the Digital Humanities Dashboard'

@@ -11,3 +11,15 @@ $databases['migrate']['default'] = array (
 );
 
 $settings['devops_label']='ddev local';
+$settings['twig_debug'] = TRUE;
+
+// Replace cache.backend.null with cache.backend.memory
+$settings['cache']['bins']['render'] = 'cache.backend.memory';
+$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.memory';
+$settings['cache']['bins']['page'] = 'cache.backend.memory';
+
+// Additional development settings
+$settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
+$settings['extension_discovery_scan_tests'] = TRUE;
+$settings['rebuild_access'] = TRUE;
+$settings['skip_permissions_hardening'] = TRUE;

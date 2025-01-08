@@ -1,0 +1,16 @@
+.dh-dashboard-progress {
+  padding: 1em;
+}
+
+.course-list {
+  list-style: none;
+  padding: 0;
+}
+
+.course-list li.completed {
+  color: green;
+}
+
+.course-list li.in_progress {
+  color: orange;
+}
