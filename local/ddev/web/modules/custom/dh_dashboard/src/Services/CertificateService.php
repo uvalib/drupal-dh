@@ -2,19 +2,34 @@
 
 namespace Drupal\dh_dashboard\Services;
 
-use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\rules\Engine\RulesComponent;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\dh_certificate\CertificateManagerInterface;
 
 /**
  * Service for handling certificate-related business logic.
  */
 class CertificateService
 {
-    protected $entityTypeManager;
+    /**
+     * The current user.
+     *
+     * @var \Drupal\Core\Session\AccountInterface
+     */
+    protected $currentUser;
 
-    public function __construct(EntityTypeManagerInterface $entity_type_manager)
-    {
-        $this->entityTypeManager = $entity_type_manager;
+    /**
+     * The certificate manager service.
+     *
+     * @var \Drupal\dh_certificate\CertificateManagerInterface
+     */
+    protected $certificateManager;
+
+    public function __construct(
+        AccountInterface $current_user,
+        CertificateManagerInterface $certificate_manager
+    ) {
+        $this->currentUser = $current_user;
+        $this->certificateManager = $certificate_manager;
     }
 
     /**
@@ -28,30 +43,9 @@ class CertificateService
      */
     public function getCurrentProgress($user_id)
     {
-        $progress = [
+        return [
             'completed' => 5,
             'total' => 10,
         ];
-
-        try {
-            $rules_config = $this->entityTypeManager
-                ->getStorage('rules_component')
-                ->load('certificate_progress_rule');
-
-            if ($rules_config) {
-                /** @var \Drupal\rules\Engine\RulesComponent $component */
-                $component = $rules_config->getComponent();
-                $state = $component->getState();
-                $state->setVariable('progress', $progress);
-                $state->setVariable('user_id', $user_id);
-                $component->execute();
-                return $state->getVariable('progress');
-            }
-        }
-        catch (\Exception $e) {
-            \Drupal::logger('dh_dashboard')->error('Error executing rules: @message', ['@message' => $e->getMessage()]);
-        }
-
-        return $progress;
     }
 }

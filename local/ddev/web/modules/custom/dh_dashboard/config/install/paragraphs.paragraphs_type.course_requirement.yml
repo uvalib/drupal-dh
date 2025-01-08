@@ -1,0 +1,9 @@
+langcode: en
+status: true
+dependencies: {  }
+id: course_requirement
+label: 'Course Requirement'
+icon_uuid: null
+icon_default: null
+description: 'Course-based certification requirement'
+behavior_plugins: {  }

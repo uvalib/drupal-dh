@@ -105,49 +105,7 @@ function dh_dashboard_create_blocks() {
  * Implements hook_install().
  */
 function dh_dashboard_install() {
-  // Delay layout builder configuration until after module installation
-  \Drupal::messenger()->addStatus(t('DH Dashboard: Installation initialized.'));
-  
-  // Create required blocks first
-  _dh_dashboard_ensure_blocks();
-
-  // Create sample news content
-  $news_items = [
-    [
-      'title' => 'New Digital Humanities Certificate Program Launched',
-      'body' => 'We are excited to announce the launch of our new DH certificate program, offering comprehensive training in digital tools and methodologies.',
-      'created' => strtotime('-2 days'),
-    ],
-    [
-      'title' => 'Upcoming Workshop: Text Analysis with R',
-      'body' => 'Join us next month for an intensive workshop on text analysis using R programming language.',
-      'created' => strtotime('-5 days'),
-    ],
-    [
-      'title' => 'Digital Archives Project Receives Grant',
-      'body' => 'Our digital archives initiative has been awarded a significant grant to expand its collection.',
-      'created' => strtotime('-7 days'),
-    ],
-  ];
-
-  // Create sample program content
-  $programs = [
-    [
-      'title' => 'Digital Archives and Preservation',
-      'description' => 'Learn fundamental concepts and practical skills in digital preservation, metadata management, and archive curation.',
-    ],
-    [
-      'title' => 'Data Visualization',
-      'description' => 'Master the art of presenting complex data through interactive visualizations using modern tools and techniques.',
-    ],
-    [
-      'title' => 'Computational Text Analysis',
-      'description' => 'Explore methods for analyzing large text corpora using computational tools and statistical approaches.',
-    ],
-  ];
-
-  _dh_dashboard_create_content($news_items, 'news');
-  _dh_dashboard_create_content($programs, 'program_info');
+  \Drupal::messenger()->addStatus(t('DH Dashboard module installed.'));
 }
 
 /**
@@ -210,6 +168,41 @@ function _dh_dashboard_ensure_blocks() {
         '@message' => $e->getMessage(),
       ]);
     }
+  }
+}
+
+/**
+ * Helper function to ensure the dh_tool display configuration exists.
+ */
+function _dh_dashboard_ensure_dh_tool_display() {
+  $storage = \Drupal::entityTypeManager()->getStorage('entity_view_display');
+  $display = $storage->load('node.dh_tool.default');
+  if (!$display) {
+    $display = EntityViewDisplay::create([
+      'targetEntityType' => 'node',
+      'bundle' => 'dh_tool',
+      'mode' => 'default',
+      'status' => TRUE,
+      'dependencies' => [
+        'config' => ['node.type.dh_tool'],
+        'module' => ['node'],
+      ],
+      'content' => [
+        'body' => [
+          'type' => 'text_with_summary',
+          'weight' => 0,
+          'settings' => [
+            'display_summary' => TRUE,
+            'required_summary' => FALSE,
+          ],
+          'label' => 'hidden',
+          'third_party_settings' => [],
+        ],
+      ],
+      'hidden' => [],
+      'label' => 'Default',
+    ]);
+    $display->save();
   }
 }
 

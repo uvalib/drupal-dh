@@ -28,4 +28,6 @@ services:
 
   dh_dashboard.certificate_service:
     class: Drupal\dh_dashboard\Services\CertificateService
-    arguments: ['@entity_type.manager']
+    arguments:
+      - '@current_user'
+      - '@dh_certificate.manager'

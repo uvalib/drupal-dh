@@ -1,14 +1,20 @@
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  enforced:
+    module:
+      - dh_dashboard
+  module:
+    - node
 third_party_settings:
   node:
     bundle_entity_type: node_type
     bundle: news
-name: News
+name: 'News'
 type: news
-description: 'Use for news entries'
+description: 'Use for news articles'
 help: ''
-new_revision: true
+new_revision: false
 preview_mode: 1
 display_submitted: true
+translatable: true
