@@ -4,17 +4,13 @@
 /**
  * Implements hook_theme().
  */
-function dh_certificate_theme($existing, $type, $theme, $path) {
+function dh_certificate_theme() {
   return [
     'dh_certificate_progress' => [
       'variables' => [
         'progress' => [],
       ],
-    ],
-    'dh_certificate_deadlines' => [
-      'variables' => [
-        'deadlines' => [],
-      ],
+      'template' => 'dh-certificate-progress',
     ],
   ];
 }

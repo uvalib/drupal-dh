@@ -24,7 +24,7 @@
         "drupal/auto_entitylabel": "^3.3",
         "drupal/bootstrap_barrio": "5.5.17",
         "drupal/bootstrap_layout_builder": "2.2.1",
-        "drupal/bootstrap_sass": "5.0.10",
+        "drupal/bootstrap_sass": "^5.0",
         "drupal/bootstrap_styles": "1.2.1",
         "drupal/calendar_datetime": "^1.0@beta",
         "drupal/conditional_fields": "^4.0@alpha",

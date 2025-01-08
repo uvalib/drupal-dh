@@ -1,0 +1,4 @@
+services:
+  dh_certificate.manager:
+    class: Drupal\dh_certificate\Service\CertificateManager
+    arguments: ['@current_user', '@entity_type.manager']

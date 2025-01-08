@@ -42,8 +42,3 @@ echo "Checking installation..."
 echo "Recent log messages:"
 ddev drush watchdog:show | grep dh_certificate
 
-echo "Field information:"
-ddev drush field:info | grep dh_certificate
-
-echo "Paragraph entities:"
-ddev drush entity:query paragraph

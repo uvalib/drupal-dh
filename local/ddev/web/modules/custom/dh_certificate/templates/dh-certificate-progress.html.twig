@@ -2,10 +2,10 @@
 <div class="dh-certificate-progress">
   <div class="progress-summary">
     {% if progress.total_requirements > 0 %}
-      <div class="progress-percentage">
-        {{ (progress.total_completed / progress.total_requirements * 100)|round }}% Complete
+      <div class="progress-bar">
+        <div class="progress" style="width: {{ progress.total_completed / progress.total_requirements * 100 }}%"></div>
       </div>
-      <div class="progress-details">
+      <div class="progress-text">
         {{ progress.total_completed }} of {{ progress.total_requirements }} requirements completed
       </div>
     {% else %}
@@ -20,6 +20,7 @@
     <div class="course-requirements">
       {% for course in progress.courses %}
         <div class="requirement-item {{ course.completed ? 'completed' : 'pending' }}">
+          <span class="status-icon"></span>
           <span class="course-number">{{ course.number }}</span>
           <span class="course-name">{{ course.name }}</span>
           {% if course.semester %}
