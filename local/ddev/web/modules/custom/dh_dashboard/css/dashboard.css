@@ -9,10 +9,9 @@
 .dh-dashboard-news,
 .dh-dashboard-progress,
 .dh-dashboard-certificate-info {
-  background: #fff;
-  padding: 1.5rem;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
 }
 
 .news-item {
@@ -47,11 +46,61 @@
 }
 
 .dashboard-admin-links {
-  margin-top: 2em;
-  padding-top: 1em;
+  margin-top: 0;
+  padding: 1.5em 0 0.5em;
   border-top: 1px solid #eee;
+  text-align: right;
+  grid-column: 1 / -1;
+}
+
+.dashboard-admin-links .admin-buttons {
+  display: inline-flex;
+  gap: 0.5em;  /* Reduced from 1.5em */
+  align-items: center;
+  padding: 0.5em 0;
+}
+
+.dashboard-admin-links .button--small {
+  font-size: 0.85em;
+  padding: 0.4em 0.8em;  /* Slightly reduced padding */
+  text-decoration: none;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #f8f8f8;
   color: #666;
-  font-size: 0.9em;
+  transition: all 0.2s ease;
+  min-width: 80px;  /* Reduced from 100px */
+  text-align: center;
+}
+
+.dashboard-admin-links .button--small:hover {
+  background: #e8e8e8;
+  color: #333;
+  border-color: #999;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+// Remove any old/conflicting styles
+.dashboard-admin-links .item-list,
+.dashboard-admin-links .button--extrasmall,
+.dashboard-admin-links ul.inline {
+  display: none;
+}
+
+.dashboard-admin-links .button--extrasmall {
+  padding: 0.25em 0.5em;
+  font-size: 0.8em;
+  text-transform: lowercase;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  color: #666;
+}
+
+.dashboard-admin-links .button--extrasmall:hover {
+  background: #eee;
+  color: #333;
+  text-decoration: none;
 }
 
 .dashboard-admin-links .item-list ul.inline {
@@ -69,4 +118,45 @@
   content: "•";
   padding-left: 0.5em;
   color: #999;
+}
+
+.dh-dashboard-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.dh-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  transition: box-shadow 0.3s ease;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.dashboard-card__header {
+  border-bottom: 1px solid #eee;
+  margin: -1.5rem -1.5rem 1.5rem;
+  padding: 1.5rem;
+}
+
+.dashboard-card__header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #333;
+}
+
+.dashboard-card__content {
+  color: #666;
 }

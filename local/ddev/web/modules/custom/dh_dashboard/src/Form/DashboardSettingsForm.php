@@ -29,6 +29,8 @@ class DashboardSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    $form['#attached']['library'][] = 'dh_dashboard/admin-form';
+    
     $config = $this->config('dh_dashboard.settings');
 
     $form['show_debug'] = [
@@ -48,9 +50,33 @@ class DashboardSettingsForm extends ConfigFormBase {
 
     // Get the dashboard node ID and load the node if it exists
     $node_id = $config->get('dashboard_node');
-    $default_node = !empty($node_id) ? 
-      \Drupal::entityTypeManager()->getStorage('node')->load($node_id) : 
-      NULL;
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+    
+    // Load the current dashboard node
+    $default_node = NULL;
+    if (!empty($node_id)) {
+      $nodes = $node_storage->loadByProperties([
+        'nid' => $node_id,
+        'type' => 'dh_dashboard',
+      ]);
+      $default_node = reset($nodes);
+    }
+    
+    // If no default node is set, try to find the one titled 'Default Dashboard'
+    if (!$default_node) {
+      $nodes = $node_storage->loadByProperties([
+        'type' => 'dh_dashboard',
+        'title' => 'Default Dashboard',
+      ]);
+      $default_node = reset($nodes);
+      
+      // Save this as the default if found
+      if ($default_node) {
+        $this->config('dh_dashboard.settings')
+          ->set('dashboard_node', $default_node->id())
+          ->save();
+      }
+    }
 
     $form['dashboard_node'] = [
       '#type' => 'entity_autocomplete',
@@ -59,7 +85,7 @@ class DashboardSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Dashboard Node'),
       '#default_value' => $default_node,
       '#description' => $this->t('Select the node to use as the dashboard.'),
-      '#required' => empty($default_node), // Only required if no node is currently set
+      '#required' => TRUE,
     ];
 
     $form = parent::buildForm($form, $form_state);
@@ -97,14 +123,17 @@ class DashboardSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Get the node ID from the submitted value
     $dashboard_node = $form_state->getValue('dashboard_node');
-    $node_id = !empty($dashboard_node) ? $dashboard_node : NULL;
+    
+    // If no new value was submitted, retain the existing value
+    if (empty($dashboard_node)) {
+      $dashboard_node = $this->config('dh_dashboard.settings')->get('dashboard_node');
+    }
     
     $this->config('dh_dashboard.settings')
       ->set('show_debug', $form_state->getValue('show_debug'))
       ->set('news_items', $form_state->getValue('news_items'))
-      ->set('dashboard_node', $node_id)
+      ->set('dashboard_node', $dashboard_node)
       ->save();
 
     parent::submitForm($form, $form_state);

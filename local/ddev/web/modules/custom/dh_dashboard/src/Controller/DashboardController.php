@@ -58,26 +58,24 @@ class DashboardController extends ControllerBase {
       if ($this->currentUser()->hasPermission('administer site configuration')) {
         $admin_links = [
           '#type' => 'container',
-          '#attributes' => ['class' => ['dashboard-admin-links', 'small-text']],
-          'prefix' => [
-            '#markup' => '<small>Admin: </small>',
-          ],
+          '#attributes' => ['class' => ['dashboard-admin-links']],
           'links' => [
-            '#theme' => 'item_list',
-            '#attributes' => ['class' => ['inline']],
-            '#prefix' => '<small>',
-            '#suffix' => '</small>',
-            '#items' => [
-              [
-                '#type' => 'link',
-                '#title' => $this->t('edit layout'),
-                '#url' => Url::fromUserInput('/node/' . $node->id() . '/layout'),
-              ],
-              [
-                '#type' => 'link',
-                '#title' => $this->t('settings'),
-                '#url' => Url::fromRoute('dh_dashboard.admin'),
-              ],
+            '#type' => 'container',
+            '#attributes' => ['class' => ['admin-buttons', 'admin-buttons--spaced']],
+            'layout' => [
+              '#type' => 'link',
+              '#title' => $this->t('Edit Layout'),
+              '#url' => Url::fromUserInput('/node/' . $node->id() . '/layout'),
+              '#attributes' => ['class' => ['button', 'button--secondary', 'button--small']],
+            ],
+            'spacer' => [
+              '#markup' => '<span class="admin-buttons-spacer"></span>',
+            ],
+            'settings' => [
+              '#type' => 'link',
+              '#title' => $this->t('Settings'),
+              '#url' => Url::fromRoute('dh_dashboard.admin'),
+              '#attributes' => ['class' => ['button', 'button--secondary', 'button--small']],
             ],
           ],
         ];
@@ -86,8 +84,41 @@ class DashboardController extends ControllerBase {
       return [
         '#type' => 'container',
         '#attributes' => ['class' => ['dh-dashboard-wrapper']],
-        'content' => $build,
-        'debug' => $show_debug ? $debug_info : [],
+        '#attached' => [
+          'library' => ['dh_dashboard/dashboard'],
+        ],
+        'content' => [
+          '#type' => 'container',
+          '#attributes' => ['class' => ['dh-dashboard-grid']],
+          'build' => [
+            '#type' => 'container',
+            '#attributes' => ['class' => ['dashboard-card']],
+            'header' => [
+              '#type' => 'container',
+              '#attributes' => ['class' => ['dashboard-card__header']],
+              'title' => ['#markup' => '<h2>Dashboard Content</h2>'],
+            ],
+            'content' => [
+              '#type' => 'container',
+              '#attributes' => ['class' => ['dashboard-card__content']],
+              'build' => $build,
+            ],
+          ],
+        ],
+        'debug' => $show_debug ? [
+          '#type' => 'container',
+          '#attributes' => ['class' => ['dashboard-card']],
+          'header' => [
+            '#type' => 'container',
+            '#attributes' => ['class' => ['dashboard-card__header']],
+            'title' => ['#markup' => '<h2>Debug Information</h2>'],
+          ],
+          'content' => [
+            '#type' => 'container',
+            '#attributes' => ['class' => ['dashboard-card__content']],
+            'debug' => $debug_info,
+          ],
+        ] : [],
         'admin_links' => $admin_links,
         '#cache' => [
           'tags' => $node->getCacheTags(),
