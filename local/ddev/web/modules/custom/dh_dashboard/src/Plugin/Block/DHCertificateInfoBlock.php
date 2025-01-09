@@ -9,7 +9,7 @@ use Drupal\Core\Block\BlockBase;
  *
  * @Block(
  *   id = "dh_dashboard_certificate_info",
- *   admin_label = @Translation("Certificate Information"),
+ *   admin_label = @Translation("Certificate Info"),
  *   category = @Translation("DH Dashboard")
  * )
  */
@@ -22,20 +22,36 @@ class DHCertificateInfoBlock extends BlockBase {
     return [
       '#theme' => 'dh_dashboard_certificate_info',
       '#info' => $this->getCertificateInfo(),
+      '#cache' => [
+        'max-age' => 0,
+      ],
     ];
   }
 
   protected function getCertificateInfo() {
-    // Mock data - replace with actual certificate information
     return [
-      'requirements' => [
-        'Core Courses' => 3,
-        'Electives' => 3,
-        'Final Project' => 1,
-      ],
-      'announcements' => [
-        'Next application deadline: March 1st, 2024',
-        'Certificate orientation: January 20th, 2024',
+      'name' => 'Digital Humanities Certificate',
+      'status' => 'In Progress',
+      'completion' => '32%',
+      'requirement_groups' => [
+        [
+          'name' => 'Core Courses',
+          'completed' => 2,
+          'required' => 4,
+          'courses' => ['DH 101', 'DH 201'],
+        ],
+        [
+          'name' => 'Electives',
+          'completed' => 1,
+          'required' => 2,
+          'courses' => ['HIST 301'],
+        ],
+        [
+          'name' => 'Capstone',
+          'completed' => 0,
+          'required' => 1,
+          'courses' => [],
+        ],
       ],
     ];
   }

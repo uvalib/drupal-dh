@@ -1,13 +1,25 @@
 {# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/block--dh-dashboard-certificate-info.html.twig #}
-<div class="dh-dashboard-certificate">
-  <h3>Certificate Information</h3>
-  {% if info.requirements %}
-    <ul>
-      {% for requirement in info.requirements %}
-        <li>{{ requirement }}</li>
-      {% endfor %}
-    </ul>
-  {% else %}
-    <p>Contact your advisor for certificate requirements.</p>
-  {% endif %}
+<div class="dh-dashboard-certificate-info">
+  <h3>{{ info.name }}</h3>
+  <div class="certificate-status">
+    <p><strong>Status:</strong> {{ info.status }}</p>
+    <p><strong>Overall Completion:</strong> {{ info.completion }}</p>
+  </div>
+  
+  <h4>Program Requirements</h4>
+  <div class="requirements-list">
+    {% for group in info.requirement_groups %}
+      <div class="requirement-group">
+        <h5>{{ group.name }}</h5>
+        <p>Completed: {{ group.completed }} of {{ group.required }}</p>
+        {% if group.courses is not empty %}
+          <ul>
+            {% for course in group.courses %}
+              <li>{{ course }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
 </div>

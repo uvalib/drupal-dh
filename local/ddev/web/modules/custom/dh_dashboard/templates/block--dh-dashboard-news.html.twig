@@ -1,9 +1,20 @@
 {# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/block--dh-dashboard-news.html.twig #}
+{# Debug output - uncomment when needed
+{{ dump(_context) }}
+{{ dump(news) }}
+#}
 <div class="dh-dashboard-news">
-  <h3>Latest Bews</h3>
-  <ul>
-    {% for item in news %}
-      <li>{{ item.title }} - {{ item.date }}</li>
+  <h3>Latest News</h3>
+  <div class="news-list">
+    {% for item in news.items %}
+      <article class="news-item priority-{{ item.priority }} category-{{ item.category }}">
+        <h4>{{ item.title }}</h4>
+        <div class="meta">
+          <span class="date">{{ item.date }}</span>
+          <span class="category">{{ item.category|title }}</span>
+        </div>
+        <p class="summary">{{ item.summary }}</p>
+      </article>
     {% endfor %}
-  </ul>
+  </div>
 </div>

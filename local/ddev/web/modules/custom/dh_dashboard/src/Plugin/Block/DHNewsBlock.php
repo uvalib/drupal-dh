@@ -19,17 +19,49 @@ class DHNewsBlock extends BlockBase {
    * {@inheritdoc}
    */
   public function build() {
+    $news = $this->getNews();
+    
     return [
       '#theme' => 'dh_dashboard_news',
-      '#news_items' => $this->getNewsItems(),
+      '#news' => $news,
+      '#cache' => [
+        'max-age' => 0,
+      ],
     ];
   }
 
-  protected function getNewsItems() {
-    // Mock data - replace with actual news query
+  protected function getNews() {
     return [
-      ['title' => 'New DH Course Available', 'date' => '2024-01-15'],
-      ['title' => 'Digital Humanities Symposium', 'date' => '2024-02-01'],
+      'items' => [
+        [
+          'title' => 'New Digital Archives Course Available',
+          'date' => '2024-02-15',
+          'summary' => 'Explore digital preservation techniques in our new course DH 305: Digital Archives and Preservation.',
+          'category' => 'courses',
+          'priority' => 'high',
+        ],
+        [
+          'title' => 'Summer Digital Humanities Workshop Series',
+          'date' => '2024-02-10',
+          'summary' => 'Register now for our intensive summer workshops covering text analysis, data visualization, and digital mapping.',
+          'category' => 'events',
+          'priority' => 'medium',
+        ],
+        [
+          'title' => 'Certificate Requirements Updated',
+          'date' => '2024-02-01',
+          'summary' => 'New elective options added for the 2024-25 academic year. Check your progress dashboard for details.',
+          'category' => 'program',
+          'priority' => 'high',
+        ],
+        [
+          'title' => 'Student Project Showcase',
+          'date' => '2024-01-28',
+          'summary' => 'View outstanding digital humanities projects from this semester\'s graduating cohort.',
+          'category' => 'events',
+          'priority' => 'medium',
+        ],
+      ],
     ];
   }
 }
