@@ -28,26 +28,33 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'block--dh-dashboard-certificate-info',
     ],
+    'dh_dashboard_page' => [
+      'variables' => [
+        'content' => NULL,
+        'debug' => NULL,
+      ],
+      'template' => 'dh-dashboard-page',
+    ],
+    'dh_student_dashboard' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+      'template' => 'dh-student-dashboard',
+    ],
   ];
 }
 
 /**
  * Implements hook_preprocess_node().
  */
-function dh_dashboard_preprocess_node(&$variables)
-{
-    if ($variables['node']->getType() == 'student_dashboard') {
-        $variables['#attached']['library'][] = 'dh_dashboard/dashboard';
-    }
-}
+function dh_dashboard_preprocess_node(&$variables) {
+  if (!isset($variables['node']) || !$variables['node'] instanceof \Drupal\node\NodeInterface) {
+    return;
+  }
 
-/**
- * Implements hook_preprocess_block().
- *
- * Commented out for now - keep for future debugging.
- */
-/*
-function dh_dashboard_preprocess_block(&$variables) {
-  \Drupal::messenger()->addStatus('Block type: ' . ($variables['plugin_id'] ?? 'none'));
+  if ($variables['node']->getType() === 'dh_dashboard') {
+    $variables['display_submitted'] = false;
+    $variables['page'] = true;
+    unset($variables['author_picture'], $variables['submitted']);
+  }
 }
-*/

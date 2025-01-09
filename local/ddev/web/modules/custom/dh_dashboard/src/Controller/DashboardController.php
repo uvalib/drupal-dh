@@ -3,56 +3,110 @@
 namespace Drupal\dh_dashboard\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Url;
 
-/**
- * Controller for the DH Dashboard.
- */
 class DashboardController extends ControllerBase {
 
-  /**
-   * Displays the dashboard content.
-   *
-   * @return array
-   *   Render array for the dashboard.
-   */
   public function content() {
-    $node = $this->getDefaultDashboard();
-    
-    // Build the full node render array with layout builder enabled
-    $build = $this->entityTypeManager()
-      ->getViewBuilder('node')
-      ->view($node, 'default');
+    $config = $this->config('dh_dashboard.settings');
+    $show_debug = $config->get('show_debug');
 
-    $build['#cache']['max-age'] = 0;
+    // Debug information
+    if ($show_debug) {
+      \Drupal::messenger()->addStatus('Dashboard controller accessed');
+    }
     
-    return $build;
-  }
+    // Check if user has student role
+    $user = $this->currentUser();
+    $roles = $user->getRoles();
+    
+    $debug_info = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['dashboard-debug']],
+      'roles' => [
+        '#markup' => '<h3>Debug Info:</h3><p>User roles: ' . implode(', ', $roles) . '</p>',
+      ],
+    ];
 
-  /**
-   * Gets or creates the default dashboard node.
-   *
-   * @return \Drupal\node\NodeInterface
-   *   The dashboard node.
-   */
-  protected function getDefaultDashboard() {
+    // Load and check the dashboard node
     $storage = \Drupal::entityTypeManager()->getStorage('node');
     $nodes = $storage->loadByProperties([
-      'type' => 'student_dashboard',
+      'type' => 'dh_dashboard',
       'title' => 'Default Dashboard',
     ]);
     
-    if (!empty($nodes)) {
-      return reset($nodes);
+    if ($nodes) {
+      $node = reset($nodes);
+      if ($show_debug) {
+        \Drupal::messenger()->addStatus('Found dashboard node: ' . $node->id());
+      }
+      
+      // Build the node render array with explicit view mode
+      $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+      $build = $view_builder->view($node, 'default');
+      if ($show_debug) {
+        \Drupal::messenger()->addStatus('View mode: default');
+      }
+      
+      // Debug the build array
+      if ($show_debug) {
+        \Drupal::messenger()->addStatus('Build array keys: ' . implode(', ', array_keys($build)));
+      }
+      
+      // Add layout edit link - only for users with appropriate permissions
+      $admin_links = [];
+      if ($this->currentUser()->hasPermission('administer site configuration')) {
+        $admin_links = [
+          '#type' => 'container',
+          '#attributes' => ['class' => ['dashboard-admin-links', 'small-text']],
+          'prefix' => [
+            '#markup' => '<small>Admin: </small>',
+          ],
+          'links' => [
+            '#theme' => 'item_list',
+            '#attributes' => ['class' => ['inline']],
+            '#prefix' => '<small>',
+            '#suffix' => '</small>',
+            '#items' => [
+              [
+                '#type' => 'link',
+                '#title' => $this->t('edit layout'),
+                '#url' => Url::fromUserInput('/node/' . $node->id() . '/layout'),
+              ],
+              [
+                '#type' => 'link',
+                '#title' => $this->t('settings'),
+                '#url' => Url::fromRoute('dh_dashboard.admin'),
+              ],
+            ],
+          ],
+        ];
+      }
+
+      return [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['dh-dashboard-wrapper']],
+        'content' => $build,
+        'debug' => $show_debug ? $debug_info : [],
+        'admin_links' => $admin_links,
+        '#cache' => [
+          'tags' => $node->getCacheTags(),
+          'contexts' => ['user.permissions'],
+        ],
+      ];
     }
 
-    // Create default dashboard if it doesn't exist
-    $node = $storage->create([
-      'type' => 'student_dashboard',
-      'title' => 'Default Dashboard',
-      'status' => 1,
-    ]);
-    $node->save();
-    
-    return $node;
+    // Return debug content if no node found
+    return [
+      '#theme' => 'dh_dashboard_page',
+      '#content' => [
+        '#markup' => $this->t('No dashboard node found'),
+      ],
+      '#debug' => $show_debug ? $debug_info : [],
+      '#attached' => [
+        'library' => ['dh_dashboard/dashboard'],
+      ],
+    ];
   }
+
 }

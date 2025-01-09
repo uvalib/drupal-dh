@@ -1,0 +1,60 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.dh_dashboard
+  module:
+    - layout_builder
+    - user
+third_party_settings:
+  layout_builder:
+    enabled: true
+    allow_custom: true
+    sections:
+      -
+        layout_id: layout_threecol_33_34_33
+        layout_settings:
+          label: 'Dashboard Content'
+          column_widths: '33-34-33'
+        components:
+          dh_news:
+            uuid: dh-news
+            region: first
+            configuration:
+              id: 'dh_dashboard_news'
+              label: 'News'
+              provider: dh_dashboard
+              label_display: visible
+            additional: {  }
+            weight: 0
+          dh_progress:
+            uuid: dh-progress
+            region: second
+            configuration:
+              id: 'dh_dashboard_progress'
+              label: 'Progress'
+              provider: dh_dashboard
+              label_display: visible
+            additional: {  }
+            weight: 0
+          dh_certificate:
+            uuid: dh-certificate
+            region: third
+            configuration:
+              id: 'dh_dashboard_certificate_info'
+              label: 'Certificate Info'
+              provider: dh_dashboard
+              label_display: visible
+            additional: {  }
+            weight: 0
+        third_party_settings: {  }
+id: node.dh_dashboard.default
+targetEntityType: node
+bundle: dh_dashboard
+mode: default
+content: {}
+hidden:
+  uid: true
+  created: true
+  promote: true
+  sticky: true

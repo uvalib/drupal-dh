@@ -2,14 +2,14 @@ dh_dashboard.main:
   path: '/dashboard'
   defaults:
     _controller: '\Drupal\dh_dashboard\Controller\DashboardController::content'
-    _title: 'Digital Humanities Dashboard'
+    _title: 'Dashboard'
   requirements:
     _permission: 'access dh dashboard'
 
 dh_dashboard.admin:
-  path: '/admin/dh/dashboard'
+  path: '/admin/config/dh_dashboard'
   defaults:
-    _controller: '\Drupal\dh_dashboard\Controller\AdminDashboardController::content'
-    _title: 'DH Admin Dashboard'
+    _form: '\Drupal\dh_dashboard\Form\DashboardSettingsForm'
+    _title: 'Dashboard Settings'
   requirements:
-    _permission: 'access dh admin dashboard'
+    _permission: 'administer site configuration'

@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.dh_dashboard
+  module:
+    - path
+id: node.dh_dashboard.default
+targetEntityType: node
+bundle: dh_dashboard
+mode: default
+content:
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden:
+  created: true
+  layout_builder__layout: true
+  path: true
+  promote: true
+  status: true
+  sticky: true
+  uid: true

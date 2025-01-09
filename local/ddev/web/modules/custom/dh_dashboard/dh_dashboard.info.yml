@@ -1,11 +1,9 @@
 name: DH Dashboard
 type: module
-description: 'Provides a dashboard interface for Digital Humanities'
+description: 'Provides a customizable dashboard for Digital Humanities.'
 package: Custom
 core_version_requirement: ^9 || ^10
+configure: dh_dashboard.settings
 dependencies:
-  - drupal:system
   - drupal:node
   - drupal:layout_builder
-  - drupal:layout_discovery
-configure: dh_dashboard.settings

@@ -1,5 +1,8 @@
 <?php
 
+use Drupal\layout_builder\Section;
+use Drupal\layout_builder\SectionComponent;
+
 /**
  * @file
  * Install, update and uninstall functions for the DH Dashboard module.
@@ -9,7 +12,7 @@
  * Implements hook_install().
  */
 function dh_dashboard_install() {
-  // Grant permissions to roles
+  // Handle permissions
   $permissions = [
     'authenticated' => ['access dh dashboard'],
     'administrator' => ['access dh dashboard', 'access dh admin dashboard'],
@@ -24,16 +27,59 @@ function dh_dashboard_install() {
       $role->save();
     }
   }
+
+  // Create the default dashboard
+  $storage = \Drupal::entityTypeManager()->getStorage('node');
+  $nodes = $storage->loadByProperties([
+    'type' => 'dh_dashboard',
+    'title' => 'Default Dashboard',
+  ]);
+  
+  if (empty($nodes)) {
+    $node = $storage->create([
+      'type' => 'dh_dashboard',
+      'title' => 'Default Dashboard',
+      'status' => 1,
+    ]);
+    $node->save();
+  }
 }
 
 /**
  * Implements hook_uninstall().
  */
 function dh_dashboard_uninstall() {
-  // Clean up permissions when uninstalling.
+  // First, delete any remaining dashboard nodes
+  $storage = \Drupal::entityTypeManager()->getStorage('node');
+  $nodes = $storage->loadByProperties(['type' => 'dh_dashboard']);
+  $storage->delete($nodes);
+
+  // Delete in correct order: fields first, then other configs
+  $configs_to_delete = [
+    'core.entity_view_display.node.dh_dashboard.default',
+    'core.entity_form_display.node.dh_dashboard.default',
+    'node.type.dh_dashboard',
+  ];
+  
+  // Use config factory to properly delete configurations
+  $config_factory = \Drupal::configFactory();
+  foreach ($configs_to_delete as $config_name) {
+    $config = $config_factory->getEditable($config_name);
+    if ($config && !$config->isNew()) {
+      $config->delete();
+    }
+  }
+
+  // Clear field cache to ensure clean state
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+
+  // Clean up permissions
   $roles = \Drupal\user\Entity\Role::loadMultiple();
   foreach ($roles as $role) {
     $role->revokePermission('access dh dashboard');
     $role->save();
   }
+
+  // Delete the base field override configuration that might conflict on reinstall
+  \Drupal::configFactory()->getEditable('core.base_field_override.node.dh_dashboard.title')->delete();
 }

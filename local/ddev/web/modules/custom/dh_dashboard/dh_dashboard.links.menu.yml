@@ -6,8 +6,8 @@ dh_dashboard.main:
   weight: 100
 
 dh_dashboard.admin:
-  title: 'DH Admin Dashboard'
-  description: 'Digital Humanities Administrative Dashboard'
-  parent: system.admin
+  title: 'Dashboard Settings'
+  description: 'Configure dashboard settings'
+  parent: system.admin_config_system
   route_name: dh_dashboard.admin
   weight: 100

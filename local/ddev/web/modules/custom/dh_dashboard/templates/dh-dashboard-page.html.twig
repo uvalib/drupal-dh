@@ -1,6 +1,27 @@
-{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-dashboard-page.html.twig #}
-<div class="dh-dashboard-wrapper">
-  <div class="dh-dashboard-content">
-    {{ content.dashboard }}
+{#
+/**
+ * @file
+ * Default theme implementation for the dashboard page.
+ *
+ * Available variables:
+ * - elements: The rendered node content
+ */
+#}
+<div class="dashboard-page">
+  {% if debug %}
+    <div class="debug-section">
+      {{ debug }}
+    </div>
+  {% endif %}
+  
+  <div class="content-section">
+    <!-- Debug output -->
+    <div class="template-debug">Template used: dh-dashboard-page.html.twig</div>
+    
+    {% if content %}
+      {{ content }}
+    {% else %}
+      <p>{{ 'Content is empty'|t }}</p>
+    {% endif %}
   </div>
 </div>

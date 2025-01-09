@@ -1,0 +1,10 @@
+langcode: en
+status: true
+dependencies: {}
+name: 'Dashboard'
+type: dh_dashboard
+description: 'Content type for dashboard pages'
+help: ''
+new_revision: false
+preview_mode: 0
+display_submitted: false
