@@ -111,3 +111,12 @@ body.node--type-provus-blog, body.node--type-provus-news {
     }
   }
 }
+
+// override vertical spacing between blocks in a layout column for each custom content type
+.node--type-course,
+.node--type-event,
+.node--type-organization {
+  .layout .block {
+    margin-bottom: 1.75rem !important;
+  }
+}
