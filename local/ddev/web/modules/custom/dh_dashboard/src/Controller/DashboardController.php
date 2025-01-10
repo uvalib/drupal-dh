@@ -41,88 +41,38 @@ class DashboardController extends ControllerBase {
         \Drupal::messenger()->addStatus('Found dashboard node: ' . $node->id());
       }
       
-      // Build the node render array with explicit view mode
-      $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
-      $build = $view_builder->view($node, 'default');
-      if ($show_debug) {
-        \Drupal::messenger()->addStatus('View mode: default');
-      }
-      
-      // Debug the build array
-      if ($show_debug) {
-        \Drupal::messenger()->addStatus('Build array keys: ' . implode(', ', array_keys($build)));
-      }
-      
-      // Add layout edit link - only for users with appropriate permissions
+      // Add admin links if user has permission
       $admin_links = [];
       if ($this->currentUser()->hasPermission('administer site configuration')) {
         $admin_links = [
           '#type' => 'container',
-          '#attributes' => ['class' => ['dashboard-admin-links']],
-          'links' => [
-            '#type' => 'container',
-            '#attributes' => ['class' => ['admin-buttons', 'admin-buttons--spaced']],
-            'layout' => [
-              '#type' => 'link',
-              '#title' => $this->t('Edit Layout'),
-              '#url' => Url::fromUserInput('/node/' . $node->id() . '/layout'),
-              '#attributes' => ['class' => ['button', 'button--secondary', 'button--small']],
-            ],
-            'spacer' => [
-              '#markup' => '<span class="admin-buttons-spacer"></span>',
-            ],
-            'settings' => [
-              '#type' => 'link',
-              '#title' => $this->t('Settings'),
-              '#url' => Url::fromRoute('dh_dashboard.admin'),
-              '#attributes' => ['class' => ['button', 'button--secondary', 'button--small']],
-            ],
+          '#attributes' => ['class' => ['dashboard-admin-links', 'dashboard-admin-links--bottom']],
+          'edit' => [
+            '#type' => 'link',
+            '#title' => $this->t('Edit Dashboard Layout'),
+            '#url' => Url::fromRoute('layout_builder.overrides.node.view', [
+              'node' => $node->id(),
+            ]),
+            '#attributes' => ['class' => ['button', 'button--primary']],
           ],
         ];
       }
-
+      
+      // Build the node render array with explicit view mode
+      $view_builder = \Drupal::entityTypeManager()->getViewBuilder('node');
+      $build = $view_builder->view($node, 'full');
+      
       return [
-        '#type' => 'container',
-        '#attributes' => ['class' => ['dh-dashboard-wrapper']],
+        '#theme' => 'dh_dashboard_page',
+        '#content' => $build,
+        '#admin_links' => $admin_links,
+        '#debug' => $show_debug ? $debug_info : [],
         '#attached' => [
           'library' => ['dh_dashboard/dashboard'],
         ],
-        'content' => [
-          '#type' => 'container',
-          '#attributes' => ['class' => ['dh-dashboard-grid']],
-          'build' => [
-            '#type' => 'container',
-            '#attributes' => ['class' => ['dashboard-card']],
-            'header' => [
-              '#type' => 'container',
-              '#attributes' => ['class' => ['dashboard-card__header']],
-              'title' => ['#markup' => '<h2>Dashboard Content</h2>'],
-            ],
-            'content' => [
-              '#type' => 'container',
-              '#attributes' => ['class' => ['dashboard-card__content']],
-              'build' => $build,
-            ],
-          ],
-        ],
-        'debug' => $show_debug ? [
-          '#type' => 'container',
-          '#attributes' => ['class' => ['dashboard-card']],
-          'header' => [
-            '#type' => 'container',
-            '#attributes' => ['class' => ['dashboard-card__header']],
-            'title' => ['#markup' => '<h2>Debug Information</h2>'],
-          ],
-          'content' => [
-            '#type' => 'container',
-            '#attributes' => ['class' => ['dashboard-card__content']],
-            'debug' => $debug_info,
-          ],
-        ] : [],
-        'admin_links' => $admin_links,
         '#cache' => [
           'tags' => $node->getCacheTags(),
-          'contexts' => ['user.permissions'],
+          'contexts' => ['user.permissions', 'route.name', 'url.path'],
         ],
       ];
     }

@@ -1,0 +1,16 @@
+<article{{ attributes.addClass('dashboard-content') }}>
+  <div class="dashboard-news-grid">
+    {% for key, item in content.field_news %}
+      {% if key|first != '#' %}
+        <div class="dashboard-news-card">
+          <div class="dashboard-news-card__header">
+            <h3>{{ item['#node'].label }}</h3>
+          </div>
+          <div class="dashboard-news-card__content">
+            {{ item }}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</article>

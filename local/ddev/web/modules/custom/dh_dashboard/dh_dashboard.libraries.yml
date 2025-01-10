@@ -5,10 +5,11 @@ dashboard:
   dependencies:
     - core/drupal
 
-progress:
-  css:
-    theme:
-      css/dh-dashboard.css: {}
+# Remove this library as it's redundant and using wrong filename
+# progress:
+#   css:
+#     theme:
+#       css/dh-dashboard.css: {}
 
 admin-form:
   version: 1.x

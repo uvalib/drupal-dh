@@ -7,3 +7,5 @@ configure: dh_dashboard.settings
 dependencies:
   - drupal:node
   - drupal:layout_builder
+  - drupal:views
+  - drupal:menu_ui

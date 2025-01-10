@@ -15,13 +15,16 @@
   {% endif %}
   
   <div class="content-section">
-    <!-- Debug output -->
-    <div class="template-debug">Template used: dh-dashboard-page.html.twig</div>
-    
     {% if content %}
       {{ content }}
     {% else %}
-      <p>{{ 'Content is empty'|t }}</p>
+      <p>{{ 'No content available'|t }}</p>
     {% endif %}
   </div>
+
+  {% if admin_links %}
+    <div class="admin-links">
+      {{ admin_links }}
+    </div>
+  {% endif %}
 </div>
