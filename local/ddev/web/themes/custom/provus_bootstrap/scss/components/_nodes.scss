@@ -66,11 +66,53 @@ body.node--type-provus-blog, body.node--type-provus-news {
   // apply color background to curricular requirements section at bottom of each course page
   // and make sure paragraph text is black for sufficient color contrast
   .block-content9b05bf03-96d5-48da-9e07-92a279baaad0 {
-    background-color: $background-colors-background-pale-orange;
+    background-color: $colors-uva-orange-25pct;
+    border: 3px solid $colors-uva-blue;
+    border-radius: 8px;
     padding: 1px 7px 0px 7px;
     div p {
       color: #000;
     }
+  }  
+}
+
+// customization to the event content type layout template created via layout builder
+.node--type-event {
+  .layout--onecol .layout__region {
+    .field--name-field-link-to-department-web-pag {
+      // labels are small and bold
+      div.field__label {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+      // details are a bit larger and plain text
+      div.field__item {
+        font-size: 1.1rem;
+        line-height:1.15rem;
+      }
+    }
   }
-  
+  .layout--twocol-section .layout__region {
+    border: 1px solid $medium-gray;
+    padding: 1.5rem;
+    border-top: 0.25rem solid $primary-colors-primary;
+    margin: 0 0 0.5rem 0;
+
+    .block-layout-builder {
+      // labels are small and bold
+      div.field__label {
+        font-size: 1.25rem;
+        font-weight: bold;
+      }
+      // details are large and plain text
+      div.field__item {
+        font-size: 2rem;
+        line-height:2.1rem;
+      }
+    }
+    // hide the label for the event detail because the layout builder version did not do this even though that is an option.
+    .field-blocknodeeventbody .field__label {
+      display: none;
+    }
+  }
 }
