@@ -76,7 +76,6 @@ body.node--type-provus-blog, body.node--type-provus-news {
   }  
 }
 
-
 // customization to the organization content type layout template created via layout builder
 .node--type-organization {
   .layout--onecol .layout__region {
@@ -109,5 +108,14 @@ body.node--type-provus-blog, body.node--type-provus-news {
         line-height:2.1rem;
       }
     }
+  }
+}
+
+// override vertical spacing between blocks in a layout column for each custom content type
+.node--type-course,
+.node--type-event,
+.node--type-organization {
+  .layout .block {
+    margin-bottom: 1.75rem !important;
   }
 }
