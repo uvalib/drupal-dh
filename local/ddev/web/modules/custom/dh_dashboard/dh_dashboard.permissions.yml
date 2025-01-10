@@ -10,3 +10,8 @@ access dh student dashboard:
 access dh dashboard:
   title: 'Access DH Dashboard'
   description: 'View the Digital Humanities Dashboard'
+
+administer dh dashboard:
+  title: 'Administer DH Dashboard'
+  description: 'Allow users to configure and manage the dashboard layout and settings.'
+  restrict access: true

@@ -12,4 +12,4 @@ dh_dashboard.admin:
     _form: '\Drupal\dh_dashboard\Form\DashboardSettingsForm'
     _title: 'Dashboard Settings'
   requirements:
-    _permission: 'administer site configuration'
+    _permission: 'administer dh dashboard'

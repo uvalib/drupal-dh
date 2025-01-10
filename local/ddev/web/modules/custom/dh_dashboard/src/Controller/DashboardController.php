@@ -43,17 +43,33 @@ class DashboardController extends ControllerBase {
       
       // Add admin links if user has permission
       $admin_links = [];
-      if ($this->currentUser()->hasPermission('administer site configuration')) {
+      if ($this->currentUser()->hasPermission('administer dh dashboard')) {
         $admin_links = [
           '#type' => 'container',
-          '#attributes' => ['class' => ['dashboard-admin-links', 'dashboard-admin-links--bottom']],
-          'edit' => [
-            '#type' => 'link',
-            '#title' => $this->t('Edit Dashboard Layout'),
-            '#url' => Url::fromRoute('layout_builder.overrides.node.view', [
-              'node' => $node->id(),
-            ]),
-            '#attributes' => ['class' => ['button', 'button--primary']],
+          '#attributes' => ['class' => ['dashboard-admin-links', 'dashboard-admin-links--bottom', 'card']],
+          'inner' => [
+            '#type' => 'container',
+            '#attributes' => ['class' => ['dashboard-admin-links__inner']],
+            'edit' => [
+              '#type' => 'link',
+              '#title' => $this->t('Edit Dashboard Layout'),
+              '#url' => Url::fromRoute('layout_builder.overrides.node.view', [
+                'node' => $node->id(),
+              ]),
+              '#attributes' => ['class' => ['button', 'button--primary']],
+            ],
+            'settings' => [
+              '#type' => 'link',
+              '#title' => $this->t('Configure Dashboard'),
+              '#url' => Url::fromRoute('dh_dashboard.admin'),
+              '#attributes' => ['class' => ['button', 'button--primary']],
+            ],
+            'permissions' => [
+              '#type' => 'link',
+              '#title' => $this->t('Manage Permissions'),
+              '#url' => Url::fromRoute('user.admin_permissions', [], ['fragment' => 'module-dh_dashboard']),
+              '#attributes' => ['class' => ['button', 'button--primary']],
+            ],
           ],
         ];
       }

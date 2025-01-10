@@ -48,3 +48,22 @@
   padding: 0;
   border: none;
 }
+
+.dashboard-admin-links.card {
+  margin: 2rem 0;
+  padding: 1rem 1.5rem;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.dashboard-admin-links__inner {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+.dashboard-admin-links__inner .button {
+  margin: 0;
+}
