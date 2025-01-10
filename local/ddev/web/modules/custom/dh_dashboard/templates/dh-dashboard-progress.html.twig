@@ -1,0 +1,17 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-dashboard-progress.html.twig #}
+<div class="dh-progress">
+  <div class="progress-meter">
+    <div class="progress-bar" style="width: {{ (progress.completed / progress.total * 100)|round }}%">
+      <span class="progress-text">{{ progress.completed }} of {{ progress.total }} completed</span>
+    </div>
+  </div>
+  
+  <div class="course-list">
+    {% for course in progress.courses %}
+      <div class="course-item {{ course.status }}">
+        <span class="course-name">{{ course.name }}</span>
+        <span class="course-status">{{ course.status|replace({'_': ' '})|title }}</span>
+      </div>
+    {% endfor %}
+  </div>
+</div>

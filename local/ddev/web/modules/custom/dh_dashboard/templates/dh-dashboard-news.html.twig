@@ -1,0 +1,13 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-dashboard-news.html.twig #}
+<div class="dh-news">
+  {% for item in news.items %}
+    <div class="news-item priority-{{ item.priority }}">
+      <div class="news-meta">
+        <span class="date">{{ item.date|date('M j, Y') }}</span>
+        <span class="category">{{ item.category|replace({'_': ' '})|title }}</span>
+      </div>
+      <h4>{{ item.title }}</h4>
+      <p>{{ item.summary }}</p>
+    </div>
+  {% endfor %}
+</div>

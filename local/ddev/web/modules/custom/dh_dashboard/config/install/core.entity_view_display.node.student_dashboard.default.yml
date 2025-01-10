@@ -36,9 +36,19 @@ third_party_settings:
               provider: dh_dashboard
             weight: 0
             additional: {}
+          d7e4f9a2-1b23-4c56-8d90-2e3a4b5c6d78:
+            uuid: d7e4f9a2-1b23-4c56-8d90-2e3a4b5c6d78
+            region: second
+            configuration:
+              id: 'dh_dashboard_program_info'
+              label: 'Program Information'
+              label_display: visible
+              provider: dh_dashboard
+            weight: 0
+            additional: {}
           b6d3e8f1-2c54-4a93-8e15-7f9d6c2e4b12:
             uuid: b6d3e8f1-2c54-4a93-8e15-7f9d6c2e4b12
-            region: second
+            region: third
             configuration:
               id: 'dh_dashboard_progress'
               label: 'Certificate Progress'
@@ -54,6 +64,6 @@ third_party_settings:
               label: 'Certificate Information'
               label_display: visible
               provider: dh_dashboard
-            weight: 0
+            weight: 1
             additional: {}
         third_party_settings: {}

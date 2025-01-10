@@ -47,6 +47,11 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
       'base hook' => 'node',
       'path' => $path . '/templates',
     ],
+    'dh_dashboard_program_info' => [
+      'variables' => [
+        'data' => [],
+      ],
+    ],
   ];
 }
 
