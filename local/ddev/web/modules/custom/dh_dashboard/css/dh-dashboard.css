@@ -229,3 +229,96 @@ a.resource-item:hover .card-title {
     font-size: 1.2rem;
   }
 }
+
+/* Admin link styles */
+.dashboard-admin-links {
+  text-align: right;
+  margin: 0.5rem 0;
+  padding: 0.25rem;
+}
+
+.dashboard-admin-links .button {
+  margin-left: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #666;
+}
+
+.dashboard-admin-links .button:hover {
+  background-color: #e5e5e5;
+  color: #333;
+}
+
+/* Base card styles */
+.block-dh-dashboard-news,
+.block-dh-dashboard-program-info,
+.block-dh-dashboard-progress,
+.block-dh-dashboard-certificate-info {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  border: 1px solid #eaeaea;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0;
+}
+
+/* Dashboard layout */
+.dashboard-content {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Additional styles from dashboard.css */
+.dashboard-news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+.dashboard-news-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-news-card__header {
+  padding: 1.25rem;
+  border-bottom: 1px solid #eee;
+  background: #f8f8f8;
+}
+
+.dashboard-news-card__header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.dashboard-news-card__content {
+  padding: 1.25rem;
+  flex: 1;
+}
+
+/* Column alignment fixes */
+.layout-threecol-33-34-33 {
+  align-items: flex-start;
+  display: flex;
+}
+
+.layout-threecol-33-34-33 > .layout__region {
+  margin-top: 0;
+}
+
+/* Ensure consistent first block spacing */
+.layout__region--first > *:first-child,
+.layout__region--second > *:first-child,
+.layout__region--third > *:first-child {
+  margin-top: 0;
+}
