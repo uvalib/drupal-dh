@@ -23,20 +23,54 @@ body.node--type-provus-blog, body.node--type-provus-news {
   }
 }
 
+// customization to the course content type layout template created via layout builder
 .node--type-course {
   .layout--twocol-section .layout__region {
     border: 1px solid $medium-gray;
-    padding: 2.5rem;
+    padding: 1.5rem;
     border-top: 0.25rem solid $primary-colors-primary;
+    margin: 0 0 0.5rem 0;
 
     .block-layout-builder {
-      h2 {
+      // course labels are small and bold
+      div.field__label {
         font-size: 1.25rem;
+        font-weight: bold;
       }
-      div.content {
+      // course details are large and plain text
+      div.field__item {
         font-size: 2rem;
         line-height:2.15rem;
       }
     }
   }
+  // apply styling to each field in its column so that it appears looks like a card
+  .layout--threecol-section .layout__region {
+    .block-field-blocknodecoursefield-dh-concentration,
+    .block-field-blocknodecoursefield-dh-research-data-type,
+    .block-field-blocknodecoursefield-dh-tool-implementation {
+      border: 1px solid $medium-gray;
+      padding: 1rem;
+      border-top: 0.25rem solid $primary-colors-primary;
+      margin: 0 0.5rem 0.5rem 0;
+      .field__label {
+        font-size: 1rem;
+        font-weight: bold;
+      }
+      .field__item {
+        font-size: 1.1rem;
+        line-height:1.15rem;
+      }
+    }  
+  }
+  // apply color background to curricular requirements section at bottom of each course page
+  // and make sure paragraph text is black for sufficient color contrast
+  .block-content9b05bf03-96d5-48da-9e07-92a279baaad0 {
+    background-color: $background-colors-background-pale-orange;
+    padding: 1px 7px 0px 7px;
+    div p {
+      color: #000;
+    }
+  }
+  
 }
