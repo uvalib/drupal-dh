@@ -76,19 +76,18 @@ body.node--type-provus-blog, body.node--type-provus-news {
   }  
 }
 
-// customization to the event content type layout template created via layout builder
-.node--type-event {
+
+// customization to the organization content type layout template created via layout builder
+.node--type-organization {
   .layout--onecol .layout__region {
-    .field--name-field-link-to-department-web-pag {
-      // labels are small and bold
-      div.field__label {
-        font-size: 1rem;
-        font-weight: bold;
-      }
-      // details are a bit larger and plain text
-      div.field__item {
-        font-size: 1.1rem;
-        line-height:1.15rem;
+    .field-blocknodeorganizationtitle .content {
+      .field--name-title {
+        font-family: 'bodoni-urw';
+        font-weight: 600;
+        font-style: normal;
+        font-size: 48px;
+        line-height: 5.5rem;
+        margin: 1rem 0;
       }
     }
   }
@@ -109,10 +108,6 @@ body.node--type-provus-blog, body.node--type-provus-news {
         font-size: 2rem;
         line-height:2.1rem;
       }
-    }
-    // hide the label for the event detail because the layout builder version did not do this even though that is an option.
-    .field-blocknodeeventbody .field__label {
-      display: none;
     }
   }
 }
