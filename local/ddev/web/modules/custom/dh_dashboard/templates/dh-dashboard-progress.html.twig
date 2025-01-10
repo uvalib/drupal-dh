@@ -1,17 +1,29 @@
 {# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-dashboard-progress.html.twig #}
-<div class="dh-progress">
-  <div class="progress-meter">
-    <div class="progress-bar" style="width: {{ (progress.completed / progress.total * 100)|round }}%">
-      <span class="progress-text">{{ progress.completed }} of {{ progress.total }} completed</span>
-    </div>
-  </div>
-  
-  <div class="course-list">
-    {% for course in progress.courses %}
-      <div class="course-item {{ course.status }}">
-        <span class="course-name">{{ course.name }}</span>
-        <span class="course-status">{{ course.status|replace({'_': ' '})|title }}</span>
+<div{{ attributes.addClass('dh-progress-block') }}>
+  <h2>{{ 'Certificate Progress'|t }}</h2>
+  <div class="progress-grid">
+    <div class="dh-card progress-overview">
+      <h3 class="card-title"><i class="fas fa-chart-pie"></i> {{ 'Overall Progress'|t }}</h3>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: {{ progress.percentage }}%"></div>
       </div>
-    {% endfor %}
+      <div class="progress-stats">
+        <span>{{ progress.completed }} / {{ progress.total }} credits completed</span>
+        <span class="percentage">{{ progress.percentage }}%</span>
+      </div>
+    </div>
+
+    <div class="courses-list">
+      {% for course in progress.courses %}
+        <div class="dh-card course-item {{ course.status_class }}">
+          <h3 class="card-title">
+            <i class="fas fa-{{ course.icon }}"></i> {{ course.name }}
+          </h3>
+          <div class="card-meta">
+            <span class="status-badge">{{ course.status|replace({'_': ' '})|title }}</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   </div>
 </div>

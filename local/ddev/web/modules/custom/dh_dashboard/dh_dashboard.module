@@ -13,18 +13,21 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
     'dh_dashboard_news' => [
       'variables' => [
         'news' => [],
+        'attributes' => [],
       ],
-      'template' => 'block--dh-dashboard-news',
+      'template' => 'dh-dashboard-news',
     ],
     'dh_dashboard_progress' => [
       'variables' => [
         'progress' => [],
+        'attributes' => [],
       ],
-      'template' => 'block--dh-dashboard-progress',
+      'template' => 'dh-dashboard-progress',
     ],
     'dh_dashboard_certificate_info' => [
       'variables' => [
         'info' => [],
+        'attributes' => [],
       ],
       'template' => 'block--dh-dashboard-certificate-info',
     ],
@@ -49,7 +52,8 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
     ],
     'dh_dashboard_program_info' => [
       'variables' => [
-        'data' => [],
+        'program_info' => [],
+        'attributes' => [],
       ],
     ],
   ];
@@ -67,6 +71,15 @@ function dh_dashboard_preprocess_node(&$variables) {
     $variables['display_submitted'] = false;
     $variables['page'] = true;
     unset($variables['author_picture'], $variables['submitted']);
+  }
+}
+
+/**
+ * Implements hook_preprocess_block().
+ */
+function dh_dashboard_preprocess_block(&$variables) {
+  if (strpos($variables['plugin_id'], 'dh_dashboard_') === 0) {
+    $variables['#attached']['library'][] = 'dh_dashboard/dashboard';
   }
 }
 

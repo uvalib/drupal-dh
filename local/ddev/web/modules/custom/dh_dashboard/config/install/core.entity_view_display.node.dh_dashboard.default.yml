@@ -24,7 +24,7 @@ third_party_settings:
               id: 'dh_dashboard_news'
               label: 'News'
               provider: dh_dashboard
-              label_display: visible
+              label_display: 'hidden'
             additional: {  }
             weight: 0
           dh_program_info:
@@ -34,7 +34,7 @@ third_party_settings:
               id: 'dh_dashboard_program_info'
               label: 'Program Information'
               provider: dh_dashboard
-              label_display: visible
+              label_display: 'hidden'
             additional: {  }
             weight: 0
           dh_progress:
@@ -44,7 +44,7 @@ third_party_settings:
               id: 'dh_dashboard_progress'
               label: 'Progress'
               provider: dh_dashboard
-              label_display: visible
+              label_display: 'hidden'
             additional: {  }
             weight: 0
           dh_certificate:
@@ -54,7 +54,7 @@ third_party_settings:
               id: 'dh_dashboard_certificate_info'
               label: 'Certificate Info'
               provider: dh_dashboard
-              label_display: visible
+              label_display: 'hidden'
             additional: {  }
             weight: 1
         third_party_settings: {  }

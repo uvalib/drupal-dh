@@ -1,50 +1,31 @@
 {# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-dashboard-program-info.html.twig #}
-<div class="dh-program-info">
-  <div class="important-dates">
-    <h3>Important Dates</h3>
-    <div class="dates-list">
-      {% for date in program_info.important_dates %}
-        <div class="date-item">
-          <div class="date">{{ date.date|date('M j, Y') }}</div>
-          <h4>{{ date.title }}</h4>
-          <p>{{ date.description }}</p>
-        </div>
-      {% endfor %}
-    </div>
-  </div>
+<div{{ attributes.addClass('dh-program-info') }}>
+  {% if program_info.important_dates %}
+    <section class="program-dates">
+      <h2>{{ 'Important Dates'|t }}</h2>
+      <div class="dates-grid">
+        {% for date in program_info.important_dates %}
+          <div class="dh-card date-item {{ date.class }}">
+            <h3 class="card-title"><i class="fas fa-{{ date.icon }}"></i> {{ date.title }}</h3>
+            <div class="card-meta">{{ date.date }}</div>
+            <p>{{ date.description }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  {% endif %}
 
-  <div class="program-resources">
-    <h3>Resources</h3>
-    <div class="resources-grid">
-      {% for resource in program_info.resources %}
-        <a href="{{ resource.url }}" class="resource-card resource-{{ resource.type }}">
-          <h4>{{ resource.title }}</h4>
-          <p>{{ resource.description }}</p>
-        </a>
-      {% endfor %}
-    </div>
-  </div>
-
-  <div class="requirements-overview">
-    <h3>Program Requirements</h3>
-    <div class="requirements-summary">
-      <div class="requirement">
-        <span class="number">{{ program_info.requirements_summary.total_credits }}</span>
-        <span class="label">Total Credits</span>
+  {% if program_info.resources %}
+    <section class="program-resources">
+      <h2>{{ 'Resources'|t }}</h2>
+      <div class="resources-grid">
+        {% for resource in program_info.resources %}
+          <a href="{{ resource.url }}" class="dh-card resource-item {{ resource.class }}">
+            <h3 class="card-title"><i class="fas fa-{{ resource.icon }}"></i> {{ resource.title }}</h3>
+            <p>{{ resource.description }}</p>
+          </a>
+        {% endfor %}
       </div>
-      <div class="requirement">
-        <span class="number">{{ program_info.requirements_summary.core_courses }}</span>
-        <span class="label">Core Courses</span>
-      </div>
-      <div class="requirement">
-        <span class="number">{{ program_info.requirements_summary.electives }}</span>
-        <span class="label">Electives</span>
-      </div>
-      <div class="requirement">
-        <span class="number">{{ program_info.requirements_summary.capstone }}</span>
-        <span class="label">Capstone</span>
-      </div>
-    </div>
-    <p class="time-limit">Program must be completed within {{ program_info.requirements_summary.time_limit }}</p>
-  </div>
+    </section>
+  {% endif %}
 </div>

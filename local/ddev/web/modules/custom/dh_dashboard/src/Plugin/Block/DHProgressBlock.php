@@ -3,6 +3,7 @@
 namespace Drupal\dh_dashboard\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Template\Attribute;
 
 /**
  * Provides a DH Certificate Progress Block.
@@ -24,6 +25,8 @@ class DHProgressBlock extends BlockBase {
     return [
       '#theme' => 'dh_dashboard_progress',
       '#progress' => $progress,
+      '#attributes' => new Attribute(['class' => ['dh-progress-block']]),
+      '#label_display' => 'FALSE',
       '#cache' => [
         'max-age' => 0,
       ],
@@ -31,13 +34,27 @@ class DHProgressBlock extends BlockBase {
   }
 
   protected function getProgress() {
-    // Mock data - replace with actual progress calculation
     return [
       'completed' => 20,
       'total' => 62,
+      'percentage' => 32,
+      'status_class' => 'progress-status--in-progress',
       'courses' => [
-        ['name' => 'DH 101', 'status' => 'completed'],
-        ['name' => 'DH 201', 'status' => 'in_progress'],
+        [
+          'name' => 'DH 101',
+          'status' => 'completed',
+          'status_class' => 'course-status--completed',
+          'icon' => 'check-circle',
+        ],
+        [
+          'name' => 'DH 201',
+          'status' => 'in_progress',
+          'status_class' => 'course-status--in-progress',
+          'icon' => 'clock',
+        ],
+      ],
+      'attributes' => [
+        'class' => ['dh-progress-block', 'block-spacing'],
       ],
     ];
   }

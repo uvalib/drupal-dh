@@ -1,15 +1,13 @@
 dashboard:
+  version: 1.x
   css:
     theme:
-      css/dashboard.css: {}
+      css/dh-dashboard.css: {}
+  js:
+    js/dh-dashboard.js: {}
   dependencies:
     - core/drupal
-
-# Remove this library as it's redundant and using wrong filename
-# progress:
-#   css:
-#     theme:
-#       css/dh-dashboard.css: {}
+    - core/jquery
 
 admin-form:
   version: 1.x

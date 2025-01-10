@@ -32,7 +32,7 @@ third_party_settings:
             configuration:
               id: 'dh_dashboard_news'
               label: 'DH News'
-              label_display: visible
+              label_display: 'hidden'
               provider: dh_dashboard
             weight: 0
             additional: {}
@@ -42,7 +42,7 @@ third_party_settings:
             configuration:
               id: 'dh_dashboard_program_info'
               label: 'Program Information'
-              label_display: visible
+              label_display: 'hidden'
               provider: dh_dashboard
             weight: 0
             additional: {}
@@ -52,7 +52,7 @@ third_party_settings:
             configuration:
               id: 'dh_dashboard_progress'
               label: 'Certificate Progress'
-              label_display: visible
+              label_display: 'hidden'
               provider: dh_dashboard
             weight: 0
             additional: {}
@@ -62,7 +62,7 @@ third_party_settings:
             configuration:
               id: 'dh_dashboard_certificate_info'
               label: 'Certificate Information'
-              label_display: visible
+              label_display: 'hidden'
               provider: dh_dashboard
             weight: 1
             additional: {}

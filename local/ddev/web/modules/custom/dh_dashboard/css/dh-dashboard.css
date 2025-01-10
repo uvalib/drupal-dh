@@ -1,0 +1,231 @@
+/* Base card styles */
+.dh-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  border: 1px solid #eaeaea;
+  position: relative;
+  overflow: hidden;
+}
+
+.dh-card:hover {
+  transform: translateY(-4px);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 24px;
+  border-color: #d0d0d0;
+}
+
+.dh-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #0066cc;
+  opacity: 0.8;
+}
+
+/* Category-specific top borders */
+.news-category--courses::before { background: #2196F3; }
+.news-category--events::before { background: #4CAF50; }
+.news-category--program::before { background: #9C27B0; }
+
+.date-item--deadline::before { background: #f44336; }
+.date-item--registration::before { background: #4CAF50; }
+.date-item--submission::before { background: #FF9800; }
+
+.resource-item--document::before { background: #2196F3; }
+.resource-item--schedule::before { background: #9C27B0; }
+.resource-item--guide::before { background: #4CAF50; }
+.resource-item--contact::before { background: #FF9800; }
+
+/* Grid layouts */
+.dates-grid, .resources-grid, .news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* Ensure consistent grid layout */
+.news-grid {
+  margin: 1rem 0;
+}
+
+/* Card content styling */
+.card-icon {
+  display: none;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.card-title i {
+  font-size: 1.1em;
+  opacity: 0.8;
+  color: #0066cc;
+}
+
+.card-meta {
+  color: #546e7a;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Priority indicators */
+.priority-indicator {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.priority-indicator--high {
+  background: #ffebee;
+  color: #c62828;
+  border: 1px solid rgba(198, 40, 40, 0.2);
+}
+
+.priority-indicator--medium {
+  background: #fff3e0;
+  color: #ef6c00;
+  border: 1px solid rgba(239, 108, 0, 0.2);
+}
+
+/* Resource links */
+a.resource-item {
+  text-decoration: none;
+  color: inherit;
+}
+
+a.resource-item:hover .card-title {
+  color: #0066cc;
+}
+
+/* News specific styling */
+.news-item {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.news-item .card-content {
+  flex-grow: 1;
+  margin: 0;
+}
+
+.news-item .date {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+}
+
+.news-item .date i {
+  font-size: 0.9em;
+  opacity: 0.7;
+}
+
+/* Progress block specific styling */
+.progress-grid {
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.progress-overview {
+  margin-bottom: 2rem;
+}
+
+.progress-bar {
+  background: #e9ecef;
+  border-radius: 8px;
+  height: 12px;
+  margin: 1rem 0;
+  overflow: hidden;
+}
+
+.progress-fill {
+  background: #0066cc;
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.progress-stats {
+  display: flex;
+  justify-content: space-between;
+  color: #546e7a;
+  font-size: 0.95rem;
+}
+
+.percentage {
+  font-weight: 600;
+  color: #0066cc;
+}
+
+.courses-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.course-item {
+  border-left: 4px solid #ddd;
+}
+
+.course-status--completed {
+  border-left-color: #4CAF50;
+}
+
+.course-status--in-progress {
+  border-left-color: #FF9800;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.course-status--completed .status-badge {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.course-status--in-progress .status-badge {
+  background: #fff3e0;
+  color: #ef6c00;
+  border: 1px solid rgba(239, 108, 0, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dh-card {
+    padding: 1.5rem;
+  }
+  
+  .card-title {
+    font-size: 1.2rem;
+  }
+}
