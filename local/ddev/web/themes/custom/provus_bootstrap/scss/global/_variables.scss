@@ -2,6 +2,20 @@
 
 /* Colors Variables Export */
 $medium-gray: #dadada;
+$colors-uva-orange: #E57200;
+$colors-uva-orange-25pct: #F9DCBF;
+$colors-uva-teal: #25CAD3;
+$colors-uva-teal-25pct: #C9F2F4; 
+$colors-uva-blue: #232D4B;
+$colors-uva-blue-25pct: #C8CBD2;
+$colors-uva-cyan: #009FDF;
+$colors-uva-cyan-25pct: #BFE7F7;
+$colors-uva-yellow: #FDDA24;
+$colors-uva-yellow-25pct: #FFF6C8;
+$colors-uva-green: #62BB46;
+$colors-uva-green-25pct: #D8EED1;
+$colors-uva-magenta: #EF3F6B;
+$colors-uva-magenta-25pct: #FBCFDA;
 $background-colors-background-grey: #d6d6d6;
 $background-colors-background-light: #fbfbfc;
 $background-colors-background-lightblue: #284374; // #eff6ff;
@@ -170,7 +184,7 @@ div.view-filters {
   border-bottom: 2px solid $primary-colors-primary-accent;
 }
 
-/* Add styling for the course page detail content; similar to the event page detail. */
+/* Add styling for the content type detail page. */
 .field-blocknodecoursetitle .field--name-title {
   font-family: 'bodoni-urw';
   font-weight: 600;
