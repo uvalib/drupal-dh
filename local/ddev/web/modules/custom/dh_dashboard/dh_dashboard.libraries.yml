@@ -5,9 +5,11 @@ dashboard:
       css/dh-dashboard.css: {}
   js:
     js/dh-dashboard.js: {}
+    js/news-pager.js: {}
   dependencies:
     - core/drupal
     - core/jquery
+    - core/once
 
 admin-form:
   version: 1.x

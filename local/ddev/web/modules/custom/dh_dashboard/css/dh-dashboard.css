@@ -322,3 +322,42 @@ a.resource-item:hover .card-title {
 .layout__region--third > *:first-child {
   margin-top: 0;
 }
+
+/* News pagination styles */
+.news-pager {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.5rem;
+}
+
+.news-pager__button {
+  background: #fff;
+  border: 1px solid #ddd;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.news-pager__button:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.news-pager__button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.news-pager__info {
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.news-items-container {
+  min-height: 200px; /* Prevent layout shift during pagination */
+}
