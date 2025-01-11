@@ -1,0 +1,13 @@
+uuid: c3978c41-73cd-4bd7-b879-ef64e766fa28
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Bq7QTF9BeCckquDp9_CKrooiaO0xzJx6cxQRurqkoJs
+id: provus_basic_text
+block_id: 'inline_block:provus_basic_text'
+category: provus_simple_content
+label: 'Basic Text'
+image_path: /themes/custom/provus_bootstrap/images/components/basic.svg
+image_alt: ''
+weight: -80

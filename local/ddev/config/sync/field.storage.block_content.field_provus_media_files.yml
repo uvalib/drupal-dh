@@ -1,0 +1,22 @@
+uuid: 9e3306a1-7190-449e-a94f-1f0b52134198
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - media
+_core:
+  default_config_hash: mYeG7IUdaUzV1V_L8LJ4d6-m0WBoDhBdpPbj1KEsnoc
+id: block_content.field_provus_media_files
+field_name: field_provus_media_files
+entity_type: block_content
+type: entity_reference
+settings:
+  target_type: media
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

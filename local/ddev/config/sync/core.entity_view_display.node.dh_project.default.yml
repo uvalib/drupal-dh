@@ -14,13 +14,13 @@ dependencies:
     - field.field.node.dh_project.field_image
     - field.field.node.dh_project.field_link_to_more_information
     - field.field.node.dh_project.field_sponsor
+    - field.field.node.dh_project.field_sponsoring_department_or_s
     - field.field.node.dh_project.field_uva_or_non_uva
-    - image.style.wide
     - node.type.dh_project
   module:
     - datetime
-    - image
     - link
+    - responsive_image
     - text
     - user
 id: node.dh_project.default
@@ -34,22 +34,6 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 101
-    region: content
-  field_affiliated_dh_projects:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 113
-    region: content
-  field_associated_dh_course:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 115
     region: content
   field_contact_person:
     type: entity_reference_label
@@ -93,11 +77,11 @@ content:
     weight: 116
     region: content
   field_image:
-    type: image
+    type: responsive_image
     label: hidden
     settings:
+      responsive_image_style: ''
       image_link: ''
-      image_style: wide
       image_loading:
         attribute: eager
     third_party_settings: {  }
@@ -123,6 +107,14 @@ content:
     third_party_settings: {  }
     weight: 107
     region: content
+  field_sponsoring_department_or_s:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 117
+    region: content
   field_uva_or_non_uva:
     type: entity_reference_label
     label: above
@@ -136,4 +128,8 @@ content:
     third_party_settings: {  }
     weight: 100
     region: content
-hidden: {  }
+hidden:
+  addtoany: true
+  breadcrumbs: true
+  field_affiliated_dh_projects: true
+  field_associated_dh_course: true

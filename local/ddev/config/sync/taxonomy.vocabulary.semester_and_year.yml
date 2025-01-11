@@ -6,3 +6,4 @@ name: Year
 vid: semester_and_year
 description: 'What year was this course offered?'
 weight: 0
+new_revision: false

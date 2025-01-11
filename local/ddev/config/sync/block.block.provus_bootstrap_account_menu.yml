@@ -1,4 +1,4 @@
-uuid: e8d8acf6-4df9-4c92-ae83-a4cac99a0fdb
+uuid: 4d39abbf-ba9b-4fc7-b213-94668461b8f6
 langcode: en
 status: true
 dependencies:
@@ -13,7 +13,7 @@ _core:
 id: provus_bootstrap_account_menu
 theme: provus_bootstrap
 region: secondary_menu
-weight: -4
+weight: -6
 provider: null
 plugin: 'system_menu_block:account'
 settings:

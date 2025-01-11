@@ -1,0 +1,20 @@
+uuid: ebcb901f-1aa9-4667-b20f-f5274e31e3d1
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+    - profile
+id: node.field_testyprofile
+field_name: field_testyprofile
+entity_type: node
+type: entity_reference
+settings:
+  target_type: profile
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

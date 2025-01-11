@@ -200,23 +200,21 @@
               <div class="col-sm-6 col-md-4">
                 {{ page.footer_first }}
               </div>
-              <div class="col-sm-2 offset-md-1">
+              <div class="col-sm-6 col-md-4 offset-sm-1">
                 {{ page.footer_second }}
               </div>
-              <div class="col-sm-2">
+              <div class="col-sm-3">
                 {{ page.footer_third }}
               </div>
-              <div class="col-sm-2">
-                {{ page.footer_fourth }}
-              </div>
-            </div>
-          {% endif %}
-          {% if page.footer_fifth %}
-            <div class="site-footer__bottom">
-              {{ page.footer_fifth }}
             </div>
           {% endif %}
         </div>
+        {% if page.footer_fifth %}
+          <div class="site-footer__bottom">
+            {{ page.footer_fifth }}
+            <div class="devops">{{ devops_label }}</dev>
+          </div>
+        {% endif %}
       {% endblock %}
     </footer>
   </div>

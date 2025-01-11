@@ -1,0 +1,23 @@
+uuid: 66bb7a0d-c318-4cf0-9ee2-9aa038601632
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+_core:
+  default_config_hash: 3A2CpQXhwCvi0SUJto_T9VDFQTGQivJEno5c0ni7wnc
+id: block_content.field_provus_sub_title
+field_name: field_provus_sub_title
+entity_type: block_content
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

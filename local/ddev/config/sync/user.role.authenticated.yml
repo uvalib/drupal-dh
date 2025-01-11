@@ -9,7 +9,9 @@ dependencies:
     - contact
     - file
     - filter
+    - fontawesome
     - media
+    - profile
     - search
     - shortcut
     - system
@@ -22,11 +24,21 @@ is_admin: false
 permissions:
   - 'access comments'
   - 'access content'
+  - 'access fontawesome additional settings'
+  - 'access profile overview'
   - 'access shortcuts'
   - 'access site-wide contact form'
+  - 'create dhcert profile'
+  - 'delete own dhcert profile'
   - 'delete own files'
   - 'post comments'
   - 'search content'
   - 'skip comment approval'
+  - 'update own dhcert profile'
   - 'use text format basic_html'
+  - 'view any dhcert profile'
+  - 'view any profile'
   - 'view media'
+  - 'view own dhcert profile'
+  - 'view own profile'
+  - 'view own unpublished profile'

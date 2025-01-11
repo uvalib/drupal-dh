@@ -1,0 +1,29 @@
+uuid: 810c93f7-a471-4eab-86a0-883efa6cdd74
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_testyprofile
+    - node.type.dh_profile_dashboard
+    - profile.type.dhcert
+id: node.dh_profile_dashboard.field_testyprofile
+field_name: field_testyprofile
+entity_type: node
+bundle: dh_profile_dashboard
+label: testyProfile
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:profile'
+  handler_settings:
+    target_bundles:
+      dhcert: dhcert
+    sort:
+      field: _none
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

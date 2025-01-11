@@ -1,0 +1,13 @@
+uuid: bca434a4-fb9b-4a6a-ae2e-1964f4553485
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: snxGwyEDDmdmMkT3q2Vp3DeFChwEMaI_eX6CrqVCzGg
+id: webform
+block_id: 'inline_block:webform'
+category: provus_grouped_content
+label: Webform
+image_path: /themes/custom/provus_bootstrap/images/components/Webform.svg
+image_alt: ''
+weight: -1

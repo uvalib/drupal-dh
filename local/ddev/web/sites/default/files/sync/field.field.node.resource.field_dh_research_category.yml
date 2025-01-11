@@ -1,0 +1,29 @@
+uuid: f30fe746-1bff-4393-a621-1715d001f6a6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_dh_research_category
+    - node.type.resource
+    - taxonomy.vocabulary.dh_research_data_type
+id: node.resource.field_dh_research_category
+field_name: field_dh_research_category
+entity_type: node
+bundle: resource
+label: 'DH Research Data Type'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      dh_research_data_type: dh_research_data_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

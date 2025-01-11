@@ -1,0 +1,37 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.media.provus_card_background
+    - field.field.media.image.field_media_image
+    - media.type.image
+    - responsive_image.styles.provus_card_background
+  module:
+    - layout_builder
+    - responsive_image
+third_party_settings:
+  layout_builder:
+    enabled: false
+    allow_custom: false
+id: media.image.provus_card_background
+targetEntityType: media
+bundle: image
+mode: provus_card_background
+content:
+  thumbnail:
+    type: responsive_image
+    label: hidden
+    settings:
+      responsive_image_style: provus_card_background
+      image_link: ''
+      image_loading:
+        attribute: lazy
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden:
+  created: true
+  field_media_image: true
+  name: true
+  search_api_excerpt: true
+  uid: true

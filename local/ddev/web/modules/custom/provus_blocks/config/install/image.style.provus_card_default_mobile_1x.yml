@@ -1,0 +1,16 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - focal_point
+name: provus_card_default_mobile_1x
+label: 'Card Default | Mobile | 1x'
+effects:
+  720e7f4f-39cf-4106-928c-e20a99efe770:
+    uuid: 720e7f4f-39cf-4106-928c-e20a99efe770
+    id: focal_point_scale_and_crop
+    weight: 1
+    data:
+      width: 278
+      height: 139
+      crop_type: focal_point

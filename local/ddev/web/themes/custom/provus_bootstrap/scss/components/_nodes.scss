@@ -22,3 +22,21 @@ body.node--type-provus-blog, body.node--type-provus-news {
     }
   }
 }
+
+.node--type-course {
+  .layout--twocol-section .layout__region {
+    border: 1px solid $medium-gray;
+    padding: 2.5rem;
+    border-top: 0.25rem solid $primary-colors-primary;
+
+    .block-layout-builder {
+      h2 {
+        font-size: 1.25rem;
+      }
+      div.content {
+        font-size: 2rem;
+        line-height:2.15rem;
+      }
+    }
+  }
+}

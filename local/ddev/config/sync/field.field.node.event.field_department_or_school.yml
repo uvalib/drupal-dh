@@ -10,7 +10,7 @@ id: node.event.field_department_or_school
 field_name: field_department_or_school
 entity_type: node
 bundle: event
-label: 'Department or School'
+label: Sponsor(s)
 description: ''
 required: false
 translatable: false

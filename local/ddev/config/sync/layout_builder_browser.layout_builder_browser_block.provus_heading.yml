@@ -1,0 +1,13 @@
+uuid: 43edda63-2412-43f0-862f-9dfb1dc56a83
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: zp8vqfakgJTbwqwx3SuwsgtBxgcbY2Wg7-LjdCUbgOw
+id: provus_heading
+block_id: 'inline_block:provus_heading'
+category: provus_simple_content
+label: Heading
+image_path: /themes/custom/provus_bootstrap/images/components/heading.svg
+image_alt: ''
+weight: -100

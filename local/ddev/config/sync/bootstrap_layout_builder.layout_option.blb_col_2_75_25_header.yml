@@ -1,0 +1,16 @@
+uuid: 17254318-cd86-4215-b5de-50fc7eddb68c
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: A4eprzg3KgiIuH-7ZFczNPWP8wT8B4mLIHqd_LloLPg
+id: blb_col_2_75_25_header
+layout_id: blb_col_2_header
+label: '75% 25% w/ Header'
+structure: '12 9 3'
+breakpoints:
+  desktop: desktop
+  tablet: tablet
+  mobile: mobile
+default_breakpoints: null
+weight: -8

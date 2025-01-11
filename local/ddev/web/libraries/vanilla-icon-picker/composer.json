@@ -1,0 +1,14 @@
+{
+    "name": "d34dman/vanilla-icon-picker",
+    "description": "Package appolodev/vanilla-icon-picker as \"drupal-library\" type composer library",
+    "type": "drupal-library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Shibin Das",
+            "email": "shibinkidd@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

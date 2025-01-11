@@ -1,0 +1,10 @@
+uuid: 290967c8-e5ea-4adf-b9e8-51772825456a
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: ywEZtt6Vfd7lnC4B1wHyhia2JBW9ktDd1_d-r9ACHr0
+id: provus_card
+label: Card
+revision: true
+description: 'all the information students need to understand course requirements'

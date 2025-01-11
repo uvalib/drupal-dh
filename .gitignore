@@ -1,2 +1,34 @@
+
 package/scripts/build.ksh
 package/scripts/shell.ksh
+# macOS files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# macOS folder attributes
+Icon?
+._*
+
+# Thumbnails
+._.DS_Store
+.DS_Store?
+
+# Files that might appear on external disks
+.Spotlight-V100
+.Trashes
+.VolumeIcon.icns
+
+# Directories potentially used by macOS
+.DS_Store
+.DS_Store?
+.fseventsd
+.metadata_never_index
+.noindex
+
+.vscode
+
+node_modules/
+local/ddev/backups/*.sql.gz
+
+

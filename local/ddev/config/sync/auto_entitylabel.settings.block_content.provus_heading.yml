@@ -1,0 +1,11 @@
+_core:
+  default_config_hash: QrD-qnyE4nDWvnZgfDpmxNLbIG0s9mXmM-RK9S72a5k
+status: 1
+pattern: '[block_content:field_provus_title] (Heading) - [random:number]'
+escape: false
+preserve_titles: false
+save: false
+chunk: 50
+dependencies:
+  config:
+    - block_content.type.provus_heading

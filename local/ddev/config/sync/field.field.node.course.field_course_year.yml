@@ -1,0 +1,29 @@
+uuid: 8d9d6a95-7bb1-4ad5-9335-1ded58f3ab96
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_course_year
+    - node.type.course
+    - taxonomy.vocabulary.semester_and_year
+id: node.course.field_course_year
+field_name: field_course_year
+entity_type: node
+bundle: course
+label: 'Course year'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      semester_and_year: semester_and_year
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

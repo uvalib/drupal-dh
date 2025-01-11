@@ -1,0 +1,11 @@
+_core:
+  default_config_hash: HasD0R2DQzNmGDpRLwbefixZYwo1xtR4pGRYQiBoSaM
+status: 1
+pattern: '[block_content:field_provus_title] (Tab Item) - [random:number]'
+escape: false
+preserve_titles: false
+save: false
+chunk: 50
+dependencies:
+  config:
+    - block_content.type.provus_tab_item

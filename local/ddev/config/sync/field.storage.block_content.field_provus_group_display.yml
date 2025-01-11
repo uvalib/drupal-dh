@@ -1,0 +1,41 @@
+uuid: 6de6def7-7f7c-4090-8262-eeb67165c82f
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_content
+    - options
+_core:
+  default_config_hash: Tf1E6D1sCG7oe79eEfw57Or8Ua34iVGsv6xTd0nvBiE
+id: block_content.field_provus_group_display
+field_name: field_provus_group_display
+entity_type: block_content
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: carousel
+      label: Carousel
+    -
+      value: featured_4
+      label: '4 Card Featured'
+    -
+      value: column
+      label: 'Column Row'
+    -
+      value: grid_2
+      label: 'Grid - 2'
+    -
+      value: grid_3
+      label: 'Grid - 3'
+    -
+      value: grid_4
+      label: 'Grid - 4'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

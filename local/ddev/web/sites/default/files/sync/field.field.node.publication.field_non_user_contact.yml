@@ -1,0 +1,19 @@
+uuid: 5423b43d-8aa5-4c44-b356-e6e6032e1b6a
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_non_user_contact
+    - node.type.publication
+id: node.publication.field_non_user_contact
+field_name: field_non_user_contact
+entity_type: node
+bundle: publication
+label: 'non-user contact email'
+description: 'Do not use this field if the contact is a registered DH Portal User Portal.  '
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

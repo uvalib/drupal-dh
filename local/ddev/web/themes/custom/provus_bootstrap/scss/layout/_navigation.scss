@@ -1,7 +1,7 @@
 // Main Navigation
 #navbar-main .navbar-nav {
   margin-top: rem-calc(20);
-  gap: rem-calc(20);
+  gap: rem-calc(10); // rem-calc(20);
   .nav-item {
     .nav-link {
       color: $primary-accent;
@@ -22,7 +22,7 @@
   }
   @include media-breakpoint-up(lg) {
     margin-top: 0;
-    gap: rem-calc(40);
+    gap: rem-calc(20);// rem-calc(40);
   }
 }
 
@@ -67,4 +67,57 @@
 }
 .system-menu-blockaccount {
   width: auto;
+}
+
+/* secondary/top header content flex adjustment to make sure user login dropdown visible */
+.row.region-secondary-menu > *, .row.region-top-header > * {
+  flex-shrink: 3;
+}
+
+/* Media query for medium (tablet) */
+@include media-breakpoint-down(md) {
+  .region-secondary-menu {
+    flex-direction: column;
+  }
+  .region-top-header {
+    order: 1;
+  }
+  .region-top-header .content img {
+    max-width: 175px;
+    height: auto;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .region-secondary-menu #block-provus-bootstrap-search-form-narrow {
+    order: 2;
+    margin-top: 75px;
+  }
+  .region-secondary-menu #block-provus-bootstrap-account-menu {
+    order: 3;
+  }
+  .region-secondary-menu #block-provus-bootstrap-account-menu .dropdown .dropdown-menu {
+    position: relative;
+  }
+}
+
+/* Media query for xs (smart phone) */
+@include media-breakpoint-down(sm) {
+  .region-secondary-menu {
+    flex-direction: column;
+  }
+  .region-top-header {
+    order: 1;
+  }
+  .region-top-header .content img {
+    max-width: 200px;
+    height: auto;
+    padding-bottom: 50px;
+  }
+  .region-secondary-menu #block-provus-bootstrap-search-form-narrow {
+    order: 2;
+    margin-top: 75px;
+  }
+  .region-secondary-menu #block-provus-bootstrap-account-menu {
+    order: 3;
+  }
 }

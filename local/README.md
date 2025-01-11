@@ -10,3 +10,4 @@ Try:
 	./update-files-from-dev.sh
 	ddev drush cr
 	ddev launch
+

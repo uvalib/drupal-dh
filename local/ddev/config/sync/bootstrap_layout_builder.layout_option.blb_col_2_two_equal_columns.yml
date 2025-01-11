@@ -1,0 +1,16 @@
+uuid: 19fea23f-17c0-4413-a0fd-9eaa2c4d819b
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: _JlVkXSFtwrKuw7erhkewxSc_SpEMIQONDdpfXJKTnE
+id: blb_col_2_two_equal_columns
+layout_id: blb_col_2
+label: 'Two equal columns'
+structure: '6 6'
+breakpoints:
+  desktop: desktop
+  tablet: tablet
+  mobile: mobile
+default_breakpoints: null
+weight: -10

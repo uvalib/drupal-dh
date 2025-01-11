@@ -1,0 +1,13 @@
+uuid: f70bf8bb-441d-426d-93d1-9ed77fad920e
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: AtS3ZHAoINsJeGY2v_tfSEdnfgiHxkbViVyF6ipnlz8
+id: provus_events_calendar
+block_id: fullcalendar_block
+category: provus_views
+label: 'Events Calendar'
+image_path: /themes/custom/provus_bootstrap/images/components/Events-Calendar.svg
+image_alt: ''
+weight: 40

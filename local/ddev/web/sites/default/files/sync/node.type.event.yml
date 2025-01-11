@@ -1,0 +1,19 @@
+uuid: 53e29536-6baf-4077-af5c-8425d712b2b1
+langcode: en
+status: true
+dependencies:
+  module:
+    - menu_ui
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+_core:
+  default_config_hash: bGxZZFF3KZ6wrBM9gs1atSH4ilcr0rPmwxiMzlcZa3U
+name: Event
+type: event
+description: 'Content which describes something happening at a specific time.'
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: false

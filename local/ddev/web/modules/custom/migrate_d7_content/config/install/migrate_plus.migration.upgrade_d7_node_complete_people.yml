@@ -1,0 +1,165 @@
+uuid: 29ec73ad-25b8-47e4-b085-60dd77f65000
+langcode: en
+status: true
+dependencies: {  }
+id: upgrade_d7_node_complete_people
+class: Drupal\node\Plugin\migrate\D7NodeTranslation
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - 'Drupal 7'
+  - Content
+migration_group: migrate_d7_content
+label: 'Node complete (Profile)'
+source:
+  plugin: upgrade_d7_node_complete_people
+  node_type: people
+  constants:
+    source_base_path: '/var/www/html/local/ddev/web/sites/drupal7/digitalhumanities.virginia.edu/files'
+process:
+  nid: nid
+  vid: vid
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: "und"
+  type:
+    plugin: default_value
+    default_value: people
+  title:
+    plugin: get
+    source: title
+  uid:
+    plugin: migration_lookup
+    migration: upgrade_d7_user
+    source: uid
+  status:
+    plugin: get
+    source: status
+  created:
+    plugin: get
+    source: created
+  changed:
+    plugin: get
+    source: changed
+  # Add more field mappings here, with appropriate processing
+  revision_uid:
+    -
+      plugin: get
+      source: revision_uid
+  revision_log:
+    -
+      plugin: get
+      source: log
+  revision_timestamp:
+    -
+      plugin: get
+      source: timestamp
+  content_translation_source:
+    -
+      plugin: get
+      source: source_langcode
+  comment_node_people/0/status:
+    -
+      plugin: get
+      source: comment
+  'body/value':
+    plugin: get
+    source: body
+    default_value: ''
+  'body/format':
+    plugin: default_value
+    default_value: "full_html"
+  field_name:
+    -
+      plugin: get
+      source: field_name
+  field_content_type:
+    -
+      plugin: sub_process
+      source: field_content_type
+      process:
+        target_id: tid
+  field_featured_image:
+    -
+      plugin: sub_process
+      source: photo
+      process:
+        target_id: fid
+        alt: alt
+        title: title
+        width: width
+        height: height
+  field_not_uva:
+    -
+      plugin: get
+      source: field_not_uva
+  field_user_email/0/value:
+    -
+      plugin: get
+      source: email
+      default_value: ''
+      # plugin: sub_process
+      # source: email
+      # process:
+      #   value: email
+  dump_photo:
+    plugin: callback
+    callable: var_dump
+    source: photo 
+  field_link:
+    -
+      plugin: field_link
+      source: field_link
+      default_value: ''
+  field_uva_id:
+    -
+      plugin: get
+      source: field_uva_id
+  field_blog:
+    -
+      plugin: field_link
+      source: field_blog
+      default_value: ''
+  field_publications:
+    -
+      plugin: field_link
+      source: field_publications
+      default_value: ''
+  field_image:
+    -
+      plugin: skip_on_empty
+      source: photo
+      method: process
+    -
+      plugin: get
+      source: photo
+    # -
+    #   plugin: entity_generate
+    #   source: photo
+    #   destination: file
+    #   file_validate: 'file_validate_extensions: "jpg jpeg png"'
+    #   reuse_existing: true
+    #   destination_field: uri
+    #   entity_type: file
+    # -
+    #   plugin: sub_process
+    #   source: photo
+    #   process:
+    #     target_id: fid
+    #     alt: alt
+    #     title: title
+    #     width: width
+    #     height: height
+    #   destination_field: field_image
+
+destination:
+  plugin: 'entity_complete:node'
+  translations: true
+  default_bundle: people
+migration_dependencies:
+  required:
+    - upgrade_d7_user
+    - upgrade_d7_node_type
+  optional:
+    - upgrade_d7_field_instance

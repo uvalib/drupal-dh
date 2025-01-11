@@ -1,0 +1,22 @@
+uuid: 92139356-4494-489f-a947-548d9d1aad3f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: courses
+label: Courses
+type: 'canonical_entities:node'
+pattern: 'course/[node:field_year:entity]/[node:field_department_or_school]/[node:field_course_mnemonic]'
+selection_criteria:
+  0011390e-6e06-4466-a958-3bffb690d108:
+    id: 'entity_bundle:node'
+    negate: false
+    uuid: 0011390e-6e06-4466-a958-3bffb690d108
+    context_mapping:
+      node: node
+    bundles:
+      course: course
+selection_logic: and
+weight: -5
+relationships: {  }

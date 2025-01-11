@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: provus_card_tall
+label: 'Card Tall'
+effects:
+  dcc91ff0-5452-4156-a5b8-b64d5ae001c3:
+    uuid: dcc91ff0-5452-4156-a5b8-b64d5ae001c3
+    id: image_scale_and_crop
+    weight: 1
+    data:
+      width: 334
+      height: 531
+      anchor: center-center

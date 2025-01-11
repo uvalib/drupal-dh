@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: provus_media_defaults_tablet_1x
+label: 'Media Defaults | Tablet | 1x'
+effects:
+  2370a761-1075-4f35-9413-0345a5be57a7:
+    uuid: 2370a761-1075-4f35-9413-0345a5be57a7
+    id: image_scale
+    weight: 1
+    data:
+      width: 522
+      height: 400
+      upscale: false

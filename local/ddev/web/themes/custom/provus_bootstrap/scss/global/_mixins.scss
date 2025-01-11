@@ -40,7 +40,7 @@ $rem-base: 16px;
 
 @mixin text-style-display-headline-display() {
   font-size: 80px;
-  font-family: "Inter";
+  font-family: "bodoni-urw";
   font-weight: 700;
   font-style: normal;
   line-height: 88px;
@@ -51,7 +51,7 @@ $rem-base: 16px;
 
 @mixin text-style-headline-h-1() {
   font-size: 60px;
-  font-family: "Inter";
+  font-family: "bodoni-urw";
   font-weight: 700;
   font-style: normal;
   line-height: 72px;
@@ -62,7 +62,7 @@ $rem-base: 16px;
 
 @mixin text-style-headline-h-2() {
   font-size: 48px;
-  font-family: "Inter";
+  font-family: "bodoni-urw";
   font-weight: 700;
   font-style: normal;
   line-height: 56px;
@@ -73,7 +73,7 @@ $rem-base: 16px;
 
 @mixin text-style-headline-h-3() {
   font-size: 36px;
-  font-family: "Inter";
+  font-family: "bodoni-urw";
   font-weight: 700;
   font-style: normal;
   line-height: 44px;
@@ -84,7 +84,7 @@ $rem-base: 16px;
 
 @mixin text-style-headline-h-4() {
   font-size: 24px;
-  font-family: "Inter";
+  font-family: "bodoni-urw";
   font-weight: 700;
   font-style: normal;
   line-height: 32px;
@@ -95,7 +95,7 @@ $rem-base: 16px;
 
 @mixin text-style-headline-h-5() {
   font-size: 20px;
-  font-family: "Inter";
+  font-family: "bodoni-urw";
   font-weight: 700;
   font-style: normal;
   line-height: 28px;
@@ -106,7 +106,7 @@ $rem-base: 16px;
 
 @mixin text-style-subheadline-sub-1() {
   font-size: 18px;
-  font-family: "Inter";
+  font-family: "franklin-gothic-urw";
   font-weight: 500;
   font-style: normal;
   line-height: 28px;
@@ -117,7 +117,7 @@ $rem-base: 16px;
 
 @mixin text-style-subheadline-sub-2() {
   font-size: 16px;
-  font-family: "Inter";
+  font-family: "franklin-gothic-urw";
   font-weight: 500;
   font-style: normal;
   line-height: 24px;
@@ -128,7 +128,7 @@ $rem-base: 16px;
 
 @mixin text-style-body-body-1() {
   font-size: 16px;
-  font-family: "Inter";
+  font-family: "franklin-gothic-urw";
   font-weight: 400;
   font-style: normal;
   line-height: 200%;
@@ -139,7 +139,7 @@ $rem-base: 16px;
 
 @mixin text-style-body-body-2() {
   font-size: 14px;
-  font-family: "Inter";
+  font-family: "franklin-gothic-urw";
   font-weight: 400;
   font-style: normal;
   line-height: 22px;
@@ -150,7 +150,7 @@ $rem-base: 16px;
 
 @mixin text-style-caption-caption-1() {
   font-size: 12px;
-  font-family: "Inter";
+  font-family: "franklin-gothic-urw";
   font-weight: 400;
   font-style: normal;
   line-height: 18px;
@@ -161,7 +161,7 @@ $rem-base: 16px;
 
 @mixin text-style-eyebrow-eyebrow-1() {
   font-size: 12px;
-  font-family: "Inter";
+  font-family: "franklin-gothic-urw";
   font-weight: 700;
   font-style: normal;
   line-height: 12px;
@@ -172,7 +172,7 @@ $rem-base: 16px;
 
 @mixin text-style-eyebrow-large() {
   font-size: 16px;
-  font-family: "Inter";
+  font-family: "franklin-gothic-urw";
   font-weight: 700;
   font-style: normal;
   line-height: 24px;
@@ -183,7 +183,7 @@ $rem-base: 16px;
 
 @mixin text-style-button-large() {
   font-size: 16px;
-  font-family: "Inter";
+  font-family: "franklin-gothic-urw";
   font-weight: 700;
   font-style: normal;
   line-height: 24px;
@@ -194,7 +194,7 @@ $rem-base: 16px;
 
 @mixin text-style-button-medium() {
   font-size: 14px;
-  font-family: "Inter";
+  font-family: "franklin-gothic-urw";
   font-weight: 700;
   font-style: normal;
   line-height: 16px;
@@ -205,7 +205,7 @@ $rem-base: 16px;
 
 @mixin text-style-button-small() {
   font-size: 13px;
-  font-family: "Inter";
+  font-family: "franklin-gothic-urw";
   font-weight: 700;
   font-style: normal;
   line-height: 12px;

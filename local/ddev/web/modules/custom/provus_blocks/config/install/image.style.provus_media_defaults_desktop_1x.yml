@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies: {  }
+name: provus_media_defaults_desktop_1x
+label: 'Media Defaults | Desktop | 1x'
+effects:
+  dae0ee10-3161-4fe1-85ed-6a7ff4e83fe9:
+    uuid: dae0ee10-3161-4fe1-85ed-6a7ff4e83fe9
+    id: image_scale
+    weight: 2
+    data:
+      width: 700
+      height: 533
+      upscale: false

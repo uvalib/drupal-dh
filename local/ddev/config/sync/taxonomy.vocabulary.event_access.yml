@@ -6,3 +6,4 @@ name: 'Event Access'
 vid: event_access
 description: 'Is this event being held in person, online, or as a hybrid?'
 weight: 0
+new_revision: false

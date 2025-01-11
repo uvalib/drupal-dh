@@ -1,0 +1,89 @@
+uuid: fe65c08f-3591-4225-82f6-cf62589de541
+langcode: en
+status: true
+dependencies: {  }
+id: upgrade_d7_taxonomy_term_department
+class: Drupal\migrate\Plugin\Migration
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - 'Drupal 7'
+  - Content
+migration_group: migrate_drupal7_taxonomy
+label: 'Taxonomy terms (Department)'
+source:
+  plugin: d7_taxonomy_term
+  bundle: department
+process:
+  tid:
+    -
+      plugin: get
+      source: tid
+  revision_id:
+    -
+      plugin: get
+      source: tid
+  vid:
+    -
+      plugin: migration_lookup
+      migration: upgrade_d7_taxonomy_vocabulary
+      source: vid
+  name:
+    -
+      plugin: get
+      source: name
+  description/value:
+    -
+      plugin: get
+      source: description
+  description/format:
+    -
+      plugin: get
+      source: format
+  weight:
+    -
+      plugin: get
+      source: weight
+  parent_id:
+    -
+      plugin: skip_on_empty
+      method: process
+      source: parent
+    -
+      plugin: migration_lookup
+      migration:
+        - upgrade_d7_taxonomy_term_tags
+        - upgrade_d7_taxonomy_term_relationship_types
+        - upgrade_d7_taxonomy_term_content_types
+        - upgrade_d7_taxonomy_term_alum_of
+        - upgrade_d7_taxonomy_term_department
+        - upgrade_d7_taxonomy_term_mao_schema
+        - upgrade_d7_taxonomy_term_technical_approach
+        - upgrade_d7_taxonomy_term_conceptual_difficulty
+        - upgrade_d7_taxonomy_term_technical_difficulty
+        - upgrade_d7_taxonomy_term_discipline
+        - upgrade_d7_taxonomy_term_university
+        - upgrade_d7_taxonomy_term_semester_term
+        - upgrade_d7_taxonomy_term_dh_certificate_eligibility
+  parent:
+    -
+      plugin: default_value
+      default_value: 0
+      source: '@parent_id'
+  changed:
+    -
+      plugin: get
+      source: timestamp
+  langcode:
+    -
+      plugin: get
+      source: language
+destination:
+  plugin: 'entity:taxonomy_term'
+  default_bundle: department
+migration_dependencies:
+  required:
+    - upgrade_d7_taxonomy_vocabulary
+  optional:
+    - upgrade_d7_field_instance
+    - upgrade_d7_taxonomy_vocabulary

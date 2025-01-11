@@ -1,0 +1,10 @@
+uuid: 91b9ee5a-1288-4c4b-92a9-514a78a3e88b
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: uEti1u63diDpsmDpDM7oi-cqY2PDV7BaMKC7eDD572o
+id: provus_views
+label: 'Views (Pre-configured Lists)'
+weight: -7
+opened: true

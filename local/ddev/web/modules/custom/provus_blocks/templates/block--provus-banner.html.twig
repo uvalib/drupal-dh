@@ -1,0 +1,118 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a block.
+ *
+ * Available variables:
+ * - plugin_id: The ID of the block implementation.
+ * - label: The configured label of the block if visible.
+ * - configuration: A list of the block's configuration values.
+ *   - label: The configured label for the block.
+ *   - label_display: The display settings for the label.
+ *   - provider: The module or other provider that provided this block plugin.
+ *   - Block plugin specific settings will also be stored here.
+ * - content: The content of this block.
+ * - attributes: array of HTML attributes populated by modules, intended to
+ *   be added to the main container tag of this template.
+ *   - id: A valid HTML ID and guaranteed unique.
+ * - title_attributes: Same as attributes, except applied to the main title
+ *   tag that appears in the template.
+ * - content_attributes: Same as attributes, except applied to the main content
+ *   tag that appears in the template.
+ * - title_prefix: Additional output populated by modules, intended to be
+ *   displayed in front of the main title tag that appears in the template.
+ * - title_suffix: Additional output populated by modules, intended to be
+ *   displayed after the main title tag that appears in the template.
+ *
+ * @see template_preprocess_block()
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set classes = [
+  'block',
+  'block-' ~ configuration.provider|clean_class,
+  'block-' ~ plugin_id|clean_class,
+  'banner',
+]
+%}
+<div{{ attributes.addClass(classes) }}>
+  {{ title_prefix }}
+  {% if label %}
+    <h2{{ title_attributes }}>{{ label }}</h2>
+  {% endif %}
+  {{ title_suffix }}
+  {% block content %}
+    {% if content.field_provus_short_banner[0]['#markup'] == 'true' %}
+      <div class="smaller-banner">
+    {% endif %}
+    {% if content.field_provus_image_position[0]['#markup'] == 'full' %}
+      <div class="banner-color-{{ content.field_provus_background_color[0]['#markup'] }} banner-background image-full">
+    {% elseif content.field_provus_image_position[0]['#markup'] == 'left' %}
+      <div class="banner-color-{{ content.field_provus_background_color[0]['#markup'] }} banner-background image-left">
+    {% elseif content.field_provus_image_position[0]['#markup'] == 'right' %}
+      <div class="banner-color-{{ content.field_provus_background_color[0]['#markup'] }} banner-background image-right">
+    {% endif %}
+      {% if content.field_provus_image_position[0]['#markup'] == 'left' or  content.field_provus_image_position[0]['#markup'] == 'right' %}
+        <div class="container">
+          <div{{ content_attributes.addClass('banner-inner row') }}>
+      {% else %}
+        <div{{ content_attributes.addClass('banner-inner') }}>
+      {% endif %}
+          {% if content.field_provus_media_image|render %}
+            {% if content.field_provus_image_position[0]['#markup'] == 'left' %}
+              <div class="banner-img col-md-4">
+            {% elseif content.field_provus_image_position[0]['#markup'] == 'right' %}
+              <div class="banner-img col-md-4 order-2">
+            {% else %}
+              <div class="banner-img">
+            {% endif %}
+              {% if content.field_provus_image_position[0]['#markup'] == 'left' or  content.field_provus_image_position[0]['#markup'] == 'right' %}
+              <img src="{{ content.field_provus_media_image[0]['#media'].field_media_image.entity.uri.value | image_style('banner_align_left_right') }}">
+              {% else %}
+              {{ content.field_provus_media_image }}
+              {% endif %}
+            </div>
+          {% endif %}
+        {% if content.field_provus_image_position[0]['#markup'] == 'left' or  content.field_provus_image_position[0]['#markup'] == 'right' %}
+        <div class="banner-content col-md-8">
+        {% else %}
+        <div class="banner-content">
+        {% endif %}
+          <div class="container">
+            <div class="row">
+              {% if content.field_provus_image_position[0]['#markup'] == 'full' %}
+                <div class="col-sm-12 col-md-8 col-lg-6">
+              {% else %}
+                <div class="col-md-12">
+              {% endif %}
+                {% if content.field_provus_sub_title %}
+                  <div class="subheading">
+                    {{ content.field_provus_sub_title }}
+                  </div>
+                {% endif %}
+                {% if content.field_provus_title %}
+                  <h1 class="banner-title">{{ content.field_provus_title }}</h1>
+                {% endif %}
+                {% if content.field_provus_body %}
+                  <div class="banner-body">{{ content.field_provus_body }}</div>
+                {% endif %}
+                {% if content.field_provus_links %}
+                  <div class="banner-links">{{ content.field_provus_links }}</div>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+      {% if content.field_provus_image_position[0]['#markup'] == 'left' or  content.field_provus_image_position[0]['#markup'] == 'right' %}
+        </div>
+      {% endif %}
+    </div>
+    </div>
+    {% if content.field_provus_short_banner.value == 'true' %}
+      </div>
+    {% endif %}
+  {% endblock %}
+</div>
+

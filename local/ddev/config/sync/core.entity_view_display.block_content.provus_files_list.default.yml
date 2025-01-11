@@ -1,0 +1,33 @@
+uuid: b3ae856d-79d0-4b0b-b9f6-638355d2d5e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - block_content.type.provus_files_list
+    - field.field.block_content.provus_files_list.field_provus_media_files
+    - field.field.block_content.provus_files_list.field_provus_title
+_core:
+  default_config_hash: Bf2OQ_bd68wQEytP9bAKMBWjq38w8EUhw5VmC_foA_w
+id: block_content.provus_files_list.default
+targetEntityType: block_content
+bundle: provus_files_list
+mode: default
+content:
+  field_provus_media_files:
+    type: entity_reference_entity_view
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_provus_title:
+    type: string
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }

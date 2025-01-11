@@ -1,4 +1,4 @@
-uuid: a382cced-e829-43b6-a360-51037aab0363
+uuid: 9cd58fee-ffc2-45df-890f-cc379a8780a4
 langcode: en
 status: true
 dependencies:
@@ -10,7 +10,7 @@ _core:
   default_config_hash: yEBET0cqDbk8dkWzaJw-8CKft0961VBflsISoSR6Lj8
 id: provus_bootstrap_search_form_narrow
 theme: provus_bootstrap
-region: header_form
+region: secondary_menu
 weight: -7
 provider: null
 plugin: search_form_block

@@ -11,11 +11,10 @@ dependencies:
     - field.field.node.resource.field_image
     - field.field.node.resource.field_link_to_more_information
     - field.field.node.resource.field_sponsor
-    - image.style.wide
     - node.type.resource
   module:
-    - image
     - link
+    - responsive_image
     - text
     - user
 id: node.resource.default
@@ -63,11 +62,11 @@ content:
     weight: 8
     region: content
   field_image:
-    type: image
+    type: responsive_image
     label: hidden
     settings:
+      responsive_image_style: ''
       image_link: ''
-      image_style: wide
       image_loading:
         attribute: eager
     third_party_settings: {  }
@@ -98,4 +97,6 @@ content:
     third_party_settings: {  }
     weight: 4
     region: content
-hidden: {  }
+hidden:
+  addtoany: true
+  breadcrumbs: true

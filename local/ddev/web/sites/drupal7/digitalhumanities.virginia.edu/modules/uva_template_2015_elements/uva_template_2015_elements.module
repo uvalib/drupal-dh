@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the UVA Template 2015 Elements feature.
+ */
+
+include_once 'uva_template_2015_elements.features.inc';

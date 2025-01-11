@@ -1,4 +1,5 @@
 /* Start your theming below this line */
+
 H1 {
     color: #1a4c7e;
     font-size: 48px;
@@ -22,4 +23,13 @@ color: #1a4c7e;
 }
 .views-exposed-form .js-form-item{
     width: 100%;
+}
+
+/* Admin fixes */
+.layout-builder-active #drupal-off-canvas .block-categories details .details-wrapper a {
+    display: block;
+}
+
+#drupal-off-canvas-wrapper .ui-dialog-titlebar-close {
+    color: black;
 }

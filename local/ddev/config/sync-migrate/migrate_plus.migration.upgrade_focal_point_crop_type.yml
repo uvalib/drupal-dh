@@ -1,0 +1,63 @@
+uuid: 43d7ea3c-1eef-4acd-8b95-b6c72d0c41a5
+langcode: en
+status: true
+dependencies: {  }
+id: upgrade_focal_point_crop_type
+class: Drupal\migrate\Plugin\Migration
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - 'Drupal 7'
+  - Configuration
+migration_group: migrate_drupal_7
+label: 'Focal Point crop type'
+source:
+  plugin: md_empty
+  source_module: focal_point
+  constants:
+    label: 'Focal point'
+    id: focal_point
+    description: 'Crop type used by Focal point module.'
+    aspect_ratio: ''
+    soft_limit_width: null
+    soft_limit_height: null
+    hard_limit_width: null
+    hard_limit_height: null
+process:
+  label:
+    -
+      plugin: get
+      source: constants/label
+  id:
+    -
+      plugin: get
+      source: constants/id
+  description:
+    -
+      plugin: get
+      source: constants/description
+  aspect_ratio:
+    -
+      plugin: get
+      source: constants/aspect_ratio
+  soft_limit_width:
+    -
+      plugin: get
+      source: constants/soft_limit_width
+  soft_limit_height:
+    -
+      plugin: get
+      source: constants/soft_limit_height
+  hard_limit_width:
+    -
+      plugin: get
+      source: constants/hard_limit_width
+  hard_limit_height:
+    -
+      plugin: get
+      source: constants/hard_limit_height
+destination:
+  plugin: 'entity:crop_type'
+migration_dependencies:
+  required: {  }
+  optional: {  }

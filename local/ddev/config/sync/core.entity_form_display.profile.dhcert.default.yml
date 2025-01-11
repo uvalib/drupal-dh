@@ -1,0 +1,44 @@
+uuid: 2b765f56-d84e-4310-bb3e-922ae64fc0af
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.profile.dhcert.field_name
+    - field.field.profile.dhcert.field_personal_statement
+    - field.field.profile.dhcert.field_personal_statement_video
+    - profile.type.dhcert
+  module:
+    - media_library
+    - text
+id: profile.dhcert.default
+targetEntityType: profile
+bundle: dhcert
+mode: default
+content:
+  field_name:
+    type: string_textfield
+    weight: 26
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_personal_statement:
+    type: text_textarea_with_summary
+    weight: 27
+    region: content
+    settings:
+      rows: 9
+      summary_rows: 3
+      placeholder: ''
+      show_summary: false
+    third_party_settings: {  }
+  field_personal_statement_video:
+    type: media_library_widget
+    weight: 28
+    region: content
+    settings:
+      media_types: {  }
+    third_party_settings: {  }
+hidden:
+  is_default: true

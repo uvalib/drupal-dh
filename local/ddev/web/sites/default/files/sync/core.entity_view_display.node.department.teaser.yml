@@ -1,0 +1,34 @@
+uuid: 14048804-48da-41df-afde-ad0d0897331a
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.department.body
+    - field.field.node.department.field_link_to_department_web_pag
+    - field.field.node.department.field_title
+    - node.type.department
+  module:
+    - text
+    - user
+id: node.department.teaser
+targetEntityType: node
+bundle: department
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_link_to_department_web_pag: true
+  field_title: true

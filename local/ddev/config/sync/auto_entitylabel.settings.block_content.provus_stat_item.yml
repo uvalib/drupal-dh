@@ -1,0 +1,11 @@
+_core:
+  default_config_hash: PL77AHGemqCmap8X5JouvlqAAFrvIDDKVfZIFnbFI0A
+status: 1
+pattern: '[block_content:field_provus_title] (Stat Item) - [random:number]'
+escape: false
+preserve_titles: false
+save: false
+chunk: 50
+dependencies:
+  config:
+    - block_content.type.provus_stat_item

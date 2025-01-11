@@ -1,0 +1,9 @@
+uuid: 22584665-7ca5-459d-8a28-41132a7baac3
+langcode: en
+status: true
+dependencies: {  }
+name: 'DH Certificate Status'
+vid: dh_certificate_status
+description: 'relation to DH Certificate'
+weight: 0
+new_revision: false

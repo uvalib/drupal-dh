@@ -1,0 +1,23 @@
+uuid: 7e5217ee-ea49-4ad4-b486-cdc13945607b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_link_to_uva_sis_listing
+    - node.type.course
+  module:
+    - link
+id: node.course.field_link_to_uva_sis_listing
+field_name: field_link_to_uva_sis_listing
+entity_type: node
+bundle: course
+label: 'link to UVA SIS listing'
+description: 'in SIS, click on a course listing > "Additional Actions"  (top right 3 dots) > "share" > copy link and paste here'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 16
+field_type: link

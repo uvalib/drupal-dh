@@ -1,0 +1,11 @@
+uuid: 2e40e2c8-c1c4-4144-83e6-f5177fcf6cf5
+langcode: en
+status: true
+dependencies: {  }
+id: course_list
+block_id: 'views_block:dh_course_list-block_1'
+category: provus_views
+label: 'Course list'
+image_path: ''
+image_alt: ''
+weight: -100

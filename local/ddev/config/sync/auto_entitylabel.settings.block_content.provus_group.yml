@@ -1,0 +1,11 @@
+_core:
+  default_config_hash: svdLTdWfvLyFa6bIihLeaHQ3uTZq_BWE2VZQzNGgfIo
+status: 1
+pattern: '[block_content:field_provus_title] (Group) - [random:number]'
+escape: false
+preserve_titles: false
+save: false
+chunk: 50
+dependencies:
+  config:
+    - block_content.type.provus_group

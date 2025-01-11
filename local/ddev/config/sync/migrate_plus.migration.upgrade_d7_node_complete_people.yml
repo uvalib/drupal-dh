@@ -1,0 +1,68 @@
+uuid: 29ec73ad-25b8-47e4-b085-60dd77f65000
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: PJU7_-bcd7E4O_hfXxGnY_qM_Px4aHoJ72WiAz_5df8
+id: upgrade_d7_node_complete_people
+class: Drupal\node\Plugin\migrate\D7NodeTranslation
+field_plugin_method: null
+cck_plugin_method: null
+migration_tags:
+  - 'Drupal 7'
+  - Content
+migration_group: migrate_d7_content
+label: 'Node complete (Profile)'
+source:
+  plugin: upgrade_d7_node_complete_people
+  node_type: people
+process:
+  nid: nid
+  vid: vid
+  langcode:
+    plugin: default_value
+    source: language
+    default_value: und
+  type:
+    plugin: default_value
+    default_value: people
+  title:
+    plugin: get
+    source: title
+  uid:
+    plugin: migration_lookup
+    migration: upgrade_d7_user
+    source: uid
+  status:
+    plugin: get
+    source: status
+  created:
+    plugin: get
+    source: created
+  changed:
+    plugin: get
+    source: changed
+  body/value:
+    plugin: get
+    source: body
+  body/format:
+    plugin: default_value
+    default_value: full_html
+  field_user_email:
+    -
+      plugin: sub_process
+      source: email
+      process:
+        -
+          plugin: get
+          source: '@source'
+destination:
+  plugin: 'entity_complete:node'
+  translations: true
+  default_bundle: people
+migration_dependencies:
+  required:
+    - upgrade_d7_user
+    - upgrade_d7_node_type
+  optional:
+    - upgrade_d7_field_instance

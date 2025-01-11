@@ -8,6 +8,7 @@ dependencies:
     - field.field.node.organization.field_contact_person
     - field.field.node.organization.field_image
     - field.field.node.organization.field_link_to_more_information
+    - field.field.node.organization.field_org_title
     - field.field.node.organization.field_uva_or_non_uva
     - image.style.thumbnail
     - node.type.organization
@@ -73,6 +74,14 @@ content:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
+  field_org_title:
+    type: text_textfield
+    weight: 124
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
   field_uva_or_non_uva:
     type: entity_reference_autocomplete
     weight: 122
@@ -127,5 +136,10 @@ content:
       match_limit: 10
       size: 60
       placeholder: ''
+    third_party_settings: {  }
+  url_redirects:
+    weight: 50
+    region: content
+    settings: {  }
     third_party_settings: {  }
 hidden: {  }
