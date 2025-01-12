@@ -4,7 +4,7 @@ dashboard:
     theme:
       css/dh-dashboard.css: {}
   js:
-    js/dh-dashboard.js: {}
+    js/dashboard.js: {}
     js/news-pager.js: {}
   dependencies:
     - core/drupal

@@ -39,12 +39,6 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'dh-dashboard-page',
     ],
-    'dh_student_dashboard' => [
-      'variables' => [
-        'content' => NULL,
-      ],
-      'template' => 'dh-student-dashboard',
-    ],
     'node__dh_dashboard__default' => [
       'template' => 'node--dh-dashboard--default',
       'base hook' => 'node',
@@ -75,12 +69,92 @@ function dh_dashboard_preprocess_node(&$variables) {
 }
 
 /**
- * Implements hook_preprocess_block().
+ * Implements hook_preprocess_HOOK() for block templates.
  */
 function dh_dashboard_preprocess_block(&$variables) {
   if (strpos($variables['plugin_id'], 'dh_dashboard_') === 0) {
     $variables['#attached']['library'][] = 'dh_dashboard/dashboard';
+
+    if (isset($variables['content']['#progress'])) {
+      $progress = $variables['content']['#progress'];
+      $total = $progress['total'];
+      $completed = $progress['completed'];
+      $in_progress = isset($progress['in_progress']) ? $progress['in_progress'] : 0;
+
+      // Debugging lines to check values
+      \Drupal::logger('dh_dashboard')->debug('Total: @total, Completed: @completed, In Progress: @in_progress', [
+        '@total' => $total,
+        '@completed' => $completed,
+        '@in_progress' => $in_progress,
+      ]);
+
+      $variables['content']['#progress']['completed_percentage'] = ($total > 0) ? ($completed / $total) * 100 : 0;
+      $variables['content']['#progress']['in_progress_percentage'] = ($total > 0) ? ($in_progress / $total) * 100 : 0;
+
+      // Additional debug to check calculated percentages
+      \Drupal::logger('dh_dashboard')->debug('Completed Percentage: @completed_percentage, In Progress Percentage: @in_progress_percentage', [
+        '@completed_percentage' => $variables['content']['#progress']['completed_percentage'],
+        '@in_progress_percentage' => $variables['content']['#progress']['in_progress_percentage'],
+      ]);
+    }
   }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for dh_dashboard_progress templates.
+ */
+function dh_dashboard_preprocess_dh_dashboard_progress(&$variables) {
+  // Fetch mock progress data
+  $progress = fetch_mock_progress_data();
+
+  // Calculate total, completed, in-progress, not-started, and registered counts
+  $progress['total'] = count($progress['courses']);
+  $progress['completed'] = count(array_filter($progress['courses'], function($course) {
+    return $course['status_class'] === 'course-status--completed';
+  }));
+  $progress['in_progress'] = count(array_filter($progress['courses'], function($course) {
+    return $course['status_class'] === 'course-status--in-progress';
+  }));
+  $progress['not_started'] = count(array_filter($progress['courses'], function($course) {
+    return $course['status_class'] === 'course-status--not-started';
+  }));
+  $progress['registered'] = count(array_filter($progress['courses'], function($course) {
+    return $course['status_class'] === 'course-status--registered';
+  }));
+
+  // Ensure the progress data is correctly set
+  $progress['completed_percentage'] = ($progress['total'] > 0) ? ($progress['completed'] / $progress['total']) * 100 : 0;
+  $progress['in_progress_percentage'] = ($progress['total'] > 0) ? ($progress['in_progress'] / $progress['total']) * 100 : 0;
+  $progress['not_started_percentage'] = ($progress['total'] > 0) ? ($progress['not_started'] / $progress['total']) * 100 : 0;
+  $progress['registered_percentage'] = ($progress['total'] > 0) ? ($progress['registered'] / $progress['total']) * 100 : 0;
+
+  // Debugging lines to check values
+  \Drupal::logger('dh_dashboard')->debug('Progress Data: @progress', [
+    '@progress' => print_r($progress, TRUE),
+  ]);
+
+  $variables['progress'] = $progress;
+}
+
+/**
+ * Fetch mock progress data.
+ */
+function fetch_mock_progress_data() {
+  // Mock data mimicking real data
+  return [
+    'title' => 'Course Progress',
+    'courses' => [
+      ['name' => 'Introduction to Digital Humanities', 'mnemonic' => 'HIST', 'number' => '102', 'year' => 2023, 'semester' => 'Fall', 'status_class' => 'course-status--completed', 'status_text' => 'Completed', 'icon' => 'check', 'type' => 'required'],
+      ['name' => 'Advanced Text Analysis', 'mnemonic' => 'DSCI', 'number' => '1203', 'year' => 2023, 'semester' => 'Spring', 'status_class' => 'course-status--in-progress', 'status_text' => 'In Progress', 'icon' => 'hourglass-half', 'type' => 'elective'],
+      ['name' => 'Digital Archives and Databases', 'mnemonic' => 'HIST', 'number' => '210', 'year' => 2022, 'semester' => 'Fall', 'status_class' => 'course-status--completed', 'status_text' => 'Completed', 'icon' => 'check', 'type' => 'core'],
+      ['name' => 'Geospatial Analysis', 'mnemonic' => 'GEOG', 'number' => '305', 'year' => 2023, 'semester' => 'Spring', 'status_class' => 'course-status--in-progress', 'status_text' => 'In Progress', 'icon' => 'hourglass-half', 'type' => 'elective'],
+      ['name' => 'Data Visualization', 'mnemonic' => 'DSCI', 'number' => '220', 'year' => 2022, 'semester' => 'Fall', 'status_class' => 'course-status--completed', 'status_text' => 'Completed', 'icon' => 'check', 'type' => 'required'],
+      ['name' => 'Introduction to Programming', 'mnemonic' => 'CSCI', 'number' => '101', 'year' => 2023, 'semester' => 'Fall', 'status_class' => 'course-status--not-started', 'icon' => 'times', 'type' => 'required'],
+      ['name' => 'Machine Learning Basics', 'mnemonic' => 'DSCI', 'number' => '330', 'year' => 2023, 'semester' => 'Spring', 'status_class' => 'course-status--not-started', 'icon' => 'times', 'type' => 'elective'],
+      ['name' => 'Introduction to Data Science', 'mnemonic' => 'DSCI', 'number' => '101', 'year' => 2023, 'semester' => 'Fall', 'status_class' => 'course-status--registered', 'status_text' => 'Registered', 'icon' => 'calendar-check', 'type' => 'required'],
+      // ... more courses
+    ],
+  ];
 }
 
 /**
@@ -91,5 +165,12 @@ function dh_dashboard_theme_suggestions_node_alter(array &$suggestions, array $v
   if ($node->bundle() == 'dh_dashboard') {
     $suggestions[] = 'node__dh_dashboard__' . $variables['elements']['#view_mode'];
   }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function dh_dashboard_page_attachments(array &$attachments) {
+  $attachments['#attached']['library'][] = 'dh_dashboard/dashboard';
 }
 

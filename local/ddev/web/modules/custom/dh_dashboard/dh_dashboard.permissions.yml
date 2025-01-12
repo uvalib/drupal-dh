@@ -3,15 +3,19 @@ access dh admin dashboard:
   description: 'View and interact with the Digital Humanities Administrative Dashboard'
   restrict access: true
 
-access dh student dashboard:
-  title: 'Access DH Student Dashboard'
-  description: 'View and interact with the Digital Humanities Student Dashboard'
-
 access dh dashboard:
   title: 'Access DH Dashboard'
   description: 'View the Digital Humanities Dashboard'
 
 administer dh dashboard:
   title: 'Administer DH Dashboard'
-  description: 'Allow users to configure and manage the dashboard layout and settings.'
+  description: 'Manage dashboard settings and content'
   restrict access: true
+
+edit dh dashboard:
+  title: 'Edit DH Dashboard'
+  description: 'Edit dashboard content and layout'
+
+view dh dashboard:
+  title: 'View DH Dashboard'
+  description: 'Access dashboard content'

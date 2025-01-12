@@ -1,29 +1,38 @@
 {# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-dashboard-progress.html.twig #}
-<div{{ attributes.addClass('dh-progress-block') }}>
-  <h2>{{ 'Certificate Progress'|t }}</h2>
-  <div class="progress-grid">
-    <div class="dh-card progress-overview">
-      <h3 class="card-title"><i class="fas fa-chart-pie"></i> {{ 'Overall Progress'|t }}</h3>
+<div{{ attributes.addClass('dh-dashboard') }} data-completed-percentage="{{ progress.completed_percentage }}" data-in-progress-percentage="{{ progress.in_progress_percentage }}">
+  <div class="progress-card">
+    <h2>{{ progress.title }}</h2>
+    
+    <div class="progress-overview">
       <div class="progress-bar">
-        <div class="progress-fill" style="width: {{ progress.percentage }}%"></div>
+        <div class="progress-fill completed" style="width: {{ progress.completed_percentage }}%"></div>
+        <div class="progress-fill in-progress" style="width: {{ progress.in_progress_percentage }}%; left: {{ progress.completed_percentage }}%"></div>
       </div>
       <div class="progress-stats">
-        <span>{{ progress.completed }} / {{ progress.total }} credits completed</span>
-        <span class="percentage">{{ progress.percentage }}%</span>
+        {{ progress.completed }} of {{ progress.total }} courses completed ({{ progress.completed_percentage }}% completed, {{ progress.in_progress_percentage }}% in progress)
       </div>
     </div>
 
-    <div class="courses-list">
-      {% for course in progress.courses %}
-        <div class="dh-card course-item {{ course.status_class }}">
-          <h3 class="card-title">
-            <i class="fas fa-{{ course.icon }}"></i> {{ course.name }}
-          </h3>
-          <div class="card-meta">
-            <span class="status-badge">{{ course.status|replace({'_': ' '})|title }}</span>
+    <div class="course-list-card">
+      <div class="course-list">
+        {% for course in progress.courses %}
+          <div class="course-item {{ course.status_class }}" style="border: 0.5px solid {{ course.status_color }}">
+            <div class="course-header">
+              <span class="course-icon">
+                <i class="fas fa-{{ course.icon }}"></i>
+              </span>
+              <span class="course-details">{{ course.year }} {{ course.semester }} {{ course.mnemonic }} {{ course.number }}</span>
+              {% if course.status_text %}
+                <span class="course-status-badge">{{ course.status_text }}</span>
+              {% endif %}
+            </div>
+            <div class="course-body">
+              <span class="course-name">{{ course.name }}</span>
+              <span class="course-type">{{ course.type | capitalize }}</span>
+            </div>
           </div>
-        </div>
-      {% endfor %}
+        {% endfor %}
+      </div>
     </div>
   </div>
 </div>

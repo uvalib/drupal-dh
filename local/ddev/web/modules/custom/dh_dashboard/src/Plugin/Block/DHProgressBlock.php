@@ -34,28 +34,52 @@ class DHProgressBlock extends BlockBase {
   }
 
   protected function getProgress() {
+    // Calculate total completed based on course statuses
+    $courses = [
+      [
+        'name' => 'Introduction to Digital Humanities',
+        'status' => 'completed',
+        'status_class' => 'course-status--completed',
+        'type' => 'required',
+        'icon' => 'check-circle',
+      ],
+      [
+        'name' => 'Data Visualization Methods',
+        'status' => 'in_progress',
+        'status_class' => 'course-status--in-progress',
+        'type' => 'core',
+        'icon' => 'clock',
+      ],
+      [
+        'name' => 'Digital Archives and Preservation',
+        'status' => 'in_progress',
+        'status_class' => 'course-status--in-progress',
+        'type' => 'required',
+        'icon' => 'clock',
+      ],
+      [
+        'name' => 'Advanced Text Analysis',
+        'status' => 'not_started',
+        'status_class' => 'course-status--not-started',
+        'type' => 'elective',
+        'icon' => 'circle',
+      ],
+    ];
+
+    $completed = count(array_filter($courses, function($course) {
+      return $course['status'] === 'completed';
+    }));
+
     return [
-      'completed' => 20,
-      'total' => 62,
-      'percentage' => 32,
+      'completed' => $completed,
+      'total' => count($courses),
+      'percentage' => round(($completed / count($courses)) * 100),
       'status_class' => 'progress-status--in-progress',
-      'courses' => [
-        [
-          'name' => 'DH 101',
-          'status' => 'completed',
-          'status_class' => 'course-status--completed',
-          'icon' => 'check-circle',
-        ],
-        [
-          'name' => 'DH 201',
-          'status' => 'in_progress',
-          'status_class' => 'course-status--in-progress',
-          'icon' => 'clock',
-        ],
-      ],
+      'courses' => $courses,
       'attributes' => [
-        'class' => ['dh-progress-block', 'block-spacing'],
+        'class' => ['dh-progress-block', 'block-spacing', 'single-card'],
       ],
+      'title' => 'Certificate Progress',
     ];
   }
 }

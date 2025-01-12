@@ -9,3 +9,11 @@ dependencies:
   - drupal:layout_builder
   - drupal:views
   - drupal:menu_ui
+
+libraries:
+  dh_dashboard/global:
+    js:
+      js/news-pager.js: {}
+      js/dashboard.js: {}
+    dependencies:
+      - core/jquery

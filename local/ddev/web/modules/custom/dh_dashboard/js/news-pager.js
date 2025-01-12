@@ -3,58 +3,56 @@
 
   Drupal.behaviors.dhDashboardNewsPager = {
     attach: function (context, settings) {
-      once('dhDashboardNewsPager', '.block-dh-dashboard-news', context).forEach(function (element) {
-        const container = $(element).find('.news-items-container');
+      console.log('Pager behavior attached'); // Debug line
+      
+      once('dhDashboardNewsPager', '.news-items-container', context).forEach(function (element) {
+        console.log('Processing news container'); // Debug line
+        const container = $(element);
         const newsItems = container.find('.news-item');
         const itemsPerPage = 3;
-        let currentPage = 1;
         const totalPages = Math.ceil(newsItems.length / itemsPerPage);
 
-        // Create pager elements
-        const pager = $('<div class="news-pager"></div>');
-        const prevButton = $('<button class="news-pager__button news-pager__prev">&laquo; Previous</button>');
-        const nextButton = $('<button class="news-pager__button news-pager__next">Next &raquo;</button>');
-        const pageInfo = $('<span class="news-pager__info"></span>');
+        console.log(`Found ${newsItems.length} items, ${totalPages} pages`); // Debug line
 
-        // Add pager to DOM
-        pager.append(prevButton).append(pageInfo).append(nextButton);
+        if (newsItems.length <= itemsPerPage) {
+          console.log('Not enough items for pagination'); // Debug line
+          return;
+        }
+
+        // Create and add pager
+        const pager = $(`
+          <div class="news-pager">
+            <button class="news-pager__button news-pager__prev" disabled>&laquo; Previous</button>
+            <span class="news-pager__info">Page 1 of ${totalPages}</span>
+            <button class="news-pager__button news-pager__next">Next &raquo;</button>
+          </div>
+        `);
+        
         container.after(pager);
+        
+        let currentPage = 1;
 
         function showPage(page) {
-          const start = (page - 1) * itemsPerPage;
-          const end = start + itemsPerPage;
-
           newsItems.hide();
-          newsItems.slice(start, end).show();
-
-          // Update buttons state
-          prevButton.prop('disabled', page === 1);
-          nextButton.prop('disabled', page === totalPages);
+          newsItems.slice((page - 1) * itemsPerPage, page * itemsPerPage).show();
           
-          // Update page info
-          pageInfo.text(`Page ${page} of ${totalPages}`);
+          pager.find('.news-pager__prev').prop('disabled', page === 1);
+          pager.find('.news-pager__next').prop('disabled', page === totalPages);
+          pager.find('.news-pager__info').text(`Page ${page} of ${totalPages}`);
+          
           currentPage = page;
         }
 
-        // Event handlers
-        prevButton.on('click', function() {
-          if (currentPage > 1) {
-            showPage(currentPage - 1);
-          }
+        pager.on('click', '.news-pager__prev', function() {
+          if (currentPage > 1) showPage(currentPage - 1);
         });
 
-        nextButton.on('click', function() {
-          if (currentPage < totalPages) {
-            showPage(currentPage + 1);
-          }
+        pager.on('click', '.news-pager__next', function() {
+          if (currentPage < totalPages) showPage(currentPage + 1);
         });
 
-        // Initialize first page
-        if (newsItems.length > itemsPerPage) {
-          showPage(1);
-        } else {
-          pager.hide();
-        }
+        // Initialize
+        showPage(1);
       });
     }
   };
