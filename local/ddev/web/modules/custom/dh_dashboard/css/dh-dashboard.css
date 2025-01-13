@@ -631,3 +631,33 @@ a.resource-item:hover .card-title {
   border-radius: 8px;
   cursor: pointer;
 }
+
+/* Accordion toggle button */
+.accordion-toggle {
+  cursor: pointer;
+  margin-left: 1rem;
+  font-size: 1.3em; /* Adjusted size */
+  color: #0066cc;
+  transition: color 0.3s ease;
+}
+
+.accordion-toggle svg {
+  font-size: 0.875em; /* Adjusted size */
+  transition: transform 0.3s ease;
+}
+
+.accordion-toggle svg.rotated {
+  transform: rotate(90deg);
+}
+
+.accordion-toggle:hover {
+  color: #005bb5;
+}
+
+.user-card.expanded .accordion-toggle i {
+  transform: rotate(90deg);
+}
+
+.accordion-toggle:hover {
+  color: #005bb5;
+}

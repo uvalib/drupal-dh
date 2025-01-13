@@ -4,7 +4,7 @@
   Drupal.behaviors.dhDashboard = {
     attach: function (context, settings) {
       console.log('Dashboard behavior attached'); // Debug line
-      once('dhDashboard', '.dh-dashboard', context).forEach(function (element) {
+      once('dhDashboard', '.dashboard-page', context).forEach(function (element) {
         // Dashboard initialization code can go here
         console.log('Initializing dashboard'); // Debug line
 
@@ -67,6 +67,23 @@
 
         // Log the entire element data for debugging
         // console.log('Element data:', $(element).data()); // Debug line
+
+        // Accordion functionality
+        const userCard = $(element).find('.user-card');
+        console.log('User card found:', userCard.length); // Debug line
+
+        const accordionToggle = userCard.find('.accordion-toggle');
+        console.log('Accordion toggle found:', accordionToggle.length); // Debug line
+
+        accordionToggle.on('click', function() {
+          console.log('Accordion toggle clicked'); // Debug line
+          const details = $(this).closest('.user-card').find('.profile-details');
+          console.log('Profile details found:', details.length); // Debug line
+          details.slideToggle();
+          const icon = $(this).find('svg');
+          icon.toggleClass('rotated');
+          console.log('Icon classes:', icon.attr('class')); // Debug line
+        });
       });
     }
   };
