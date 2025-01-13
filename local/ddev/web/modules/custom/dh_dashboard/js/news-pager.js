@@ -3,19 +3,19 @@
 
   Drupal.behaviors.dhDashboardNewsPager = {
     attach: function (context, settings) {
-      console.log('Pager behavior attached'); // Debug line
+      // console.log('Pager behavior attached'); // Debug line
       
       once('dhDashboardNewsPager', '.news-items-container', context).forEach(function (element) {
-        console.log('Processing news container'); // Debug line
+        // console.log('Processing news container'); // Debug line
         const container = $(element);
         const newsItems = container.find('.news-item');
         const itemsPerPage = 3;
         const totalPages = Math.ceil(newsItems.length / itemsPerPage);
 
-        console.log(`Found ${newsItems.length} items, ${totalPages} pages`); // Debug line
+        // console.log(`Found ${newsItems.length} items, ${totalPages} pages`); // Debug line
 
         if (newsItems.length <= itemsPerPage) {
-          console.log('Not enough items for pagination'); // Debug line
+          // console.log('Not enough items for pagination'); // Debug line
           return;
         }
 

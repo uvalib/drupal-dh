@@ -174,3 +174,87 @@ function dh_dashboard_page_attachments(array &$attachments) {
   $attachments['#attached']['library'][] = 'dh_dashboard/dashboard';
 }
 
+/**
+ * Implements hook_preprocess_HOOK() for dh_dashboard_page templates.
+ */
+function dh_dashboard_preprocess_dh_dashboard_page(&$variables) {
+  $current_user = \Drupal::currentUser();
+  $user = \Drupal\user\Entity\User::load($current_user->id());
+
+  // Check if the Profile module is enabled and the user has a profile
+  if (\Drupal::moduleHandler()->moduleExists('profile')) {
+    $profile = \Drupal::entityTypeManager()->getStorage('profile')->loadByUser($user, 'dhcert');
+    if ($profile && $profile->hasField('field_full_name') && !$profile->get('field_full_name')->isEmpty()) {
+      $full_name = $profile->get('field_full_name')->value;
+    } else {
+      $full_name = $user->getDisplayName();
+    }
+
+    $profile_data = $profile ? $profile->toArray() : NULL;
+    $profile_id = $profile ? $profile->id() : NULL;
+
+    // Load the video URL and thumbnail URL from the media entity
+    $video_url = NULL;
+    $video_thumbnail_url = NULL;
+    if ($profile && $profile->hasField('field_personal_statement_video') && !$profile->get('field_personal_statement_video')->isEmpty()) {
+      $video_target_id = $profile->get('field_personal_statement_video')->target_id;
+      $video_entity = \Drupal::entityTypeManager()->getStorage('media')->load($video_target_id);
+
+      // Remove kint debugging
+      // kint($video_entity);
+
+      if ($video_entity && $video_entity->hasField('field_media_video_file')) {
+        $file = $video_entity->get('field_media_video_file')->entity;
+        if ($file) {
+          $video_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+          // Debugging line to log the video file entity
+          \Drupal::logger('dh_dashboard')->debug('Video File Entity: @file', ['@file' => print_r($file->toArray(), TRUE)]);
+        }
+      }
+
+      // Debugging lines to check thumbnail retrieval
+      if ($video_entity && $video_entity->hasField('thumbnail')) {
+        \Drupal::logger('dh_dashboard')->debug('Thumbnail field exists');
+        $thumbnail_target_id = $video_entity->get('thumbnail')->target_id;
+        \Drupal::logger('dh_dashboard')->debug('Thumbnail target ID: @target_id', ['@target_id' => $thumbnail_target_id]);
+        $thumbnail_file = \Drupal::entityTypeManager()->getStorage('file')->load($thumbnail_target_id);
+        if ($thumbnail_file) {
+          \Drupal::logger('dh_dashboard')->debug('Thumbnail file loaded');
+          $video_thumbnail_url = \Drupal::service('file_url_generator')->generateAbsoluteString($thumbnail_file->getFileUri());
+          \Drupal::logger('dh_dashboard')->debug('Thumbnail URL: @url', ['@url' => $video_thumbnail_url]);
+          // Debugging line to log the thumbnail file entity
+          \Drupal::logger('dh_dashboard')->debug('Thumbnail File Entity: @file', ['@file' => print_r($thumbnail_file->toArray(), TRUE)]);
+        } else {
+          \Drupal::logger('dh_dashboard')->debug('Thumbnail file not found');
+        }
+      } else {
+        \Drupal::logger('dh_dashboard')->debug('Thumbnail field does not exist');
+      }
+    }
+
+    // Debugging lines to check video URL and thumbnail URL
+    \Drupal::logger('dh_dashboard')->debug('Video URL: @video_url', ['@video_url' => $video_url]);
+    \Drupal::logger('dh_dashboard')->debug('Video Thumbnail URL: @video_thumbnail_url', ['@video_thumbnail_url' => $video_thumbnail_url]);
+  } else {
+    $full_name = $user->getDisplayName();
+    $profile_data = NULL;
+    $profile_id = NULL;
+  }
+
+  // Debugging line to log profile data
+  \Drupal::logger('dh_dashboard')->debug('Profile Data: @profile', ['@profile' => print_r($profile_data, TRUE)]);
+
+  $variables['user'] = [
+    'id' => $user->id(),
+    'name' => $user->getAccountName(),
+    'full_name' => $full_name,
+    'profile' => $profile_data,
+    'profile_id' => $profile_id,
+    'video_url' => $video_url,
+    'video_thumbnail_url' => $video_thumbnail_url,
+  ];
+
+  // Pass debug information to the template
+  $variables['debug'] = $profile_data;
+}
+

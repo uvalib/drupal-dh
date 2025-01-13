@@ -163,6 +163,10 @@ a.resource-item:hover .card-title {
   background: #f8f9fa;
 }
 
+.progress-stats p {
+  margin: 0.25rem 0;
+}
+
 /* Progress bar */
 .progress-bar {
   background: #e9ecef;
@@ -192,8 +196,6 @@ a.resource-item:hover .card-title {
 }
 
 .progress-stats {
-  display: flex;
-  justify-content: space-between;
   color: #546e7a;
   font-size: 0.95rem;
 }
@@ -219,9 +221,24 @@ a.resource-item:hover .card-title {
   border: 0.5px solid transparent;
 }
 
+.course-item.course-status--completed {
+  border-color: #2e7d32;
+}
+
+.course-item.course-status--in-progress {
+  border-color: #ef6c00;
+}
+
+.course-item.course-status--not-started {
+  border-color: #757575;
+}
+
+.course-item.course-status--registered {
+  border-color: #1565c0;
+}
+
 .course-item .course-header {
-  display: flex;
-  align-items: center;
+  display: block;
   margin-bottom: 0.5rem;
 }
 
@@ -235,9 +252,7 @@ a.resource-item:hover .card-title {
 }
 
 .course-item .course-body {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  display: block;
 }
 
 .course-item .course-name {
@@ -266,36 +281,16 @@ a.resource-item:hover .card-title {
   color: #fff;
 }
 
-.course-status--completed {
-  background: #e8f5e9;
-  border-color: #2e7d32;
-}
-
 .course-status--completed .course-status-badge {
   background: #2e7d32;
-}
-
-.course-status--in-progress {
-  background: #fff3e0;
-  border-color: #ef6c00;
 }
 
 .course-status--in-progress .course-status-badge {
   background: #ef6c00;
 }
 
-.course-status--not-started {
-  background: #f9f9f9;
-  border-color: #757575;
-}
-
 .course-status--not-started .course-status-badge {
   background: #757575;
-}
-
-.course-status--registered {
-  background: #e3f2fd;
-  border-color: #1565c0;
 }
 
 .course-status--registered .course-status-badge {
@@ -444,7 +439,7 @@ a.resource-item:hover .card-title {
 /* Column alignment fixes */
 .layout-threecol-33-34-33 {
   align-items: flex-start;
-  display: flex;
+  display: block;
 }
 
 .layout-threecol-33-34-33 > .layout__region {
@@ -460,7 +455,7 @@ a.resource-item:hover .card-title {
 
 /* News pagination styles */
 .news-pager {
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
@@ -495,4 +490,144 @@ a.resource-item:hover .card-title {
 
 .news-items-container {
   min-height: 200px; /* Prevent layout shift during pagination */
+}
+
+/* User card styling */
+.user-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  text-align: left;
+  border: 1px solid #eaeaea;
+  position: relative;
+  overflow: hidden;
+}
+
+.user-card:hover {
+  transform: translateY(-4px);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 24px;
+  border-color: #d0d0d0;
+}
+
+.user-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: #0066cc;
+  opacity: 0.8;
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.profile-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #2c3e50;
+}
+
+.edit-profile-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #0066cc;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.edit-profile-link:hover {
+  background: #005bb5;
+}
+
+/* Profile data styling */
+.profile-data {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+.profile-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.profile-field-label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+  color: #2c3e50;
+  min-width: 150px;
+}
+
+.profile-field-value {
+  color: #555;
+  flex: 1;
+}
+
+.profile-data {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 1rem;
+}
+
+.profile-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.profile-field-label {
+  font-weight: bold;
+  margin-right: 0.5rem;
+  color: #2c3e50;
+}
+
+.profile-field-value {
+  color: #555;
+}
+
+/* Profile statement and video styling */
+.profile-statement-video {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.profile-statement,
+.profile-video {
+  flex: 1;
+  margin-right: 1rem;
+}
+
+.profile-statement h3,
+.profile-video h3 {
+  margin-top: 0;
+  color: #2c3e50;
+}
+
+.profile-video {
+  margin-right: 0;
+}
+
+.video-thumbnail {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  cursor: pointer;
 }

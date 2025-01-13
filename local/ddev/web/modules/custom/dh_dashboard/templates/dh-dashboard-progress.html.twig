@@ -9,14 +9,16 @@
         <div class="progress-fill in-progress" style="width: {{ progress.in_progress_percentage }}%; left: {{ progress.completed_percentage }}%"></div>
       </div>
       <div class="progress-stats">
-        {{ progress.completed }} of {{ progress.total }} courses completed ({{ progress.completed_percentage }}% completed, {{ progress.in_progress_percentage }}% in progress)
+        <p>{{ progress.completed }} of {{ progress.total }} completed ({{ progress.completed_percentage }}%)</p>
+        <p>{{ progress.in_progress }} in progress</p>
+        <p>{{ progress.registered }} registered</p>
       </div>
     </div>
 
     <div class="course-list-card">
       <div class="course-list">
         {% for course in progress.courses %}
-          <div class="course-item {{ course.status_class }}" style="border: 0.5px solid {{ course.status_color }}">
+          <div class="course-item {{ course.status_class }}">
             <div class="course-header">
               <span class="course-icon">
                 <i class="fas fa-{{ course.icon }}"></i>

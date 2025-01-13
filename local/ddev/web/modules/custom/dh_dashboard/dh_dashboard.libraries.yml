@@ -3,9 +3,11 @@ dashboard:
   css:
     theme:
       css/dh-dashboard.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css: {}
   js:
     js/dashboard.js: {}
     js/news-pager.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js: {}
   dependencies:
     - core/drupal
     - core/jquery

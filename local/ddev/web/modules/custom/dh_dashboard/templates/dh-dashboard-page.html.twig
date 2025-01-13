@@ -8,9 +8,65 @@
  */
 #}
 <div class="dashboard-page">
+  <div class="user-card dh-card">
+    {% if user.profile %}
+      <div class="profile-header">
+        <h2>{{ user.full_name ? user.full_name : user.name }}</h2>
+        <a href="{{ base_url }}/user/{{ user.id }}/dhcert" class="edit-profile-link">Edit Profile</a>
+      </div>
+      <div class="profile-data">
+        {% for field, value in user.profile %}
+          {% if field starts with 'field_' and field not in ['field_personal_statement', 'field_personal_statement_video'] %}
+            {% set field_label = field|replace({'field_': ''})|capitalize %}
+            {% if value is iterable %}
+              {% for item in value %}
+                {% if item.format == 'basic_html' %}
+                  <div class="profile-field">
+                    <span class="profile-field-label">{{ field_label }}:</span>
+                    <span class="profile-field-value">{{ item.value|raw }}</span>
+                  </div>
+                {% else %}
+                  <div class="profile-field">
+                    <span class="profile-field-label">{{ field_label }}:</span>
+                    <span class="profile-field-value">{{ item.value }}</span>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% else %}
+              <div class="profile-field">
+                <span class="profile-field-label">{{ field_label }}:</span>
+                <span class="profile-field-value">{{ value }}</span>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </div>
+      <div class="profile-statement-video">
+        <div class="profile-statement">
+          <h3>Personal Statement</h3>
+          {% if user.profile.field_personal_statement %}
+            {% for item in user.profile.field_personal_statement %}
+              <div class="profile-field">
+                <span class="profile-field-value">{{ item.value|raw }}</span>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+        <div class="profile-video">
+          <h3>Personal Statement Video</h3>
+          {% if user.video_url %}
+            <a href="{{ user.video_url }}" data-lightbox="video" data-title="Personal Statement Video">
+              <img src="{{ user.video_thumbnail_url }}" alt="Personal Statement Video Thumbnail" class="video-thumbnail">
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  
   {% if debug %}
     <div class="debug-section">
-      {{ debug }}
+      {# {{ kint(debug) }} #}
     </div>
   {% endif %}
   
