@@ -9,7 +9,6 @@ dependencies:
     - field.field.node.course.field_course_meets_what_requirem
     - field.field.node.course.field_course_mnemonic
     - field.field.node.course.field_course_year
-    - field.field.node.course.field_department_or_school
     - field.field.node.course.field_dh_concentration
     - field.field.node.course.field_dh_research_data_type
     - field.field.node.course.field_dh_tool_implementation
@@ -31,13 +30,13 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 16
+    weight: 17
     region: content
     settings: {  }
     third_party_settings: {  }
   field_affiliated_dh_projects:
     type: entity_reference_autocomplete
-    weight: 12
+    weight: 14
     region: content
     settings:
       match_operator: CONTAINS
@@ -47,7 +46,7 @@ content:
     third_party_settings: {  }
   field_course_description:
     type: text_textarea_with_summary
-    weight: 7
+    weight: 9
     region: content
     settings:
       rows: 9
@@ -57,7 +56,7 @@ content:
     third_party_settings: {  }
   field_course_instructor:
     type: entity_reference_autocomplete
-    weight: 5
+    weight: 7
     region: content
     settings:
       match_operator: CONTAINS
@@ -80,28 +79,14 @@ content:
       placeholder: ''
     third_party_settings: {  }
   field_course_year:
-    type: entity_reference_autocomplete
+    type: options_buttons
     weight: 3
     region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_department_or_school:
-    type: entity_reference_autocomplete
-    weight: 6
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: 'Start typing the name of the department....'
+    settings: {  }
     third_party_settings: {  }
   field_dh_concentration:
     type: options_select
-    weight: 13
+    weight: 11
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -113,7 +98,7 @@ content:
     third_party_settings: {  }
   field_dh_tool_implementation:
     type: entity_reference_autocomplete
-    weight: 11
+    weight: 13
     region: content
     settings:
       match_operator: CONTAINS
@@ -123,7 +108,7 @@ content:
     third_party_settings: {  }
   field_link_to_more_information:
     type: link_default
-    weight: 9
+    weight: 12
     region: content
     settings:
       placeholder_url: ''
@@ -131,7 +116,7 @@ content:
     third_party_settings: {  }
   field_link_to_uva_sis_listing:
     type: link_default
-    weight: 19
+    weight: 6
     region: content
     settings:
       placeholder_url: ''
@@ -145,7 +130,7 @@ content:
     third_party_settings: {  }
   field_short_text_description:
     type: text_textfield
-    weight: 20
+    weight: 8
     region: content
     settings:
       size: 60
@@ -153,20 +138,20 @@ content:
     third_party_settings: {  }
   field_university_affiliation:
     type: options_buttons
-    weight: 8
+    weight: 5
     region: content
     settings: {  }
     third_party_settings: {  }
   field_upload_a_syllabus_file:
     type: file_generic
-    weight: 14
+    weight: 15
     region: content
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 18
+    weight: 19
     region: content
     settings:
       display_label: true
@@ -181,7 +166,7 @@ content:
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 15
+    weight: 16
     region: content
     settings:
       match_operator: CONTAINS
@@ -190,7 +175,7 @@ content:
       placeholder: ''
     third_party_settings: {  }
   url_redirects:
-    weight: 17
+    weight: 18
     region: content
     settings: {  }
     third_party_settings: {  }

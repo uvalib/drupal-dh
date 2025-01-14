@@ -48,7 +48,7 @@
         "drupal/gin": "3.0-rc14",
         "drupal/gin_lb": "1.0.0-rc7",
         "drupal/gin_login": "2.0.4",
-        "drupal/gin_toolbar": "1.0.0-rc6",
+        "drupal/gin_toolbar": "1.0.0",
         "drupal/google_translator": "^2.2",
         "drupal/inline_entity_form": "^3.0@RC",
         "drupal/layout_builder_block_clone": "^1.3",

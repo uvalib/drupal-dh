@@ -10,7 +10,6 @@ dependencies:
     - field.field.node.course.field_course_meets_what_requirem
     - field.field.node.course.field_course_mnemonic
     - field.field.node.course.field_course_year
-    - field.field.node.course.field_department_or_school
     - field.field.node.course.field_dh_concentration
     - field.field.node.course.field_dh_research_data_type
     - field.field.node.course.field_dh_tool_implementation
@@ -42,7 +41,6 @@ hidden:
   field_course_meets_what_requirem: true
   field_course_mnemonic: true
   field_course_year: true
-  field_department_or_school: true
   field_dh_concentration: true
   field_dh_research_data_type: true
   field_dh_tool_implementation: true
