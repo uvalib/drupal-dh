@@ -11,6 +11,7 @@ dependencies:
     - field.field.node.event.field_event_location
     - field.field.node.event.field_event_type
     - field.field.node.event.field_image
+    - field.field.node.event.field_link_to_department_web_pag
     - field.field.node.event.field_link_to_more_information
     - field.field.node.event.field_link_to_online_meeting
     - field.field.node.event.field_non_user_contact
@@ -98,6 +99,14 @@ content:
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
+    third_party_settings: {  }
+  field_link_to_department_web_pag:
+    type: link_default
+    weight: 26
+    region: content
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
     third_party_settings: {  }
   field_link_to_more_information:
     type: link_default

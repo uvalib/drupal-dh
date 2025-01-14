@@ -4,6 +4,10 @@ status: true
 dependencies:
   config:
     - field.storage.node.field_short_text_description
+    - filter.format.basic_html
+    - filter.format.full_html
+    - filter.format.plain_text
+    - filter.format.restricted_html
     - node.type.course
   module:
     - text
@@ -12,11 +16,15 @@ field_name: field_short_text_description
 entity_type: node
 bundle: course
 label: 'Short text description'
-description: 'No more than 2'
-required: false
+description: ''
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  allowed_formats: {  }
+  allowed_formats:
+    - basic_html
+    - restricted_html
+    - full_html
+    - plain_text
 field_type: text

@@ -13,6 +13,8 @@ dependencies:
     - node.type.organization
   module:
     - layout_builder
+    - layout_builder_restrictions
+    - layout_discovery
     - link
     - responsive_image
     - text
@@ -25,60 +27,28 @@ third_party_settings:
       -
         layout_id: layout_onecol
         layout_settings:
-          label: ''
+          label: 'Organization Title'
+          context_mapping: {  }
+        components: {  }
+        third_party_settings: {  }
+      -
+        layout_id: layout_twocol_section
+        layout_settings:
+          label: 'Primary Org information'
+          context_mapping: {  }
+          column_widths: 67-33
         components:
-          3c09e5d8-7d66-495e-9810-47ec76e8baa5:
-            uuid: 3c09e5d8-7d66-495e-9810-47ec76e8baa5
-            region: content
-            configuration:
-              id: 'field_block:node:organization:field_image'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: responsive_image
-                label: hidden
-                settings:
-                  responsive_image_style: ''
-                  image_link: ''
-                  image_loading:
-                    attribute: eager
-                third_party_settings: {  }
-            weight: 0
-            additional: {  }
-          e3e5a9ba-9b43-432f-b9e2-234ce8798eb4:
-            uuid: e3e5a9ba-9b43-432f-b9e2-234ce8798eb4
-            region: content
-            configuration:
-              id: 'extra_field_block:node:organization:links'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-            weight: 1
-            additional: {  }
-          48c414b0-a38a-4c30-856c-410c60221135:
-            uuid: 48c414b0-a38a-4c30-856c-410c60221135
-            region: content
-            configuration:
-              id: 'field_block:node:organization:body'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: text_default
-                label: hidden
-                settings: {  }
-                third_party_settings: {  }
-            weight: 2
-            additional: {  }
-          18fe5ecf-6b16-47cc-8732-4fe54eec0ff0:
-            uuid: 18fe5ecf-6b16-47cc-8732-4fe54eec0ff0
-            region: content
+          128e42a1-04e6-4b54-874f-add7bf222ac3:
+            uuid: 128e42a1-04e6-4b54-874f-add7bf222ac3
+            region: second
             configuration:
               id: 'field_block:node:organization:field_link_to_more_information'
+              label: 'More Information'
               label_display: '0'
+              provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
+                view_mode: view_mode
               formatter:
                 type: link
                 label: above
@@ -86,75 +56,56 @@ third_party_settings:
                   trim_length: 80
                   url_only: false
                   url_plain: false
-                  rel: ''
-                  target: ''
+                  rel: '0'
+                  target: _blank
                 third_party_settings: {  }
-            weight: 3
+            weight: 0
             additional: {  }
-          fb43dde3-7c2b-4cf2-8013-a50b2bf4eaad:
-            uuid: fb43dde3-7c2b-4cf2-8013-a50b2bf4eaad
-            region: content
-            configuration:
-              id: 'field_block:node:organization:field_contact_person'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 4
-            additional: {  }
-          07375605-38e3-480e-a0c5-a6801a7bfdad:
-            uuid: 07375605-38e3-480e-a0c5-a6801a7bfdad
-            region: content
+          3f3f44fd-74b1-4e58-959a-c6b8a56c7d71:
+            uuid: 3f3f44fd-74b1-4e58-959a-c6b8a56c7d71
+            region: second
             configuration:
               id: 'field_block:node:organization:field_uva_or_non_uva'
+              label: 'University Affiliation'
               label_display: '0'
+              provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
+                view_mode: view_mode
               formatter:
                 type: entity_reference_label
                 label: above
                 settings:
                   link: true
                 third_party_settings: {  }
-            weight: 5
+            weight: 1
             additional: {  }
-          dbf98e71-9082-41be-93e2-9dd25c8c6d47:
-            uuid: dbf98e71-9082-41be-93e2-9dd25c8c6d47
-            region: content
+          bb0b7b6e-9cdf-4a05-9609-6ade27c0b152:
+            uuid: bb0b7b6e-9cdf-4a05-9609-6ade27c0b152
+            region: first
             configuration:
-              id: 'field_block:node:organization:field_affiliated_dh_projects'
+              id: 'field_block:node:organization:body'
+              label: 'Description of Organization'
               label_display: '0'
+              provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 6
-            additional: {  }
-          c6d43555-36fc-4cd6-9b98-9a2b181b6f98:
-            uuid: c6d43555-36fc-4cd6-9b98-9a2b181b6f98
-            region: content
-            configuration:
-              id: 'field_block:node:organization:field_org_title'
-              label_display: '0'
-              context_mapping:
-                entity: layout_builder.entity
+                view_mode: view_mode
               formatter:
                 type: text_default
-                label: above
+                label: hidden
                 settings: {  }
                 third_party_settings: {  }
-            weight: 7
+            weight: 0
             additional: {  }
         third_party_settings: {  }
+  layout_builder_restrictions:
+    allowed_block_categories: {  }
+    entity_view_mode_restriction:
+      allowed_layouts: {  }
+      denylisted_blocks: {  }
+      allowlisted_blocks: {  }
+      restricted_categories: {  }
 id: node.organization.default
 targetEntityType: node
 bundle: organization
