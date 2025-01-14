@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.profile.field_full_name
+    - profile.type.dhcert
+  module:
+    - profile
+id: profile.dhcert.field_full_name
+field_name: field_full_name
+entity_type: profile
+bundle: dhcert
+label: 'Full Name'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+field_type: string

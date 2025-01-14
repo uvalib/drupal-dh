@@ -4,6 +4,7 @@ namespace Drupal\dh_dashboard\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Template\Attribute;
+use Drupal\Core\Messenger\MessengerInterface;
 
 /**
  * Provides a DH News Block.
@@ -14,28 +15,40 @@ use Drupal\Core\Template\Attribute;
  *   category = @Translation("DH Dashboard")
  * )
  */
-class DHNewsBlock extends BlockBase {
+class DHNewsBlock extends BlockBase
+{
 
-  /**
-   * {@inheritdoc}
-   */
-  public function build() {
-    $build = [
-      '#theme' => 'dh_dashboard_news',
-      '#news' => $this->getNews(),
-      '#attached' => [
-        'library' => ['dh_dashboard/dashboard'],
-      ],
-      '#attributes' => ['class' => ['block-dh-dashboard-news']],
-      '#cache' => ['max-age' => 0],
-    ];
-    
-    return $build;
-  }
+    /**
+     * {@inheritdoc}
+     */
+    public function build()
+    {
+        $config = \Drupal::config('dh_dashboard.settings');
+        $show_debug = $config->get('show_debug') ?: FALSE;
+        $news_items_per_page = (int) $config->get('news_items_per_page');
 
-  protected function getNews() {
-    return [
-      'items' => [
+        return [
+            '#theme' => 'dh_dashboard_news',
+            '#news' => $this->getNews(),
+            '#show_debug' => $show_debug,
+            '#items_per_page' => $news_items_per_page,
+            '#attributes' => new Attribute(['class' => ['block-dh-dashboard-news']]),
+            '#attached' => [
+                'library' => ['dh_dashboard/dashboard'],
+                'drupalSettings' => [
+                    'dhDashboard' => [
+                        'items_per_page' => $news_items_per_page ?: 3, // Fallback to 3 if config is empty
+                    ],
+                ],
+            ],
+            '#cache' => ['max-age' => 0],
+        ];
+    }
+
+    protected function getNews()
+    {
+        return [
+        'items' => [
         [
           'title' => 'New Digital Archives Course Available',
           'date' => '2024-02-15',
@@ -256,10 +269,10 @@ class DHNewsBlock extends BlockBase {
           'priority_class' => 'priority-indicator--high',
           'icon' => 'briefcase',
         ],
-      ],
-      'attributes' => [
+        ],
+        'attributes' => [
         'class' => ['dh-news-block', 'news-grid', 'block-spacing'],
-      ],
-    ];
-  }
+        ],
+        ];
+    }
 }

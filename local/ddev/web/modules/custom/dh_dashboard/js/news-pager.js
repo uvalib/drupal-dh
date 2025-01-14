@@ -3,56 +3,74 @@
 
   Drupal.behaviors.dhDashboardNewsPager = {
     attach: function (context, settings) {
-      // console.log('Pager behavior attached'); // Debug line
+      // Debug entire settings object
+      console.log('All drupalSettings:', settings);
+      console.log('dhDashboard settings:', settings.dhDashboard);
       
       once('dhDashboardNewsPager', '.news-items-container', context).forEach(function (element) {
-        // console.log('Processing news container'); // Debug line
         const container = $(element);
         const newsItems = container.find('.news-item');
-        const itemsPerPage = 3;
+        
+        const configValue = settings.dhDashboard?.items_per_page;
+        console.log('Config items_per_page (raw):', configValue, typeof configValue);
+        
+        const itemsPerPage = parseInt(configValue) || 3;
+        console.log('Final items_per_page:', itemsPerPage, typeof itemsPerPage);
+        
         const totalPages = Math.ceil(newsItems.length / itemsPerPage);
-
-        // console.log(`Found ${newsItems.length} items, ${totalPages} pages`); // Debug line
-
+        let currentPage = 1;
+        
+        // Don't proceed if we don't need pagination
         if (newsItems.length <= itemsPerPage) {
-          // console.log('Not enough items for pagination'); // Debug line
+          container.next('.news-pager').hide();
           return;
         }
 
-        // Create and add pager
-        const pager = $(`
-          <div class="news-pager">
-            <button class="news-pager__button news-pager__prev" disabled>&laquo; Previous</button>
-            <span class="news-pager__info">Page 1 of ${totalPages}</span>
-            <button class="news-pager__button news-pager__next">Next &raquo;</button>
-          </div>
-        `);
+        // Look for pager in parent block
+        const pager = container.closest('.dh-news-block').find('.news-pager');
         
-        container.after(pager);
-        
-        let currentPage = 1;
+        if (!pager.length) {
+          console.error('Pager element not found');
+          return;
+        }
+
+        const prevButton = pager.find('.news-pager__prev');
+        const nextButton = pager.find('.news-pager__next');
+        const pageInfo = pager.find('.news-pager__info');
 
         function showPage(page) {
+          console.log(`Showing page ${page}`);
           newsItems.hide();
-          newsItems.slice((page - 1) * itemsPerPage, page * itemsPerPage).show();
           
-          pager.find('.news-pager__prev').prop('disabled', page === 1);
-          pager.find('.news-pager__next').prop('disabled', page === totalPages);
-          pager.find('.news-pager__info').text(`Page ${page} of ${totalPages}`);
+          const start = (page - 1) * itemsPerPage;
+          const end = start + itemsPerPage;
+          
+          newsItems.slice(start, end).show();
+          
+          prevButton.prop('disabled', page === 1);
+          nextButton.prop('disabled', page === totalPages);
+          pageInfo.text(`Page ${page} of ${totalPages}`);
           
           currentPage = page;
         }
 
-        pager.on('click', '.news-pager__prev', function() {
+        // Event handlers
+        prevButton.on('click', function(e) {
+          e.preventDefault();
           if (currentPage > 1) showPage(currentPage - 1);
         });
 
-        pager.on('click', '.news-pager__next', function() {
+        nextButton.on('click', function(e) {
+          e.preventDefault();
           if (currentPage < totalPages) showPage(currentPage + 1);
         });
 
-        // Initialize
-        showPage(1);
+        // Initialize display
+        if (newsItems.length > itemsPerPage) {
+          showPage(1);
+        } else {
+          pager.hide();
+        }
       });
     }
   };

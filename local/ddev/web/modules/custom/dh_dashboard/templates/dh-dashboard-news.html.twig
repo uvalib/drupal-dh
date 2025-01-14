@@ -1,18 +1,40 @@
 {# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-dashboard-news.html.twig #}
 <div{{ attributes.addClass('dh-news-block') }}>
   <h2>{{ 'Latest News'|t }}</h2>
-  <div class="news-grid">
-    {% for item in news.items %}
-      <article class="dh-card news-item {{ item.category_class }}">
-        <h3 class="card-title"><i class="fas fa-{{ item.icon }}"></i> {{ item.title }}</h3>
-        <div class="card-meta">
-          <span class="date"><i class="fas fa-calendar-alt"></i> {{ item.date }}</span>
-          <span class="priority-indicator {{ item.priority_class }}">
-            {{ item.priority|capitalize }}
-          </span>
-        </div>
-        <p class="card-content">{{ item.summary }}</p>
-      </article>
-    {% endfor %}
+  
+  <div class="news-items-container">
+    <div class="news-grid">
+      {% for item in news.items %}
+        <article class="dh-card news-item {{ item.category_class }}">
+          <h3 class="card-title"><i class="fas fa-{{ item.icon }}"></i> {{ item.title }}</h3>
+          <div class="card-meta">
+            <span class="date"><i class="fas fa-calendar-alt"></i> {{ item.date }}</span>
+            <span class="priority-indicator {{ item.priority_class }}">
+              {{ item.priority|capitalize }}
+            </span>
+          </div>
+          <p class="card-content">{{ item.summary }}</p>
+        </article>
+      {% endfor %}
+    </div>
   </div>
+
+  <div class="news-pager">
+    <button class="news-pager__button news-pager__prev" disabled>Previous</button>
+    <span class="news-pager__info">Page 1</span>
+    <button class="news-pager__button news-pager__next">Next</button>
+  </div>
+
+  {% if show_debug %}
+    <div class="debug-info">
+      <p>Debug Information:</p>
+      <ul>
+        <li>news.items count: {{ news.items|length }}</li>
+        <li>show_debug: {{ show_debug ? 'true' : 'false' }}</li>
+      </ul>
+    </div>
+    {{ drupal_messages() }}
+    {{ dump() }}
+  {% endif %}
 </div>
+

@@ -84,6 +84,17 @@
           icon.toggleClass('rotated');
           console.log('Icon classes:', icon.attr('class')); // Debug line
         });
+
+        // Limit the number of news items shown
+        const newsItems = $(element).find('.news-item');
+        const itemsPerPage = settings.dhDashboard?.news_items_per_page || 3;
+        console.log('Items per page:', itemsPerPage);
+
+        newsItems.each(function(index) {
+          if (index >= itemsPerPage) {
+            $(this).hide();
+          }
+        });
       });
     }
   };

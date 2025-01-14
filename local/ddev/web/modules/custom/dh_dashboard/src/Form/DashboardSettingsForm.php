@@ -33,19 +33,38 @@ class DashboardSettingsForm extends ConfigFormBase {
     
     $config = $this->config('dh_dashboard.settings');
 
-    $form['show_debug'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Show Debug Information'),
-      '#description' => $this->t('Display debug information on the dashboard.'),
-      '#default_value' => $config->get('show_debug') ?? FALSE,
+    $form['display_settings'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Display Settings'),
+      '#open' => TRUE,
     ];
 
-    $form['news_items'] = [
+    $form['display_settings']['news_items_per_page'] = [
       '#type' => 'number',
-      '#title' => $this->t('Number of news items to display'),
-      '#default_value' => $config->get('news_items') ?? 5,
+      '#title' => $this->t('News items per page'),
+      '#description' => $this->t('Number of news items to display per page in dashboard listings.'),
+      '#default_value' => $config->get('news_items_per_page') ?? 3,
       '#min' => 1,
-      '#max' => 20,
+      '#max' => 50,
+    ];
+
+    $form['debug_settings'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Debug Settings'),
+      '#open' => TRUE,
+    ];
+
+    $form['debug_settings']['show_debug'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show Debug Information'),
+      '#description' => $this->t('Display debug information on the dashboard. Only enable this in development environments.'),
+      '#default_value' => $config->get('show_debug') ?: FALSE,
+    ];
+
+    $form['content_settings'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Content Settings'),
+      '#open' => TRUE,
     ];
 
     // Get the dashboard node ID and load the node if it exists
@@ -78,7 +97,7 @@ class DashboardSettingsForm extends ConfigFormBase {
       }
     }
 
-    $form['dashboard_node'] = [
+    $form['content_settings']['dashboard_node'] = [
       '#type' => 'entity_autocomplete',
       '#target_type' => 'node',
       '#selection_settings' => ['target_bundles' => ['dh_dashboard']],
@@ -90,16 +109,22 @@ class DashboardSettingsForm extends ConfigFormBase {
 
     $form = parent::buildForm($form, $form_state);
     
-    // Add dashboard link to the actions group
-    $form['actions']['dashboard'] = [
+    // Modify the existing submit button
+    $form['actions']['submit']['#value'] = $this->t('Save Configuration');
+
+    // Add cancel button
+    $form['actions']['cancel'] = [
       '#type' => 'link',
-      '#title' => $this->t('Go to Dashboard'),
+      '#title' => $this->t('Cancel'),
       '#url' => Url::fromRoute('dh_dashboard.main'),
       '#attributes' => [
-        'class' => ['button', 'button--primary'],
+        'class' => ['button', 'button--danger'],
       ],
-      '#weight' => 5, // Places it after the submit button
+      '#weight' => 10,
     ];
+
+    // Remove the old dashboard link
+    unset($form['actions']['dashboard']);
 
     return $form;
   }
@@ -132,9 +157,12 @@ class DashboardSettingsForm extends ConfigFormBase {
     
     $this->config('dh_dashboard.settings')
       ->set('show_debug', $form_state->getValue('show_debug'))
-      ->set('news_items', $form_state->getValue('news_items'))
+      ->set('news_items_per_page', $form_state->getValue('news_items_per_page'))
       ->set('dashboard_node', $dashboard_node)
       ->save();
+
+    // Redirect to dashboard after saving
+    $form_state->setRedirect('dh_dashboard.main');
 
     parent::submitForm($form, $form_state);
   }

@@ -455,7 +455,7 @@ a.resource-item:hover .card-title {
 
 /* News pagination styles */
 .news-pager {
-  display: block;
+  display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
@@ -660,4 +660,22 @@ a.resource-item:hover .card-title {
 
 .accordion-toggle:hover {
   color: #005bb5;
+}
+
+/* Debugging output styles */
+.debug-output {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  color: #333;
+  font-family: monospace;
+  overflow-x: auto;
+}
+
+.debug-output pre {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }

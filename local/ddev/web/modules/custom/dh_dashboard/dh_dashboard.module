@@ -5,6 +5,12 @@
  * Primary module hooks for DH Dashboard module.
  */
 
+// Debug configuration settings if show_debug is enabled
+$config = \Drupal::config('dh_dashboard.settings');
+if (($config->get('show_debug') ?: FALSE) && function_exists('kint')) {
+  kint('Dashboard Configuration (' . __FILE__ . ':' . __LINE__ . ')', $config->get());
+}
+
 /**
  * Implements hook_theme().
  */
@@ -13,6 +19,7 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
     'dh_dashboard_news' => [
       'variables' => [
         'news' => [],
+        'show_debug' => FALSE,
         'attributes' => [],
       ],
       'template' => 'dh-dashboard-news',
@@ -74,6 +81,7 @@ function dh_dashboard_preprocess_node(&$variables) {
 function dh_dashboard_preprocess_block(&$variables) {
   if (strpos($variables['plugin_id'], 'dh_dashboard_') === 0) {
     $variables['#attached']['library'][] = 'dh_dashboard/dashboard';
+    $show_debug = \Drupal::config('dh_dashboard.settings')->get('show_debug') ?: FALSE;
 
     if (isset($variables['content']['#progress'])) {
       $progress = $variables['content']['#progress'];
@@ -81,21 +89,22 @@ function dh_dashboard_preprocess_block(&$variables) {
       $completed = $progress['completed'];
       $in_progress = isset($progress['in_progress']) ? $progress['in_progress'] : 0;
 
-      // Debugging lines to check values
-      \Drupal::logger('dh_dashboard')->debug('Total: @total, Completed: @completed, In Progress: @in_progress', [
-        '@total' => $total,
-        '@completed' => $completed,
-        '@in_progress' => $in_progress,
-      ]);
-
       $variables['content']['#progress']['completed_percentage'] = ($total > 0) ? ($completed / $total) * 100 : 0;
       $variables['content']['#progress']['in_progress_percentage'] = ($total > 0) ? ($in_progress / $total) * 100 : 0;
 
-      // Additional debug to check calculated percentages
-      \Drupal::logger('dh_dashboard')->debug('Completed Percentage: @completed_percentage, In Progress Percentage: @in_progress_percentage', [
-        '@completed_percentage' => $variables['content']['#progress']['completed_percentage'],
-        '@in_progress_percentage' => $variables['content']['#progress']['in_progress_percentage'],
-      ]);
+      if ($show_debug) {
+
+        // Single debug point for progress data
+        \Drupal::logger('dh_dashboard')->debug('Progress Data: @data', [
+          '@data' => print_r([
+            'total' => $total,
+            'completed' => $completed,
+            'in_progress' => $in_progress,
+            'completed_percentage' => $variables['content']['#progress']['completed_percentage'],
+            'in_progress_percentage' => $variables['content']['#progress']['in_progress_percentage'],
+          ], TRUE),
+        ]);
+      }
     }
   }
 }
@@ -104,6 +113,8 @@ function dh_dashboard_preprocess_block(&$variables) {
  * Implements hook_preprocess_HOOK() for dh_dashboard_progress templates.
  */
 function dh_dashboard_preprocess_dh_dashboard_progress(&$variables) {
+  $show_debug = \Drupal::config('dh_dashboard.settings')->get('show_debug');
+  
   // Fetch mock progress data
   $progress = fetch_mock_progress_data();
 
@@ -127,11 +138,6 @@ function dh_dashboard_preprocess_dh_dashboard_progress(&$variables) {
   $progress['in_progress_percentage'] = ($progress['total'] > 0) ? ($progress['in_progress'] / $progress['total']) * 100 : 0;
   $progress['not_started_percentage'] = ($progress['total'] > 0) ? ($progress['not_started'] / $progress['total']) * 100 : 0;
   $progress['registered_percentage'] = ($progress['total'] > 0) ? ($progress['registered'] / $progress['total']) * 100 : 0;
-
-  // Debugging lines to check values
-  \Drupal::logger('dh_dashboard')->debug('Progress Data: @progress', [
-    '@progress' => print_r($progress, TRUE),
-  ]);
 
   $variables['progress'] = $progress;
 }
@@ -178,83 +184,80 @@ function dh_dashboard_page_attachments(array &$attachments) {
  * Implements hook_preprocess_HOOK() for dh_dashboard_page templates.
  */
 function dh_dashboard_preprocess_dh_dashboard_page(&$variables) {
-  $current_user = \Drupal::currentUser();
-  $user = \Drupal\user\Entity\User::load($current_user->id());
-
-  // Check if the Profile module is enabled and the user has a profile
-  if (\Drupal::moduleHandler()->moduleExists('profile')) {
-    $profile = \Drupal::entityTypeManager()->getStorage('profile')->loadByUser($user, 'dhcert');
-    if ($profile && $profile->hasField('field_full_name') && !$profile->get('field_full_name')->isEmpty()) {
-      $full_name = $profile->get('field_full_name')->value;
-    } else {
-      $full_name = $user->getDisplayName();
+    // Initialize drupalSettings array first
+    if (!isset($variables['#attached']['drupalSettings']['dhDashboard'])) {
+        $variables['#attached']['drupalSettings']['dhDashboard'] = [];
     }
 
-    $profile_data = $profile ? $profile->toArray() : NULL;
-    $profile_id = $profile ? $profile->id() : NULL;
-
-    // Load the video URL and thumbnail URL from the media entity
-    $video_url = NULL;
-    $video_thumbnail_url = NULL;
-    if ($profile && $profile->hasField('field_personal_statement_video') && !$profile->get('field_personal_statement_video')->isEmpty()) {
-      $video_target_id = $profile->get('field_personal_statement_video')->target_id;
-      $video_entity = \Drupal::entityTypeManager()->getStorage('media')->load($video_target_id);
-
-      // Remove kint debugging
-      // kint($video_entity);
-
-      if ($video_entity && $video_entity->hasField('field_media_video_file')) {
-        $file = $video_entity->get('field_media_video_file')->entity;
-        if ($file) {
-          $video_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
-          // Debugging line to log the video file entity
-          \Drupal::logger('dh_dashboard')->debug('Video File Entity: @file', ['@file' => print_r($file->toArray(), TRUE)]);
-        }
-      }
-
-      // Debugging lines to check thumbnail retrieval
-      if ($video_entity && $video_entity->hasField('thumbnail')) {
-        \Drupal::logger('dh_dashboard')->debug('Thumbnail field exists');
-        $thumbnail_target_id = $video_entity->get('thumbnail')->target_id;
-        \Drupal::logger('dh_dashboard')->debug('Thumbnail target ID: @target_id', ['@target_id' => $thumbnail_target_id]);
-        $thumbnail_file = \Drupal::entityTypeManager()->getStorage('file')->load($thumbnail_target_id);
-        if ($thumbnail_file) {
-          \Drupal::logger('dh_dashboard')->debug('Thumbnail file loaded');
-          $video_thumbnail_url = \Drupal::service('file_url_generator')->generateAbsoluteString($thumbnail_file->getFileUri());
-          \Drupal::logger('dh_dashboard')->debug('Thumbnail URL: @url', ['@url' => $video_thumbnail_url]);
-          // Debugging line to log the thumbnail file entity
-          \Drupal::logger('dh_dashboard')->debug('Thumbnail File Entity: @file', ['@file' => print_r($thumbnail_file->toArray(), TRUE)]);
+    // Get configuration and use consistent naming
+    $config = \Drupal::config('dh_dashboard.settings');
+    $show_debug = $config->get('show_debug') ?: FALSE;
+    $news_items_per_page = (int) ($config->get('news_items_per_page') ?: 3);
+    
+    // Set the values
+    $variables['show_debug'] = $show_debug;
+    $variables['#attached']['drupalSettings']['dhDashboard']['news_items_per_page'] = $news_items_per_page;
+    
+    // Handle user data
+    $current_user = \Drupal::currentUser();
+    $user = \Drupal\user\Entity\User::load($current_user->id());
+    
+    // Check if the Profile module is enabled and the user has a profile
+    if (\Drupal::moduleHandler()->moduleExists('profile')) {
+        $profile = \Drupal::entityTypeManager()->getStorage('profile')->loadByUser($user, 'dhcert');
+        if ($profile && $profile->hasField('field_full_name') && !$profile->get('field_full_name')->isEmpty()) {
+            $full_name = $profile->get('field_full_name')->value;
         } else {
-          \Drupal::logger('dh_dashboard')->debug('Thumbnail file not found');
+            $full_name = $user->getDisplayName();
         }
-      } else {
-        \Drupal::logger('dh_dashboard')->debug('Thumbnail field does not exist');
-      }
+
+        $profile_data = $profile ? $profile->toArray() : NULL;
+        $profile_id = $profile ? $profile->id() : NULL;
+
+        // Load the video URL and thumbnail URL from the media entity
+        $video_url = NULL;
+        $video_thumbnail_url = NULL;
+        if ($profile && $profile->hasField('field_personal_statement_video') && !$profile->get('field_personal_statement_video')->isEmpty()) {
+            $video_target_id = $profile->get('field_personal_statement_video')->target_id;
+            $video_entity = \Drupal::entityTypeManager()->getStorage('media')->load($video_target_id);
+
+            if ($video_entity && $video_entity->hasField('field_media_video_file')) {
+                $file = $video_entity->get('field_media_video_file')->entity;
+                if ($file) {
+                    $video_url = \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri());
+                }
+            }
+
+            if ($video_entity && $video_entity->hasField('thumbnail')) {
+                $thumbnail_target_id = $video_entity->get('thumbnail')->target_id;
+                $thumbnail_file = \Drupal::entityTypeManager()->getStorage('file')->load($thumbnail_target_id);
+                if ($thumbnail_file) {
+                    $video_thumbnail_url = \Drupal::service('file_url_generator')->generateAbsoluteString($thumbnail_file->getFileUri());
+                }
+            }
+        }
+    } else {
+        $full_name = $user->getDisplayName();
+        $profile_data = NULL;
+        $profile_id = NULL;
     }
 
-    // Debugging lines to check video URL and thumbnail URL
-    \Drupal::logger('dh_dashboard')->debug('Video URL: @video_url', ['@video_url' => $video_url]);
-    \Drupal::logger('dh_dashboard')->debug('Video Thumbnail URL: @video_thumbnail_url', ['@video_thumbnail_url' => $video_thumbnail_url]);
-  } else {
-    $full_name = $user->getDisplayName();
-    $profile_data = NULL;
-    $profile_id = NULL;
-  }
+    $variables['user'] = [
+        'id' => $user->id(),
+        'name' => $user->getAccountName(),
+        'full_name' => $full_name,
+        'profile' => $profile_data,
+        'profile_id' => $profile_id,
+        'video_url' => $video_url,
+        'video_thumbnail_url' => $video_thumbnail_url,
+    ];
 
-  // Debugging line to log profile data
-  \Drupal::logger('dh_dashboard')->debug('Profile Data: @profile', ['@profile' => print_r($profile_data, TRUE)]);
-
-  $variables['user'] = [
-    'id' => $user->id(),
-    'name' => $user->getAccountName(),
-    'full_name' => $full_name,
-    'profile' => $profile_data,
-    'profile_id' => $profile_id,
-    'video_url' => $video_url,
-    'video_thumbnail_url' => $video_thumbnail_url,
-  ];
-
-  // Pass debug information to the template
-  $variables['debug'] = $profile_data;
+    // Set drupalSettings
+    if (!isset($variables['#attached']['drupalSettings']['dhDashboard'])) {
+        $variables['#attached']['drupalSettings']['dhDashboard'] = [];
+    }
+    
+    // Set news_items_per_page
+    $variables['#attached']['drupalSettings']['dhDashboard']['news_items_per_page'] = $config->get('news_items_per_page') ?: 3;
 }
 

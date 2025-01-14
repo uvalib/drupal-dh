@@ -12,6 +12,9 @@ use Drupal\layout_builder\SectionComponent;
  * Implements hook_install().
  */
 function dh_dashboard_install() {
+  // Force configuration import from install directory
+  \Drupal::service('config.installer')->installDefaultConfig('module', 'dh_dashboard');
+
   // Handle permissions
   $permissions = [
     'authenticated' => ['access dh dashboard'],
@@ -42,6 +45,23 @@ function dh_dashboard_install() {
       'status' => 1,
     ]);
     $node->save();
+    
+    // Set the dashboard node ID in configuration
+    $config = \Drupal::configFactory()->getEditable('dh_dashboard.settings');
+    $config
+      ->set('dashboard_node', $node->id())
+      ->set('items_per_page', 4)
+      ->set('show_debug', TRUE)
+      ->save();
+  } else {
+    // Ensure default configuration exists
+    $config = \Drupal::configFactory()->getEditable('dh_dashboard.settings');
+    if (!$config->get('items_per_page')) {
+      $config
+        ->set('items_per_page', 4)
+        ->set('show_debug', TRUE)
+        ->save();
+    }
   }
 }
 

@@ -7,11 +7,11 @@ dashboard:
   js:
     js/dashboard.js: {}
     js/news-pager.js: {}
-    https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js: {}
   dependencies:
-    - core/drupal
     - core/jquery
+    - core/drupal
     - core/once
+    - core/drupalSettings
 
 admin-form:
   version: 1.x
