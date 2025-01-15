@@ -2,19 +2,8 @@
 
 namespace Drupal\dh_dashboard\Plugin\Block;
 
-use Drupal\Core\Block\BlockBase;
-use Drupal\Core\Template\Attribute;
-use Drupal\Core\Messenger\MessengerInterface;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\Core\Session\AccountInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
-
 /**
  * Provides a news block for the Digital Humanities Dashboard.
- *
- * This block displays a configurable list of news items related to
- * Digital Humanities courses, events, and program updates.
  *
  * @Block(
  *   id = "dh_dashboard_news",
@@ -25,188 +14,41 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   }
  * )
  */
-class DHNewsBlock extends BlockBase implements ContainerFactoryPluginInterface {
+class DHNewsBlock extends DHDashboardBlockBase {
 
-  /**
-   * The config factory service.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * The current user.
-   *
-   * @var \Drupal\Core\Session\AccountInterface
-   */
-  protected $currentUser;
-
-  /**
-   * Constructs a DHNewsBlock object.
-   *
-   * @param array $configuration
-   *   A configuration array containing information about the plugin instance.
-   * @param string $plugin_id
-   *   The plugin_id for the plugin instance.
-   * @param mixed $plugin_definition
-   *   The plugin implementation definition.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The config factory service.
-   * @param \Drupal\Core\Session\AccountInterface $current_user
-   *   The current user.
-   */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ConfigFactoryInterface $config_factory, AccountInterface $current_user) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition);
-    $this->configFactory = $config_factory;
-    $this->currentUser = $current_user;
+  protected function getThemeHook(): string {
+    return 'dh_dashboard_news';
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
-    return new static(
-      $configuration,
-      $plugin_id,
-      $plugin_definition,
-      $container->get('config.factory'),
-      $container->get('current_user')
-    );
+  protected function getBlockClass(): string {
+    return 'block-dh-dashboard-news';
   }
 
-  /**
-   * {@inheritdoc}
-   */
-  public function build() {
-    $config = $this->configFactory->get('dh_dashboard.settings');
-    $show_debug = $config->get('show_debug') ?: FALSE;
-    $news_items_per_page = (int) $config->get('news_items_per_page');
-    $display_mode = $config->get('news_display_mode') ?: 'grid';
-
-    // Get the user context if available
-    $user = $this->getContextValue('user') ?: $this->currentUser;
-    $user_data = $this->getUserData($user);
-
-    return [
-      '#theme' => 'dh_dashboard_news',
-      '#news' => $this->getNews(),
-      '#user' => $user_data,
-      '#show_debug' => $show_debug,
-      '#items_per_page' => $news_items_per_page,
-      '#display_mode' => $display_mode,
-      '#attributes' => new Attribute(['class' => ['block-dh-dashboard-news']]),
-      '#attached' => [
-        'library' => ['dh_dashboard/dashboard'],
-        'drupalSettings' => [
-          'dhDashboard' => [
-            'items_per_page' => $news_items_per_page ?: 3, // Fallback to 3 if config is empty
-          ],
-        ],
-      ],
-      '#cache' => ['max-age' => 0],
-    ];
+  protected function getItemsPerPageConfigKey(): string {
+    return 'news_items_per_page';
   }
 
-  /**
-   * Gets formatted user data for display.
-   *
-   * @param \Drupal\Core\Session\AccountInterface $account
-   *   The user account.
-   *
-   * @return array
-   *   Formatted user data.
-   */
-  protected function getUserData(AccountInterface $account) {
-    $user_data = [
-      'name' => $account->getDisplayName(),
-      'roles' => array_diff($account->getRoles(), ['authenticated']),
-      'picture' => NULL,
-    ];
-
-    // Load the full user entity to get the picture
-    if ($user = \Drupal::entityTypeManager()->getStorage('user')->load($account->id())) {
-      if ($user->hasField('user_picture') && !$user->get('user_picture')->isEmpty()) {
-        $user_data['picture'] = $user->get('user_picture')->view([
-          'label' => 'hidden',
-          'type' => 'image',
-          'settings' => [
-            'image_style' => 'thumbnail',
-          ],
-        ]);
-      }
-    }
-
-    return $user_data;
+  protected function getDisplayModeConfigKey(): string {
+    return 'news_display_mode';
   }
 
-  protected function getNews() {
+  protected function getItems(): array {
     return [
       'items' => [
         [
-          'title' => 'Annual Digital Humanities Conference 2024',
+          'title' => 'New Digital Humanities Certificate Program',
           'date' => '2024-03-15',
-          'summary' => 'Join us for our flagship conference featuring keynote speakers and innovative DH research presentations.',
-          'category' => 'events',
+          'summary' => 'Announcing our new certificate program in Digital Humanities, starting Fall 2024.',
+          'category' => 'program',
           'priority' => 'high',
-          'category_class' => 'news-category--events',
+          'category_class' => 'news-category--program',
           'priority_class' => 'priority-indicator--high',
-          'icon' => 'users-class',
+          'icon' => 'graduation-cap',
         ],
         [
-          'title' => 'Digital Archives Workshop Series',
-          'date' => '2024-03-14',
-          'summary' => 'Four-week intensive workshop on digital preservation techniques.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'archive',
-        ],
-        // Add 29 more similar events with different dates and details
-        [
-          'title' => 'Text Analysis Symposium',
-          'date' => '2024-03-13',
-          'summary' => 'Explore computational methods in textual analysis.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'file-alt',
-        ],
-        [
-          'title' => 'Digital Mapping Workshop',
-          'date' => '2024-03-12',
-          'summary' => 'Learn GIS techniques for historical mapping projects.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'map',
-        ],
-        [
-          'title' => 'Virtual Reality in Humanities Lecture',
-          'date' => '2024-03-11',
-          'summary' => 'Guest lecture on VR applications in humanities research.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'vr-cardboard',
-        ],
-        [
-          'title' => 'Data Visualization Workshop',
-          'date' => '2024-03-10',
-          'summary' => 'Hands-on training with visualization tools.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'chart-bar',
-        ],
-        [
-          'title' => 'Digital Pedagogy Forum',
-          'date' => '2024-03-09',
-          'summary' => 'Discussion of digital tools in teaching humanities.',
+          'title' => 'New Faculty Research Symposium',
+          'date' => '2024-03-07',
+          'summary' => 'Join us for presentations of innovative DH research by our newest faculty members.',
           'category' => 'events',
           'priority' => 'high',
           'category_class' => 'news-category--events',
@@ -214,39 +56,59 @@ class DHNewsBlock extends BlockBase implements ContainerFactoryPluginInterface {
           'icon' => 'chalkboard-teacher',
         ],
         [
-          'title' => 'Python for Humanists',
-          'date' => '2024-03-08',
-          'summary' => 'Beginner-friendly programming workshop.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'code',
-        ],
-        [
-          'title' => 'Digital Collections Symposium',
-          'date' => '2024-03-07',
-          'summary' => 'Exploring digital collection management.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'database',
-        ],
-        [
-          'title' => 'Social Media Analysis Workshop',
+          'title' => 'Summer Research Grants Available',
           'date' => '2024-03-06',
-          'summary' => 'Methods for analyzing social media data.',
+          'summary' => 'Applications now open for summer digital humanities research funding.',
+          'category' => 'program',
+          'priority' => 'high',
+          'category_class' => 'news-category--program',
+          'priority_class' => 'priority-indicator--high',
+          'icon' => 'dollar-sign',
+        ],
+        [
+          'title' => 'Introduction to AI Tools Workshop',
+          'date' => '2024-03-05',
+          'summary' => 'Learn about responsible AI integration in humanities research.',
           'category' => 'events',
           'priority' => 'medium',
           'category_class' => 'news-category--events',
           'priority_class' => 'priority-indicator--medium',
-          'icon' => 'share-alt',
+          'icon' => 'robot',
         ],
         [
-          'title' => 'Digital Publishing Workshop',
-          'date' => '2024-03-05',
-          'summary' => 'Learn about digital publishing platforms.',
+          'title' => 'Fall Course Proposals Due',
+          'date' => '2024-03-04',
+          'summary' => 'Faculty deadline for submitting new DH course proposals.',
+          'category' => 'program',
+          'priority' => 'high',
+          'category_class' => 'news-category--program',
+          'priority_class' => 'priority-indicator--high',
+          'icon' => 'calendar-check',
+        ],
+        [
+          'title' => 'Digital Preservation Workshop',
+          'date' => '2024-03-03',
+          'summary' => 'Best practices for preserving digital humanities projects.',
+          'category' => 'events',
+          'priority' => 'medium',
+          'category_class' => 'news-category--events',
+          'priority_class' => 'priority-indicator--medium',
+          'icon' => 'archive',
+        ],
+        [
+          'title' => 'New Research Lab Opening',
+          'date' => '2024-03-02',
+          'summary' => 'State-of-the-art digital humanities research facility opening ceremony.',
+          'category' => 'program',
+          'priority' => 'high',
+          'category_class' => 'news-category--program',
+          'priority_class' => 'priority-indicator--high',
+          'icon' => 'flask',
+        ],
+        [
+          'title' => 'Digital Publishing Seminar',
+          'date' => '2024-03-01',
+          'summary' => 'Exploring modern digital publishing platforms and methods.',
           'category' => 'events',
           'priority' => 'medium',
           'category_class' => 'news-category--events',
@@ -254,149 +116,99 @@ class DHNewsBlock extends BlockBase implements ContainerFactoryPluginInterface {
           'icon' => 'book',
         ],
         [
-          'title' => 'Text Mining Workshop',
-          'date' => '2024-03-04',
-          'summary' => 'Introduction to text mining techniques.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'search',
-        ],
-        [
-          'title' => 'Digital Art Exhibition',
-          'date' => '2024-03-03',
-          'summary' => 'Showcase of digital art projects.',
-          'category' => 'events',
-          'priority' => 'high',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--high',
-          'icon' => 'palette',
-        ],
-        [
-          'title' => 'Data Ethics Symposium',
-          'date' => '2024-03-02',
-          'summary' => 'Discussion of ethical issues in digital research.',
-          'category' => 'events',
-          'priority' => 'high',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--high',
-          'icon' => 'balance-scale',
-        ],
-        [
-          'title' => 'Digital Storytelling Workshop',
-          'date' => '2024-03-01',
-          'summary' => 'Create compelling digital narratives.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'film',
-        ],
-        [
-          'title' => '3D Modeling Workshop',
+          'title' => 'Student Project Exhibition',
           'date' => '2024-02-29',
-          'summary' => 'Learn 3D modeling for cultural heritage.',
+          'summary' => 'Showcase of innovative student digital humanities projects.',
           'category' => 'events',
-          'priority' => 'medium',
+          'priority' => 'high',
           'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'cube',
-        ],
-        [
-          'title' => 'Digital Archaeology Lecture',
-          'date' => '2024-02-28',
-          'summary' => 'Latest methods in digital archaeology.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'dig',
-        ],
-        [
-          'title' => 'Network Analysis Workshop',
-          'date' => '2024-02-27',
-          'summary' => 'Learn network analysis techniques.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
+          'priority_class' => 'priority-indicator--high',
           'icon' => 'project-diagram',
         ],
         [
-          'title' => 'Digital Archives Roundtable',
+          'title' => 'Digital Collections Workshop',
+          'date' => '2024-02-28',
+          'summary' => 'Managing and curating digital collections effectively.',
+          'category' => 'events',
+          'priority' => 'medium',
+          'category_class' => 'news-category--events',
+          'priority_class' => 'priority-indicator--medium',
+          'icon' => 'database',
+        ],
+        [
+          'title' => 'Research Methods Symposium',
+          'date' => '2024-02-27',
+          'summary' => 'Advanced digital research methods in humanities.',
+          'category' => 'events',
+          'priority' => 'high',
+          'category_class' => 'news-category--events',
+          'priority_class' => 'priority-indicator--high',
+          'icon' => 'microscope',
+        ],
+        [
+          'title' => 'Visualization Tools Workshop',
           'date' => '2024-02-26',
-          'summary' => 'Discussion of archival best practices.',
+          'summary' => 'Hands-on training with data visualization tools.',
           'category' => 'events',
           'priority' => 'medium',
           'category_class' => 'news-category--events',
           'priority_class' => 'priority-indicator--medium',
-          'icon' => 'folder-open',
+          'icon' => 'chart-line',
         ],
         [
-          'title' => 'Computational Linguistics Forum',
+          'title' => 'Digital Humanities Journal Launch',
           'date' => '2024-02-25',
-          'summary' => 'Exploring language processing tools.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'language',
+          'summary' => 'Inaugural issue of our peer-reviewed digital journal.',
+          'category' => 'program',
+          'priority' => 'high',
+          'category_class' => 'news-category--program',
+          'priority_class' => 'priority-indicator--high',
+          'icon' => 'journal-whills',
         ],
         [
-          'title' => 'Digital Heritage Symposium',
+          'title' => 'GIS Workshop Series',
           'date' => '2024-02-24',
-          'summary' => 'Preserving cultural heritage digitally.',
+          'summary' => 'Introduction to geographical information systems in humanities.',
           'category' => 'events',
-          'priority' => 'high',
+          'priority' => 'medium',
           'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--high',
-          'icon' => 'landmark',
+          'priority_class' => 'priority-indicator--medium',
+          'icon' => 'map-marked-alt',
         ],
         [
-          'title' => 'Web Development Workshop',
+          'title' => 'Digital Archiving Symposium',
           'date' => '2024-02-23',
-          'summary' => 'Basic web development for humanists.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'code',
-        ],
-        [
-          'title' => 'Digital Museums Conference',
-          'date' => '2024-02-22',
-          'summary' => 'Future of digital museum experiences.',
+          'summary' => 'Latest developments in digital archiving practices.',
           'category' => 'events',
           'priority' => 'high',
           'category_class' => 'news-category--events',
           'priority_class' => 'priority-indicator--high',
-          'icon' => 'university',
+          'icon' => 'archive',
         ],
         [
-          'title' => 'XML Workshop',
+          'title' => 'New Partnership Announcement',
+          'date' => '2024-02-22',
+          'summary' => 'Collaboration with National Digital Library Initiative.',
+          'category' => 'program',
+          'priority' => 'high',
+          'category_class' => 'news-category--program',
+          'priority_class' => 'priority-indicator--high',
+          'icon' => 'handshake',
+        ],
+        [
+          'title' => 'Digital Curation Workshop',
           'date' => '2024-02-21',
-          'summary' => 'Working with XML in humanities projects.',
+          'summary' => 'Best practices for digital content curation.',
           'category' => 'events',
           'priority' => 'medium',
           'category_class' => 'news-category--events',
           'priority_class' => 'priority-indicator--medium',
-          'icon' => 'code',
+          'icon' => 'cubes',
         ],
         [
-          'title' => 'Digital Library Forum',
+          'title' => 'Metadata Standards Forum',
           'date' => '2024-02-20',
-          'summary' => 'Digital library management strategies.',
-          'category' => 'events',
-          'priority' => 'medium',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--medium',
-          'icon' => 'book-reader',
-        ],
-        [
-          'title' => 'Metadata Workshop',
-          'date' => '2024-02-19',
-          'summary' => 'Best practices for metadata management.',
+          'summary' => 'Discussion of current metadata standards and practices.',
           'category' => 'events',
           'priority' => 'medium',
           'category_class' => 'news-category--events',
@@ -404,29 +216,29 @@ class DHNewsBlock extends BlockBase implements ContainerFactoryPluginInterface {
           'icon' => 'tags',
         ],
         [
-          'title' => 'Digital History Symposium',
-          'date' => '2024-02-18',
-          'summary' => 'New methods in digital historical research.',
+          'title' => 'Digital Ethics Symposium',
+          'date' => '2024-02-19',
+          'summary' => 'Exploring ethical considerations in digital research.',
           'category' => 'events',
           'priority' => 'high',
           'category_class' => 'news-category--events',
           'priority_class' => 'priority-indicator--high',
-          'icon' => 'history',
+          'icon' => 'balance-scale',
         ],
         [
-          'title' => 'OCR Workshop',
-          'date' => '2024-02-17',
-          'summary' => 'Working with OCR technologies.',
-          'category' => 'events',
+          'title' => 'New Software Resources',
+          'date' => '2024-02-18',
+          'summary' => 'Additional software licenses available for DH projects.',
+          'category' => 'program',
           'priority' => 'medium',
-          'category_class' => 'news-category--events',
+          'category_class' => 'news-category--program',
           'priority_class' => 'priority-indicator--medium',
-          'icon' => 'eye',
+          'icon' => 'laptop-code',
         ],
         [
-          'title' => 'Digital Exhibition Design',
-          'date' => '2024-02-16',
-          'summary' => 'Creating engaging digital exhibitions.',
+          'title' => 'Digital Exhibit Design Workshop',
+          'date' => '2024-02-17',
+          'summary' => 'Creating engaging online exhibitions and displays.',
           'category' => 'events',
           'priority' => 'medium',
           'category_class' => 'news-category--events',
@@ -434,29 +246,63 @@ class DHNewsBlock extends BlockBase implements ContainerFactoryPluginInterface {
           'icon' => 'images',
         ],
         [
-          'title' => 'Audio Processing Workshop',
+          'title' => 'Research Infrastructure Update',
+          'date' => '2024-02-16',
+          'summary' => 'Major updates to our digital research infrastructure.',
+          'category' => 'program',
+          'priority' => 'high',
+          'category_class' => 'news-category--program',
+          'priority_class' => 'priority-indicator--high',
+          'icon' => 'network-wired',
+        ],
+        [
+          'title' => 'Digital Humanities Mentorship Program',
           'date' => '2024-02-15',
-          'summary' => 'Digital audio analysis techniques.',
+          'summary' => 'New mentorship opportunities for DH students.',
+          'category' => 'program',
+          'priority' => 'high',
+          'category_class' => 'news-category--program',
+          'priority_class' => 'priority-indicator--high',
+          'icon' => 'users',
+        ],
+        [
+          'title' => 'Web Archiving Workshop',
+          'date' => '2024-02-14',
+          'summary' => 'Introduction to web archiving tools and methods.',
           'category' => 'events',
           'priority' => 'medium',
           'category_class' => 'news-category--events',
           'priority_class' => 'priority-indicator--medium',
-          'icon' => 'music',
-        ],
-        [
-          'title' => 'Machine Learning in DH',
-          'date' => '2024-02-14',
-          'summary' => 'Applications of ML in humanities research.',
-          'category' => 'events',
-          'priority' => 'high',
-          'category_class' => 'news-category--events',
-          'priority_class' => 'priority-indicator--high',
-          'icon' => 'brain',
+          'icon' => 'globe',
         ],
       ],
       'attributes' => [
         'class' => ['dh-news-block', 'news-grid', 'block-spacing'],
       ],
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function build() {
+    $build = parent::build();
+    
+    // Get user context
+    $user = $this->getContextValue('user') ?: $this->currentUser;
+    $user_data = $this->getUserData($user);
+    
+    // Add user data to build array
+    $build['#user'] = $user_data;
+    $build['#news'] = $this->getItems();
+
+    return $build;
+  }
+
+  /**
+   * Gets formatted user data for display.
+   */
+  protected function getUserData($account) {
+    // ... existing getUserData implementation ...
   }
 }

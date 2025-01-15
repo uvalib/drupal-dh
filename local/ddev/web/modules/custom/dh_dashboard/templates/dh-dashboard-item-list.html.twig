@@ -1,0 +1,30 @@
+{#
+/**
+ * @file
+ * Default theme implementation for DH Dashboard item lists.
+ *
+ * Available variables:
+ * - items: Array of items to display.
+ * - attributes: HTML attributes for the container.
+ * - display_mode: Grid or list display mode.
+ * - items_per_page: Number of items per page.
+ * - pager: Pager element.
+ */
+#}
+{% if items %}
+  <div{{ attributes.addClass('dh-dashboard-items', 'display-mode-' ~ display_mode) }}>
+    {% for item in items %}
+      {% include '@dh_dashboard/dh-dashboard-item.html.twig' with {
+        'item': item,
+        'display_mode': display_mode
+      } %}
+    {% endfor %}
+  </div>
+  
+  {% if items_per_page %}
+    {% include '@dh_dashboard/dh-dashboard-pager.html.twig' with {
+      'total': items|length,
+      'per_page': items_per_page
+    } %}
+  {% endif %}
+{% endif %}

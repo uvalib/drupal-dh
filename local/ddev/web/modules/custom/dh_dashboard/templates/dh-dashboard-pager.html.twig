@@ -1,0 +1,15 @@
+{#
+/**
+ * @file
+ * Default theme implementation for DH Dashboard pager.
+ *
+ * Available variables:
+ * - total: Total number of items.
+ * - per_page: Items per page.
+ */
+#}
+<div class="dh-dashboard-pager" data-total="{{ total }}" data-per-page="{{ per_page }}">
+  <button class="pager-prev" disabled>&laquo; Previous</button>
+  <span class="pager-info">Page <span class="current-page">1</span> of <span class="total-pages">{{ (total / per_page)|round(0, 'ceil') }}</span></span>
+  <button class="pager-next">Next &raquo;</button>
+</div>

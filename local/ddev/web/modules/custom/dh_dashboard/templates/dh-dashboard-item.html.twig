@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Default theme implementation for DH Dashboard items.
+ *
+ * Available variables:
+ * - item: The item to display.
+ * - display_mode: Grid or list display mode.
+ */
+#}
+<div class="dh-dashboard-item {{ item.category_class ?? '' }} {{ item.priority_class ?? '' }}">
+  {% if item.icon %}
+    <div class="item-icon">
+      <i class="fas fa-{{ item.icon }}"></i>
+    </div>
+  {% endif %}
+  
+  <div class="item-content">
+    <h3 class="item-title">{{ item.title }}</h3>
+    {% if item.date %}
+      <div class="item-date">{{ item.date|date('F j, Y') }}</div>
+    {% endif %}
+    <div class="item-summary">{{ item.summary }}</div>
+  </div>
+</div>
