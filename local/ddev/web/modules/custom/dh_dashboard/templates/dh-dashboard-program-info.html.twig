@@ -1,31 +1,93 @@
-{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-dashboard-program-info.html.twig #}
-<div{{ attributes.addClass('dh-program-info') }}>
-  {% if program_info.important_dates %}
-    <section class="program-dates">
-      <h2>{{ 'Important Dates'|t }}</h2>
+{#
+/**
+ * @file
+ * Default theme implementation to display program information.
+ *
+ * Available variables:
+ * - program_info: Array of program information
+ * - attributes: HTML attributes for the container
+ */
+#}
+
+<div{{ attributes }}>
+  {% if program_info.items.important_dates %}
+    <div class="program-info__section">
+      <h3>{{ 'Important Dates'|t }}</h3>
       <div class="dates-grid">
-        {% for date in program_info.important_dates %}
-          <div class="dh-card date-item {{ date.class }}">
-            <h3 class="card-title"><i class="fas fa-{{ date.icon }}"></i> {{ date.title }}</h3>
-            <div class="card-meta">{{ date.date }}</div>
-            <p>{{ date.description }}</p>
-          </div>
+        {% for date in program_info.items.important_dates %}
+          <article class="dh-card program-info-card {{ date.class }}">
+            <h4 class="card-title">
+              <i class="fas fa-{{ date.icon }}"></i>
+              {{ date.title }}
+            </h4>
+            <div class="card-meta">
+              <span class="date">
+                <i class="fas fa-calendar-alt"></i>
+                {{ date.date }}
+              </span>
+            </div>
+            <p class="card-content">{{ date.description }}</p>
+          </article>
         {% endfor %}
       </div>
-    </section>
+    </div>
   {% endif %}
 
-  {% if program_info.resources %}
-    <section class="program-resources">
-      <h2>{{ 'Resources'|t }}</h2>
+  {% if program_info.items.resources %}
+    <div class="program-info__section">
+      <h3>{{ 'Resources'|t }}</h3>
       <div class="resources-grid">
-        {% for resource in program_info.resources %}
-          <a href="{{ resource.url }}" class="dh-card resource-item {{ resource.class }}">
-            <h3 class="card-title"><i class="fas fa-{{ resource.icon }}"></i> {{ resource.title }}</h3>
-            <p>{{ resource.description }}</p>
-          </a>
+        {% for resource in program_info.items.resources %}
+          <article class="dh-card program-info-card {{ resource.class }}">
+            <h4 class="card-title">
+              <i class="fas fa-{{ resource.icon }}"></i>
+              {{ resource.title }}
+            </h4>
+            <p class="card-content">{{ resource.description }}</p>
+            <div class="card-actions">
+              <a href="{{ resource.url }}" class="action-link">
+                {{ 'Learn More'|t }}
+                <i class="fas fa-arrow-right"></i>
+              </a>
+            </div>
+          </article>
         {% endfor %}
       </div>
-    </section>
+    </div>
+  {% endif %}
+
+  {% if program_info.items.requirements_summary %}
+    <div class="program-info__section">
+      <h3>{{ 'Program Requirements'|t }}</h3>
+      <div class="requirements-summary dh-card">
+        <div class="requirement-item">
+          <div class="requirement-value">{{ program_info.items.requirements_summary.total_credits }}</div>
+          <div class="requirement-label">{{ 'Total Credits'|t }}</div>
+        </div>
+        <div class="requirement-item">
+          <div class="requirement-value">{{ program_info.items.requirements_summary.core_courses }}</div>
+          <div class="requirement-label">{{ 'Core Courses'|t }}</div>
+        </div>
+        <div class="requirement-item">
+          <div class="requirement-value">{{ program_info.items.requirements_summary.electives }}</div>
+          <div class="requirement-label">{{ 'Electives'|t }}</div>
+        </div>
+        <div class="requirement-item">
+          <div class="requirement-value">{{ program_info.items.requirements_summary.capstone }}</div>
+          <div class="requirement-label">{{ 'Capstone'|t }}</div>
+        </div>
+        <div class="requirement-item">
+          <div class="requirement-value">{{ program_info.items.requirements_summary.time_limit }}</div>
+          <div class="requirement-label">{{ 'Time Limit'|t }}</div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if show_debug %}
+    <div class="debug-output">
+      <p>Debug Information:</p>
+      <pre>{{ program_info|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+    </div>
   {% endif %}
 </div>

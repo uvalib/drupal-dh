@@ -74,6 +74,12 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
         'attributes' => [],
       ],
     ],
+    'dh_dashboard_block_usage' => [
+      'variables' => [
+        'usage' => [],
+      ],
+      'template' => 'dh-dashboard-block-usage',
+    ],
   ];
 }
 
@@ -195,6 +201,33 @@ function dh_dashboard_theme_suggestions_node_alter(array &$suggestions, array $v
  */
 function dh_dashboard_page_attachments(array &$attachments) {
   $attachments['#attached']['library'][] = 'dh_dashboard/dashboard';
+
+  if (\Drupal::currentUser()->hasPermission('access devel information')) {
+    // Get all instances of our blocks
+    $block_usage = [];
+    $database = \Drupal::database();
+    
+    // Check Layout Builder usage
+    $query = $database->select('config', 'c')
+      ->fields('c', ['name', 'data'])
+      ->condition('name', '%layout_builder%', 'LIKE');
+    $results = $query->execute();
+    
+    foreach ($results as $record) {
+      if ($data = unserialize($record->data)) {
+        // Look for our blocks in the layout builder data
+        if (is_string($data) && strpos($data, 'dh_dashboard_') !== FALSE) {
+          $block_usage['layout_builder'][] = [
+            'config' => $record->name,
+            'data' => $data,
+          ];
+        }
+      }
+    }
+    
+    // Attach the data to drupalSettings
+    $attachments['#attached']['drupalSettings']['dhDashboard']['blockUsage'] = $block_usage;
+  }
 }
 
 /**

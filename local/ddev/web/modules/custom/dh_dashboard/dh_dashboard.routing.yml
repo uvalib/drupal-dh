@@ -13,3 +13,11 @@ dh_dashboard.admin:
     _title: 'Dashboard Settings'
   requirements:
     _permission: 'administer dh dashboard'
+
+dh_dashboard.block_usage:
+  path: '/admin/reports/dh-dashboard/block-usage'
+  defaults:
+    _controller: '\Drupal\dh_dashboard\Controller\DHDashboardController::blockUsage'
+    _title: 'DH Dashboard Block Usage'
+  requirements:
+    _permission: 'access devel information'

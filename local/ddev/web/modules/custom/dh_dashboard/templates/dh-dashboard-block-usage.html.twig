@@ -1,0 +1,38 @@
+{#
+/**
+ * @file
+ * Template for displaying block usage information.
+ *
+ * Available variables:
+ * - usage: An array of block usage data.
+ */
+#}
+
+<div class="block-usage">
+  <h2>{{ 'Dashboard Block Usage'|t }}</h2>
+  
+  {% for block_id, data in usage %}
+    <div class="block-usage__item">
+      <h3>{{ data.name }}</h3>
+      
+      {% if data.layout_builder is not empty %}
+        <div class="block-usage__layout-builder">
+          <h4>{{ 'Layout Builder Usage'|t }}</h4>
+          <ul>
+          {% for placement in data.layout_builder %}
+            <li>
+              <div>{{ 'Configuration:'|t }} {{ placement.config }}</div>
+              {% if placement.section %}
+                <div>{{ 'Section:'|t }} {{ placement.section.type }}</div>
+                <div>{{ 'Data:'|t }} {{ placement.section.data }}</div>
+              {% endif %}
+            </li>
+          {% endfor %}
+          </ul>
+        </div>
+      {% else %}
+        <p>{{ 'Not used in any layouts'|t }}</p>
+      {% endif %}
+    </div>
+  {% endfor %}
+</div>

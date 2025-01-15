@@ -11,3 +11,26 @@ dh_dashboard.settings:
     show_debug:
       type: boolean
       label: 'Show debug information'
+    program_info_items_per_page:
+      type: integer
+      label: 'Number of program info items per page'
+    program_info_display_mode:
+      type: string
+      label: 'Program info display mode'
+
+block.settings.dh_dashboard_*:
+  type: block_settings
+  label: 'DH Dashboard block settings'
+  mapping:
+    items_per_page:
+      type: integer
+      label: 'Items per page'
+    display_mode:
+      type: string
+      label: 'Display mode'
+    show_debug:
+      type: boolean
+      label: 'Show debug information'
+    category_filter:
+      type: string
+      label: 'Category filter'

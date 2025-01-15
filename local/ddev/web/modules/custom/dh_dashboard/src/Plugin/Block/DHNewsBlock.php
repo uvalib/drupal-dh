@@ -2,6 +2,8 @@
 
 namespace Drupal\dh_dashboard\Plugin\Block;
 
+use Drupal\Core\Form\FormStateInterface;
+
 /**
  * Provides a news block for the Digital Humanities Dashboard.
  *
@@ -32,8 +34,38 @@ class DHNewsBlock extends DHDashboardBlockBase {
     return 'news_display_mode';
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function blockForm($form, FormStateInterface $form_state) {
+    $form = parent::blockForm($form, $form_state);
+    $config = $this->getConfiguration();
+
+    $form['category_filter'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Category filter'),
+      '#default_value' => $config['category_filter'],
+      '#options' => [
+        'all' => $this->t('All categories'),
+        'program' => $this->t('Program'),
+        'events' => $this->t('Events'),
+      ],
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    parent::blockSubmit($form, $form_state);
+    $this->configuration['category_filter'] = $form_state->getValue('category_filter');
+  }
+
   protected function getItems(): array {
-    return [
+    $config = $this->getConfiguration();
+    $all_items = [
       'items' => [
         [
           'title' => 'New Digital Humanities Certificate Program',
@@ -280,6 +312,14 @@ class DHNewsBlock extends DHDashboardBlockBase {
         'class' => ['dh-news-block', 'news-grid', 'block-spacing'],
       ],
     ];
+
+    if ($config['category_filter'] !== 'all') {
+      $all_items['items'] = array_filter($all_items['items'], function($item) use ($config) {
+        return $item['category'] === $config['category_filter'];
+      });
+    }
+
+    return $all_items;
   }
 
   /**

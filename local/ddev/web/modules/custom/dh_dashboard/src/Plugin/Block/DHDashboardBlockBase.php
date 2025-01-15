@@ -8,6 +8,8 @@ use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Cache\Cache;
 
 /**
  * Provides a base block for the Digital Humanities Dashboard.
@@ -70,29 +72,96 @@ abstract class DHDashboardBlockBase extends BlockBase implements ContainerFactor
   /**
    * {@inheritdoc}
    */
-  public function build() {
-    $config = $this->configFactory->get('dh_dashboard.settings');
-    $show_debug = $config->get('show_debug') ?: FALSE;
-    $items_per_page = (int) $config->get($this->getItemsPerPageConfigKey());
-    $display_mode = $config->get($this->getDisplayModeConfigKey()) ?: 'grid';
+  public function defaultConfiguration() {
+    return [
+      'items_per_page' => 3,
+      'display_mode' => 'grid',
+      'show_debug' => FALSE,
+      'category_filter' => 'all',
+    ] + parent::defaultConfiguration();
+  }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function blockForm($form, FormStateInterface $form_state) {
+    $form = parent::blockForm($form, $form_state);
+    $config = $this->getConfiguration();
+
+    $form['items_per_page'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Items per page'),
+      '#default_value' => $config['items_per_page'],
+      '#min' => 1,
+      '#max' => 50,
+    ];
+
+    $form['display_mode'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Display mode'),
+      '#default_value' => $config['display_mode'],
+      '#options' => [
+        'grid' => $this->t('Grid'),
+        'list' => $this->t('List'),
+        'cards' => $this->t('Cards'),
+      ],
+    ];
+
+    $form['show_debug'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Show debug information'),
+      '#default_value' => $config['show_debug'],
+    ];
+
+    return $form;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function blockSubmit($form, FormStateInterface $form_state) {
+    $this->configuration['items_per_page'] = $form_state->getValue('items_per_page');
+    $this->configuration['display_mode'] = $form_state->getValue('display_mode');
+    $this->configuration['show_debug'] = $form_state->getValue('show_debug');
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function build() {
+    $config = $this->getConfiguration();
+    
     return [
       '#theme' => $this->getThemeHook(),
       '#items' => $this->getItems(),
-      '#show_debug' => $show_debug,
-      '#items_per_page' => $items_per_page,
-      '#display_mode' => $display_mode,
+      '#show_debug' => $config['show_debug'],
+      '#items_per_page' => $config['items_per_page'],
+      '#display_mode' => $config['display_mode'],
       '#attributes' => new Attribute(['class' => [$this->getBlockClass()]]),
       '#attached' => [
         'library' => ['dh_dashboard/dashboard'],
         'drupalSettings' => [
           'dhDashboard' => [
-            'items_per_page' => $items_per_page ?: 3,
+            'items_per_page' => $config['items_per_page'],
           ],
         ],
       ],
       '#cache' => ['max-age' => 0],
     ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheContexts() {
+    return Cache::mergeContexts(parent::getCacheContexts(), ['user']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheTags() {
+    return Cache::mergeTags(parent::getCacheTags(), ['dh_dashboard:blocks']);
   }
 
   /**

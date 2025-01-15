@@ -717,3 +717,124 @@ a.resource-item:hover .card-title {
   white-space: pre-wrap;
   word-wrap: break-word;
 }
+
+/* Program Info Cards */
+.dh-program-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+.program-info-card {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  padding: 1.5rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s ease;
+  border: 1px solid #eaeaea;
+  position: relative;
+}
+
+.program-info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 24px;
+}
+
+.program-info-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  opacity: 0.8;
+}
+
+/* Card type-specific styles */
+.date-item--deadline::before { background: #f44336; }
+.date-item--registration::before { background: #4CAF50; }
+.date-item--submission::before { background: #FF9800; }
+
+.resource-item--document::before { background: #2196F3; }
+.resource-item--schedule::before { background: #9C27B0; }
+.resource-item--guide::before { background: #4CAF50; }
+.resource-item--contact::before { background: #FF9800; }
+
+.program-info-card .card-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.program-info-card .card-title i {
+  font-size: 1.1em;
+  opacity: 0.8;
+  color: #0066cc;
+}
+
+.program-info-card .card-content {
+  flex-grow: 1;
+}
+
+.program-info-card .card-description {
+  color: #546e7a;
+  margin-bottom: 1rem;
+}
+
+.program-info-card .card-meta {
+  color: #666;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Requirements summary specific styling */
+.requirements-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-top: 1rem;
+}
+
+.requirement-item {
+  text-align: center;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 2px 4px;
+}
+
+.requirement-value {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #0066cc;
+  margin-bottom: 0.5rem;
+}
+
+.requirement-label {
+  color: #546e7a;
+  font-size: 0.9rem;
+}
+
+/* Resource links styling */
+.program-info-card.resource-item {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+}
+
+.program-info-card.resource-item:hover .card-title {
+  color: #0066cc;
+}
