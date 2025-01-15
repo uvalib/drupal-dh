@@ -16,6 +16,15 @@ if (($config->get('show_debug') ?: FALSE) && function_exists('kint')) {
  */
 function dh_dashboard_theme($existing, $type, $theme, $path) {
   return [
+    'dh_content_grid' => [
+      'variables' => [
+        'items' => [],
+        'type' => 'news', // or 'events'
+        'show_debug' => FALSE,
+        'attributes' => [],
+      ],
+      'template' => 'dh-content-grid',
+    ],
     'dh_dashboard_news' => [
       'variables' => [
         'news' => [],
@@ -54,6 +63,14 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
     'dh_dashboard_program_info' => [
       'variables' => [
         'program_info' => [],
+        'attributes' => [],
+      ],
+    ],
+    'dh_dashboard_user_card' => [
+      'variables' => [
+        'user' => NULL,
+        'show_debug' => FALSE,
+        'edit_url' => NULL,
         'attributes' => [],
       ],
     ],
@@ -259,5 +276,14 @@ function dh_dashboard_preprocess_dh_dashboard_page(&$variables) {
     
     // Set news_items_per_page
     $variables['#attached']['drupalSettings']['dhDashboard']['news_items_per_page'] = $config->get('news_items_per_page') ?: 3;
+
+    // Create the user card render array
+    $variables['user_card'] = [
+      '#theme' => 'dh_dashboard_user_card',
+      '#user' => $variables['user'],
+      '#show_debug' => $variables['show_debug'],
+      '#edit_url' => $profile_id ? "/user/{$user->id()}/dhcert" : NULL,
+      '#attributes' => new \Drupal\Core\Template\Attribute(),
+    ];
 }
 

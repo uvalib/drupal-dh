@@ -3,10 +3,13 @@ dashboard:
   css:
     theme:
       css/dh-dashboard.css: {}
-      https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css: {}
+      https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css: { type: external }
   js:
+    https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js: { type: external }
     js/dashboard.js: {}
+    js/content-grid.js: {}
     js/news-pager.js: {}
+    js/user-card.js: {}
   dependencies:
     - core/jquery
     - core/drupal

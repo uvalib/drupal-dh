@@ -67,6 +67,51 @@
   margin: 1rem 0;
 }
 
+/* Shared grid styles */
+.dh-content-grid {
+  margin-bottom: 2rem;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin: 1rem 0;
+}
+
+.grid-item {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.grid-item .card-content {
+  flex-grow: 1;
+  margin: 0;
+}
+
+.grid-item .card-actions {
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+.action-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  margin-right: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+/* Event-specific styles */
+.dh-events-grid .location {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+}
+
 /* Card content styling */
 .card-icon {
   display: none;
@@ -635,31 +680,24 @@ a.resource-item:hover .card-title {
 /* Accordion toggle button */
 .accordion-toggle {
   cursor: pointer;
-  margin-left: 1rem;
-  font-size: 1.3em; /* Adjusted size */
   color: #0066cc;
-  transition: color 0.3s ease;
+  padding: 0.5rem;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .accordion-toggle svg {
-  font-size: 0.875em; /* Adjusted size */
-  transition: transform 0.3s ease;
+  display: inline-block;
+  transform: rotate(0deg);
+  transition: transform 300ms ease;
+  width: 0.8em;
+  height: 0.8em;
 }
 
-.accordion-toggle svg.rotated {
+.accordion-toggle.is-open svg {
   transform: rotate(90deg);
-}
-
-.accordion-toggle:hover {
-  color: #005bb5;
-}
-
-.user-card.expanded .accordion-toggle i {
-  transform: rotate(90deg);
-}
-
-.accordion-toggle:hover {
-  color: #005bb5;
 }
 
 /* Debugging output styles */

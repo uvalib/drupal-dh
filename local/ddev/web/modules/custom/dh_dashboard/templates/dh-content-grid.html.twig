@@ -1,0 +1,38 @@
+<div{{ attributes.addClass('dh-content-grid', 'dh-' ~ type ~ '-grid') }}>
+  <h2>{{ type == 'news' ? 'Latest News'|t : 'Upcoming Events'|t }}</h2>
+  
+  <div class="grid-items-container">
+    <div class="content-grid">
+      {% for item in items %}
+        <article class="dh-card grid-item {{ item.category_class }}">
+          <h3 class="card-title"><i class="fas fa-{{ item.icon }}"></i> {{ item.title }}</h3>
+          <div class="card-meta">
+            <span class="date"><i class="fas fa-calendar-alt"></i> {{ item.date }}</span>
+            {% if item.priority %}
+              <span class="priority-indicator {{ item.priority_class }}">
+                {{ item.priority|capitalize }}
+              </span>
+            {% endif %}
+            {% if item.location %}
+              <span class="location"><i class="fas fa-map-marker-alt"></i> {{ item.location }}</span>
+            {% endif %}
+          </div>
+          <p class="card-content">{{ item.summary }}</p>
+          {% if item.actions %}
+            <div class="card-actions">
+              {% for action in item.actions %}
+                <a href="{{ action.url }}" class="action-link {{ action.class }}">{{ action.text }}</a>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="content-pager">
+    <button class="pager__button pager__prev" disabled>Previous</button>
+    <span class="pager__info">Page 1</span>
+    <button class="pager__button pager__next">Next</button>
+  </div>
+</div>
