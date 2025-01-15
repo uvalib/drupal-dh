@@ -1,0 +1,77 @@
+{#
+/**
+ * @file
+ * Default theme implementation for DH Events block.
+ *
+ * Available variables:
+ * - items: Array of event items
+ * - attributes: HTML attributes for the container
+ * - show_debug: Boolean indicating debug mode
+ */
+#}
+<div{{ attributes.addClass('dh-events-block') }}>
+  <h2>{{ 'Upcoming Events'|t }}</h2>
+  
+  {% if items.items is not empty %}
+    <div class="dh-dashboard-items">
+      <div class="events-grid">
+        {% for item in items.items %}
+          <article class="dh-card dh-dashboard-item event-item {{ item.category_class }}">
+            <h3 class="card-title">
+              <i class="fas fa-{{ item.icon }}"></i> 
+              {{ item.title }}
+            </h3>
+            <div class="card-meta">
+              <span class="date">
+                <i class="fas fa-calendar-alt"></i> 
+                {{ item.date }}
+              </span>
+              <span class="location">
+                <i class="fas fa-map-marker-alt"></i> 
+                {{ item.location }}
+              </span>
+              <span class="priority-indicator {{ item.priority_class }}">
+                {{ item.priority|capitalize }}
+              </span>
+            </div>
+            <p class="card-content">{{ item.description }}</p>
+            {% if item.url %}
+              <div class="card-actions">
+                <a href="{{ item.url }}" class="action-link">
+                  {{ 'Learn More'|t }}
+                  <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            {% endif %}
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+    
+    {% if items.items|length > 3 %}
+      <div class="dh-dashboard-pager">
+        <button class="pager-prev" disabled>{{ 'Previous'|t }}</button>
+        <span class="current-page">Page 1 of {{ (items.items|length / 3)|round(0, 'ceil') }}</span>
+        <button class="pager-next">{{ 'Next'|t }}</button>
+      </div>
+    {% endif %}
+  {% else %}
+    <div class="no-events">
+      {{ 'No upcoming events found.'|t }}
+    </div>
+  {% endif %}
+
+  {% if show_debug %}
+    <div class="debug-output">
+      <p>Template Debug:</p>
+      <ul>
+        <li>Items count: {{ items.items|length }}</li>
+        <li>Show debug: {{ show_debug ? 'true' : 'false' }}</li>
+      </ul>
+      <details>
+        <summary>Full items data</summary>
+        <pre>{{ _context|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+      </details>
+    </div>
+  {% endif %}
+</div>

@@ -5,22 +5,35 @@
  * Primary module hooks for DH Dashboard module.
  */
 
+/**
+ * Implements hook_help().
+ */
+function dh_dashboard_help($route_name, \Drupal\Core\Routing\RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.dh_dashboard':
+      return '<p>' . t('Provides Digital Humanities Dashboard blocks and functionality.') . '</p>';
+  }
+}
+
 // Debug configuration settings if show_debug is enabled
 $config = \Drupal::config('dh_dashboard.settings');
-if (($config->get('show_debug') ?: FALSE) && function_exists('kint')) {
-  kint('Dashboard Configuration (' . __FILE__ . ':' . __LINE__ . ')', $config->get());
+if (($config->get('show_debug') ?: false) && function_exists('kint')) {
+    kint('Dashboard Configuration (' . __FILE__ . ':' . __LINE__ . ')', $config->get());
 }
 
 /**
  * Implements hook_theme().
  */
-function dh_dashboard_theme($existing, $type, $theme, $path) {
-  return [
+function dh_dashboard_theme($existing, $type, $theme, $path)
+{
+    $module_path = \Drupal::service('extension.list.module')->getPath('dh_dashboard');
+  
+    $themes = [
     'dh_content_grid' => [
       'variables' => [
         'items' => [],
         'type' => 'news', // or 'events'
-        'show_debug' => FALSE,
+        'show_debug' => false,
         'attributes' => [],
       ],
       'template' => 'dh-content-grid',
@@ -28,10 +41,11 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
     'dh_dashboard_news' => [
       'variables' => [
         'news' => [],
-        'show_debug' => FALSE,
+        'show_debug' => false,
         'attributes' => [],
       ],
       'template' => 'dh-dashboard-news',
+      'path' => $path . '/templates',
     ],
     'dh_dashboard_progress' => [
       'variables' => [
@@ -49,9 +63,9 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
     ],
     'dh_dashboard_page' => [
       'variables' => [
-        'content' => NULL,
-        'debug' => NULL,
-        'admin_links' => NULL,
+        'content' => null,
+        'debug' => null,
+        'admin_links' => null,
       ],
       'template' => 'dh-dashboard-page',
     ],
@@ -64,13 +78,14 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
       'variables' => [
         'program_info' => [],
         'attributes' => [],
+        'show_debug' => FALSE,
       ],
     ],
     'dh_dashboard_user_card' => [
       'variables' => [
-        'user' => NULL,
-        'show_debug' => FALSE,
-        'edit_url' => NULL,
+        'user' => null,
+        'show_debug' => false,
+        'edit_url' => null,
         'attributes' => [],
       ],
     ],
@@ -80,22 +95,39 @@ function dh_dashboard_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'dh-dashboard-block-usage',
     ],
-  ];
+    'dh_dashboard_events' => [
+      'variables' => [
+        'items' => [],         // Changed from NULL to []
+        'attributes' => [],    // Changed from NULL to []
+        'show_debug' => FALSE,
+      ],
+      'template' => 'dh-dashboard-events',
+      'path' => $module_path . '/templates',   // Corrected path
+    ],
+    ];
+  
+    // Debug point 6: Log theme registration
+    \Drupal::logger('dh_dashboard')->debug('Theme registration: <pre>@themes</pre>', [
+      '@themes' => print_r($themes, TRUE)
+    ]);
+  
+    return $themes;
 }
 
 /**
  * Implements hook_preprocess_node().
  */
-function dh_dashboard_preprocess_node(&$variables) {
-  if (!isset($variables['node']) || !$variables['node'] instanceof \Drupal\node\NodeInterface) {
-    return;
-  }
+function dh_dashboard_preprocess_node(&$variables)
+{
+    if (!isset($variables['node']) || !$variables['node'] instanceof \Drupal\node\NodeInterface) {
+        return;
+    }
 
-  if ($variables['node']->getType() === 'dh_dashboard') {
-    $variables['display_submitted'] = false;
-    $variables['page'] = true;
-    unset($variables['author_picture'], $variables['submitted']);
-  }
+    if ($variables['node']->getType() === 'dh_dashboard') {
+        $variables['display_submitted'] = false;
+        $variables['page'] = true;
+        unset($variables['author_picture'], $variables['submitted']);
+    }
 }
 
 /**
@@ -104,7 +136,7 @@ function dh_dashboard_preprocess_node(&$variables) {
 function dh_dashboard_preprocess_block(&$variables) {
   if (strpos($variables['plugin_id'], 'dh_dashboard_') === 0) {
     $variables['#attached']['library'][] = 'dh_dashboard/dashboard';
-    $show_debug = \Drupal::config('dh_dashboard.settings')->get('show_debug') ?: FALSE;
+    $show_debug = \Drupal::config('dh_dashboard.settings')->get('show_debug') ?: false;
 
     if (isset($variables['content']['#progress'])) {
       $progress = $variables['content']['#progress'];
@@ -116,16 +148,18 @@ function dh_dashboard_preprocess_block(&$variables) {
       $variables['content']['#progress']['in_progress_percentage'] = ($total > 0) ? ($in_progress / $total) * 100 : 0;
 
       if ($show_debug) {
-
         // Single debug point for progress data
-        \Drupal::logger('dh_dashboard')->debug('Progress Data: @data', [
-          '@data' => print_r([
-            'total' => $total,
-            'completed' => $completed,
-            'in_progress' => $in_progress,
-            'completed_percentage' => $variables['content']['#progress']['completed_percentage'],
-            'in_progress_percentage' => $variables['content']['#progress']['in_progress_percentage'],
-          ], TRUE),
+        \Drupal::logger('dh_dashboard')->debug(
+          'Progress Data: @data', [
+          '@data' => print_r(
+            [
+              'total' => $total,
+              'completed' => $completed,
+              'in_progress' => $in_progress,
+              'completed_percentage' => $variables['content']['#progress']['completed_percentage'],
+              'in_progress_percentage' => $variables['content']['#progress']['in_progress_percentage'],
+            ], true
+          ),
         ]);
       }
     }
@@ -135,42 +169,60 @@ function dh_dashboard_preprocess_block(&$variables) {
 /**
  * Implements hook_preprocess_HOOK() for dh_dashboard_progress templates.
  */
-function dh_dashboard_preprocess_dh_dashboard_progress(&$variables) {
-  $show_debug = \Drupal::config('dh_dashboard.settings')->get('show_debug');
+function dh_dashboard_preprocess_dh_dashboard_progress(&$variables)
+{
+    $show_debug = \Drupal::config('dh_dashboard.settings')->get('show_debug');
   
-  // Fetch mock progress data
-  $progress = fetch_mock_progress_data();
+    // Fetch mock progress data
+    $progress = fetch_mock_progress_data();
 
-  // Calculate total, completed, in-progress, not-started, and registered counts
-  $progress['total'] = count($progress['courses']);
-  $progress['completed'] = count(array_filter($progress['courses'], function($course) {
-    return $course['status_class'] === 'course-status--completed';
-  }));
-  $progress['in_progress'] = count(array_filter($progress['courses'], function($course) {
-    return $course['status_class'] === 'course-status--in-progress';
-  }));
-  $progress['not_started'] = count(array_filter($progress['courses'], function($course) {
-    return $course['status_class'] === 'course-status--not-started';
-  }));
-  $progress['registered'] = count(array_filter($progress['courses'], function($course) {
-    return $course['status_class'] === 'course-status--registered';
-  }));
+    // Calculate total, completed, in-progress, not-started, and registered counts
+    $progress['total'] = count($progress['courses']);
+    $progress['completed'] = count(
+        array_filter(
+            $progress['courses'], function ($course) {
+                return $course['status_class'] === 'course-status--completed';
+            }
+        )
+    );
+    $progress['in_progress'] = count(
+        array_filter(
+            $progress['courses'], function ($course) {
+                return $course['status_class'] === 'course-status--in-progress';
+            }
+        )
+    );
+    $progress['not_started'] = count(
+        array_filter(
+            $progress['courses'], function ($course) {
+                return $course['status_class'] === 'course-status--not-started';
+            }
+        )
+    );
+    $progress['registered'] = count(
+        array_filter(
+            $progress['courses'], function ($course) {
+                return $course['status_class'] === 'course-status--registered';
+            }
+        )
+    );
 
-  // Ensure the progress data is correctly set
-  $progress['completed_percentage'] = ($progress['total'] > 0) ? ($progress['completed'] / $progress['total']) * 100 : 0;
-  $progress['in_progress_percentage'] = ($progress['total'] > 0) ? ($progress['in_progress'] / $progress['total']) * 100 : 0;
-  $progress['not_started_percentage'] = ($progress['total'] > 0) ? ($progress['not_started'] / $progress['total']) * 100 : 0;
-  $progress['registered_percentage'] = ($progress['total'] > 0) ? ($progress['registered'] / $progress['total']) * 100 : 0;
+    // Ensure the progress data is correctly set
+    $progress['completed_percentage'] = ($progress['total'] > 0) ? ($progress['completed'] / $progress['total']) * 100 : 0;
+    $progress['in_progress_percentage'] = ($progress['total'] > 0) ? ($progress['in_progress'] / $progress['total']) * 100 : 0;
+    $progress['not_started_percentage'] = ($progress['total'] > 0) ? ($progress['not_started'] / $progress['total']) * 100 : 0;
+    $progress['registered_percentage'] = ($progress['total'] > 0) ? ($progress['registered'] / $progress['total']) * 100 : 0;
 
-  $variables['progress'] = $progress;
+    $variables['progress'] = $progress;
 }
 
 /**
  * Fetch mock progress data.
  */
-function fetch_mock_progress_data() {
-  // Mock data mimicking real data
-  return [
+function fetch_mock_progress_data()
+{
+    // Mock data mimicking real data
+    return [
     'title' => 'Course Progress',
     'courses' => [
       ['name' => 'Introduction to Digital Humanities', 'mnemonic' => 'HIST', 'number' => '102', 'year' => 2023, 'semester' => 'Fall', 'status_class' => 'course-status--completed', 'status_text' => 'Completed', 'icon' => 'check', 'type' => 'required'],
@@ -183,57 +235,60 @@ function fetch_mock_progress_data() {
       ['name' => 'Introduction to Data Science', 'mnemonic' => 'DSCI', 'number' => '101', 'year' => 2023, 'semester' => 'Fall', 'status_class' => 'course-status--registered', 'status_text' => 'Registered', 'icon' => 'calendar-check', 'type' => 'required'],
       // ... more courses
     ],
-  ];
+    ];
 }
 
 /**
  * Implements hook_theme_suggestions_HOOK_alter().
  */
-function dh_dashboard_theme_suggestions_node_alter(array &$suggestions, array $variables) {
-  $node = $variables['elements']['#node'];
-  if ($node->bundle() == 'dh_dashboard') {
-    $suggestions[] = 'node__dh_dashboard__' . $variables['elements']['#view_mode'];
-  }
+function dh_dashboard_theme_suggestions_node_alter(array &$suggestions, array $variables)
+{
+    $node = $variables['elements']['#node'];
+    if ($node->bundle() == 'dh_dashboard') {
+        $suggestions[] = 'node__dh_dashboard__' . $variables['elements']['#view_mode'];
+    }
 }
 
 /**
  * Implements hook_page_attachments().
  */
-function dh_dashboard_page_attachments(array &$attachments) {
-  $attachments['#attached']['library'][] = 'dh_dashboard/dashboard';
+function dh_dashboard_page_attachments(array &$attachments)
+{
+    $attachments['#attached']['library'][] = 'dh_dashboard/dashboard';
 
-  if (\Drupal::currentUser()->hasPermission('access devel information')) {
-    // Get all instances of our blocks
-    $block_usage = [];
-    $database = \Drupal::database();
+    if (\Drupal::currentUser()->hasPermission('access devel information')) {
+        // Get all instances of our blocks
+        $block_usage = [];
+        $database = \Drupal::database();
     
-    // Check Layout Builder usage
-    $query = $database->select('config', 'c')
-      ->fields('c', ['name', 'data'])
-      ->condition('name', '%layout_builder%', 'LIKE');
-    $results = $query->execute();
+        // Check Layout Builder usage
+        $query = $database->select('config', 'c')
+            ->fields('c', ['name', 'data'])
+            ->condition('name', '%layout_builder%', 'LIKE');
+        $results = $query->execute();
     
-    foreach ($results as $record) {
-      if ($data = unserialize($record->data)) {
-        // Look for our blocks in the layout builder data
-        if (is_string($data) && strpos($data, 'dh_dashboard_') !== FALSE) {
-          $block_usage['layout_builder'][] = [
-            'config' => $record->name,
-            'data' => $data,
-          ];
+        foreach ($results as $record) {
+            if ($data = unserialize($record->data)) {
+                // Look for our blocks in the layout builder data
+                if (is_string($data) && strpos($data, 'dh_dashboard_') !== false) {
+                    $block_usage['layout_builder'][] = [
+                    'config' => $record->name,
+                    'data' => $data,
+                    ];
+                }
+            }
         }
-      }
-    }
     
-    // Attach the data to drupalSettings
-    $attachments['#attached']['drupalSettings']['dhDashboard']['blockUsage'] = $block_usage;
-  }
+        // Attach the data to drupalSettings
+        $attachments['#attached']['drupalSettings']['dhDashboard']['blockUsage'] = $block_usage;
+    }
 }
 
 /**
  * Implements hook_preprocess_HOOK() for dh_dashboard_page templates.
  */
-function dh_dashboard_preprocess_dh_dashboard_page(&$variables) {
+function dh_dashboard_preprocess_dh_dashboard_page(&$variables)
+{
     // Initialize drupalSettings array first
     if (!isset($variables['#attached']['drupalSettings']['dhDashboard'])) {
         $variables['#attached']['drupalSettings']['dhDashboard'] = [];
@@ -241,7 +296,7 @@ function dh_dashboard_preprocess_dh_dashboard_page(&$variables) {
 
     // Get configuration and use consistent naming
     $config = \Drupal::config('dh_dashboard.settings');
-    $show_debug = $config->get('show_debug') ?: FALSE;
+    $show_debug = $config->get('show_debug') ?: false;
     $news_items_per_page = (int) ($config->get('news_items_per_page') ?: 3);
     
     // Set the values
@@ -261,12 +316,12 @@ function dh_dashboard_preprocess_dh_dashboard_page(&$variables) {
             $full_name = $user->getDisplayName();
         }
 
-        $profile_data = $profile ? $profile->toArray() : NULL;
-        $profile_id = $profile ? $profile->id() : NULL;
+        $profile_data = $profile ? $profile->toArray() : null;
+        $profile_id = $profile ? $profile->id() : null;
 
         // Load the video URL and thumbnail URL from the media entity
-        $video_url = NULL;
-        $video_thumbnail_url = NULL;
+        $video_url = null;
+        $video_thumbnail_url = null;
         if ($profile && $profile->hasField('field_personal_statement_video') && !$profile->get('field_personal_statement_video')->isEmpty()) {
             $video_target_id = $profile->get('field_personal_statement_video')->target_id;
             $video_entity = \Drupal::entityTypeManager()->getStorage('media')->load($video_target_id);
@@ -288,8 +343,8 @@ function dh_dashboard_preprocess_dh_dashboard_page(&$variables) {
         }
     } else {
         $full_name = $user->getDisplayName();
-        $profile_data = NULL;
-        $profile_id = NULL;
+        $profile_data = null;
+        $profile_id = null;
     }
 
     $variables['user'] = [
@@ -315,8 +370,36 @@ function dh_dashboard_preprocess_dh_dashboard_page(&$variables) {
       '#theme' => 'dh_dashboard_user_card',
       '#user' => $variables['user'],
       '#show_debug' => $variables['show_debug'],
-      '#edit_url' => $profile_id ? "/user/{$user->id()}/dhcert" : NULL,
+      '#edit_url' => $profile_id ? "/user/{$user->id()}/dhcert" : null,
       '#attributes' => new \Drupal\Core\Template\Attribute(),
     ];
+}
+
+/**
+ * Implements hook_plugin_filter_TYPE__CONSUMER_alter().
+ */
+function dh_dashboard_plugin_filter_block__layout_builder_alter(array &$definitions) {
+  // Move our blocks to the "DH Dashboard" category
+  foreach ($definitions as $id => $definition) {
+    if (strpos($id, 'dh_dashboard_') === 0) {
+      $definitions[$id]['category'] = t('DH Dashboard');
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for dh-dashboard-events templates.
+ */
+function dh_dashboard_preprocess_dh_dashboard_events(&$variables) {
+  // Debug the variables more efficiently
+  if (!empty($variables['show_debug'])) {
+    // Only show essential debug info
+    $debug_info = [
+      'items_count' => isset($variables['items']['items']) ? count($variables['items']['items']) : 0,
+      'show_debug' => $variables['show_debug'],
+      'has_attributes' => isset($variables['attributes']),
+    ];
+    \Drupal::messenger()->addStatus('Events debug info: ' . print_r($debug_info, TRUE));
+  }
 }
 

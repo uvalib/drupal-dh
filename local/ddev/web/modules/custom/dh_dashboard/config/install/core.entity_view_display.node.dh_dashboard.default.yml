@@ -3,8 +3,10 @@ status: true
 dependencies:
   config:
     - node.type.dh_dashboard
+    - field.field.node.dh_dashboard.body
   module:
     - layout_builder
+    - text
     - user
 third_party_settings:
   layout_builder:
@@ -17,44 +19,58 @@ third_party_settings:
           label: 'Dashboard Content'
           column_widths: '33-34-33'
         components:
-          dh_news:
-            uuid: dh-news
+          -
+            uuid: dh-events
             region: first
             configuration:
-              id: 'dh_dashboard_news'
-              label: 'News'
+              id: 'dh_dashboard_events'
+              label: 'Events'
               provider: dh_dashboard
-              label_display: 'hidden'
-            additional: {  }
+              label_display: visible
+              context_mapping: {  }
+              items_per_page: 5
+              display_mode: grid
+              show_debug: false
+            additional:
+              bootstrap_styles:
+                block_style:
+                  background:
+                    bootstrap_styles_background_color: ''
+                  spacing:
+                    padding_top: '0'
+                    padding_bottom: '0'
             weight: 0
-          dh_program_info:
+          -
             uuid: dh-program-info
             region: second
             configuration:
               id: 'dh_dashboard_program_info'
               label: 'Program Information'
               provider: dh_dashboard
-              label_display: 'hidden'
+              label_display: visible
+              context_mapping: {}
             additional: {  }
             weight: 0
-          dh_progress:
+          -
             uuid: dh-progress
             region: third
             configuration:
               id: 'dh_dashboard_progress'
               label: 'Progress'
               provider: dh_dashboard
-              label_display: 'hidden'
+              label_display: visible
+              context_mapping: {}
             additional: {  }
             weight: 0
-          dh_certificate:
+          -
             uuid: dh-certificate
             region: third
             configuration:
               id: 'dh_dashboard_certificate_info'
               label: 'Certificate Info'
               provider: dh_dashboard
-              label_display: 'hidden'
+              label_display: visible
+              context_mapping: {}
             additional: {  }
             weight: 1
         third_party_settings: {  }
@@ -62,9 +78,17 @@ id: node.dh_dashboard.default
 targetEntityType: node
 bundle: dh_dashboard
 mode: default
-content: {}
+content:
+  body:
+    type: text_default
+    label: hidden
+    settings: {}
+    third_party_settings: {}
+    weight: 0
+    region: content
 hidden:
   uid: true
   created: true
   promote: true
   sticky: true
+  links: true

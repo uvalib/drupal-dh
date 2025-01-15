@@ -1,3 +1,14 @@
-
-news_items_per_page: 3
 show_debug: false
+dashboard_node: null
+blocks:
+  news:
+    items_per_page: 5
+    display_mode: 'grid'
+  events:
+    items_per_page: 10
+    event_type_filter: 'all'
+    show_past_events: true
+    display_mode: 'grid'
+  program_info:
+    items_per_page: 5
+    display_mode: 'grid'

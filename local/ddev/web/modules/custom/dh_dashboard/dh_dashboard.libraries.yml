@@ -2,9 +2,11 @@ dashboard:
   version: 1.x
   css:
     theme:
+      css/dh_dashboard.css: {}
       css/dh-dashboard.css: {}
       https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css: { type: external }
   js:
+    js/dh_dashboard.js: {}
     https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js: { type: external }
     js/dh-dashboard.js: {}
     js/user-card.js: {}

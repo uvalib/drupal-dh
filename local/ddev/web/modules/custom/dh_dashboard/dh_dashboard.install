@@ -102,4 +102,20 @@ function dh_dashboard_uninstall() {
 
   // Delete the base field override configuration that might conflict on reinstall
   \Drupal::configFactory()->getEditable('core.base_field_override.node.dh_dashboard.title')->delete();
+
+  // Clean up the body field instance for dh_dashboard content type
+  $field_instance = \Drupal::entityTypeManager()
+    ->getStorage('field_config')
+    ->load('node.dh_dashboard.body');
+  if ($field_instance) {
+    $field_instance->delete();
+  }
+
+  // Delete the content type itself
+  $content_type = \Drupal::entityTypeManager()
+    ->getStorage('node_type')
+    ->load('dh_dashboard');
+  if ($content_type) {
+    $content_type->delete();
+  }
 }

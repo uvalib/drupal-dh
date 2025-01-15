@@ -2,7 +2,7 @@ dh_dashboard.main:
   path: '/dashboard'
   defaults:
     _controller: '\Drupal\dh_dashboard\Controller\DashboardController::content'
-    _title: 'Dashboard'
+    _title: 'My Dashboard'
   requirements:
     _permission: 'access dh dashboard'
 

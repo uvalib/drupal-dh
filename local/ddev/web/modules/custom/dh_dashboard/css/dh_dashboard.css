@@ -1,0 +1,69 @@
+/* Common styles for all DH Dashboard blocks */
+.dh-card,
+.block-dh-dashboard-news,
+.block-dh-dashboard-program-info,
+.block-dh-dashboard-progress,
+.block-dh-dashboard-certificate-info,
+.block-dh-dashboard-events {
+  border: 1px solid #ddd;
+  border-radius: 12px; /* Ensure consistent border radius */
+  padding: 15px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden; /* Ensure the color bar does not bleed over the edge */
+}
+
+/* Color strip at the top of each block */
+.dh-card::before,
+.block-dh-dashboard-news::before,
+.block-dh-dashboard-program-info::before,
+.block-dh-dashboard-progress::before,
+.block-dh-dashboard-certificate-info::before,
+.block-dh-dashboard-events::before {
+  content: '';
+  display: block;
+  width: calc(100% - 2px); /* Adjust width to fit within the border */
+  height: 4px;
+  background-color: #007bff; /* Change this color as needed */
+  position: absolute;
+  top: 0;
+  left: 1px; /* Adjust left position to fit within the border */
+  border-top-left-radius: 12px; /* Match the border radius */
+  border-top-right-radius: 12px; /* Match the border radius */
+}
+
+/* Specific styles for the Events block */
+.block-dh-dashboard-events .event-item {
+  margin-bottom: 15px;
+}
+
+.block-dh-dashboard-events .event-item .card-title {
+  font-size: 1.25em;
+  margin-bottom: 10px;
+}
+
+.block-dh-dashboard-events .event-item .card-meta {
+  font-size: 0.875em;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.block-dh-dashboard-events .event-item .card-content {
+  font-size: 1em;
+  color: #333;
+}
+
+.block-dh-dashboard-events .event-item .card-actions {
+  margin-top: 10px;
+}
+
+.block-dh-dashboard-events .event-item .card-actions .action-link {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.block-dh-dashboard-events .event-item .card-actions .action-link:hover {
+  text-decoration: underline;
+}
