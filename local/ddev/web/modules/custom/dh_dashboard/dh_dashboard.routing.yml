@@ -6,13 +6,13 @@ dh_dashboard.main:
   requirements:
     _permission: 'access dh dashboard'
 
-dh_dashboard.admin:
-  path: '/admin/config/dh_dashboard'
+dh_dashboard.settings:
+  path: '/admin/config/dh_dashboard/settings'
   defaults:
-    _form: '\Drupal\dh_dashboard\Form\DashboardSettingsForm'
+    _form: '\Drupal\dh_dashboard\Form\DHDashboardSettingsForm'
     _title: 'Dashboard Settings'
   requirements:
-    _permission: 'administer dh dashboard'
+    _permission: 'administer dh_dashboard'
 
 dh_dashboard.block_usage:
   path: '/admin/reports/dh-dashboard/block-usage'
@@ -21,3 +21,17 @@ dh_dashboard.block_usage:
     _title: 'DH Dashboard Block Usage'
   requirements:
     _permission: 'access devel information'
+
+dh_dashboard.events_ajax:
+  path: '/dh-dashboard/ajax/events'
+  defaults:
+    _controller: '\Drupal\dh_dashboard\Controller\DashboardAjaxController::eventsContent'
+  requirements:
+    _permission: 'access content'
+
+dh_dashboard.news_ajax:
+  path: '/dh-dashboard/ajax/news'
+  defaults:
+    _controller: '\Drupal\dh_dashboard\Controller\DashboardAjaxController::newsContent'
+  requirements:
+    _permission: 'access content'

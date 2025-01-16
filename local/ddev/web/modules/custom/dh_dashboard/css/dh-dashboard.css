@@ -969,3 +969,209 @@ a.resource-item:hover .card-title {
   height: 4px;
   opacity: 0.8;
 }
+
+/* Compact block styles */
+.compact-block {
+  font-size: 0.9rem;
+}
+
+.compact-block .dh-card,
+.compact-block.block-dh-dashboard-news,
+.compact-block.block-dh-dashboard-program-info,
+.compact-block.block-dh-dashboard-progress,
+.compact-block.block-dh-dashboard-certificate-info {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6px;
+}
+
+.compact-block .card-title {
+  font-size: 1.1rem;
+  margin-bottom: 0.25rem;
+  gap: 0.5rem;
+}
+
+.compact-block .card-meta {
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.compact-block .card-content {
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+}
+
+.compact-block .card-actions {
+  padding-top: 0.5rem;
+}
+
+.compact-block .action-link {
+  padding: 0.25rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.compact-block .priority-indicator {
+  padding: 0.15rem 0.5rem;
+  font-size: 0.7rem;
+}
+
+/* Compact grid layouts */
+.compact-block .events-grid,
+.compact-block .news-grid,
+.compact-block .dh-program-info {
+  gap: 0.75rem;
+  padding: 0.5rem;
+}
+
+/* Compact pager */
+.compact-block .dh-dashboard-pager {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
+.compact-block .dh-dashboard-pager button {
+  padding: 0.25rem 0.75rem;
+  min-width: 80px;
+  font-size: 0.85rem;
+}
+
+.compact-block .dh-dashboard-pager .current-page {
+  font-size: 0.85rem;
+  min-width: 100px;
+  padding: 0.25rem;
+}
+
+/* Compact progress styles */
+.compact-block .progress-bar {
+  height: 8px;
+  margin: 0.5rem 0;
+}
+
+.compact-block .progress-stats {
+  font-size: 0.85rem;
+}
+
+/* Compact requirements summary */
+.compact-block .requirements-summary {
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.compact-block .requirement-item {
+  padding: 0.5rem;
+}
+
+.compact-block .requirement-value {
+  font-size: 1.2rem;
+  margin-bottom: 0.25rem;
+}
+
+.compact-block .requirement-label {
+  font-size: 0.8rem;
+}
+
+/* Compact debug output */
+.compact-block .debug-output {
+  padding: 0.5rem;
+  font-size: 0.85rem;
+}
+
+/* Pager Styling */
+.dashboard-pager {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.pager__items {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.pager__item {
+  margin: 0;
+  padding: 0;
+}
+
+.pager__link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #666;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+.pager__link:hover {
+  background: #f5f5f5;
+  border-color: #999;
+  color: #333;
+}
+
+.pager__item.is-active .pager__link {
+  background: #0071b8;
+  border-color: #0071b8;
+  color: #fff;
+}
+
+.pager__item--prev .pager__link,
+.pager__item--next .pager__link {
+  padding: 0.5rem 1.5rem;
+  font-weight: bold;
+}
+
+.pager__link[disabled],
+.pager__link[disabled]:hover {
+  background: #f5f5f5;
+  border-color: #ddd;
+  color: #999;
+  cursor: not-allowed;
+}
+
+/* Loading state */
+.block-dh-dashboard-events.is-loading {
+  position: relative;
+}
+
+.block-dh-dashboard-events.is-loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+.block-dh-dashboard-events.is-loading::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #0071b8;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  z-index: 11;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

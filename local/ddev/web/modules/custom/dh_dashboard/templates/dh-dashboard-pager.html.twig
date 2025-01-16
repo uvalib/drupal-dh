@@ -1,3 +1,4 @@
+{{ attach_library('dh_dashboard/dashboard-pager') }}
 {#
 /**
  * @file
@@ -6,10 +7,61 @@
  * Available variables:
  * - total: Total number of items.
  * - per_page: Items per page.
+ * - current_page: Current page number.
+ * - total_pages: Total number of pages.
  */
 #}
-<div class="dh-dashboard-pager" data-total="{{ total }}" data-per-page="{{ per_page }}">
-  <button class="pager-prev" disabled>&laquo; Previous</button>
-  <span class="pager-info">Page <span class="current-page">1</span> of <span class="total-pages">{{ (total / per_page)|round(0, 'ceil') }}</span></span>
-  <button class="pager-next">Next &raquo;</button>
-</div>
+{%
+  set pager_classes = [
+    'dashboard-pager',
+    'pagination',
+  ]
+%}
+
+{# Only show pager if we have more than one page #}
+{% if pager_data.total_pages > 1 %}
+  <nav class="dashboard-pager" role="navigation" aria-label="{{ 'Pagination'|t }}"
+    {{ attributes }}
+    data-base-url="{{ path('dh_dashboard.main') }}"
+    data-block-id="{{ pager_data.block_id|default('') }}">
+    <ul class="pager__items">
+      {# Previous button #}
+      {% if pager_data.current_page > 0 %}
+        <li class="pager__item pager__item--prev">
+          <a href="javascript:void(0);" class="pager__link" data-page="{{ pager_data.current_page - 1 }}" rel="prev">
+            <span aria-hidden="true">&laquo;</span> {{ 'Previous'|t }}
+          </a>
+        </li>
+      {% endif %}
+      
+      {# Page numbers #}
+      {% for i in 0..pager_data.total_pages - 1 %}
+        {% if 
+          i == 0 or 
+          i == pager_data.total_pages - 1 or 
+          (i >= pager_data.current_page - 1 and i <= pager_data.current_page + 1)
+        %}
+          <li class="pager__item{% if i == pager_data.current_page %} is-active{% endif %}">
+            <a href="javascript:void(0);" class="pager__link" data-page="{{ i }}">{{ i + 1 }}</a>
+          </li>
+        {% elseif 
+          i == pager_data.current_page - 2 or 
+          i == pager_data.current_page + 2
+        %}
+          <li class="pager__item pager__item--ellipsis">
+            <span>&hellip;</span>
+          </li>
+        {% endif %}
+      {% endfor %}
+      
+      {# Next button #}
+      {% if pager_data.current_page < (pager_data.total_pages - 1) %}
+        <li class="pager__item pager__item--next">
+          <a href="javascript:void(0);" class="pager__link" data-page="{{ pager_data.current_page + 1 }}" rel="next">
+            {{ 'Next'|t }} <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
+{% endif %}

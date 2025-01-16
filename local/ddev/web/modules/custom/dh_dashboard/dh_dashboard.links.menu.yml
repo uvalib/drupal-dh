@@ -5,9 +5,9 @@ dh_dashboard.main:
   menu_name: main
   weight: 100
 
-dh_dashboard.admin:
-  title: 'Dashboard Settings'
-  description: 'Configure dashboard settings'
+dh_dashboard.settings:
+  title: 'DH Dashboard settings'
+  description: 'Configure DH Dashboard module settings.'
   parent: system.admin_config_system
-  route_name: dh_dashboard.admin
+  route_name: dh_dashboard.settings
   weight: 100

@@ -67,3 +67,36 @@
 .block-dh-dashboard-events .event-item .card-actions .action-link:hover {
   text-decoration: underline;
 }
+
+/* Pager styles */
+.dashboard-pager {
+  margin: 1rem 0;
+  text-align: center;
+}
+
+.dashboard-pager .pager__items {
+  display: flex;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dashboard-pager .pager__item {
+  margin: 0 0.25rem;
+}
+
+.dashboard-pager .pager__link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+}
+
+.dashboard-pager .pager__item.is-active .pager__link {
+  background: #0071b8;
+  color: white;
+  border-color: #0071b8;
+}

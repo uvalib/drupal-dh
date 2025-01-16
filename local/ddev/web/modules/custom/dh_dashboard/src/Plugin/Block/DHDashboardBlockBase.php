@@ -10,6 +10,9 @@ use Drupal\Core\Session\AccountInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Cache\Cache;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\ReplaceCommand;
+use Drupal\Core\Url;
 
 /**
  * Provides a base block for the Digital Humanities Dashboard.
@@ -51,6 +54,18 @@ abstract class DHDashboardBlockBase extends BlockBase implements ContainerFactor
     ConfigFactoryInterface $config_factory,
     AccountInterface $current_user
   ) {
+    // Get default configuration from settings
+    $default_items_per_page = $config_factory->get('dh_dashboard.settings')->get('default_items_per_page') ?? 3;
+    
+    // Merge with provided configuration
+    $configuration += [
+      'items_per_page' => $default_items_per_page,
+      'display_mode' => 'grid',
+      'show_debug' => FALSE,
+      'category_filter' => 'all',
+      'use_compact_mode' => FALSE,
+    ];
+    
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->configFactory = $config_factory;
     $this->currentUser = $current_user;
@@ -78,6 +93,7 @@ abstract class DHDashboardBlockBase extends BlockBase implements ContainerFactor
       'display_mode' => 'grid',
       'show_debug' => FALSE,
       'category_filter' => 'all',
+      'use_compact_mode' => FALSE,
     ] + parent::defaultConfiguration();
   }
 
@@ -91,26 +107,8 @@ abstract class DHDashboardBlockBase extends BlockBase implements ContainerFactor
     $form['items_per_page'] = [
       '#type' => 'number',
       '#title' => $this->t('Items per page'),
-      '#default_value' => $config['items_per_page'],
+      '#default_value' => $config['items_per_page'] ?? 3,
       '#min' => 1,
-      '#max' => 50,
-    ];
-
-    $form['display_mode'] = [
-      '#type' => 'select',
-      '#title' => $this->t('Display mode'),
-      '#default_value' => $config['display_mode'],
-      '#options' => [
-        'grid' => $this->t('Grid'),
-        'list' => $this->t('List'),
-        'cards' => $this->t('Cards'),
-      ],
-    ];
-
-    $form['show_debug'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Show debug information'),
-      '#default_value' => $config['show_debug'],
     ];
 
     return $form;
@@ -120,34 +118,101 @@ abstract class DHDashboardBlockBase extends BlockBase implements ContainerFactor
    * {@inheritdoc}
    */
   public function blockSubmit($form, FormStateInterface $form_state) {
+    parent::blockSubmit($form, $form_state);
     $this->configuration['items_per_page'] = $form_state->getValue('items_per_page');
-    $this->configuration['display_mode'] = $form_state->getValue('display_mode');
-    $this->configuration['show_debug'] = $form_state->getValue('show_debug');
   }
 
   /**
    * {@inheritdoc}
    */
   public function build() {
-    $config = $this->getConfiguration();
+    // Get the module's debug setting
+    $module_config = \Drupal::config('dh_dashboard.settings');
+    $show_debug = $module_config->get('show_debug') ?: FALSE;
+
+    // Get current page from URL query parameter with bounds checking
+    $current_page = max(0, (int) (\Drupal::request()->query->get('page') ?: 0));
     
-    return [
+    // Get all items first
+    $all_items = $this->getItems();
+    $total_items = count($all_items['items']);
+    
+    // Get page size from configuration
+    $page_size = (int) ($this->configuration['items_per_page']);
+    
+    // Use module's debug setting for messages
+    if ($show_debug) {
+      \Drupal::messenger()->addMessage('Configuration dump: ' . print_r($this->configuration, TRUE));
+    }
+    
+    // Calculate pagination values
+    $total_pages = max(1, ceil($total_items / $page_size));
+    $current_page = min($current_page, max(0, $total_pages - 1));
+    $start = $current_page * $page_size;
+    
+    // Create pager data
+    $pager_data = [
+      'total' => $total_items,
+      'per_page' => $page_size,
+      'current_page' => $current_page,
+      'total_pages' => $total_pages,
+    ];
+
+    // Use module's debug setting for messages
+    if ($show_debug) {
+      \Drupal::messenger()->addMessage('Pager data before build: ' . print_r($pager_data, TRUE));
+    }
+    
+    // Slice the items after pager data is created
+    if (isset($all_items['items']) && is_array($all_items['items'])) {
+      $all_items['items'] = array_values($all_items['items']);
+      $all_items['items'] = array_slice($all_items['items'], $start, $page_size);
+    }
+
+    // Get the block instance ID - use plugin ID if no config ID is available
+    $block_id = $this->getConfiguration()['id'] ?? $this->getPluginId();
+
+    // Create the build array properly
+    $build = [
       '#theme' => $this->getThemeHook(),
-      '#items' => $this->getItems(),
-      '#show_debug' => $config['show_debug'],
-      '#items_per_page' => $config['items_per_page'],
-      '#display_mode' => $config['display_mode'],
-      '#attributes' => new Attribute(['class' => [$this->getBlockClass()]]),
+      '#items' => $all_items,
+      '#show_debug' => $show_debug, // Use module's debug setting
+      '#items_per_page' => $page_size,
+      '#pager_data' => $pager_data,
+      '#block_id' => $block_id, // Pass the block ID to template
+      '#attributes' => new Attribute([
+        'class' => ['dh-dashboard-block', 'block-spacing'],
+        'id' => 'block-' . str_replace('_', '-', $block_id), // Use consistent ID format
+      ]),
+      '#cache' => [
+        'max-age' => 0,
+        'contexts' => ['url.query_args:page'],
+        'tags' => ['config:dh_dashboard.settings'], // Add config tag for debug setting
+      ],
       '#attached' => [
         'library' => ['dh_dashboard/dashboard'],
         'drupalSettings' => [
           'dhDashboard' => [
-            'items_per_page' => $config['items_per_page'],
+            'items' => [
+              'totalItems' => $total_items,
+              'itemsPerPage' => $page_size,
+              'currentPage' => $current_page,
+            ],
+            'pager' => [
+              // Use \Drupal\Core\Url to get an absolute or relative path:
+              'baseUrl' => Url::fromRoute('dh_dashboard.main')->toString(),
+            ],
           ],
         ],
       ],
-      '#cache' => ['max-age' => 0],
     ];
+
+    // Add pager data if this block uses pagination
+    if (isset($build['#pager_data'])) {
+      $build['#pager_data']['block_id'] = $this->getPluginId();
+    }
+    
+    return $build;
   }
 
   /**
@@ -203,4 +268,40 @@ abstract class DHDashboardBlockBase extends BlockBase implements ContainerFactor
    *   Array of items to display.
    */
   abstract protected function getItems(): array;
+
+  /**
+   * Handle AJAX pager requests.
+   */
+  public function handleAjaxPager(array &$form, FormStateInterface $form_state): AjaxResponse {
+    $response = new AjaxResponse();
+    $page = \Drupal::request()->query->get('page', 0);
+    
+    // Rebuild block content with new page
+    $build = $this->build();
+    
+    // Replace content
+    $response->addCommand(
+      new ReplaceCommand(
+        '.block-' . str_replace('_', '-', $this->getPluginId()),
+        $build
+      )
+    );
+    
+    return $response;
+  }
+
+  /**
+   * Build pager data array.
+   */
+  protected function buildPagerData($total_items, $page_size, $current_page) {
+    $total_pages = max(1, ceil($total_items / $page_size));
+    $current_page = min(max(0, $current_page), $total_pages - 1);
+    
+    return [
+      'total' => $total_items,
+      'per_page' => $page_size,
+      'current_page' => $current_page,
+      'total_pages' => $total_pages,
+    ];
+  }
 }

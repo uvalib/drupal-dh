@@ -48,6 +48,15 @@ class DashboardSettingsForm extends ConfigFormBase {
       '#max' => 50,
     ];
 
+    $form['display_settings']['default_items_per_page'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Default items per page'),
+      '#description' => $this->t('Default number of items to display per page in dashboard blocks.'),
+      '#default_value' => $config->get('default_items_per_page') ?? 3,
+      '#min' => 1,
+      '#max' => 50,
+    ];
+
     $form['debug_settings'] = [
       '#type' => 'details',
       '#title' => $this->t('Debug Settings'),
@@ -158,6 +167,7 @@ class DashboardSettingsForm extends ConfigFormBase {
     $this->config('dh_dashboard.settings')
       ->set('show_debug', $form_state->getValue('show_debug'))
       ->set('news_items_per_page', $form_state->getValue('news_items_per_page'))
+      ->set('default_items_per_page', $form_state->getValue('default_items_per_page'))
       ->set('dashboard_node', $dashboard_node)
       ->save();
 

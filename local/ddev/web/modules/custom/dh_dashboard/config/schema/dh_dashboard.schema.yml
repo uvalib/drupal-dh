@@ -1,50 +1,33 @@
 dh_dashboard.settings:
   type: config_object
-  label: 'DH Dashboard Settings'
+  label: 'DH Dashboard settings'
   mapping:
-    dashboard_node:
+    default_items_per_page:
       type: integer
-      label: 'Dashboard node ID'
+      label: 'Default items per page'
+    display_mode:
+      type: string
+      label: 'Display mode'
     show_debug:
       type: boolean
       label: 'Show debug information'
     blocks:
       type: mapping
-      label: 'Block Settings'
+      label: 'Block settings'
       mapping:
-        news:
-          type: mapping
-          label: 'News Block Settings'
-          mapping:
-            items_per_page:
-              type: integer
-              label: 'Items per page'
-            display_mode:
-              type: string
-              label: 'Display mode'
         events:
           type: mapping
-          label: 'Events Block Settings'
+          label: 'Events block settings'
           mapping:
             items_per_page:
               type: integer
               label: 'Items per page'
             event_type_filter:
               type: string
-              label: 'Default event type filter'
+              label: 'Event type filter'
             show_past_events:
               type: boolean
               label: 'Show past events'
-            display_mode:
-              type: string
-              label: 'Display mode'
-        program_info:
-          type: mapping
-          label: 'Program Info Settings'
-          mapping:
-            items_per_page:
-              type: integer
-              label: 'Items per page'
             display_mode:
               type: string
               label: 'Display mode'

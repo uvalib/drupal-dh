@@ -72,7 +72,7 @@ class DashboardController extends ControllerBase
                 'settings' => [
                 '#type' => 'link',
                 '#title' => $this->t('Configure Dashboard'),
-                '#url' => Url::fromRoute('dh_dashboard.admin'),
+                '#url' => Url::fromRoute('dh_dashboard.settings'),
                 '#attributes' => ['class' => ['button', 'button--primary']],
                 ],
                 'permissions' => [

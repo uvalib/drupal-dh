@@ -43,6 +43,9 @@ function dh_dashboard_theme($existing, $type, $theme, $path)
         'news' => [],
         'show_debug' => false,
         'attributes' => [],
+        'items_per_page' => NULL,  // Add this explicitly
+        'pager_data' => [], // Explicitly declare pager_data
+        'block_id' => NULL,
       ],
       'template' => 'dh-dashboard-news',
       'path' => $path . '/templates',
@@ -100,9 +103,21 @@ function dh_dashboard_theme($existing, $type, $theme, $path)
         'items' => [],         // Changed from NULL to []
         'attributes' => [],    // Changed from NULL to []
         'show_debug' => FALSE,
+        'items_per_page' => 3,  // Add this explicitly
+        'pager_data' => [], // Changed from NULL to [] to ensure it's always set
+        'block_id' => NULL, // Add block_id to template variables
       ],
       'template' => 'dh-dashboard-events',
       'path' => $module_path . '/templates',   // Corrected path
+    ],
+    'dh_dashboard_pager' => [
+      'variables' => [
+        'total' => 0,
+        'per_page' => 3,
+        'attributes' => [],
+      ],
+      'template' => 'dh-dashboard-pager',
+      'path' => $module_path . '/templates',
     ],
     ];
   
@@ -136,32 +151,49 @@ function dh_dashboard_preprocess_node(&$variables)
 function dh_dashboard_preprocess_block(&$variables) {
   if (strpos($variables['plugin_id'], 'dh_dashboard_') === 0) {
     $variables['#attached']['library'][] = 'dh_dashboard/dashboard';
-    $show_debug = \Drupal::config('dh_dashboard.settings')->get('show_debug') ?: false;
+    
+    // Get configuration
+    $config = \Drupal::config('dh_dashboard.settings');
+    $default_items_per_page = $config->get('default_items_per_page') ?? 3;
+    $block_settings = $config->get('blocks.events') ?: [];
+    
+    // Set items per page from block settings or fall back to default
+    $variables['content']['#items_per_page'] = $block_settings['items_per_page'] ?? $default_items_per_page;
 
-    if (isset($variables['content']['#progress'])) {
-      $progress = $variables['content']['#progress'];
-      $total = $progress['total'];
-      $completed = $progress['completed'];
-      $in_progress = isset($progress['in_progress']) ? $progress['in_progress'] : 0;
+    // Debug the values being used
+    if ($config->get('show_debug')) {
+      \Drupal::logger('dh_dashboard')->debug('Block settings: @settings', [
+        '@settings' => print_r([
+          'default_items_per_page' => $default_items_per_page,
+          'block_settings' => $block_settings,
+          'final_items_per_page' => $variables['content']['#items_per_page'],
+        ], TRUE)
+      ]);
+    }
+  }
 
-      $variables['content']['#progress']['completed_percentage'] = ($total > 0) ? ($completed / $total) * 100 : 0;
-      $variables['content']['#progress']['in_progress_percentage'] = ($total > 0) ? ($in_progress / $total) * 100 : 0;
+  // Add memory usage debugging
+  if (\Drupal::config('dh_dashboard.settings')->get('show_debug')) {
+    \Drupal::logger('dh_dashboard')->debug('Memory usage: @memory MB', [
+      '@memory' => round(memory_get_usage() / 1024 / 1024, 2)
+    ]);
+  }
 
-      if ($show_debug) {
-        // Single debug point for progress data
-        \Drupal::logger('dh_dashboard')->debug(
-          'Progress Data: @data', [
-          '@data' => print_r(
-            [
-              'total' => $total,
-              'completed' => $completed,
-              'in_progress' => $in_progress,
-              'completed_percentage' => $variables['content']['#progress']['completed_percentage'],
-              'in_progress_percentage' => $variables['content']['#progress']['in_progress_percentage'],
-            ], true
-          ),
-        ]);
+  // Implement chunk processing for large datasets
+  if (isset($variables['elements']['content']['#items']) && is_array($variables['elements']['content']['#items'])) {
+    $chunk_size = 50; // Process 50 items at a time
+    $items = $variables['elements']['content']['#items'];
+    
+    // Clear the original array to free memory
+    $variables['elements']['content']['#items'] = [];
+    
+    // Process in chunks
+    foreach (array_chunk($items, $chunk_size) as $chunk) {
+      foreach ($chunk as $item) {
+        $variables['elements']['content']['#items'][] = $item;
       }
+      // Clear memory after each chunk
+      gc_collect_cycles();
     }
   }
 }
@@ -391,15 +423,102 @@ function dh_dashboard_plugin_filter_block__layout_builder_alter(array &$definiti
  * Implements hook_preprocess_HOOK() for dh-dashboard-events templates.
  */
 function dh_dashboard_preprocess_dh_dashboard_events(&$variables) {
-  // Debug the variables more efficiently
-  if (!empty($variables['show_debug'])) {
-    // Only show essential debug info
-    $debug_info = [
+  // Ensure pager_data is properly set
+  if (empty($variables['pager_data']) && isset($variables['#pager_data'])) {
+    $variables['pager_data'] = $variables['#pager_data'];
+  }
+
+  // Debug info only if both module and template debugging are enabled
+  $config = \Drupal::config('dh_dashboard.settings');
+  if (!empty($variables['show_debug']) && $config->get('show_debug')) {
+    \Drupal::messenger()->addStatus('Events template variables: ' . print_r([
       'items_count' => isset($variables['items']['items']) ? count($variables['items']['items']) : 0,
-      'show_debug' => $variables['show_debug'],
-      'has_attributes' => isset($variables['attributes']),
-    ];
-    \Drupal::messenger()->addStatus('Events debug info: ' . print_r($debug_info, TRUE));
+      'pager_data' => $variables['pager_data'],
+    ], TRUE));
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for dh-dashboard-news templates.
+ */
+function dh_dashboard_preprocess_dh_dashboard_news(&$variables) {
+  // Ensure pager_data is properly passed from build array
+  if (empty($variables['pager_data']) && !empty($variables['elements']['#pager_data'])) {
+    $variables['pager_data'] = $variables['elements']['#pager_data'];
+  }
+
+  // Debug info only if both module and template debugging are enabled
+  $config = \Drupal::config('dh_dashboard.settings');
+  if (!empty($variables['show_debug']) && $config->get('show_debug')) {
+    \Drupal::messenger()->addStatus('News template variables: ' . print_r([
+      'has_pager_data' => isset($variables['pager_data']),
+      'pager_data' => $variables['pager_data'] ?? 'not set',
+    ], TRUE));
+  }
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function dh_dashboard_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if ($form_id === 'dh_dashboard_settings') {
+    $form['#validate'][] = 'dh_dashboard_settings_form_validate';
+    $form['#submit'][] = 'dh_dashboard_settings_form_submit';
+  }
+}
+
+/**
+ * Additional validation for the settings form.
+ */
+function dh_dashboard_settings_form_validate($form, &$form_state) {
+  \Drupal::logger('dh_dashboard')->debug('Additional validation running');
+}
+
+/**
+ * Additional submit handler for the settings form.
+ */
+function dh_dashboard_settings_form_submit($form, &$form_state) {
+  \Drupal::logger('dh_dashboard')->debug('Additional submit running');
+  drupal_flush_all_caches();
+}
+
+/**
+ * Helper function to get paginated items.
+ */
+function dh_dashboard_get_paginated_items($query, $page = 0, $items_per_page = 10) {
+  // Set a reasonable limit
+  $query->range($page * $items_per_page, $items_per_page);
+  
+  // Execute query with pagination
+  try {
+    $result = $query->execute();
+    return $result;
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('dh_dashboard')->error('Query execution error: @message', ['@message' => $e->getMessage()]);
+    return [];
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function dh_dashboard_preprocess_dh_dashboard_pager(&$variables) {
+  if (!isset($variables['pager_data'])) {
+    $variables['pager_data'] = [];
+  }
+  
+  // Get the block ID from the parent build array
+  if (empty($variables['pager_data']['block_id']) && !empty($variables['elements']['#block_id'])) {
+    $variables['pager_data']['block_id'] = $variables['elements']['#block_id'];
+  }
+  
+  // Debug output
+  if (\Drupal::config('dh_dashboard.settings')->get('show_debug')) {
+    \Drupal::messenger()->addStatus('Pager preprocessed data: ' . print_r([
+      'block_id' => $variables['pager_data']['block_id'] ?? 'not set',
+      'elements' => array_keys($variables['elements']),
+    ], TRUE));
   }
 }
 

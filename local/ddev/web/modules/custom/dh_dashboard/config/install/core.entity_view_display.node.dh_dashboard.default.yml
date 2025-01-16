@@ -41,6 +41,19 @@ third_party_settings:
                     padding_bottom: '0'
             weight: 0
           -
+            uuid: news-block
+            region: first
+            configuration:
+              id: 'dh_dashboard_news'
+              label: 'Latest News'
+              label_display: visible
+              provider: dh_dashboard
+              context_mapping: {  }
+            additional:
+              component_attributes:
+                block_attributes: {  }
+            weight: 1
+          -
             uuid: dh-program-info
             region: second
             configuration:

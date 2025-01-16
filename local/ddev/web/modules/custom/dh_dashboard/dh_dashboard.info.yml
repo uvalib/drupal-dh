@@ -11,3 +11,18 @@ dependencies:
 
 libraries:
   dh_dashboard/dashboard
+
+config_devel:
+  install:
+    - block.block.dh_dashboard_events
+    - block.block.dh_dashboard_news
+    - layout_builder.layout.dashboard_layout
+  optional:
+    - dh_dashboard.settings
+
+# The configurations that should be deleted when the module is uninstalled
+config:
+  install:
+    - block.block.dh_dashboard_events
+    - block.block.dh_dashboard_news
+    - layout_builder.layout.dashboard_layout
