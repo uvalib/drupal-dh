@@ -1,0 +1,40 @@
+.dashboard-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 2rem 0;
+}
+
+.pager__item {
+  list-style: none;
+}
+
+.pager__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 0.5rem;
+  border-radius: 4px;
+  background: #ffffff;
+  color: #666;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.pager__link:hover {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.pager__item--current .pager__link {
+  background: #0066cc;
+  color: white;
+}
+
+.pager__item--disabled .pager__link {
+  opacity: 0.5;
+  pointer-events: none;
+}

@@ -24,6 +24,9 @@ admin-form:
     - core/once
 
 dashboard-pager:
+  css:
+    theme:
+      css/pager.css: {}
   js:
     js/pager.js: {}
   dependencies:
