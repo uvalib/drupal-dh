@@ -119,3 +119,62 @@ function dh_dashboard_uninstall() {
     $content_type->delete();
   }
 }
+
+/**
+ * Implements hook_schema().
+ */
+function dh_dashboard_schema() {
+  $schema['dashboard_item'] = [
+    'description' => 'Stores dashboard items.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key',
+      ],
+      'uuid' => [
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+      ],
+      'type' => [
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'description' => 'Type of dashboard item',
+      ],
+      'title' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ],
+      'description' => [
+        'type' => 'text',
+        'size' => 'big',
+        'not null' => FALSE,
+      ],
+      'date' => [
+        'type' => 'varchar',
+        'mysql_type' => 'datetime',
+        'not null' => FALSE,
+      ],
+      'link__uri' => [
+        'type' => 'varchar',
+        'length' => 2048,
+        'not null' => FALSE,
+      ],
+      'link__title' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'type' => ['type'],
+      'date' => ['date'],
+    ],
+  ];
+
+  return $schema;
+}

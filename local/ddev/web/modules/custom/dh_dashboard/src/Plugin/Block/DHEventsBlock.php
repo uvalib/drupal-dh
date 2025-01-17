@@ -6,30 +6,182 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Template\Attribute;
 
 /**
- * Provides an events block for the Digital Humanities Dashboard.
+ * Provides an Events block for the DH Dashboard.
  *
  * @Block(
  *   id = "dh_dashboard_events",
- *   admin_label = @Translation("DH Events"),
- *   category = @Translation("DH Dashboard"),
+ *   admin_label = @Translation("DH Dashboard Events"),
+ *   category = @Translation("DH Dashboard")
  * )
  */
 class DHEventsBlock extends DHDashboardBlockBase {
 
-  protected function getThemeHook(): string {
-    return 'dh_dashboard_events';
+  /**
+   * {@inheritdoc}
+   */
+  protected function getAvailableEntityTypes(): array {
+    return [
+      'node' => $this->t('Content'),
+    ];
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDefaultEntityType(): string {
+    return 'node';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDefaultBundle(): string {
+    return 'event';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDefaultSortField(): string {
+    return 'field_date_range1';  // Updated to use the correct field from event content type
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getBlockClass(): string {
-    return 'block-dh-dashboard-events dh-dashboard-block';
+    return 'dh-dashboard-events';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   protected function getItemsPerPageConfigKey(): string {
     return 'events_items_per_page';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   protected function getDisplayModeConfigKey(): string {
     return 'events_display_mode';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function transformEntity($entity) {
+    // Get event date
+    $event_date = NULL;
+    if ($entity->hasField('field_date_range1') && !$entity->get('field_date_range1')->isEmpty()) {
+      $event_date = $entity->get('field_date_range1')->first()->get('value')->getString();
+    }
+
+    // Get event location and standardize line breaks
+    $location = '';
+    if ($entity->hasField('field_event_location') && !$entity->get('field_event_location')->isEmpty()) {
+      $location = $entity->get('field_event_location')->value;
+      // Convert </p> to line breaks first
+      $location = preg_replace('/<\/p>/', '<br>', $location);
+      // Convert <p> tags to line breaks
+      $location = preg_replace('/<p[^>]*>/', '', $location);
+      // Replace other closing tags with line breaks
+      $location = preg_replace('/<\/(div|span)>/', '<br>', $location);
+      // Remove other HTML tags but preserve <br>
+      $location = strip_tags($location, '<br>');
+      // Normalize <br> tags and clean up
+      $location = str_replace(['<br/>', '<br />'], '<br>', $location);
+      $location = preg_replace('/(<br>[\s]*){2,}/', '<br>', $location);
+      $location = trim($location);
+    }
+
+    // Get event type with link
+    $type = '';
+    $type_url = '';
+    if ($entity->hasField('field_event_type') && !$entity->get('field_event_type')->isEmpty()) {
+      $type_entity = $entity->get('field_event_type')->entity;
+      if ($type_entity) {
+        $type = $type_entity->label();
+        $type_url = $type_entity->toUrl()->toString();
+      }
+    }
+
+    // Get department/school with link
+    $department = '';
+    $department_url = '';
+    if ($entity->hasField('field_department_or_school') && !$entity->get('field_department_or_school')->isEmpty()) {
+      $dept_entity = $entity->get('field_department_or_school')->entity;
+      if ($dept_entity) {
+        $department = $dept_entity->label();
+        $department_url = $dept_entity->toUrl()->toString();
+      }
+    }
+
+    // Get image
+    $image_url = '';
+    if ($entity->hasField('field_image') && !$entity->get('field_image')->isEmpty()) {
+      $image = $entity->get('field_image')->entity;
+      if ($image) {
+        $image_url = $image->createFileUrl();
+      }
+    }
+
+    // Get more information link
+    $more_info_url = '';
+    if ($entity->hasField('field_link_to_more_information') && !$entity->get('field_link_to_more_information')->isEmpty()) {
+      $more_info_url = $entity->get('field_link_to_more_information')->first()->getUrl()->toString();
+    }
+
+    // Get online meeting link
+    $meeting_url = '';
+    if ($entity->hasField('field_link_to_online_meeting') && !$entity->get('field_link_to_online_meeting')->isEmpty()) {
+      $meeting_url = $entity->get('field_link_to_online_meeting')->first()->getUrl()->toString();
+    }
+
+    return [
+      'title' => $entity->label(),
+      'url' => $entity->toUrl()->toString(),
+      'date' => $event_date,
+      'location' => $location,
+      'type' => [
+        'label' => $type,
+        'url' => $type_url,
+      ],
+      'department' => [
+        'label' => $department,
+        'url' => $department_url,
+      ],
+      'summary' => $entity->hasField('body') ? $entity->get('body')->summary : '',
+      'image_url' => $image_url,
+      'more_info_url' => $more_info_url,
+      'meeting_url' => $meeting_url,
+      'category_class' => 'event-category--' . strtolower($type),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function addQueryConditions($query) {
+    $config = $this->getConfiguration();
+    
+    // Base conditions
+    $query->condition('status', 1)
+      ->accessCheck(TRUE);
+
+    // Event type filter
+    if (!empty($config['event_type_filter']) && $config['event_type_filter'] !== 'all') {
+      $query->condition('field_event_type.entity.name', $config['event_type_filter']);
+    }
+
+    // Date filter
+    if (empty($config['show_past_events'])) {
+      $now = new \DateTime();
+      $query->condition('field_date_range1.value', $now->format('Y-m-d\TH:i:s'), '>=');
+    }
+
+    // Sort by event date
+    $query->sort('field_date_range1.value', 'ASC');
   }
 
   /**
@@ -82,321 +234,43 @@ class DHEventsBlock extends DHDashboardBlockBase {
     $this->configuration['show_past_events'] = $form_state->getValue('show_past_events');
   }
 
-
   /**
    * {@inheritdoc}
    */
   protected function getItems(): array {
     $config = $this->getConfiguration();
-    $all_items = [
-      'items' => $this->getMockEvents(),
-      'attributes' => [
-        'class' => ['dh-events-block', 'events-grid', 'block-spacing'],
-      ],
+    
+    // Get items using parent method which uses entity queries
+    $items = parent::getItems();
+    
+    // Attach library using the correct name
+    $items['#attached']['library'][] = 'dh_dashboard/event_preview';
+    
+    // Add debug to verify data
+    $items['#attached']['drupalSettings']['dhDashboard'] = [
+      'debug' => TRUE
+    ];
+    
+    // Add our custom classes
+    $items['attributes'] = [
+      'class' => ['dh-events-block', 'events-grid', 'block-spacing'],
     ];
 
-    // Filter by event type if needed
-    if ($config['event_type_filter'] !== 'all') {
-      $all_items['items'] = array_filter($all_items['items'], function($item) use ($config) {
-        return $item['type'] === $config['event_type_filter'];
-      });
-    }
-
-    // Filter out past events if needed
-    if (!$config['show_past_events']) {
-      $today = date('Y-m-d');
-      $all_items['items'] = array_filter($all_items['items'], function($item) use ($today) {
-        return $item['date'] >= $today;
-      });
-    }
-
-    return $all_items;
+    return $items;
   }
 
   /**
-   * Get mock events data.
+   * {@inheritdoc}
    */
-  private function getMockEvents(): array {
-    // Move the events data to a separate method for better organization
-    // ...existing events array data...
-    return [
-      [
-        'title' => 'Digital Methods Workshop Series',
-        'date' => '2024-03-20',
-        'description' => 'Hands-on workshops covering various digital research methods including text analysis, data visualization, and network analysis.',
-        'location' => 'Digital Lab Room 101',
-        'type' => 'workshop',
-        'priority' => 'high',
-        'category_class' => 'event-category--workshop',
-        'priority_class' => 'priority-indicator--high',
-        'icon' => 'laptop-code',
-        'url' => '/events/digital-methods-2024',
-      ],
-      [
-        'title' => 'DH Spring Conference',
-        'date' => '2024-04-15',
-        'description' => 'Annual digital humanities research conference featuring keynote speakers, workshops, and student presentations.',
-        'location' => 'University Conference Center',
-        'type' => 'conference',
-        'priority' => 'high',
-        'category_class' => 'event-category--conference',
-        'priority_class' => 'priority-indicator--high',
-        'icon' => 'users',
-        'url' => '/events/spring-conference-2024',
-      ],
-      [
-        'title' => 'AI in Humanities Research Seminar',
-        'date' => '2024-03-22',
-        'description' => 'Discussion of AI applications in humanities research with focus on ethical considerations.',
-        'location' => 'Virtual Meeting Room',
-        'type' => 'seminar',
-        'priority' => 'high',
-        'category_class' => 'event-category--seminar',
-        'priority_class' => 'priority-indicator--high',
-        'icon' => 'robot',
-        'url' => '/events/ai-humanities-2024',
-      ],
-      [
-        'title' => 'Digital Archives Workshop',
-        'date' => '2024-03-25',
-        'description' => 'Best practices for digital preservation and archive management.',
-        'location' => 'Library Room 202',
-        'type' => 'workshop',
-        'priority' => 'medium',
-        'category_class' => 'event-category--workshop',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'archive',
-        'url' => '/events/archives-workshop-2024',
-      ],
-      [
-        'title' => 'Text Mining Symposium',
-        'date' => '2024-04-01',
-        'description' => 'Advanced techniques in text mining and natural language processing.',
-        'location' => 'Computer Science Building',
-        'type' => 'conference',
-        'priority' => 'high',
-        'category_class' => 'event-category--conference',
-        'priority_class' => 'priority-indicator--high',
-        'icon' => 'file-alt',
-        'url' => '/events/text-mining-2024',
-      ],
-      [
-        'title' => 'Digital Pedagogy Workshop',
-        'date' => '2024-04-05',
-        'description' => 'Innovative teaching methods using digital tools.',
-        'location' => 'Education Building 305',
-        'type' => 'workshop',
-        'priority' => 'medium',
-        'category_class' => 'event-category--workshop',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'chalkboard-teacher',
-        'url' => '/events/digital-pedagogy-2024',
-      ],
-      [
-        'title' => 'Data Visualization Seminar',
-        'date' => '2024-04-10',
-        'description' => 'Creating effective visualizations for humanities data.',
-        'location' => 'Digital Lab Room 103',
-        'type' => 'seminar',
-        'priority' => 'medium',
-        'category_class' => 'event-category--seminar',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'chart-bar',
-        'url' => '/events/data-viz-2024',
-      ],
-      [
-        'title' => 'Digital Publishing Conference',
-        'date' => '2024-04-20',
-        'description' => 'Future of academic publishing in digital formats.',
-        'location' => 'University Press Building',
-        'type' => 'conference',
-        'priority' => 'high',
-        'category_class' => 'event-category--conference',
-        'priority_class' => 'priority-indicator--high',
-        'icon' => 'book',
-        'url' => '/events/publishing-2024',
-      ],
-      [
-        'title' => 'Network Analysis Workshop',
-        'date' => '2024-04-25',
-        'description' => 'Social network analysis methods for humanities research.',
-        'location' => 'Digital Lab Room 104',
-        'type' => 'workshop',
-        'priority' => 'medium',
-        'category_class' => 'event-category--workshop',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'project-diagram',
-        'url' => '/events/network-analysis-2024',
-      ],
-      [
-        'title' => 'Digital Collections Seminar',
-        'date' => '2024-05-01',
-        'description' => 'Managing and curating digital collections.',
-        'location' => 'Library Special Collections',
-        'type' => 'seminar',
-        'priority' => 'medium',
-        'category_class' => 'event-category--seminar',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'database',
-        'url' => '/events/collections-2024',
-      ],
-      [
-        'title' => 'Summer Institute Planning',
-        'date' => '2024-05-05',
-        'description' => 'Planning session for upcoming DH Summer Institute.',
-        'location' => 'Faculty Commons',
-        'type' => 'seminar',
-        'priority' => 'high',
-        'category_class' => 'event-category--seminar',
-        'priority_class' => 'priority-indicator--high',
-        'icon' => 'calendar-alt',
-        'url' => '/events/summer-planning-2024',
-      ],
-      [
-        'title' => 'GIS Methods Workshop',
-        'date' => '2024-05-10',
-        'description' => 'Introduction to geographical information systems.',
-        'location' => 'Geography Lab',
-        'type' => 'workshop',
-        'priority' => 'medium',
-        'category_class' => 'event-category--workshop',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'map-marked-alt',
-        'url' => '/events/gis-2024',
-      ],
-      [
-        'title' => 'Digital Storytelling Conference',
-        'date' => '2024-05-15',
-        'description' => 'Narrative techniques in digital environments.',
-        'location' => 'Media Arts Center',
-        'type' => 'conference',
-        'priority' => 'high',
-        'category_class' => 'event-category--conference',
-        'priority_class' => 'priority-indicator--high',
-        'icon' => 'film',
-        'url' => '/events/storytelling-2024',
-      ],
-      [
-        'title' => 'Research Data Management',
-        'date' => '2024-05-20',
-        'description' => 'Best practices for managing research data.',
-        'location' => 'Digital Lab Room 105',
-        'type' => 'workshop',
-        'priority' => 'medium',
-        'category_class' => 'event-category--workshop',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'database',
-        'url' => '/events/data-management-2024',
-      ],
-      [
-        'title' => 'Digital Ethics Symposium',
-        'date' => '2024-05-25',
-        'description' => 'Ethical considerations in digital research.',
-        'location' => 'Philosophy Department',
-        'type' => 'conference',
-        'priority' => 'high',
-        'category_class' => 'event-category--conference',
-        'priority_class' => 'priority-indicator--high',
-        'icon' => 'balance-scale',
-        'url' => '/events/ethics-2024',
-      ],
-      [
-        'title' => 'Web Development Workshop',
-        'date' => '2024-06-01',
-        'description' => 'Basic web development skills for humanists.',
-        'location' => 'Digital Lab Room 106',
-        'type' => 'workshop',
-        'priority' => 'medium',
-        'category_class' => 'event-category--workshop',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'code',
-        'url' => '/events/web-dev-2024',
-      ],
-      [
-        'title' => 'Digital Art History Seminar',
-        'date' => '2024-06-05',
-        'description' => 'Digital methods in art historical research.',
-        'location' => 'Art History Department',
-        'type' => 'seminar',
-        'priority' => 'medium',
-        'category_class' => 'event-category--seminar',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'palette',
-        'url' => '/events/art-history-2024',
-      ],
-      [
-        'title' => 'Computational Analysis Workshop',
-        'date' => '2024-06-10',
-        'description' => 'Introduction to computational methods.',
-        'location' => 'Computer Lab 201',
-        'type' => 'workshop',
-        'priority' => 'medium',
-        'category_class' => 'event-category--workshop',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'calculator',
-        'url' => '/events/computational-2024',
-      ],
-      [
-        'title' => 'Digital Archaeology Conference',
-        'date' => '2024-06-15',
-        'description' => 'Digital methods in archaeological research.',
-        'location' => 'Archaeology Building',
-        'type' => 'conference',
-        'priority' => 'high',
-        'category_class' => 'event-category--conference',
-        'priority_class' => 'priority-indicator--high',
-        'icon' => 'dig',
-        'url' => '/events/archaeology-2024',
-      ],
-      [
-        'title' => 'Metadata Standards Workshop',
-        'date' => '2024-06-20',
-        'description' => 'Best practices for metadata creation.',
-        'location' => 'Library Training Room',
-        'type' => 'workshop',
-        'priority' => 'medium',
-        'category_class' => 'event-category--workshop',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'tags',
-        'url' => '/events/metadata-2024',
-      ],
-      [
-        'title' => 'Digital Music Analysis Seminar',
-        'date' => '2024-06-25',
-        'description' => 'Computational approaches to musicology.',
-        'location' => 'Music Building',
-        'type' => 'seminar',
-        'priority' => 'medium',
-        'category_class' => 'event-category--seminar',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'music',
-        'url' => '/events/music-analysis-2024',
-      ],
-      [
-        'title' => '3D Modeling Workshop',
-        'date' => '2024-06-30',
-        'description' => 'Creating 3D models for cultural heritage.',
-        'location' => 'Digital Lab Room 107',
-        'type' => 'workshop',
-        'priority' => 'medium',
-        'category_class' => 'event-category--workshop',
-        'priority_class' => 'priority-indicator--medium',
-        'icon' => 'cube',
-        'url' => '/events/3d-modeling-2024',
-      ],
-      [
-        'title' => 'Digital Literature Conference',
-        'date' => '2024-07-05',
-        'description' => 'Exploring digital approaches to literary analysis.',
-        'location' => 'English Department',
-        'type' => 'conference',
-        'priority' => 'high',
-        'category_class' => 'event-category--conference',
-        'priority_class' => 'priority-indicator--high',
-        'icon' => 'book-reader',
-        'url' => '/events/literature-2024',
-      ],
-    ];
+  protected function getThemeId(): string {
+    return 'dh_dashboard_events';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getItemType(): string {
+    return 'event';
   }
 }
 

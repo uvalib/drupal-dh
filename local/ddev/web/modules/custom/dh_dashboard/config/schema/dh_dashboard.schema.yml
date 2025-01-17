@@ -31,3 +31,23 @@ dh_dashboard.settings:
             display_mode:
               type: string
               label: 'Display mode'
+
+dashboard_item.settings:
+  type: config_object
+  label: 'Dashboard Item Settings'
+  mapping:
+    types:
+      type: sequence
+      label: 'Available dashboard item types'
+      sequence:
+        type: mapping
+        mapping:
+          id:
+            type: string
+            label: 'Machine name'
+          label:
+            type: label
+            label: 'Label'
+          description:
+            type: text
+            label: 'Description'

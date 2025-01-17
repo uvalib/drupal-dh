@@ -3,11 +3,13 @@ dashboard:
   css:
     theme:
       css/dh-dashboard.css: {}
-      https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css: { type: external }
+      https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css:
+        type: external
   js:
-    /modules/custom/dh_dashboard/js/dh-dashboard.js: {}
-    https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js: { type: external }
-    /modules/custom/dh_dashboard/js/user-card.js: {}
+    js/dh-dashboard.js: {}
+    https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js:
+      type: external
+    js/user-card.js: {}
   dependencies:
     - core/jquery
     - core/drupal
@@ -24,6 +26,7 @@ admin-form:
     - core/once
 
 dashboard-pager:
+  version: 1.x
   css:
     theme:
       css/pager.css: {}
@@ -34,3 +37,17 @@ dashboard-pager:
     - core/drupal
     - core/once
     - core/drupal.ajax
+
+event_preview:  # Changed from event-preview to event_preview
+  version: 1.x
+  css:
+    theme:
+      css/event-preview.css: {}
+  js:
+    js/event-preview.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+    - core/drupalSettings
+    - core/fontawesome  # Add if you're using Font Awesome icons

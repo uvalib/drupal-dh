@@ -542,3 +542,21 @@ function dh_dashboard_theme_suggestions_alter(array &$suggestions, array $variab
   }
 }
 
+/**
+ * Implements hook_preprocess_page().
+ */
+function dh_dashboard_preprocess_page(&$variables) {
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  
+  // Check if we're on the dashboard page
+  if ($route_name === 'dh_dashboard.dashboard') {
+    // Attach our event preview library
+    $variables['#attached']['library'][] = 'dh_dashboard/event_preview';
+    
+    // Add debug info
+    if (\Drupal::config('dh_dashboard.settings')->get('show_debug')) {
+      \Drupal::messenger()->addStatus('Event preview library attached to dashboard page');
+    }
+  }
+}
+

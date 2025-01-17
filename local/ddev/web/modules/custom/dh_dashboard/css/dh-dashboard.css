@@ -141,8 +141,30 @@
   font-size: 0.95rem;
   margin-bottom: 0.5rem;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 0.5rem;
+}
+
+.card-meta .meta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  line-height: 1.4;
+}
+
+.card-meta .meta-item i {
+  margin-top: 0.3em; /* Adjust this value to align with the first line of text */
+  flex-shrink: 0;
+  line-height: 1;
+  height: 1em; /* Ensure consistent icon height */
+}
+
+.card-meta .date i,
+.card-meta .location i {
+  width: 1em;
+  text-align: center;
+  display: inline-block; /* Ensure block-level alignment */
+  vertical-align: top; /* Force top alignment */
 }
 
 /* Priority indicators */
@@ -1178,4 +1200,182 @@ a.resource-item:hover .card-title {
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+/* Enhanced Events Block Styling */
+.events-container {
+  margin-bottom: 0.75rem;
+}
+
+.events-container h2 {
+  margin-bottom: 0.75rem;
+  color: #2c3e50;
+  font-size: 1.5rem;
+}
+
+.event-header {
+  margin-bottom: 0.5rem;
+}
+
+.card-meta {
+  margin-bottom: 0.25rem;
+  gap: 0.25rem;
+}
+
+.event-type-badge {
+  margin-bottom: 0.35rem;
+}
+
+.events-grid {
+  gap: 0.75rem;
+  margin: 0.5rem 0;
+}
+
+.event-item.dh-card {
+  padding: 1rem;
+  margin-bottom: 0.35rem;
+}
+
+.event-header {
+  margin-bottom: 1rem;
+}
+
+.event-header .card-title {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.event-header .card-title i {
+  color: #0066cc;
+  font-size: 1.1em;
+}
+
+.event-header .card-title a {
+  color: #2c3e50;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.event-header .card-title a:hover {
+  color: #0066cc;
+}
+
+.event-type-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1rem;
+}
+
+.event-type--conference {
+  background: #e3f2fd;
+  color: #1565c0;
+  border: 1px solid rgba(21, 101, 192, 0.2);
+}
+
+.event-type--workshop {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.event-type--seminar {
+  background: #f3e5f5;
+  color: #7b1fa2;
+  border: 1px solid rgba(123, 31, 162, 0.2);
+}
+
+.event-summary {
+  color: #546e7a;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 2rem;
+  color: #666;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+/* Event type badges with consistent styling */
+.event-type-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.35rem;
+}
+
+/* Default event type badge style */
+.event-type-badge {
+  background: #f5f5f5;
+  color: #666666;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.event-type--workshop {
+  background: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid rgba(46, 125, 50, 0.2);
+}
+
+.event-type--conference {
+  background: #e3f2fd;
+  color: #1565c0;
+  border: 1px solid rgba(21, 101, 192, 0.2);
+}
+
+.event-type--seminar {
+  background: #f3e5f5;
+  color: #7b1fa2;
+  border: 1px solid rgba(123, 31, 162, 0.2);
+}
+
+.event-type--lecture {
+  background: #fff3e0;
+  color: #e65100;
+  border: 1px solid rgba(230, 81, 0, 0.2);
+}
+
+.event-type--symposium {
+  background: #fce4ec;
+  color: #c2185b;
+  border: 1px solid rgba(194, 24, 91, 0.2);
+}
+
+.event-type--meeting {
+  background: #f3e5f5;
+  color: #6a1b9a;
+  border: 1px solid rgba(106, 27, 154, 0.2);
+}
+
+.event-type--speaker {
+  background: #e1f5fe;
+  color: #0277bd;
+  border: 1px solid rgba(2, 119, 189, 0.2);
+}
+
+.event-type--admissions {
+  background: #f3e5f5;
+  color: #8e24aa;
+  border: 1px solid rgba(142, 36, 170, 0.2);
+}
+
+.event-type--social {
+  background: #f1f8e9;
+  color: #558b2f;
+  border: 1px solid rgba(85, 139, 47, 0.2);
 }

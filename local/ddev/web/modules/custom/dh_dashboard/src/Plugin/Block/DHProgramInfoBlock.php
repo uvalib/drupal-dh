@@ -18,20 +18,101 @@ use Drupal\Core\Form\FormStateInterface;
  */
 class DHProgramInfoBlock extends DHDashboardBlockBase {
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function getAvailableEntityTypes(): array {
+    return [
+      'node' => $this->t('Content'),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDefaultEntityType(): string {
+    return 'node';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDefaultBundle(): string {
+    return 'program';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getDefaultSortField(): string {
+    return 'created';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getThemeHook(): string {
     return 'dh_dashboard_program_info';
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  protected function getThemeId(): string {
+    return 'dh_dashboard_program_info';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function getItemType(): string {
+    return 'program';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function getBlockClass(): string {
-    return 'block-dh-dashboard-program-info dh-dashboard-block';
+    return 'dh-dashboard-program-info';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   protected function getItemsPerPageConfigKey(): string {
-    return 'program_info_items_per_page';
+    return 'program_items_per_page';
   }
 
+  /**
+   * {@inheritdoc}
+   */
   protected function getDisplayModeConfigKey(): string {
-    return 'program_info_display_mode';
+    return 'program_display_mode';
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function transformEntity($entity) {
+    return [
+      'title' => $entity->label(),
+      'url' => $entity->toUrl()->toString(),
+      'date' => $entity->get('created')->value,
+      'description' => $entity->hasField('body') ? 
+        $entity->get('body')->summary : '',
+      'requirements' => $entity->hasField('field_requirements') ? 
+        $entity->get('field_requirements')->value : '',
+      'status' => $entity->hasField('field_status') ? 
+        $entity->get('field_status')->value : '',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function addQueryConditions($query) {
+    $query->condition('status', 1)
+      ->accessCheck(TRUE);
   }
 
   /**

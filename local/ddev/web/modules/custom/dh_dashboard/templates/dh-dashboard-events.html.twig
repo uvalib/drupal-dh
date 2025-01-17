@@ -10,56 +10,77 @@
  * - pager_data: The pager data.
  */
 #}
-<div{{ attributes.addClass('dh-dashboard-block', 'dh-events-block') }}>
-  <h2>{{ 'Upcoming Events'|t }}</h2>
-  
-  <div class="events-items-container">
-    <div class="events-grid">
-      {% for item in items.items %}
-        <article class="dh-card event-item {{ item.category_class }}">
-          <h3 class="card-title"><i class="fas fa-{{ item.icon }}"></i> {{ item.title }}</h3>
-          <div class="card-meta">
-            <span class="date"><i class="fas fa-calendar-alt"></i> {{ item.date }}</span>
-            <span class="priority-indicator {{ item.priority_class }}">
-              {{ item.priority|capitalize }}
-            </span>
-          </div>
-          <p class="card-content">{{ item.summary }}</p>
-        </article>
-      {% endfor %}
-    </div>
+<div{{ attributes.addClass('dh-dashboard-block') }}>
+  <div class="dh-card events-container">
+    <h2>{{ 'Upcoming Events'|t }}</h2>
+
+    {% if items.items is not empty %}
+      <div class="events-grid">
+        {% for item in items.items %}
+          <article class="event-item dh-card {{ item.category_class }}">
+            <div class="event-header">
+              <h3 class="card-title">
+                <i class="fas fa-calendar-alt"></i>
+                <a href="{{ item.url }}" 
+                   class="event-preview-trigger"
+                   data-title="{{ item.title }}"
+                   data-date="{{ item.date }}"
+                   data-location="{{ item.location }}"
+                   data-type="{{ item.type.label }}"
+                   data-department="{{ item.department.label }}"
+                   data-summary="{{ item.summary }}"
+                   data-image="{{ item.image_url }}"
+                   data-more-info="{{ item.more_info_url }}"
+                   data-meeting="{{ item.meeting_url }}">
+                  {{ item.title }}
+                </a>
+              </h3>
+              <div class="card-meta">
+                {% if item.date %}
+                  <div class="meta-item date">
+                    <i class="fas fa-clock"></i>
+                    {{ item.date|date('F j, Y g:i a') }}
+                  </div>
+                {% endif %}
+                {% if item.location %}
+                  <div class="meta-item location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{ item.location|raw }}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            <div class="card-content">
+              {% if item.type.label %}
+                <span class="event-type-badge {{ 'event-type--' ~ item.type.label|lower }}">
+                  {{ item.type.label }}
+                </span>
+              {% endif %}
+              {% if item.summary %}
+                <p class="event-summary">{{ item.summary }}</p>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      {% if pager_data %}
+        {% include '@dh_dashboard/dh-dashboard-pager.html.twig' with {
+          'pager_data': pager_data,
+          'block_id': block_id
+        } %}
+      {% endif %}
+    {% else %}
+      <div class="empty-message">
+        {{ 'No upcoming events found.'|t }}
+      </div>
+    {% endif %}
   </div>
 
-  {# AJAX-enabled pager - fixed block ID handling #}
-  {% if pager_data is defined and pager_data.total > pager_data.per_page %}
-    {% include '@dh_dashboard/dh-dashboard-pager.html.twig' with {
-      pager_data: pager_data
-    } %}
-  {% endif %}
-
   {% if show_debug %}
-    <div class="debug-output" style="background: #f5f5f5; padding: 15px; margin: 15px 0; border: 1px solid #ddd;">
-      <h3>Template Variables Debug:</h3>
-      <ul>
-        <li>Items count: {{ items.items|length }}</li>
-        <li>Items per page: {{ items_per_page }}</li>
-        <li>Show debug: {{ show_debug ? 'true' : 'false' }}</li>
-        <li>Has pager_data: {{ pager_data is defined ? 'yes' : 'no' }}</li>
-        {% if pager_data is defined %}
-          <li>Pager data:
-            <ul>
-              <li>total: {{ pager_data.total }}</li>
-              <li>per_page: {{ pager_data.per_page }}</li>
-              <li>current_page: {{ pager_data.current_page }}</li>
-              <li>total_pages: {{ pager_data.total_pages }}</li>
-            </ul>
-          </li>
-        {% endif %}
-      </ul>
-      <details>
-        <summary>Full items data</summary>
-        <pre>{{ _context|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-      </details>
-    </div>
+    <details class="debug-output">
+      <summary>{{ 'Debug Information'|t }}</summary>
+      <pre>{{ items|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+    </details>
   {% endif %}
 </div>

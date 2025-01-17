@@ -95,7 +95,7 @@ class DashboardController extends ControllerBase
             '#admin_links' => $admin_links,
             '#debug' => $show_debug ? $debug_info : [],
             '#attached' => [
-            'library' => ['dh_dashboard/dashboard'],
+            'library' => ['dh_dashboard/dashboard', 'dh_dashboard/event_preview'],
             ],
             '#cache' => [
             'tags' => $node->getCacheTags(),
@@ -112,7 +112,7 @@ class DashboardController extends ControllerBase
         ],
         '#debug' => $show_debug ? $debug_info : [],
         '#attached' => [
-        'library' => ['dh_dashboard/dashboard'],
+        'library' => ['dh_dashboard/dashboard', 'dh_dashboard/event_preview'],
         ],
         ];
     }
