@@ -26,7 +26,7 @@ third_party_settings:
               id: 'dh_dashboard_events'
               label: 'Events'
               provider: dh_dashboard
-              label_display: invisible
+              label_display: false
               context_mapping: {  }
               items_per_page: 3
               display_mode: grid
@@ -46,7 +46,7 @@ third_party_settings:
             configuration:
               id: 'dh_dashboard_news'
               label: 'Latest News'
-              label_display: invisible
+              label_display: false
               provider: dh_dashboard
               context_mapping: {  }
             additional:
@@ -60,7 +60,7 @@ third_party_settings:
               id: 'dh_dashboard_program_info'
               label: 'Program Information'
               provider: dh_dashboard
-              label_display: invisible
+              label_display: false
               context_mapping: {}
             additional: {  }
             weight: 0
@@ -71,7 +71,7 @@ third_party_settings:
               id: 'dh_dashboard_progress'
               label: 'Progress'
               provider: dh_dashboard
-              label_display: invisible
+              label_display: false
               context_mapping: {}
             additional: {  }
             weight: 0
@@ -82,7 +82,7 @@ third_party_settings:
               id: 'dh_dashboard_certificate_info'
               label: 'Certificate Info'
               provider: dh_dashboard
-              label_display: invisible
+              label_display: false
               context_mapping: {}
             additional: {  }
             weight: 1
