@@ -12,7 +12,7 @@
 #}
 <div{{ attributes.addClass('user-card', 'dh-card') }}>
   <div class="profile-header">
-    <h2>{{ user.full_name }} ({{ user.id }})</h2>
+    <h2>{{ user.profile.field_name[0].value }} ({{ user.name }})</h2>
     <span class="accordion-toggle">
       Details <i class="fas fa-chevron-right"></i>
     </span>
@@ -21,13 +21,13 @@
   <div class="profile-details" style="display: none;">
     <div class="profile-data">
       <div class="profile-field">
-        <span class="profile-field-label">Name:</span>
+        <span class="profile-field-label">User Name:</span>
         <span class="profile-field-value">{{ user.name }}</span>
       </div>
       {% if user.profile %}
         {% for field, value in user.profile %}
           {% if field starts with 'field_' and field not in ['field_personal_statement', 'field_personal_statement_video'] %}
-            {% set field_label = field|replace({'field_': ''})|title|replace({'_': ' '}) %}
+            {% set field_label = field|replace({'field_': 'Profile '})|title|replace({'_': ' '}) %}
             {% if value is iterable %}
               {% for item in value %}
                 {% if item.format == 'basic_html' %}
@@ -79,10 +79,10 @@
       <a href="{{ edit_url }}" class="edit-profile-link">Edit Profile</a>
     {% endif %}
 
-    {% if show_debug %}
+    {# {% if show_debug %} #}
       <div class="debug-output">
         {{ kint(user) }}
       </div>
-    {% endif %}
+    {# {% endif %} #}
   </div>
 </div>
