@@ -2,8 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 1.5rem;
   margin: 2rem 0;
+  font-family: system-ui, -apple-system, sans-serif;
 }
 
 .pager__item {
@@ -13,20 +14,17 @@
 .pager__link {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  min-width: 2.5rem;
-  height: 2.5rem;
-  padding: 0 0.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 4px;
-  background: #ffffff;
-  color: #666;
+  background: #f5f5f5;
+  color: #333;
   text-decoration: none;
   transition: all 0.2s ease;
+  font-weight: 500;
 }
 
 .pager__link:hover {
-  background: #f0f0f0;
-  color: #333;
+  background: #e5e5e5;
 }
 
 .pager__item--current .pager__link {
@@ -35,6 +33,13 @@
 }
 
 .pager__item--disabled .pager__link {
-  opacity: 0.5;
+  opacity: 0.4;
   pointer-events: none;
+}
+
+.pager-indicator {
+  font-size: 0.9rem;
+  color: #666;
+  min-width: 80px;
+  text-align: center;
 }

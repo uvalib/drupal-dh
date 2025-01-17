@@ -1,6 +1,7 @@
 /* Base card styles */
 .dh-card,
 .block-dh-dashboard-news,
+.block-dh-dashboard-events,
 .block-dh-dashboard-program-info,
 .block-dh-dashboard-progress,
 .block-dh-dashboard-certificate-info {
@@ -17,6 +18,7 @@
 
 .dh-card:hover,
 .block-dh-dashboard-news:hover,
+.block-dh-dashboard-events:hover,
 .block-dh-dashboard-program-info:hover,
 .block-dh-dashboard-progress:hover,
 .block-dh-dashboard-certificate-info:hover {
@@ -27,6 +29,7 @@
 
 .dh-card::before,
 .block-dh-dashboard-news::before,
+.block-dh-dashboard-events::before,
 .block-dh-dashboard-program-info::before,
 .block-dh-dashboard-progress::before,
 .block-dh-dashboard-certificate-info::before {
@@ -977,6 +980,7 @@ a.resource-item:hover .card-title {
 
 .compact-block .dh-card,
 .compact-block.block-dh-dashboard-news,
+.compact-block.block-dh-dashboard-events,
 .compact-block.block-dh-dashboard-program-info,
 .compact-block.block-dh-dashboard-progress,
 .compact-block.block-dh-dashboard-certificate-info {

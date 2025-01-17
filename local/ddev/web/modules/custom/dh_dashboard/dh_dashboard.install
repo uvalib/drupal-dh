@@ -51,7 +51,7 @@ function dh_dashboard_install() {
     $config
       ->set('dashboard_node', $node->id())
       ->set('items_per_page', 4)
-      ->set('show_debug', TRUE)
+      ->set('show_debug', FALSE)
       ->save();
   } else {
     // Ensure default configuration exists
@@ -59,7 +59,7 @@ function dh_dashboard_install() {
     if (!$config->get('items_per_page')) {
       $config
         ->set('items_per_page', 4)
-        ->set('show_debug', TRUE)
+        ->set('show_debug', FALSE)
         ->save();
     }
   }

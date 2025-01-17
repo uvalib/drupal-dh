@@ -24,44 +24,31 @@
     {{ attributes }}
     data-base-url="{{ path('dh_dashboard.main') }}"
     data-block-id="{{ pager_data.block_id|default('') }}">
-    <ul class="pager__items">
-      {# Previous button #}
-      {% if pager_data.current_page > 0 %}
-        <li class="pager__item pager__item--prev">
-          <a href="javascript:void(0);" class="pager__link" data-page="{{ pager_data.current_page - 1 }}" rel="prev">
-            <span aria-hidden="true">&laquo;</span> {{ 'Previous'|t }}
-          </a>
-        </li>
-      {% endif %}
-      
-      {# Page numbers #}
-      {% for i in 0..pager_data.total_pages - 1 %}
-        {% if 
-          i == 0 or 
-          i == pager_data.total_pages - 1 or 
-          (i >= pager_data.current_page - 1 and i <= pager_data.current_page + 1)
-        %}
-          <li class="pager__item{% if i == pager_data.current_page %} is-active{% endif %}">
-            <a href="javascript:void(0);" class="pager__link" data-page="{{ i }}">{{ i + 1 }}</a>
-          </li>
-        {% elseif 
-          i == pager_data.current_page - 2 or 
-          i == pager_data.current_page + 2
-        %}
-          <li class="pager__item pager__item--ellipsis">
-            <span>&hellip;</span>
-          </li>
-        {% endif %}
-      {% endfor %}
-      
-      {# Next button #}
-      {% if pager_data.current_page < (pager_data.total_pages - 1) %}
-        <li class="pager__item pager__item--next">
-          <a href="javascript:void(0);" class="pager__link" data-page="{{ pager_data.current_page + 1 }}" rel="next">
-            {{ 'Next'|t }} <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      {% endif %}
-    </ul>
+    
+    {# Previous button #}
+    <a href="javascript:void(0);" 
+       class="pager__link{% if pager_data.current_page == 0 %} pager__item--disabled{% endif %}" 
+       data-page="{{ pager_data.current_page - 1 }}" 
+       rel="prev"
+       {% if pager_data.current_page == 0 %}aria-disabled="true"{% endif %}>
+      {{ 'Prev'|t }}
+    </a>
+
+    {# Page indicator #}
+    <div class="pager-indicator">
+      {{ 'Page %current of %total'|t({
+        '%current': pager_data.current_page + 1,
+        '%total': pager_data.total_pages
+      }) }}
+    </div>
+
+    {# Next button #}
+    <a href="javascript:void(0);" 
+       class="pager__link{% if pager_data.current_page >= (pager_data.total_pages - 1) %} pager__item--disabled{% endif %}" 
+       data-page="{{ pager_data.current_page + 1 }}" 
+       rel="next"
+       {% if pager_data.current_page >= (pager_data.total_pages - 1) %}aria-disabled="true"{% endif %}>
+      {{ 'Next'|t }}
+    </a>
   </nav>
 {% endif %}

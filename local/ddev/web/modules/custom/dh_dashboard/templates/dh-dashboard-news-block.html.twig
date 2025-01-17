@@ -1,0 +1,16 @@
+{{ attach_library('dh_dashboard/dashboard-news') }}
+
+<div class="dashboard-news">
+  {% if items %}
+    <div class="news-items">
+      // ...existing code for news items...
+    </div>
+    
+    {# Make sure we're using the correct template path #}
+    {% include 'dh-dashboard-pager.html.twig' with {
+      'pager_data': pager_data
+    } %}
+  {% else %}
+    <p>{{ 'No news items available.'|t }}</p>
+  {% endif %}
+</div>

@@ -8,6 +8,7 @@ dependencies:
   - drupal:block
   - drupal:layout_builder
   - drupal:layout_discovery
+  - drupal:user
 
 libraries:
   dh_dashboard/dashboard

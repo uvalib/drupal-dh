@@ -118,22 +118,16 @@ class DashboardSettingsForm extends ConfigFormBase {
 
     $form = parent::buildForm($form, $form_state);
     
-    // Modify the existing submit button
-    $form['actions']['submit']['#value'] = $this->t('Save Configuration');
-
+    // Modify the actions container
+    $form['actions']['submit']['#value'] = $this->t('Save and return to dashboard');
+    
     // Add cancel button
     $form['actions']['cancel'] = [
       '#type' => 'link',
       '#title' => $this->t('Cancel'),
       '#url' => Url::fromRoute('dh_dashboard.main'),
-      '#attributes' => [
-        'class' => ['button', 'button--danger'],
-      ],
-      '#weight' => 10,
+      '#attributes' => ['class' => ['button', 'button--danger']],
     ];
-
-    // Remove the old dashboard link
-    unset($form['actions']['dashboard']);
 
     return $form;
   }

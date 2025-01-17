@@ -36,10 +36,11 @@ class DHEventsBlock extends DHDashboardBlockBase {
    * {@inheritdoc}
    */
   public function defaultConfiguration() {
+    $config = \Drupal::config('dh_dashboard.settings');
     return [
       'event_type_filter' => 'all',
       'show_past_events' => TRUE,
-      'items_per_page' => 5,
+      'items_per_page' => $config->get('default_items_per_page') ?? 3,
       'display_mode' => 'grid',
     ] + parent::defaultConfiguration();
   }

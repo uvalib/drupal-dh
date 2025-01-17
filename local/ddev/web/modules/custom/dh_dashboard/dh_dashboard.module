@@ -119,6 +119,17 @@ function dh_dashboard_theme($existing, $type, $theme, $path)
       'template' => 'dh-dashboard-pager',
       'path' => $module_path . '/templates',
     ],
+    'dh_dashboard_news_block' => [
+      'variables' => [
+        'items' => [],
+        'pager_data' => [],  // Make sure this is included
+      ],
+    ],
+    'dh_dashboard_pager' => [
+      'variables' => [
+        'pager_data' => [],
+      ],
+    ],
     ];
   
     // Debug point 6: Log theme registration
@@ -519,6 +530,15 @@ function dh_dashboard_preprocess_dh_dashboard_pager(&$variables) {
       'block_id' => $variables['pager_data']['block_id'] ?? 'not set',
       'elements' => array_keys($variables['elements']),
     ], TRUE));
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_alter().
+ */
+function dh_dashboard_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
+  if ($hook == 'pager' && !empty($variables['parameters']['block_type'])) {
+    $suggestions[] = 'dh_dashboard_pager';
   }
 }
 
