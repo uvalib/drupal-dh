@@ -34,6 +34,11 @@
 
         // Click handler for showing/hiding preview
         $trigger.on('click', function(e) {
+          // Don't trigger if clicking a link inside the card
+          if ($(e.target).is('a') || $(e.target).closest('a').length) {
+            return;
+          }
+          
           e.preventDefault();
           e.stopPropagation();
           
@@ -48,19 +53,24 @@
 
           const data = {
             title: $trigger.data('title'),
-            date: $trigger.data('date'),
+            date: formatDateTime($trigger.data('date')),
             location: $trigger.data('location'),
             type: $trigger.data('type'),
             department: $trigger.data('department'),
             summary: $trigger.data('summary'),
+            body: $trigger.data('body'),
             image: $trigger.data('image'),
             moreInfo: $trigger.data('more-info'),
-            meeting: $trigger.data('meeting')
+            meeting: $trigger.data('meeting'),
+            url: $trigger.data('url')
           };
 
           console.log('Preview data:', data);
 
           let content = `
+            <button type="button" class="preview-close-button" aria-label="Close">
+              <i class="fas fa-times"></i>
+            </button>
             <div class="preview-border"></div>
             <div class="preview-arrow"></div>
             <div class="preview-content">
@@ -70,15 +80,21 @@
                 </div>` : ''}
               <div class="preview-details">
                 <h3>${data.title}</h3>
-                ${data.date ? `<p class="preview-date"><i class="fas fa-calendar"></i> ${formatDateTime(data.date)}</p>` : ''}
+                ${data.date ? `<p class="preview-date"><i class="fas fa-calendar"></i> ${data.date}</p>` : ''}
                 ${data.location ? `<p class="preview-location"><i class="fas fa-map-marker-alt"></i> ${data.location}</p>` : ''}
                 ${data.type ? `<p class="preview-type"><i class="fas fa-tag"></i> ${data.type}</p>` : ''}
                 ${data.department ? `<p class="preview-department"><i class="fas fa-university"></i> ${data.department}</p>` : ''}
                 ${data.summary ? `<div class="preview-summary">${data.summary}</div>` : ''}
+                ${data.body ? `
+                <div class="preview-scroll-wrapper">
+                  <div class="preview-body">${data.body}</div>
+                  <div class="preview-scroll-indicator"></div>
+                </div>` : ''}
               </div>
               <div class="preview-links">
-                <a href="${$trigger.attr('href')}" class="preview-view">View Details</a>
-                ${data.meeting ? `<a href="${data.meeting}" class="preview-join">Join Meeting</a>` : ''}
+                <a href="${$trigger.data('url')}" class="preview-view" onclick="event.stopPropagation()">View Details</a>
+                ${data.meeting ? `<a href="${data.meeting}" class="preview-join" onclick="event.stopPropagation()">Join Meeting</a>` : ''}
+                ${data.moreInfo ? `<a href="${data.moreInfo}" class="preview-more" onclick="event.stopPropagation()">More Info</a>` : ''}
               </div>
             </div>`;
 
@@ -128,6 +144,36 @@
             })
             .addClass('active')
             .data('current-trigger', this);
+
+          // Handle scroll state and indicators
+          const $body = $popup.find('.preview-body');
+          const $indicator = $popup.find('.preview-scroll-indicator');
+          
+          if ($body.length) {
+            // Check if content is scrollable
+            const isScrollable = $body[0].scrollHeight > $body[0].clientHeight;
+            if (isScrollable) {
+              $body.addClass('is-scrollable');
+            } else {
+              $indicator.addClass('at-bottom');
+            }
+
+            // Handle scroll events
+            $body.on('scroll', function() {
+              const nearBottom = this.scrollHeight - this.scrollTop - this.clientHeight < 20;
+              $indicator.toggleClass('at-bottom', nearBottom);
+            });
+            
+            // Trigger initial scroll check
+            $body.trigger('scroll');
+          }
+
+          // Add close button handler
+          $popup.find('.preview-close-button').on('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            $popup.removeClass('active');
+          });
         });
       });
 

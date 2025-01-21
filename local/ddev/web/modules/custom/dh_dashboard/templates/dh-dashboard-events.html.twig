@@ -17,22 +17,25 @@
     {% if items.items is not empty %}
       <div class="events-grid">
         {% for item in items.items %}
-          <article class="event-item dh-card {{ item.category_class }}">
-            <div class="event-header">
-              <h3 class="card-title">
-                <i class="fas fa-calendar-alt"></i>
-                <a href="{{ item.url }}" 
-                   class="event-preview-trigger"
+          <article class="event-item dh-card {{ item.category_class }} event-preview-trigger"
+                   data-url="{{ item.url }}"
                    data-title="{{ item.title }}"
                    data-date="{{ item.date }}"
                    data-location="{{ item.location }}"
                    data-type="{{ item.type.label }}"
                    data-department="{{ item.department.label }}"
                    data-summary="{{ item.summary }}"
+                   data-body="{{ item.body }}"
                    data-image="{{ item.image_url }}"
                    data-more-info="{{ item.more_info_url }}"
                    data-meeting="{{ item.meeting_url }}">
-                  {{ item.title }}
+            <div class="event-header">
+              <h3 class="card-title">
+                <i class="fas fa-calendar-alt"></i>
+                <span class="event-title-text">{{ item.title }}</span>
+                <a href="{{ item.url }}" class="event-link-icon" onclick="event.stopPropagation()">
+                  <i class="fas fa-external-link-alt"></i>
+                  <span class="visually-hidden">{{ 'View event details'|t }}</span>
                 </a>
               </h3>
               <div class="card-meta">

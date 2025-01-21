@@ -101,6 +101,83 @@
   background: white;
   margin-top: 4px; /* Account for the border */
   border-radius: 12px;
+  max-height: 500px;
+  overflow: hidden;
+}
+
+.preview-details {
+  margin-top: 10px;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.preview-body {
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: 10px;
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: #0066cc #f0f0f0;
+  margin-top: 15px;
+}
+
+/* Remove duplicate scroll styles */
+.preview-scroll-wrapper {
+  position: relative;
+}
+
+.preview-scroll-indicator {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Fade effect at the bottom */
+.preview-scroll-indicator::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;  /* Increase height of gradient */
+  background: linear-gradient(transparent, white);
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+/* Scroll indicator */
+.preview-scroll-indicator::before {
+  content: '↓ Scroll for more';
+  position: absolute;
+  bottom: 0px;  /* Move closer to bottom */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.8em;
+  color: #666;
+  background: rgba(255, 255, 255, 0.95);  /* Slightly more opaque background */
+  padding: 1px 8px;  /* Reduce vertical padding */
+  border-radius: 10px;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+  white-space: nowrap;
+  z-index: 3;  /* Ensure text appears above gradient */
+}
+
+.preview-scroll-indicator.at-bottom::before,
+.preview-scroll-indicator.at-bottom::after {
+  opacity: 0;
+}
+
+/* Remove redundant styles */
+.preview-body::after,
+.preview-body::before,
+.preview-body:hover::before,
+.preview-body:not(.is-scrollable)::before,
+.preview-body:not(.is-scrollable)::after {
+  display: none;
 }
 
 .preview-image {
@@ -148,41 +225,33 @@
 .preview-links {
   margin-top: 15px;
   display: flex;
-  gap: 10px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
-  text-align: right;
-  background-color: #eee;
-  padding: 15px;
+  gap: 4px;  /* Reduce gap between buttons further */
+  padding: 8px;  /* Reduce padding around button container */
   margin: 15px -20px -20px;
   border-top: 1px solid #dee2e6;
   border-bottom-left-radius: 12px;
   border-bottom-right-radius: 12px;
+  background-color: #eee;
 }
 
 .preview-links a {
-  padding: 8px 15px;
+  padding: 6px 10px;  /* Reduce horizontal padding inside buttons */
   text-decoration: none;
   background: #4674a1;
   border: 1px solid #ced4da;
+  border-radius: 12px;  /* Add rounded corners */
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 4px;  /* Reduce margin between buttons */
   font-size: 0.9em;
   transition: all 0.2s ease;
   color: #495057;
   font-weight: 500;
 }
 
-.preview-view {
+.preview-view, .preview-join, .preview-more {
   background: #0056b3;
   color: white !important;
   border-color: #004085;
-}
-
-.preview-join {
-  background: #218838;
-  color: white !important;
-  border-color: #1e7e34;
 }
 
 .preview-links a:hover {
@@ -208,4 +277,30 @@
 
 .preview-close:hover {
   background: rgba(0,0,0,0.7);
+}
+
+.preview-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  z-index: 5;
+}
+
+.preview-close-button:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.preview-close-button i {
+  color: #666;
+  font-size: 12px;
 }

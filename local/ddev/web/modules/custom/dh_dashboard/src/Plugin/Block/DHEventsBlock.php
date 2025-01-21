@@ -4,6 +4,7 @@ namespace Drupal\dh_dashboard\Plugin\Block;
 
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Template\Attribute;
+use Drupal\Component\Utility\Xss;
 
 /**
  * Provides an Events block for the DH Dashboard.
@@ -138,6 +139,14 @@ class DHEventsBlock extends DHDashboardBlockBase {
       $meeting_url = $entity->get('field_link_to_online_meeting')->first()->getUrl()->toString();
     }
 
+    // Get full body text
+    $body = '';
+    if ($entity->hasField('body') && !$entity->get('body')->isEmpty()) {
+      $body = $entity->get('body')->value;
+      // Strip any malicious HTML but preserve basic formatting
+      $body = Xss::filter($body, ['p', 'br', 'strong', 'em', 'a', 'ul', 'ol', 'li']);
+    }
+
     return [
       'title' => $entity->label(),
       'url' => $entity->toUrl()->toString(),
@@ -152,6 +161,7 @@ class DHEventsBlock extends DHDashboardBlockBase {
         'url' => $department_url,
       ],
       'summary' => $entity->hasField('body') ? $entity->get('body')->summary : '',
+      'body' => $body,
       'image_url' => $image_url,
       'more_info_url' => $more_info_url,
       'meeting_url' => $meeting_url,

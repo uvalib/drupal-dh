@@ -8,7 +8,7 @@
       // Display mode toggle
       once('dh-dashboard-display', '.display-mode-toggle', context).forEach(function (toggle) {
         $(toggle).on('click', function() {
-          const $container = $(this).closest('.dh-dashboard-block').find('.dh-dashboard-items');
+          const $container = $(this).closest('.dh-dashboard').find('.events-grid');
           const newMode = $container.hasClass('display-mode-grid') ? 'list' : 'grid';
           $container.removeClass('display-mode-grid display-mode-list').addClass('display-mode-' + newMode);
         });
