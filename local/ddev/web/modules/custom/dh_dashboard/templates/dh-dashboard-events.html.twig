@@ -20,7 +20,7 @@
           <article class="event-item dh-card {{ item.category_class }} event-preview-trigger"
                    data-url="{{ item.url }}"
                    data-title="{{ item.title }}"
-                   data-date="{{ item.date }}"
+                   data-date="{{ item.date|date('F j, Y g:i a') }}"
                    data-location="{{ item.location }}"
                    data-type="{{ item.type.label }}"
                    data-department="{{ item.department.label }}"
