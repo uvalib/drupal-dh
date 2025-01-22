@@ -1,20 +1,24 @@
 name: DH Dashboard
 type: module
-description: 'Digital Humanities Dashboard functionality'
+description: 'Provides Digital Humanities Dashboard functionality'
 package: Custom
-core_version_requirement: ^10
+core_version_requirement: ^9 || ^10
 configure: dh_dashboard.settings
 dependencies:
-  - drupal:block
+  - drupal:node
+  - drupal:text
+  - drupal:field
   - drupal:layout_builder
   - drupal:layout_discovery
   - drupal:user
+  - dh_certificate:dh_certificate
 
 libraries:
   dh_dashboard/dashboard
 
 config_devel:
   install:
+    - block.block.dh_certificate_progress
     - block.block.dh_dashboard_events
     - block.block.dh_dashboard_news
     - layout_builder.layout.dashboard_layout
@@ -24,6 +28,8 @@ config_devel:
 # The configurations that should be deleted when the module is uninstalled
 config:
   install:
+    - block.block.dh_certificate_progress
     - block.block.dh_dashboard_events
     - block.block.dh_dashboard_news
     - layout_builder.layout.dashboard_layout
+    - dh_dashboard.settings

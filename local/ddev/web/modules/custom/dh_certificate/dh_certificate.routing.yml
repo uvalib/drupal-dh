@@ -1,0 +1,31 @@
+dh_certificate.overview:
+  path: '/admin/structure/dh-certificate'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::overview'
+    _title: 'DH Certificate Overview'
+  requirements:
+    _permission: 'administer dh certificate'
+
+dh_certificate.dashboard:
+  path: '/certificate/dashboard'
+  defaults:
+    _title: 'Certificate Dashboard'
+    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::dashboardBlock'
+  requirements:
+    _permission: 'access content'
+
+dh_certificate.settings:
+  path: '/admin/config/dh-certificate/settings'
+  defaults:
+    _form: '\Drupal\dh_certificate\Form\DHCertificateSettingsForm'
+    _title: 'DH Certificate Settings'
+  requirements:
+    _permission: 'administer dh certificate'
+
+dh_certificate.admin.progress:
+  path: '/admin/dh/certificate/progress'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::adminProgress'
+    _title: 'Certificate Progress Management'
+  requirements:
+    _permission: 'administer dh certificate'

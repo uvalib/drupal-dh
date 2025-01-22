@@ -1,40 +1,84 @@
-{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_dashboard/templates/dh-dashboard-progress.html.twig #}
-<div{{ attributes.addClass('dh-dashboard') }} data-completed-percentage="{{ progress.completed_percentage }}" data-in-progress-percentage="{{ progress.in_progress_percentage }}">
-  <div class="progress-card">
-    <h2>{{ progress.title }}</h2>
-    
-    <div class="progress-overview">
-      <div class="progress-bar">
-        <div class="progress-fill completed" style="width: {{ progress.completed_percentage }}%"></div>
-        <div class="progress-fill in-progress" style="width: {{ progress.in_progress_percentage }}%; left: {{ progress.completed_percentage }}%"></div>
-      </div>
-      <div class="progress-stats">
-        <p>{{ progress.completed }} of {{ progress.total }} completed ({{ progress.completed_percentage }}%)</p>
-        <p>{{ progress.in_progress }} in progress</p>
-        <p>{{ progress.registered }} registered</p>
-      </div>
-    </div>
+{#
+/**
+ * @file
+ * Default theme implementation for certificate dashboard progress block.
+ *
+ * Available variables:
+ * - progress: Contains progress information including:
+ *   - completed_count: Number of completed courses
+ *   - total_count: Total number of courses
+ *   - total_percentage: Completion percentage
+ *   - requirements_status: Array of course information
+ *   - status_class: CSS class for progress status
+ */
+#}
 
-    <div class="course-list-card">
-      <div class="course-list">
-        {% for course in progress.courses %}
-          <div class="course-item {{ course.status_class }}">
-            <div class="course-header">
-              <span class="course-icon">
-                <i class="fas fa-{{ course.icon }}"></i>
-              </span>
-              <span class="course-details">{{ course.year }} {{ course.semester }} {{ course.mnemonic }} {{ course.number }}</span>
-              {% if course.status_text %}
-                <span class="course-status-badge">{{ course.status_text }}</span>
-              {% endif %}
-            </div>
-            <div class="course-body">
-              <span class="course-name">{{ course.name }}</span>
-              <span class="course-type">{{ course.type | capitalize }}</span>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
+{# Debug output at top of template #}
+<!-- START Template Debug -->
+<!-- Template: dh-dashboard-progress.html.twig -->
+<!-- Available variables: {{ _context|keys|join(', ') }} -->
+<!-- Progress data: {{ progress|json_encode(constant('JSON_PRETTY_PRINT')) }} -->
+<!-- END Template Debug -->
+
+<div{{ attributes.addClass('dh-progress-block') }}>
+  <h3>{{ progress.title|default('Certificate Progress'|t) }}</h3>
+  
+  {# Debug output for administrators #}
+  {% if is_admin %}
+    <details>
+      <summary>{{ 'Raw Template Variables'|t }}</summary>
+      <pre>
+        {{ progress|json_encode(constant('JSON_PRETTY_PRINT')) }}
+      </pre>
+    </details>
+  {% endif %}
+
+  <div class="progress-summary">
+    <div class="progress-bar">
+      <div class="progress" style="width: {{ progress.total_percentage }}%"></div>
+    </div>
+    <span class="progress-text">{{ progress.total_percentage }}% {{ 'complete'|t }}</span>
+    <div class="completion-stats">
+      {{ progress.completed_count }}/{{ progress.total_count }} {{ 'courses completed'|t }}
     </div>
   </div>
+
+  {% if progress.requirements_status is not empty %}
+    <div class="course-list">
+      {% for course in progress.requirements_status %}
+        <div class="course-item course-status--{{ course.status }}">
+          <span class="course-icon">
+            {% if course.status == 'complete' %}
+              ✓
+            {% elseif course.status == 'in_progress' %}
+              ⟳
+            {% else %}
+              ○
+            {% endif %}
+          </span>
+          <span class="course-name">{{ course.label }}</span>
+          <span class="course-status">
+            {% if course.status == 'in_progress' %}
+              {{ 'In Progress'|t }}
+            {% else %}
+              {{ course.status|capitalize|t }}
+            {% endif %}
+          </span>
+          {% if course.credits %}
+            <span class="course-credits">({{ course.credits }} {{ 'credits'|t }})</span>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>{{ 'No courses available.'|t }}</p>
+  {% endif %}
+
+  {# Debug output for administrators #}
+  {% if debug.access and debug['#markup'] %}
+    <details>
+      <summary>{{ 'Debug Information'|t }}</summary>
+      {{ debug }}
+    </details>
+  {% endif %}
 </div>

@@ -1,0 +1,43 @@
+course:
+  label: 'Course'
+  entity_type: 'node'
+  bundle: 'course'
+  validation:
+    - 'completion_status'
+    - 'grade'
+  display:
+    icon: 'book'
+    color: 'blue'
+
+project:
+  label: 'Project'
+  entity_type: 'node'
+  bundle: 'project'
+  validation:
+    - 'approval_status'
+    - 'submission_date'
+  display:
+    icon: 'tasks'
+    color: 'green'
+
+activity:
+  label: 'Activity'
+  entity_type: 'node'
+  bundle: 'activity'
+  validation:
+    - 'attendance'
+    - 'participation'
+  display:
+    icon: 'users'
+    color: 'orange'
+
+workshop:
+  label: 'Workshop'
+  entity_type: 'node'
+  bundle: 'workshop'
+  validation:
+    - 'attendance'
+    - 'completion_status'
+  display:
+    icon: 'chalkboard-teacher'
+    color: 'purple'

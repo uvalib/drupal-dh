@@ -1,0 +1,8 @@
+administer dh certificate:
+  title: 'Administer DH Certificate'
+  description: 'Access DH Certificate administration pages and settings.'
+  restrict access: TRUE
+
+view dh certificate progress:
+  title: 'View Certificate Progress'
+  description: 'View progress towards Digital Humanities certificate completion.'

@@ -4,7 +4,8 @@
 .block-dh-dashboard-events,
 .block-dh-dashboard-program-info,
 .block-dh-dashboard-progress,
-.block-dh-dashboard-certificate-info {
+.block-dh-dashboard-certificate-info,
+.block-dh-certificate-progress {
   background: #ffffff;
   border-radius: 12px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
@@ -21,7 +22,8 @@
 .block-dh-dashboard-events:hover,
 .block-dh-dashboard-program-info:hover,
 .block-dh-dashboard-progress:hover,
-.block-dh-dashboard-certificate-info:hover {
+.block-dh-dashboard-certificate-info:hover,
+.block-dh-certificate-progress:hover {
   transform: translateY(-4px);
   box-shadow: rgba(0, 0, 0, 0.15) 0px 8px 24px;
   border-color: #d0d0d0;
@@ -32,7 +34,8 @@
 .block-dh-dashboard-events::before,
 .block-dh-dashboard-program-info::before,
 .block-dh-dashboard-progress::before,
-.block-dh-dashboard-certificate-info::before {
+.block-dh-dashboard-certificate-info::before,
+.block-dh-certificate-progress::before {
   content: '';
   position: absolute;
   top: 0;
@@ -236,6 +239,8 @@ a.resource-item:hover .card-title {
 .progress-stats p {
   margin: 0.25rem 0;
 }
+
+/* Remove conflicting progress bar styles */
 
 /* Progress bar */
 .progress-bar {
@@ -1005,7 +1010,8 @@ a.resource-item:hover .card-title {
 .compact-block.block-dh-dashboard-events,
 .compact-block.block-dh-dashboard-program-info,
 .compact-block.block-dh-dashboard-progress,
-.compact-block.block-dh-dashboard-certificate-info {
+.compact-block.block-dh-dashboard-certificate-info,
+.compact-block .block-dh-certificate-progress {
   padding: 0.75rem;
   margin-bottom: 0.5rem;
   border-radius: 6px;

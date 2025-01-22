@@ -1,0 +1,16 @@
+{
+    "name": "drupal/dh_certificate",
+    "type": "drupal-module",
+    "description": "Digital Humanities Certificate module",
+    "keywords": ["Drupal", "Certificate", "Digital Humanities", "Education"],
+    "license": "GPL-2.0-or-later",
+    "minimum-stability": "dev",
+    "require": {
+        "drupal/core": "^9 || ^10",
+        "drupal/profile": "^1.0",
+        "drupal/entity": "^1.0"
+    },
+    "suggest": {
+        "drupal/dh_dashboard": "Provides dashboard integration for certificate progress"
+    }
+}

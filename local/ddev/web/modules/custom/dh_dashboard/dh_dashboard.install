@@ -2,6 +2,8 @@
 
 use Drupal\layout_builder\Section;
 use Drupal\layout_builder\SectionComponent;
+use Drupal\Core\Config\FileStorage;
+use Drupal\Core\Extension\ExtensionPathResolver;
 
 /**
  * @file
@@ -9,59 +11,85 @@ use Drupal\layout_builder\SectionComponent;
  */
 
 /**
+ * Get a list of all configuration objects owned by this module.
+ */
+function _dh_dashboard_config_objects() {
+  return [
+    'dh_dashboard.settings',
+    'block.block.dh_dashboard_news',
+    'block.block.dh_dashboard_events',
+    'block.block.dh_dashboard_certificate_info',
+    'views.view.dh_dashboard_news',
+    'views.view.dh_dashboard_events',
+    'core.base_field_override.node.dh_dashboard.title',
+    'core.entity_form_display.node.dh_dashboard.default',
+    'core.entity_view_display.node.dh_dashboard.default',
+    'field.field.node.dh_dashboard.body',
+    'node.type.dh_dashboard',
+    // Add any other config objects here
+  ];
+}
+
+/**
  * Implements hook_install().
  */
 function dh_dashboard_install() {
-  // Force configuration import from install directory
-  \Drupal::service('config.installer')->installDefaultConfig('module', 'dh_dashboard');
-
-  // Handle permissions
-  $permissions = [
-    'authenticated' => ['access dh dashboard'],
-    'administrator' => ['access dh dashboard', 'access dh admin dashboard'],
-  ];
+  // Delete any existing configurations first
+  $config_factory = \Drupal::configFactory();
+  $config_storage = \Drupal::service('config.storage');
   
-  foreach ($permissions as $role_id => $role_permissions) {
-    $role = \Drupal\user\Entity\Role::load($role_id);
-    if ($role) {
-      foreach ($role_permissions as $permission) {
-        $role->grantPermission($permission);
-      }
-      $role->save();
+  // Get module path using the extension path resolver
+  $module_path = \Drupal::service('extension.path.resolver')->getPath('module', 'dh_dashboard');
+  $install_storage = new FileStorage($module_path . '/config/install');
+  
+  // Get list of configs to install
+  $configs_to_install = $install_storage->listAll();
+  
+  // Check and delete existing configurations
+  foreach ($configs_to_install as $config_name) {
+    if ($config_storage->exists($config_name)) {
+      $config_factory->getEditable($config_name)->delete();
     }
   }
 
-  // Create the default dashboard
-  $storage = \Drupal::entityTypeManager()->getStorage('node');
-  $nodes = $storage->loadByProperties([
-    'type' => 'dh_dashboard',
-    'title' => 'Default Dashboard',
-  ]);
+  // Install fresh configuration
+  \Drupal::service('config.installer')->installDefaultConfig('module', 'dh_dashboard');
   
-  if (empty($nodes)) {
+  // Create default dashboard
+  _dh_dashboard_create_default();
+  
+  // Clear all caches
+  drupal_flush_all_caches();
+}
+
+/**
+ * Creates the default dashboard node.
+ */
+function _dh_dashboard_create_default() {
+  $storage = \Drupal::entityTypeManager()->getStorage('node');
+  
+  // Check if dashboard already exists
+  $query = $storage->getQuery()
+    ->condition('type', 'dh_dashboard')
+    ->condition('title', 'Dashboard')
+    ->accessCheck(FALSE);
+  $nids = $query->execute();
+  
+  if (empty($nids)) {
+    // Create new dashboard node
     $node = $storage->create([
       'type' => 'dh_dashboard',
-      'title' => 'Default Dashboard',
+      'title' => 'Dashboard',
       'status' => 1,
+      'uid' => 1, // Admin user
     ]);
     $node->save();
     
-    // Set the dashboard node ID in configuration
-    $config = \Drupal::configFactory()->getEditable('dh_dashboard.settings');
-    $config
-      ->set('dashboard_node', $node->id())
-      ->set('items_per_page', 4)
-      ->set('show_debug', FALSE)
+    // Set as default dashboard in configuration
+    \Drupal::configFactory()
+      ->getEditable('dh_dashboard.settings')
+      ->set('default_dashboard', $node->id())
       ->save();
-  } else {
-    // Ensure default configuration exists
-    $config = \Drupal::configFactory()->getEditable('dh_dashboard.settings');
-    if (!$config->get('items_per_page')) {
-      $config
-        ->set('items_per_page', 4)
-        ->set('show_debug', FALSE)
-        ->save();
-    }
   }
 }
 
@@ -69,55 +97,14 @@ function dh_dashboard_install() {
  * Implements hook_uninstall().
  */
 function dh_dashboard_uninstall() {
-  // First, delete any remaining dashboard nodes
-  $storage = \Drupal::entityTypeManager()->getStorage('node');
-  $nodes = $storage->loadByProperties(['type' => 'dh_dashboard']);
-  $storage->delete($nodes);
-
-  // Delete in correct order: fields first, then other configs
-  $configs_to_delete = [
-    'core.entity_view_display.node.dh_dashboard.default',
-    'core.entity_form_display.node.dh_dashboard.default',
-    'node.type.dh_dashboard',
-  ];
-  
-  // Use config factory to properly delete configurations
+  // Remove all module configuration
   $config_factory = \Drupal::configFactory();
-  foreach ($configs_to_delete as $config_name) {
-    $config = $config_factory->getEditable($config_name);
-    if ($config && !$config->isNew()) {
-      $config->delete();
-    }
+  foreach (_dh_dashboard_config_objects() as $config_name) {
+    $config_factory->getEditable($config_name)->delete();
   }
-
-  // Clear field cache to ensure clean state
-  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
-
-  // Clean up permissions
-  $roles = \Drupal\user\Entity\Role::loadMultiple();
-  foreach ($roles as $role) {
-    $role->revokePermission('access dh dashboard');
-    $role->save();
-  }
-
-  // Delete the base field override configuration that might conflict on reinstall
-  \Drupal::configFactory()->getEditable('core.base_field_override.node.dh_dashboard.title')->delete();
-
-  // Clean up the body field instance for dh_dashboard content type
-  $field_instance = \Drupal::entityTypeManager()
-    ->getStorage('field_config')
-    ->load('node.dh_dashboard.body');
-  if ($field_instance) {
-    $field_instance->delete();
-  }
-
-  // Delete the content type itself
-  $content_type = \Drupal::entityTypeManager()
-    ->getStorage('node_type')
-    ->load('dh_dashboard');
-  if ($content_type) {
-    $content_type->delete();
-  }
+  
+  // Clear all caches
+  drupal_flush_all_caches();
 }
 
 /**

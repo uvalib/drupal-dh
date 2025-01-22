@@ -1,0 +1,4 @@
+certificate-progress:
+  css:
+    theme:
+      css/certificate-progress.css: {}

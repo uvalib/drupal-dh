@@ -1,0 +1,417 @@
+<?php
+
+use Drupal\user\Entity\Role;
+use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\node\Entity\NodeType;
+
+/**
+ * @file
+ * Install, update and uninstall functions for the DH Certificate module.
+ */
+
+/**
+ * Get a list of all configuration objects owned by this module.
+ */
+function _dh_certificate_config_objects() {
+  return [
+    'dh_certificate.settings',
+    'field.storage.user.field_certificate_progress',
+    'field.field.user.user.field_certificate_progress',
+    'block.block.certificate_progress',
+    'views.view.certificate_progress',
+  ];
+}
+
+/**
+ * Implements hook_schema().
+ */
+function dh_certificate_schema() {
+  $schema = [];
+  // The schema is mainly handled by the Entity API
+
+  $schema['course_enrollment'] = [
+    'description' => 'Stores course enrollment information.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'User ID',
+      ],
+      'course_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Course Node ID',
+      ],
+      'status' => [
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => 'pending',
+        'description' => 'Enrollment status',
+      ],
+      'completed_date' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'description' => 'Timestamp of completion',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'user_course' => ['uid', 'course_id'],
+    ],
+  ];
+
+  return $schema;
+}
+
+/**
+ * Implements hook_install().
+ */
+function dh_certificate_install() {
+  // Create the admin role if it doesn't exist
+  $role = Role::load('dhcert_admin');
+  if (!$role) {
+    $role = Role::create([
+      'id' => 'dhcert_admin',
+      'label' => 'DH Certificate Admin',
+    ]);
+    $role->grantPermission('administer dh certificate');
+    $role->save();
+  }
+
+  // Delete any existing configurations first
+  $config_factory = \Drupal::configFactory();
+  foreach (_dh_certificate_config_objects() as $config_name) {
+    $config_factory->getEditable($config_name)->delete();
+  }
+
+  // Install fresh configuration
+  \Drupal::service('config.installer')->installDefaultConfig('module', 'dh_certificate');
+  
+  // Clear all caches
+  drupal_flush_all_caches();
+
+  // Create course content type if it doesn't exist
+  $node_type_storage = \Drupal::entityTypeManager()->getStorage('node_type');
+  $course_type = $node_type_storage->load('course');
+  
+  if (!$course_type) {
+    $course_type = NodeType::create([
+      'type' => 'course',
+      'name' => t('Course'),
+      'description' => t('Course content type for certificate requirements.'),
+    ]);
+    $course_type->save();
+
+    // Add course fields
+    $fields = [
+      'field_course_type' => [
+        'type' => 'list_string',
+        'label' => 'Course Type',
+        'settings' => [
+          'allowed_values' => [
+            'core' => 'Core',
+            'elective' => 'Elective',
+          ],
+        ],
+      ],
+      'field_credits' => [
+        'type' => 'integer',
+        'label' => 'Credits',
+      ],
+      'field_term' => [
+        'type' => 'string',
+        'label' => 'Term',
+      ],
+      'field_status' => [
+        'type' => 'list_string',
+        'label' => 'Status',
+        'settings' => [
+          'allowed_values' => [
+            'not_started' => 'Not Started',
+            'in_progress' => 'In Progress',
+            'complete' => 'Complete',
+          ],
+        ],
+      ],
+    ];
+
+    foreach ($fields as $field_name => $field_config) {
+      $field_storage = \Drupal\field\Entity\FieldStorageConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'node',
+        'type' => $field_config['type'],
+      ]);
+      $field_storage->save();
+
+      $field = \Drupal\field\Entity\FieldConfig::create([
+        'field_storage' => $field_storage,
+        'bundle' => 'course',
+        'label' => $field_config['label'],
+        'settings' => $field_config['settings'] ?? [],
+      ]);
+      $field->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function dh_certificate_uninstall() {
+  // Clean up course enrollments directly using database
+  try {
+    $database = \Drupal::database();
+    if ($database->schema()->tableExists('course_enrollment')) {
+      $database->truncate('course_enrollment')->execute();
+      $database->schema()->dropTable('course_enrollment');
+    }
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('dh_certificate')->error('Error cleaning up course enrollments: @message', [
+      '@message' => $e->getMessage(),
+    ]);
+  }
+
+  // Remove all module configuration
+  $config_factory = \Drupal::configFactory();
+  foreach (_dh_certificate_config_objects() as $config_name) {
+    $config_factory->getEditable($config_name)->delete();
+  }
+  
+  // Remove the role when uninstalling
+  $role = Role::load('dhcert_admin');
+  if ($role) {
+    $role->delete();
+  }
+
+  // Clear all caches
+  drupal_flush_all_caches();
+}
+
+/**
+ * Update certificate progress entity type ID.
+ */
+function dh_certificate_update_9001() {
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $entity_type = $definition_update_manager->getEntityType('certificate_progress');
+  if ($entity_type) {
+    $entity_type->set('id', 'dh_certificate_progress');
+    $definition_update_manager->updateEntityType($entity_type);
+  }
+
+  $schema = \Drupal::database()->schema();
+  
+  if (!$schema->tableExists('course_enrollment')) {
+    $schema->createTable('course_enrollment', [
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'uid' => [
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'course_id' => [
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'status' => [
+          'type' => 'varchar',
+          'length' => 32,
+          'not null' => TRUE,
+          'default' => 'pending',
+        ],
+        'completed_date' => [
+          'type' => 'int',
+          'not null' => FALSE,
+        ],
+      ],
+      'primary key' => ['id'],
+      'indexes' => [
+        'course_enrollment_user' => ['uid'],
+        'course_enrollment_course' => ['course_id'],
+      ],
+    ]);
+  }
+}
+
+/**
+ * Update certificate progress field name and entity type.
+ */
+function dh_certificate_update_9002() {
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  
+  // Remove old field if it exists
+  if ($storage_definition = $definition_update_manager->getFieldStorageDefinition('certificate_progress', 'user')) {
+    $definition_update_manager->uninstallFieldStorageDefinition($storage_definition);
+  }
+  
+  // Install new field
+  $new_storage_definition = \Drupal\Core\Field\BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Certificate Progress'))
+    ->setDescription(t('Tracks progress towards certificate completion'))
+    ->setSetting('target_type', 'dh_certificate_progress')
+    ->setDisplayOptions('view', [
+      'label' => 'above',
+      'type' => 'entity_reference_label',
+      'weight' => 0,
+    ]);
+
+  $definition_update_manager->installFieldStorageDefinition(
+    'dh_certificate_progress',
+    'user',
+    'dh_certificate',
+    $new_storage_definition
+  );
+}
+
+/**
+ * Ensure certificate progress field exists on user entity.
+ */
+function dh_certificate_update_9003() {
+  $entity_type_manager = \Drupal::entityTypeManager();
+  $field_storage_definition = BaseFieldDefinition::create('entity_reference')
+    ->setLabel(t('Certificate Progress'))
+    ->setDescription(t('Tracks progress towards certificate completion'))
+    ->setSetting('target_type', 'dh_certificate_progress')
+    ->setDisplayOptions('view', [
+      'label' => 'above',
+      'type' => 'entity_reference_label',
+      'weight' => 0,
+    ])
+    ->setDisplayOptions('form', [
+      'type' => 'entity_reference_autocomplete',
+      'weight' => 5,
+      'settings' => [
+        'match_operator' => 'CONTAINS',
+        'size' => '60',
+        'placeholder' => '',
+      ],
+    ]);
+
+  $definition_update_manager = \Drupal::entityDefinitionUpdateManager();
+  $definition_update_manager->installFieldStorageDefinition(
+    'dh_certificate_progress',
+    'user',
+    'dh_certificate',
+    $field_storage_definition
+  );
+}
+
+/**
+ * Drop and recreate the course_enrollment table.
+ */
+function dh_certificate_update_9004() {
+  $schema = \Drupal::database()->schema();
+  
+  if ($schema->tableExists('course_enrollment')) {
+    // Drop the existing table
+    $schema->dropTable('course_enrollment');
+  }
+  
+  // Recreate with correct schema
+  $schema->createTable('course_enrollment', [
+    'description' => 'Stores course enrollment information.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'User ID',
+      ],
+      'course_id' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Course Node ID',
+      ],
+      'status' => [
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => 'pending',
+        'description' => 'Enrollment status',
+      ],
+      'completed_date' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'description' => 'Timestamp of completion',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'user_course' => ['uid', 'course_id'],
+    ],
+  ]);
+}
+
+/**
+ * Clean up course enrollments without using entity API.
+ */
+function dh_certificate_update_9005() {
+  $database = \Drupal::database();
+  
+  // Drop and recreate the table to ensure clean state
+  if ($database->schema()->tableExists('course_enrollment')) {
+    // Truncate first to avoid foreign key issues
+    $database->truncate('course_enrollment')->execute();
+    $database->schema()->dropTable('course_enrollment');
+    
+    // Recreate with correct schema
+    $database->schema()->createTable('course_enrollment', [
+      'description' => 'Stores course enrollment information.',
+      'fields' => [
+        'id' => [
+          'type' => 'serial',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+        ],
+        'uid' => [
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'description' => 'User ID',
+        ],
+        'course_id' => [
+          'type' => 'int',
+          'unsigned' => TRUE,
+          'not null' => TRUE,
+          'description' => 'Course Node ID',
+        ],
+        'status' => [
+          'type' => 'varchar',
+          'length' => 32,
+          'not null' => TRUE,
+          'default' => 'pending',
+          'description' => 'Enrollment status',
+        ],
+        'completed_date' => [
+          'type' => 'int',
+          'not null' => FALSE,
+          'description' => 'Timestamp of completion',
+        ],
+      ],
+      'primary key' => ['id'],
+      'indexes' => [
+        'user_course' => ['uid', 'course_id'],
+      ],
+    ]);
+  }
+}

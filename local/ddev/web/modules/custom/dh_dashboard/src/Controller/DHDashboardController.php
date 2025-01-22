@@ -15,7 +15,6 @@ class DHDashboardController extends ControllerBase {
       'dh_dashboard_events' => 'DH Events Block',
       'dh_dashboard_info' => 'DH Info Block',
       'dh_dashboard_program_info' => 'Program Info Block',
-      'dh_dashboard_progress' => 'Progress Block',
       'dh_dashboard_certificate_info' => 'Certificate Info Block',
     ];
 

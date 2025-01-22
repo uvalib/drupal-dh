@@ -1,0 +1,145 @@
+dh_certificate.requirements:
+  type: config_object
+  label: 'Certificate Requirements'
+  mapping:
+    core_courses:
+      type: sequence
+      label: 'Required Core Courses'
+      sequence:
+        type: string
+    elective_credits:
+      type: integer
+      label: 'Required Elective Credits'
+    due_date:
+      type: mapping
+      label: 'Certificate Completion Due Date'
+      mapping:
+        type:
+          type: string
+          label: 'Due Date Type'
+        value:
+          type: string
+          label: 'Due Date Value'
+        format:
+          type: string
+          label: 'Date Format'
+    additional_requirements:
+      type: sequence
+      label: 'Additional Requirements'
+      sequence:
+        type: mapping
+        mapping:
+          id:
+            type: string
+            label: 'Requirement ID'
+          type:
+            type: string
+            label: 'Requirement Type'
+          label:
+            type: label
+            label: 'Human readable label'
+          required:
+            type: boolean
+            label: 'Is Required'
+          weight:
+            type: integer
+            label: 'Weight'
+          config:
+            type: mapping
+            label: 'Requirement Configuration'
+            mapping:
+              min_count:
+                type: integer
+                label: 'Minimum Count'
+              target_type:
+                type: string
+                label: 'Target Entity Type'
+              bundle:
+                type: string
+                label: 'Bundle'
+              conditions:
+                type: sequence
+                label: 'Additional Conditions'
+                sequence:
+                  type: string
+              due_date:
+                type: mapping
+                label: 'Requirement Due Date'
+                mapping:
+                  type:
+                    type: string
+                    label: 'Due Date Type'
+                  value:
+                    type: string
+                    label: 'Due Date Value'
+                  format:
+                    type: string
+                    label: 'Date Format'
+
+dh_certificate.requirement_types:
+  type: config_object
+  label: 'Certificate Requirement Types'
+  mapping:
+    course:
+      type: requirement_type
+      label: 'Course Requirement Type'
+    project:
+      type: requirement_type
+      label: 'Project Requirement Type'
+    activity:
+      type: requirement_type
+      label: 'Activity Requirement Type'
+    workshop:
+      type: requirement_type
+      label: 'Workshop Requirement Type'
+
+requirement_type:
+  type: mapping
+  mapping:
+    label:
+      type: label
+      label: 'Human readable label'
+    entity_type:
+      type: string
+      label: 'Entity Type'
+    bundle:
+      type: string
+      label: 'Bundle'
+    validation:
+      type: sequence
+      label: 'Validation Methods'
+      sequence:
+        type: string
+    display:
+      type: mapping
+      label: 'Display Settings'
+      mapping:
+        icon:
+          type: string
+          label: 'Display Icon'
+        color:
+          type: string
+          label: 'Display Color'
+
+dh_certificate.settings:
+  type: config_object
+  label: 'DH Certificate settings'
+  mapping:
+    requirements:
+      type: sequence
+      label: 'Certificate Requirements'
+      sequence:
+        type: mapping
+        mapping:
+          id:
+            type: string
+            label: 'Requirement ID'
+          name:
+            type: string
+            label: 'Requirement Name'
+          credits:
+            type: integer
+            label: 'Required Credits'
+    show_debug:
+      type: boolean
+      label: 'Show debug information'

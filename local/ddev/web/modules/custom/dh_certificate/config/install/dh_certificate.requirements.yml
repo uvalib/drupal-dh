@@ -1,0 +1,10 @@
+
+langcode: en
+core_courses: []
+elective_credits: 12
+project_requirement: true
+due_date:
+  type: academic
+  value: Spring-2024
+  format: term-year
+additional_requirements: []

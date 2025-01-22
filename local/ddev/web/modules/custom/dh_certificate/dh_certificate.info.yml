@@ -1,0 +1,10 @@
+name: 'DH Certificate'
+type: module
+description: 'Provides Digital Humanities Certificate functionality'
+package: Digital Humanities
+core_version_requirement: ^9 || ^10
+dependencies:
+  - drupal:block
+  - drupal:node
+  - drupal:user
+configure: dh_certificate.settings

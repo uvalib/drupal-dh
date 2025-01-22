@@ -35,17 +35,25 @@ class DashboardController extends ControllerBase
         ],
         ];
 
-        // Load and check the dashboard node
+        // Load the default dashboard node
         $storage = \Drupal::entityTypeManager()->getStorage('node');
-        $nodes = $storage->loadByProperties(
-            [
-            'type' => 'dh_dashboard',
-            'title' => 'Default Dashboard',
-            ]
-        );
-    
-        if ($nodes) {
+        $default_nid = $config->get('default_dashboard');
+        
+        // First try to load by config
+        if ($default_nid) {
+            $node = $storage->load($default_nid);
+        }
+        
+        // Fallback to loading by title if no node found
+        if (empty($node)) {
+            $nodes = $storage->loadByProperties([
+                'type' => 'dh_dashboard',
+                'title' => 'Dashboard',
+            ]);
             $node = reset($nodes);
+        }
+
+        if ($node) {
             if ($show_debug) {
                 \Drupal::messenger()->addStatus('Found dashboard node: ' . $node->id());
             }
@@ -104,16 +112,17 @@ class DashboardController extends ControllerBase
             ];
         }
 
-        // Return debug content if no node found
+        // Return error message if no dashboard found
+        \Drupal::messenger()->addError($this->t('No dashboard has been configured.'));
         return [
-        '#theme' => 'dh_dashboard_page',
-        '#content' => [
-        '#markup' => $this->t('No dashboard node found'),
-        ],
-        '#debug' => $show_debug ? $debug_info : [],
-        '#attached' => [
-        'library' => ['dh_dashboard/dashboard', 'dh_dashboard/event_preview'],
-        ],
+            '#theme' => 'dh_dashboard_page',
+            '#content' => [
+                '#markup' => $this->t('Please create a dashboard node or contact your administrator.'),
+            ],
+            '#debug' => $show_debug ? $debug_info : [],
+            '#attached' => [
+                'library' => ['dh_dashboard/dashboard'],
+            ],
         ];
     }
 

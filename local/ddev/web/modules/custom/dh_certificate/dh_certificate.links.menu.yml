@@ -1,0 +1,7 @@
+
+dh_certificate.settings:
+  title: 'DH Certificate Settings'
+  description: 'Configure DH Certificate settings'
+  parent: system.admin_config_system
+  route_name: dh_certificate.settings
+  weight: 10

@@ -65,17 +65,6 @@ third_party_settings:
             additional: {  }
             weight: 0
           -
-            uuid: dh-progress
-            region: third
-            configuration:
-              id: 'dh_dashboard_progress'
-              label: 'Progress'
-              provider: dh_dashboard
-              label_display: false
-              context_mapping: {}
-            additional: {  }
-            weight: 0
-          -
             uuid: dh-certificate
             region: third
             configuration:
@@ -86,8 +75,18 @@ third_party_settings:
               context_mapping: {}
             additional: {  }
             weight: 1
-        third_party_settings: {  }
-id: node.dh_dashboard.default
+          -
+            uuid: dh-certificate-progress
+            region: third
+            configuration:
+              id: 'dh_certificate_progress'
+              label: 'Certificate Progress'
+              provider: dh_certificate
+              label_display: false
+              context_mapping: {}
+            additional: {  }
+            weight: 0
+
 targetEntityType: node
 bundle: dh_dashboard
 mode: default

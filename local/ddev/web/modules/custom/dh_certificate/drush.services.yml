@@ -1,0 +1,6 @@
+services:
+  dh_certificate.commands:
+    class: Drupal\dh_certificate\Commands\DHCertificateCommands
+    arguments: ['@entity_type.manager', '@dh_certificate.progress']
+    tags:
+      - { name: drush.command }

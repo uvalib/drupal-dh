@@ -1,0 +1,12 @@
+services:
+  dh_certificate.progress:
+    class: Drupal\dh_certificate\Service\DHCertificateProgressService
+    arguments: ['@entity_type.manager', '@config.factory']
+  dh_certificate.progress_manager:
+    class: Drupal\dh_certificate\Service\DHCertificateProgressService
+    arguments: ['@entity_type.manager', '@config.factory', '@logger.factory']
+  dh_certificate.commands:
+    class: \Drupal\dh_certificate\Commands\DHCertificateCommands
+    arguments: ['@entity_type.manager', '@dh_certificate.progress']
+    tags:
+      - { name: drush.command }

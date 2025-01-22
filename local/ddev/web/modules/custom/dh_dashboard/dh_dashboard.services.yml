@@ -1,0 +1,4 @@
+services:
+  dh_dashboard.progress:
+    class: Drupal\dh_dashboard\Service\DashboardProgressService
+    arguments: ['@entity_type.manager', '@current_user']

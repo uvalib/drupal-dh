@@ -1,0 +1,40 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-progress.html.twig #}
+<div class="certificate-progress">
+  <h3>{{ 'Certificate Progress'|t }}</h3>
+  
+  <div class="certificate-progress__summary">
+    <div class="progress-bar">
+      <div class="progress-bar__fill" style="width: {{ progress.percentage }}%">
+        <span class="progress-bar__text">{{ progress.percentage }}%</span>
+      </div>
+    </div>
+    
+    <div class="progress-stats">
+      <div class="stat">
+        <span class="label">{{ 'Courses Completed'|t }}</span>
+        <span class="value">{{ progress.completed_courses }}/{{ progress.total_courses }}</span>
+      </div>
+      <div class="stat">
+        <span class="label">{{ 'Credits Earned'|t }}</span>
+        <span class="value">{{ progress.total_credits }}/{{ progress.required_credits }}</span>
+      </div>
+    </div>
+  </div>
+
+  {% if progress.courses %}
+    <div class="certificate-progress__courses">
+      <h4>{{ 'Completed Courses'|t }}</h4>
+      <ul>
+        {% for course in progress.courses %}
+          <li>{{ course.title }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if is_admin %}
+    <div class="certificate-progress__admin">
+      <a href="{{ path('dh_certificate.admin.progress') }}" class="button">{{ 'Manage Progress'|t }}</a>
+    </div>
+  {% endif %}
+</div>
