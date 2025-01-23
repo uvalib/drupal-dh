@@ -3,105 +3,167 @@
 namespace Drupal\dh_certificate\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
-use Drupal\dh_certificate\Service\DHCertificateProgressService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\dh_certificate\ProgressManagerInterface;
+use Drupal\Core\Url;
 
 /**
- * Controller for certificate-related pages.
+ * Controller for DH Certificate module.
  */
 class DHCertificateController extends ControllerBase {
 
   /**
-   * The certificate progress service.
+   * The progress manager.
    *
-   * @var \Drupal\dh_certificate\Service\DHCertificateProgressService
+   * @var \Drupal\dh_certificate\ProgressManagerInterface
    */
-  protected $progressService;
+  protected $progressManager;
 
   /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('dh_certificate.progress') // Changed from progress_manager
+      $container->get('dh_certificate.progress')
     );
   }
 
   /**
-   * Constructs a new DHCertificateController.
+   * Constructs a DHCertificateController object.
    */
-  public function __construct(DHCertificateProgressService $progress_service) {
-    $this->progressService = $progress_service;
-  }
-
-  public function dashboardBlock() {
-    $progress = $this->progressService->getUserProgress($this->currentUser());
-    
-    // Debug logging
-    \Drupal::logger('dh_certificate')->debug('Dashboard block progress data: @data', [
-      '@data' => print_r($progress, TRUE),
-    ]);
-
-    $build = [
-      '#theme' => 'certificate_progress_block',
-      '#progress' => $progress,
-      '#cache' => [
-        'contexts' => ['user'],
-        'tags' => ['certificate_progress:' . $this->currentUser()->id()],
-      ],
-      '#attached' => [
-        'library' => ['dh_certificate/certificate-progress'],
-      ],
-    ];
-    
-    // Add debug information if enabled
-    if (\Drupal::config('dh_certificate.settings')->get('show_debug')) {
-      $build['debug'] = [
-        '#type' => 'details',
-        '#title' => $this->t('Debug Information'),
-        '#open' => TRUE,
-        'content' => [
-          '#markup' => '<pre>' . print_r($build['#progress'], TRUE) . '</pre>',
-        ],
-      ];
-    }
-    
-    return $build;
+  public function __construct(ProgressManagerInterface $progress_manager) {
+    $this->progressManager = $progress_manager;
   }
 
   /**
-   * Displays an overview of the certificate system.
-   *
-   * @return array
-   *   A render array representing the administrative overview page.
+   * Displays the admin overview page.
    */
-  public function overview() {
-    $build = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['dh-certificate-overview']],
+  public function adminOverview() {
+    return [
+      '#markup' => $this->t('DH Certificate Administration'),
     ];
-
-    $build['description'] = [
-      '#type' => 'markup',
-      '#markup' => $this->t('Administrative overview of the DH Certificate system.'),
-    ];
-
-    return $build;
   }
 
   /**
-   * Displays the certificate progress admin page.
-   *
-   * @return array
-   *   A render array for the admin page.
+   * Displays the admin progress page.
    */
   public function adminProgress() {
     return [
-      '#theme' => 'dh_certificate_progress_admin',
+      '#theme' => 'dh_certificate_admin_progress',
+      '#progress' => $this->progressManager->getAllProgress(),
       '#attached' => [
         'library' => ['dh_certificate/admin'],
       ],
     ];
+  }
+
+  /**
+   * Displays the admin reports page.
+   */
+  public function adminReports() {
+    return [
+      '#theme' => 'dh_certificate_admin_reports',
+      '#reports' => $this->progressManager->getReports(),
+    ];
+  }
+
+  /**
+   * Displays the admin enrollments page.
+   */
+  public function adminEnrollments() {
+    return [
+      '#theme' => 'dh_certificate_admin_enrollments',
+      '#enrollments' => $this->progressManager->getAllEnrollments(),
+    ];
+  }
+
+  /**
+   * Displays the course overview page.
+   */
+  public function courseOverview() {
+    return [
+      '#markup' => $this->t('Course Management'),
+    ];
+  }
+
+  /**
+   * Displays the progress overview page.
+   */
+  public function progressOverview() {
+    return [
+      '#theme' => 'dh_certificate_progress',
+      '#progress' => $this->progressManager->getAllProgress(),
+    ];
+  }
+
+  /**
+   * Displays the user progress page.
+   */
+  public function userProgress($user) {
+    return [
+      '#theme' => 'dh_certificate_progress',
+      '#progress' => $this->progressManager->getUserProgress($user),
+    ];
+  }
+
+  /**
+   * Displays the dashboard block.
+   */
+  public function dashboardBlock() {
+    $is_admin = $this->currentUser()->hasPermission('administer dh certificate');
+    return [
+      '#theme' => 'dh_certificate_progress',
+      '#progress' => $this->progressManager->getUserProgress($this->currentUser()),
+      '#is_admin' => $is_admin,
+      '#admin_url' => $is_admin ? Url::fromRoute('dh_certificate.settings')->toString() : NULL,
+    ];
+  }
+
+  /**
+   * Displays the overview page.
+   */
+  public function overview() {
+    return [
+      '#markup' => $this->t('DH Certificate Overview'),
+    ];
+  }
+
+  /**
+   * Displays a list of certificate courses.
+   *
+   * @return array
+   *   A render array representing the courses list page.
+   */
+  public function coursesList() {
+    $build = [
+      '#type' => 'markup',
+      '#markup' => $this->t('Certificate courses list page'),
+    ];
+    
+    return $build;
+  }
+
+  /**
+   * Displays certificate requirements.
+   *
+   * @return array
+   *   A render array representing the requirements page.
+   */
+  public function requirementsList() {
+    return [
+      '#type' => 'markup',
+      '#markup' => $this->t('Certificate requirements configuration page'),
+    ];
+  }
+
+  /**
+   * Redirects to the settings page.
+   *
+   * @return \Symfony\Component\HttpFoundation\RedirectResponse
+   *   A redirect response object.
+   */
+  public function adminRedirect() {
+    return $this->redirect('dh_certificate.settings');
   }
 
 }

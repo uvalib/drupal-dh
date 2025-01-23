@@ -1,8 +1,22 @@
+administer dh certificate settings:
+  title: 'Administer DH Certificate settings'
+  description: 'Allow users to configure certificate settings'
+  restrict access: true
+
+administer dh certificate requirements:
+  title: 'Administer DH Certificate Requirements'
+  description: 'Allow users to configure certificate requirements'
+  restrict access: true
+
 administer dh certificate:
   title: 'Administer DH Certificate'
-  description: 'Access DH Certificate administration pages and settings.'
-  restrict access: TRUE
+  description: 'Allow users to configure certificate settings'
+  restrict access: true
 
-view dh certificate progress:
+view own certificate progress:
+  title: 'View Own Certificate Progress'
+  description: 'Allow users to view their own certificate progress'
+
+view certificate progress:
   title: 'View Certificate Progress'
-  description: 'View progress towards Digital Humanities certificate completion.'
+  description: 'Allow users to view all certificate progress'

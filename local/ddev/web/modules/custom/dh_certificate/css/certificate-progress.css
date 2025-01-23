@@ -141,7 +141,7 @@
   margin-top: 1.5rem;
   padding-top: 1.5rem;
   border-top: 1px solid #eaeaea;
-  text-align: right;
+  text-align: left;
 }
 
 .certificate-progress__admin .button {
@@ -158,6 +158,47 @@
 .certificate-progress__admin .button:hover {
   background: #005bb5;
   transform: translateY(-1px);
+}
+
+/* Debug section styling */
+.certificate-progress__debug {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eaeaea;
+}
+
+.certificate-progress__debug .courses-debug {
+  margin: 1rem 0;
+  padding-left: 1rem;
+}
+
+.certificate-progress__debug details {
+  background: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.certificate-progress__debug summary {
+  cursor: pointer;
+  color: #666;
+  font-weight: 500;
+  padding: 0.5rem;
+}
+
+.certificate-progress__debug summary:hover {
+  background: #f0f0f0;
+  border-radius: 4px;
+}
+
+.certificate-progress__debug .course-debug {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: #fff;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  line-height: 1.4;
 }
 
 /* Responsive Adjustments */

@@ -1,12 +1,23 @@
 services:
   dh_certificate.progress:
-    class: Drupal\dh_certificate\Service\DHCertificateProgressService
-    arguments: ['@entity_type.manager', '@config.factory']
+    class: Drupal\dh_certificate\ProgressManager
+    arguments:
+      - '@entity_type.manager'
+      - '@state'
+      - '@dh_certificate.requirement_type_manager'
   dh_certificate.progress_manager:
-    class: Drupal\dh_certificate\Service\DHCertificateProgressService
-    arguments: ['@entity_type.manager', '@config.factory', '@logger.factory']
+    alias: dh_certificate.progress
   dh_certificate.commands:
     class: \Drupal\dh_certificate\Commands\DHCertificateCommands
-    arguments: ['@entity_type.manager', '@dh_certificate.progress']
+    arguments: 
+      - '@entity_type.manager'
+      - '@dh_certificate.progress'
+      - '@dh_certificate.requirement_type_manager'
     tags:
       - { name: drush.command }
+      - { name: drupal.command }  # Add this tag for better service discovery
+  dh_certificate.requirement_type_manager:
+    class: Drupal\dh_certificate\RequirementType\RequirementTypeManager
+    arguments: ['@module_handler', '@cache.discovery', '@typed_data_manager']
+    tags:
+      - { name: requirement_type_manager }

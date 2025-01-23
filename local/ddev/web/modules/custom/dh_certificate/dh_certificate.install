@@ -68,6 +68,53 @@ function dh_certificate_schema() {
     ],
   ];
 
+  $schema['student_progress'] = [
+    'description' => 'Stores student progress data.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary Key',
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'User ID',
+      ],
+      'status' => [
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => 'pending',
+        'description' => 'Progress status',
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp when created',
+      ],
+      'changed' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp when changed',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'uid' => ['uid'],
+    ],
+    'foreign keys' => [
+      'student_user' => [
+        'table' => 'users',
+        'columns' => ['uid' => 'uid'],
+      ],
+    ],
+  ];
+
   return $schema;
 }
 
@@ -166,33 +213,61 @@ function dh_certificate_install() {
  * Implements hook_uninstall().
  */
 function dh_certificate_uninstall() {
-  // Clean up course enrollments directly using database
+  // Clear entity type definitions
+  \Drupal::entityTypeManager()->clearCachedDefinitions();
+  
+  // Force disable foreign key checks and use proper MySQL syntax
+  $connection = \Drupal::database();
+  $connection->query('SET FOREIGN_KEY_CHECKS = 0')->execute();
+  
   try {
-    $database = \Drupal::database();
-    if ($database->schema()->tableExists('course_enrollment')) {
-      $database->truncate('course_enrollment')->execute();
-      $database->schema()->dropTable('course_enrollment');
+    // First remove entity type definitions
+    \Drupal::keyValue('entity.definitions.installed')->deleteMultiple([
+      'dh_certificate_progress',
+      'student_progress',
+    ]);
+    
+    // Drop tables if they exist
+    $tables = ['student_progress', 'course_enrollment', 'dh_certificate_progress'];
+    
+    foreach ($tables as $table) {
+      try {
+        $connection->schema()->dropTable($table);
+      }
+      catch (\Exception $e) {
+        \Drupal::logger('dh_certificate')->warning('Could not drop table @table: @error', [
+          '@table' => $table,
+          '@error' => $e->getMessage(),
+        ]);
+      }
+    }
+
+    // Clean up config
+    $configs = _dh_certificate_config_objects();
+    foreach ($configs as $config_name) {
+      \Drupal::configFactory()->getEditable($config_name)->delete();
+    }
+
+    // Remove fields
+    $field_storages = \Drupal::entityTypeManager()
+      ->getStorage('field_storage_config')
+      ->loadByProperties(['module' => 'dh_certificate']);
+    
+    foreach ($field_storages as $field_storage) {
+      $field_storage->delete();
     }
   }
   catch (\Exception $e) {
-    \Drupal::logger('dh_certificate')->error('Error cleaning up course enrollments: @message', [
+    \Drupal::logger('dh_certificate')->error('Error during uninstall: @message', [
       '@message' => $e->getMessage(),
     ]);
   }
-
-  // Remove all module configuration
-  $config_factory = \Drupal::configFactory();
-  foreach (_dh_certificate_config_objects() as $config_name) {
-    $config_factory->getEditable($config_name)->delete();
-  }
-  
-  // Remove the role when uninstalling
-  $role = Role::load('dhcert_admin');
-  if ($role) {
-    $role->delete();
+  finally {
+    // Always restore database settings
+    $connection->query('SET FOREIGN_KEY_CHECKS = 1')->execute();
   }
 
-  // Clear all caches
+  // Final cache clear
   drupal_flush_all_caches();
 }
 
@@ -414,4 +489,30 @@ function dh_certificate_update_9005() {
       ],
     ]);
   }
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function dh_certificate_requirements($phase) {
+  $requirements = [];
+
+  if ($phase === 'runtime') {
+    $database = \Drupal::database();
+    $tables = [
+      'student_progress',
+      'course_enrollment',
+      'dh_certificate_progress',
+    ];
+
+    foreach ($tables as $table) {
+      $requirements["dh_certificate_table_$table"] = [
+        'title' => t('DH Certificate @table table', ['@table' => $table]),
+        'value' => $database->schema()->tableExists($table) ? t('Exists') : t('Missing'),
+        'severity' => $database->schema()->tableExists($table) ? REQUIREMENT_OK : REQUIREMENT_WARNING,
+      ];
+    }
+  }
+
+  return $requirements;
 }

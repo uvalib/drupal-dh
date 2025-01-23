@@ -1,7 +1,34 @@
+dh_certificate.admin:
+  title: 'DH Certificate'
+  description: 'Configure Digital Humanities certificate settings'
+  parent: system.admin_config
+  route_name: dh_certificate.admin
+  weight: 0
 
 dh_certificate.settings:
-  title: 'DH Certificate Settings'
-  description: 'Configure DH Certificate settings'
-  parent: system.admin_config_system
+  title: 'Settings'
+  description: 'Configure certificate settings'
+  parent: dh_certificate.admin
   route_name: dh_certificate.settings
-  weight: 10
+  weight: 0
+
+dh_certificate.courses:
+  title: 'Course Management'
+  description: 'Manage certificate courses'
+  parent: dh_certificate.admin
+  route_name: dh_certificate.courses
+  weight: 1
+
+dh_certificate.requirements:
+  title: 'Requirements'
+  description: 'Configure certificate requirements'
+  parent: dh_certificate.admin
+  route_name: dh_certificate.requirements
+  weight: 2
+
+dh_certificate.progress:
+  title: 'Progress Overview'
+  description: 'View certificate progress for all users'
+  parent: system.admin
+  route_name: dh_certificate.progress
+  weight: 0

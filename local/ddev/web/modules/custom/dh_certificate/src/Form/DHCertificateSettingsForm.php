@@ -21,7 +21,7 @@ class DHCertificateSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function getFormId() {
-    return 'dh_certificate_settings';
+    return 'dh_certificate_settings_form';
   }
 
   /**
@@ -37,6 +37,27 @@ class DHCertificateSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('show_debug'),
     ];
 
+    $form['requirements'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Certificate Requirements'),
+    ];
+
+    $form['requirements']['core_credits'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Required Core Credits'),
+      '#default_value' => $config->get('core_credits') ?? 12,
+      '#min' => 0,
+      '#required' => TRUE,
+    ];
+
+    $form['requirements']['elective_credits'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Required Elective Credits'),
+      '#default_value' => $config->get('elective_credits') ?? 6,
+      '#min' => 0,
+      '#required' => TRUE,
+    ];
+
     return parent::buildForm($form, $form_state);
   }
 
@@ -46,6 +67,8 @@ class DHCertificateSettingsForm extends ConfigFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $this->config('dh_certificate.settings')
       ->set('show_debug', $form_state->getValue('show_debug'))
+      ->set('core_credits', $form_state->getValue('core_credits'))
+      ->set('elective_credits', $form_state->getValue('elective_credits'))
       ->save();
 
     parent::submitForm($form, $form_state);

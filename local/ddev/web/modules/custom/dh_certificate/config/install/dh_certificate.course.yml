@@ -1,0 +1,11 @@
+langcode: en
+status: true
+dependencies: {  }
+id: dh_course
+label: Course
+label_collection: Courses
+label_singular: course
+label_plural: courses
+label_count:
+  singular: '@count course'
+  plural: '@count courses'

@@ -1,0 +1,9 @@
+core_credits: 12
+elective_credits: 6
+required_courses:
+  - 'Introduction to Digital Humanities'
+  - 'Digital Research Methods'
+allowed_terms:
+  - 'Fall 2023'
+  - 'Spring 2024'
+  - 'Fall 2024'

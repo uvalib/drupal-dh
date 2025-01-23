@@ -1,0 +1,16 @@
+dh_certificate.settings:
+  route_name: dh_certificate.settings
+  title: 'Settings'
+  base_route: dh_certificate.settings
+
+dh_certificate.courses:
+  route_name: dh_certificate.courses
+  title: 'Courses'
+  base_route: dh_certificate.settings
+  weight: 10
+
+dh_certificate.requirements:
+  route_name: dh_certificate.requirements
+  title: 'Requirements'
+  base_route: dh_certificate.settings
+  weight: 20

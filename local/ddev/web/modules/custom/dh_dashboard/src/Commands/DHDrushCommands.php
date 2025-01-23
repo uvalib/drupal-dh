@@ -7,7 +7,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * DH Dashboard Drush commands.
+ * @deprecated Use \Drupal\dh_certificate\Commands\DHCertificateCommands instead.
  */
 class DHDrushCommands extends DrushCommands {
 
@@ -37,21 +37,14 @@ class DHDrushCommands extends DrushCommands {
    *
    * @command dh-dashboard:check-progress
    * @aliases dh-cp
+   * @deprecated Use dh:check-dashboard instead.
    * @usage dh-dashboard:check-progress 1
    *   Check dashboard progress for user 1.
    */
   public function checkProgress($uid) {
-    $progress_service = \Drupal::service('dh_dashboard.progress');
-    $user = $this->entityTypeManager->getStorage('user')->load($uid);
-    
-    if (!$user) {
-      throw new \Exception(dt('User @uid not found.', ['@uid' => $uid]));
-    }
-
-    $progress = $progress_service->getUserProgress();
-    
-    $this->output()->writeln(dt('Progress for user @name:', ['@name' => $user->getDisplayName()]));
-    $this->output()->writeln(json_encode($progress, JSON_PRETTY_PRINT));
+    $this->output()->writeln('This command is deprecated. Please use dh:check-dashboard instead.');
+    // Forward to new command
+    return \Drupal::service('dh_certificate.commands')->checkDashboardProgress($uid);
   }
 
   /**
@@ -59,15 +52,14 @@ class DHDrushCommands extends DrushCommands {
    *
    * @command dh-dashboard:reset
    * @aliases dh-reset
+   * @deprecated Use dh:reset-all instead.
    * @usage dh-dashboard:reset
    *   Reset all dashboard data.
    */
   public function reset() {
-    // Clear any dashboard-related data
-    $this->output()->writeln('Resetting dashboard data...');
-    
-    // You can implement actual reset logic here
-    $this->output()->writeln('Dashboard data reset complete.');
+    $this->output()->writeln('This command is deprecated. Please use dh:reset-all instead.');
+    // Forward to new command
+    return \Drupal::service('dh_certificate.commands')->resetAll();
   }
 
 }

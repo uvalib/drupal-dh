@@ -36,5 +36,16 @@
     <div class="certificate-progress__admin">
       <a href="{{ path('dh_certificate.admin.progress') }}" class="button">{{ 'Manage Progress'|t }}</a>
     </div>
+
+    <div class="certificate-progress__debug">
+      {{ debug|render }}
+    </div> 
+
+  {% endif %}
+
+  {% if is_admin and admin_url %}
+    <div class="certificate-admin-link">
+      <a href="{{ admin_url }}" class="button button--small button--primary">{{ 'Manage certificates'|t }}</a>
+    </div>
   {% endif %}
 </div>

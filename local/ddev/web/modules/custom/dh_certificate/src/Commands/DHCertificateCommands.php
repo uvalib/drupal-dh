@@ -3,8 +3,10 @@
 namespace Drupal\dh_certificate\Commands;
 
 use Drush\Commands\DrushCommands;
-use Drupal\dh_certificate\Service\DHCertificateProgressService;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\dh_certificate\ProgressManagerInterface;
+use Drupal\dh_certificate\RequirementType\RequirementTypeManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Drush commands for DH Certificate module.
@@ -19,26 +21,49 @@ class DHCertificateCommands extends DrushCommands {
   protected $entityTypeManager;
 
   /**
-   * The certificate progress service.
+   * The progress manager.
    *
-   * @var \Drupal\dh_certificate\Service\DHCertificateProgressService
+   * @var \Drupal\dh_certificate\ProgressManagerInterface
    */
-  protected $progressService;
+  protected $progressManager;
+
+  /**
+   * The requirement type manager.
+   *
+   * @var \Drupal\dh_certificate\RequirementType\RequirementTypeManagerInterface
+   */
+  protected $requirementTypeManager;
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity_type.manager'),
+      $container->get('dh_certificate.progress'),
+      $container->get('dh_certificate.requirement_type_manager')
+    );
+  }
 
   /**
    * Constructs a new DHCertificateCommands object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
-   * @param \Drupal\dh_certificate\Service\DHCertificateProgressService $progress_service
-   *   The certificate progress service.
+   * @param \Drupal\dh_certificate\ProgressManagerInterface $progress_manager
+   *   The progress manager.
+   * @param \Drupal\dh_certificate\RequirementType\RequirementTypeManagerInterface $requirement_type_manager
+   *   The requirement type manager.
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
-    DHCertificateProgressService $progress_service
+    ProgressManagerInterface $progress_manager,
+    RequirementTypeManagerInterface $requirement_type_manager = NULL
   ) {
+    parent::__construct();
     $this->entityTypeManager = $entity_type_manager;
-    $this->progressService = $progress_service;
+    $this->progressManager = $progress_manager;
+    $this->requirementTypeManager = $requirement_type_manager ?? \Drupal::service('dh_certificate.requirement_type_manager');
   }
 
   /**
@@ -311,7 +336,7 @@ class DHCertificateCommands extends DrushCommands {
       }
 
       // Get and display progress
-      $progress = $this->progressService->getUserProgress($user);
+      $progress = $this->progressManager->getUserProgress($user);
       
       $this->output()->writeln("\n=== Certificate Progress for User $uid ===");
       $this->output()->writeln(sprintf(
@@ -501,6 +526,96 @@ class DHCertificateCommands extends DrushCommands {
     }
     
     $this->output()->writeln("\n=== End Debug ===\n");
+  }
+
+  /**
+   * @command dh-certificate:setup-requirements
+   */
+  public function setupRequirements() {
+    $requirements = [
+      'core_courses' => [
+        'type' => 'course',
+        'label' => 'Core Courses',
+        'required' => TRUE,
+        'workflow' => 'course_workflow',
+        'courses' => [
+          // Course references
+        ],
+      ],
+      'tool_proficiency' => [
+        'type' => 'task',
+        'label' => 'Tool Proficiency',
+        'required' => TRUE,
+        'workflow' => 'advisor_approval',
+        'options' => [
+          'tools' => ['git', 'python', 'r'],
+        ],
+      ],
+      // Add other requirements...
+    ];
+
+    // Create requirement set
+    $requirement_set = RequirementSet::create([
+      'id' => 'default',
+      'label' => 'Default Requirements',
+      'requirements' => $requirements,
+    ]);
+    $requirement_set->save();
+  }
+
+  /**
+   * Check dashboard progress for a user.
+   *
+   * @command dh:check-dashboard
+   * @aliases dh-cp
+   * @usage dh:check-dashboard 1
+   *   Check dashboard progress for user 1.
+   */
+  public function checkDashboardProgress($uid) {
+    try {
+        $user = $this->entityTypeManager->getStorage('user')->load($uid);
+        
+        if (!$user) {
+            throw new \Exception(dt('User @uid not found.', ['@uid' => $uid]));
+        }
+
+        if (\Drupal::moduleHandler()->moduleExists('dh_dashboard')) {
+            $progress_service = \Drupal::service('dh_dashboard.progress');
+            $progress = $progress_service->getUserProgress();
+            
+            $this->output()->writeln(dt('Dashboard progress for user @name:', ['@name' => $user->getDisplayName()]));
+            $this->output()->writeln(json_encode($progress, JSON_PRETTY_PRINT));
+        } else {
+            $this->output()->writeln('DH Dashboard module is not enabled.');
+        }
+    } catch (\Exception $e) {
+        $this->logger()->error($e->getMessage());
+        throw $e;
+    }
+  }
+
+  /**
+   * Reset all DH data.
+   *
+   * @command dh:reset-all
+   * @aliases dh-reset
+   * @usage dh:reset-all
+   *   Reset all DH related data.
+   */
+  public function resetAll() {
+    $this->output()->writeln('Resetting DH data...');
+    
+    // Clean up certificate data
+    $this->cleanupProgress();
+    $this->cleanupEnrollments();
+    
+    // Reset dashboard if available
+    if (\Drupal::moduleHandler()->moduleExists('dh_dashboard')) {
+        $this->output()->writeln('Resetting dashboard data...');
+        // Add dashboard reset logic here
+    }
+    
+    $this->output()->writeln('Reset complete.');
   }
 
 }
