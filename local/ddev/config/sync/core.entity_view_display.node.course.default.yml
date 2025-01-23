@@ -9,7 +9,6 @@ dependencies:
     - field.field.node.course.field_course_meets_what_requirem
     - field.field.node.course.field_course_mnemonic
     - field.field.node.course.field_course_year
-    - field.field.node.course.field_department_or_school
     - field.field.node.course.field_dh_concentration
     - field.field.node.course.field_dh_research_data_type
     - field.field.node.course.field_dh_tool_implementation
@@ -20,7 +19,10 @@ dependencies:
     - field.field.node.course.field_university_affiliation
     - field.field.node.course.field_upload_a_syllabus_file
     - node.type.course
+  content:
+    - 'block_content:provus_basic_text:9b05bf03-96d5-48da-9e07-92a279baaad0'
   module:
+    - block_content
     - file
     - layout_builder
     - layout_builder_restrictions
@@ -36,15 +38,15 @@ third_party_settings:
       -
         layout_id: layout_onecol
         layout_settings:
-          label: 'Course Title'
+          label: Title
           context_mapping: {  }
         components:
-          8a349533-38d2-4933-9f13-7b6997b52972:
-            uuid: 8a349533-38d2-4933-9f13-7b6997b52972
+          f16fe9ac-0140-4589-a7a9-a9480b5db79d:
+            uuid: f16fe9ac-0140-4589-a7a9-a9480b5db79d
             region: content
             configuration:
               id: 'field_block:node:course:title'
-              label: 'Course Title'
+              label: Title
               label_display: '0'
               provider: layout_builder
               context_mapping:
@@ -62,119 +64,100 @@ third_party_settings:
       -
         layout_id: layout_twocol_section
         layout_settings:
-          label: 'Basic info'
+          label: 'Key information'
           context_mapping: {  }
           column_widths: 33-67
         components:
-          1fef1db5-f352-46c1-bdf2-2efa196ab0d3:
-            uuid: 1fef1db5-f352-46c1-bdf2-2efa196ab0d3
+          47a990a7-af36-43e0-81de-907eef6827a7:
+            uuid: 47a990a7-af36-43e0-81de-907eef6827a7
             region: first
             configuration:
               id: 'field_block:node:course:field_course_mnemonic'
               label: 'Course Mnemonic'
-              label_display: visible
+              label_display: '0'
               provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
                 view_mode: view_mode
               formatter:
                 type: string
-                label: hidden
+                label: above
                 settings:
                   link_to_entity: false
                 third_party_settings: {  }
             weight: 0
             additional: {  }
-          7746369d-e41d-4158-a048-bbad7476cf8c:
-            uuid: 7746369d-e41d-4158-a048-bbad7476cf8c
+          f1490c1f-a11a-4096-a0c5-21e0e78ab4d1:
+            uuid: f1490c1f-a11a-4096-a0c5-21e0e78ab4d1
             region: first
             configuration:
               id: 'field_block:node:course:field_semester'
               label: Semester
-              label_display: visible
+              label_display: '0'
               provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
                 view_mode: view_mode
               formatter:
                 type: entity_reference_label
-                label: hidden
+                label: above
                 settings:
-                  link: false
+                  link: true
                 third_party_settings: {  }
             weight: 1
             additional: {  }
-          8f377c99-5969-4001-8709-54b0cd25cb70:
-            uuid: 8f377c99-5969-4001-8709-54b0cd25cb70
+          2bdbee99-3e82-4e12-862e-2d2e3e5662dd:
+            uuid: 2bdbee99-3e82-4e12-862e-2d2e3e5662dd
+            region: first
+            configuration:
+              id: 'field_block:node:course:field_course_year'
+              label: 'Course year'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+          d69111a7-5aab-4fd1-8ef8-f0edd56f0ef1:
+            uuid: d69111a7-5aab-4fd1-8ef8-f0edd56f0ef1
             region: first
             configuration:
               id: 'field_block:node:course:field_course_meets_what_requirem'
-              label: 'DH Certificate Course Requirement'
-              label_display: visible
+              label: 'DH Requirement'
+              label_display: '0'
               provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
                 view_mode: view_mode
               formatter:
                 type: entity_reference_label
-                label: hidden
+                label: above
                 settings:
                   link: true
                 third_party_settings: {  }
-            weight: 4
+            weight: 3
             additional: {  }
-          773a1996-dd53-40c9-a8ad-268b2e4ea0b4:
-            uuid: 773a1996-dd53-40c9-a8ad-268b2e4ea0b4
+          3a4d3bc2-3539-4920-8369-da7a592a6665:
+            uuid: 3a4d3bc2-3539-4920-8369-da7a592a6665
             region: first
-            configuration:
-              id: 'field_block:node:course:field_dh_research_data_type'
-              label: 'DH Data'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: entity_reference_label
-                label: hidden
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 5
-            additional: {  }
-          d3b81359-503d-4247-ad67-87b311006357:
-            uuid: d3b81359-503d-4247-ad67-87b311006357
-            region: second
-            configuration:
-              id: 'field_block:node:course:field_course_instructor'
-              label: 'Course Instructor'
-              label_display: visible
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: entity_reference_label
-                label: hidden
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 1
-            additional: {  }
-          7b625c3d-cecc-4b70-841f-4c67fe02791a:
-            uuid: 7b625c3d-cecc-4b70-841f-4c67fe02791a
-            region: second
             configuration:
               id: 'field_block:node:course:field_link_to_uva_sis_listing'
               label: 'UVA SIS listing'
-              label_display: visible
+              label_display: '0'
               provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
                 view_mode: view_mode
               formatter:
                 type: link
-                label: hidden
+                label: above
                 settings:
                   trim_length: 80
                   url_only: false
@@ -182,10 +165,29 @@ third_party_settings:
                   rel: '0'
                   target: _blank
                 third_party_settings: {  }
-            weight: 2
+            weight: 4
             additional: {  }
-          12eb5ad3-1e0f-4496-9192-8a398dfc96e9:
-            uuid: 12eb5ad3-1e0f-4496-9192-8a398dfc96e9
+          0da90d6a-3402-424b-864c-62408530b203:
+            uuid: 0da90d6a-3402-424b-864c-62408530b203
+            region: second
+            configuration:
+              id: 'field_block:node:course:field_course_instructor'
+              label: Instructor
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          67c10d50-3b14-43ac-b810-d5cbf0c900f1:
+            uuid: 67c10d50-3b14-43ac-b810-d5cbf0c900f1
             region: second
             configuration:
               id: 'field_block:node:course:field_short_text_description'
@@ -200,26 +202,111 @@ third_party_settings:
                 label: hidden
                 settings: {  }
                 third_party_settings: {  }
-            weight: 3
+            weight: 1
             additional: {  }
-          cec19981-6a1d-4b25-b804-884d15f5c550:
-            uuid: cec19981-6a1d-4b25-b804-884d15f5c550
+          6524f539-9d22-44d9-a346-6b14873c2bbb:
+            uuid: 6524f539-9d22-44d9-a346-6b14873c2bbb
+            region: second
+            configuration:
+              id: 'field_block:node:course:field_course_description'
+              label: 'Long Course Description'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: text_default
+                label: hidden
+                settings: {  }
+                third_party_settings: {  }
+            weight: 2
+            additional: {  }
+        third_party_settings: {  }
+      -
+        layout_id: layout_threecol_section
+        layout_settings:
+          label: 'Secondary information about course categories'
+          context_mapping: {  }
+          column_widths: 33-34-33
+        components:
+          b2d78c0c-6f9a-409a-9595-18cfada3128e:
+            uuid: b2d78c0c-6f9a-409a-9595-18cfada3128e
             region: first
             configuration:
-              id: 'field_block:node:course:field_course_year'
-              label: 'Course year'
-              label_display: visible
+              id: 'field_block:node:course:field_dh_concentration'
+              label: 'DH Concentration'
+              label_display: '0'
               provider: layout_builder
               context_mapping:
                 entity: layout_builder.entity
                 view_mode: view_mode
               formatter:
                 type: entity_reference_label
-                label: hidden
+                label: above
                 settings:
-                  link: false
+                  link: true
                 third_party_settings: {  }
-            weight: 3
+            weight: 0
+            additional: {  }
+          a61cbf9d-7b22-4452-a0fb-35467e18638f:
+            uuid: a61cbf9d-7b22-4452-a0fb-35467e18638f
+            region: second
+            configuration:
+              id: 'field_block:node:course:field_dh_research_data_type'
+              label: 'DH Research Data Type'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          c9d26dcf-6174-4278-9e48-a4bc5958eff5:
+            uuid: c9d26dcf-6174-4278-9e48-a4bc5958eff5
+            region: third
+            configuration:
+              id: 'field_block:node:course:field_dh_tool_implementation'
+              label: 'Related DH Tool(s)'
+              label_display: '0'
+              provider: layout_builder
+              context_mapping:
+                entity: layout_builder.entity
+                view_mode: view_mode
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+        third_party_settings: {  }
+      -
+        layout_id: layout_onecol
+        layout_settings:
+          label: 'Testing Block Layout'
+          context_mapping: {  }
+        components:
+          8f5fd381-3103-4276-809a-20c57a2f9875:
+            uuid: 8f5fd381-3103-4276-809a-20c57a2f9875
+            region: content
+            configuration:
+              id: 'block_content:9b05bf03-96d5-48da-9e07-92a279baaad0'
+              label: 'Curricular Requirements for the Graduate Certificate in Digital Humanities (Basic Text) - 1945126641'
+              label_display: '0'
+              provider: block_content
+              status: true
+              info: ''
+              view_mode: full
+              context_mapping: {  }
+            weight: 0
             additional: {  }
         third_party_settings: {  }
   layout_builder_restrictions:
@@ -249,22 +336,6 @@ content:
     third_party_settings: {  }
     weight: 7
     region: content
-  field_course_instructor:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 124
-    region: first
-  field_course_meets_what_requirem:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 122
-    region: first
   field_course_mnemonic:
     type: string
     label: above
@@ -273,14 +344,6 @@ content:
     third_party_settings: {  }
     weight: 0
     region: content
-  field_course_year:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 121
-    region: first
   field_department_or_school:
     type: entity_reference_label
     label: above
@@ -288,6 +351,14 @@ content:
       link: true
     third_party_settings: {  }
     weight: 1
+    region: content
+  field_dh_certificate_requirement:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 6
     region: content
   field_dh_concentration:
     type: entity_reference_label
@@ -313,6 +384,21 @@ content:
     third_party_settings: {  }
     weight: 13
     region: content
+  field_dhcert_course_requirements:
+    type: text_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 119
+    region: first
+  field_instructor_name:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 5
+    region: content
   field_link_to_more_information:
     type: link
     label: above
@@ -324,6 +410,18 @@ content:
       target: ''
     third_party_settings: {  }
     weight: 10
+    region: content
+  field_link_to_online_meeting:
+    type: link
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    weight: 11
     region: content
   field_link_to_uva_sis_listing:
     type: link
@@ -345,13 +443,6 @@ content:
     third_party_settings: {  }
     weight: 3
     region: content
-  field_short_text_description:
-    type: text_default
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    weight: 123
-    region: first
   field_sponsoring_department_or_s:
     type: entity_reference_label
     label: above
@@ -359,6 +450,14 @@ content:
       link: true
     third_party_settings: {  }
     weight: 117
+    region: content
+  field_test_reference_to_departme:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 118
     region: content
   field_university_affiliation:
     type: entity_reference_label
@@ -376,6 +475,14 @@ content:
     third_party_settings: {  }
     weight: 15
     region: content
+  field_year:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 4
+    region: content
   links:
     settings: {  }
     third_party_settings: {  }
@@ -384,3 +491,7 @@ content:
 hidden:
   addtoany: true
   breadcrumbs: true
+  field_course_instructor: true
+  field_course_meets_what_requirem: true
+  field_course_year: true
+  field_short_text_description: true

@@ -12,6 +12,7 @@ dependencies:
     - field.field.node.event.field_event_location
     - field.field.node.event.field_event_type
     - field.field.node.event.field_image
+    - field.field.node.event.field_link_to_department_web_pag
     - field.field.node.event.field_link_to_more_information
     - field.field.node.event.field_link_to_online_meeting
     - field.field.node.event.field_non_user_contact
@@ -55,12 +56,14 @@ content:
     region: content
 hidden:
   addtoany: true
+  breadcrumbs: true
   field_access: true
   field_date_range1: true
   field_department_or_school: true
   field_dh_research_data_type: true
   field_event_location: true
   field_event_type: true
+  field_link_to_department_web_pag: true
   field_link_to_more_information: true
   field_link_to_online_meeting: true
   field_non_user_contact: true

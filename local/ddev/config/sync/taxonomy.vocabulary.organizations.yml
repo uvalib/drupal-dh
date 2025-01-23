@@ -1,9 +1,0 @@
-uuid: ee7fad5e-5389-4ced-8d95-8c10c0b4172e
-langcode: en
-status: true
-dependencies: {  }
-name: Organizations
-vid: organizations
-description: "Organizations and units that may be academic but don't offer credit-bearing course"
-weight: 0
-new_revision: false

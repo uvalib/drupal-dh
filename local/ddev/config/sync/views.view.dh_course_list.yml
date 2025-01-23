@@ -1,6 +1,6 @@
 uuid: dd8f7c59-3279-4be7-ab37-97f1d8113472
 langcode: en
-status: false
+status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
@@ -9,7 +9,6 @@ dependencies:
     - node.type.course
     - system.menu.admin
     - taxonomy.vocabulary.semester
-    - taxonomy.vocabulary.semester_and_year
   module:
     - node
     - taxonomy

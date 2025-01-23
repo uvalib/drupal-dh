@@ -5,7 +5,6 @@ dependencies:
   config:
     - field.storage.node.field_vocab_department_or_school
     - node.type.people
-    - taxonomy.vocabulary.university_department_or_school
 id: node.people.field_vocab_department_or_school
 field_name: field_vocab_department_or_school
 entity_type: node
@@ -19,8 +18,7 @@ default_value_callback: ''
 settings:
   handler: 'default:taxonomy_term'
   handler_settings:
-    target_bundles:
-      university_department_or_school: university_department_or_school
+    target_bundles: {  }
     sort:
       field: name
       direction: asc

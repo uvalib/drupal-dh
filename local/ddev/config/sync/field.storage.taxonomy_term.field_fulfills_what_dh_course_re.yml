@@ -1,0 +1,39 @@
+uuid: a0be3e7c-dca5-4604-90ac-5bb1ae3842df
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - taxonomy
+id: taxonomy_term.field_fulfills_what_dh_course_re
+field_name: field_fulfills_what_dh_course_re
+entity_type: taxonomy_term
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: introduction_to_dh
+      label: 'Introduction to DH'
+    -
+      value: dh_practicum
+      label: 'DH Practicum'
+    -
+      value: standard_dh_elective
+      label: 'Standard DH Elective'
+    -
+      value: customized_dh_elective
+      label: 'Customized DH Elective'
+    -
+      value: independent_study_in_dh_elective
+      label: 'Independent Study in DH Elective'
+    -
+      value: does_not_fulfill_dh_course_requirements
+      label: 'Does not fulfill DH course requirements'
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

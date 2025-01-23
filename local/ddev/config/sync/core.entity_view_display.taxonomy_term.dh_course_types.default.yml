@@ -1,0 +1,31 @@
+uuid: a6819fec-e09e-4695-b297-ef200ca12d9e
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.dh_course_types.field_fulfills_what_dh_course_re
+    - taxonomy.vocabulary.dh_course_types
+  module:
+    - options
+    - text
+id: taxonomy_term.dh_course_types.default
+targetEntityType: taxonomy_term
+bundle: dh_course_types
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_fulfills_what_dh_course_re:
+    type: list_default
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  breadcrumbs: true
