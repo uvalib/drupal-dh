@@ -1,0 +1,48 @@
+.certificate-courses {
+  margin: 2em 0;
+}
+
+.course-category h3 {
+  color: #333;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 0.5em;
+  margin-bottom: 1em;
+}
+
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5em;
+  margin: 1em 0 2em;
+}
+
+.course-item {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 1.25em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.course-item:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.course-item h4 {
+  margin: 0 0 0.75em;
+  color: #2d2d2d;
+  font-size: 1.1em;
+}
+
+.course-credits {
+  color: #666;
+  margin-bottom: 0.75em;
+  font-weight: 500;
+}
+
+.course-offering {
+  font-size: 0.9em;
+  color: #0074bd;
+  font-style: italic;
+}

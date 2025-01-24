@@ -2,3 +2,30 @@ certificate-progress:
   css:
     theme:
       css/certificate-progress.css: {}
+
+debug-tree:
+  css:
+    theme:
+      css/debug-tree.css: {}
+  js:
+    js/debug-tree.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+
+certificate-courses:
+  css:
+    theme:
+      css/certificate-courses.css: {}
+
+course-list:
+  version: 1.x
+  css:
+    theme:
+      css/course-list.css: {}
+
+certificate-admin:
+  css:
+    theme:
+      css/certificate-admin.css: {}

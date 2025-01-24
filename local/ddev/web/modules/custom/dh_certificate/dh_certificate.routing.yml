@@ -1,55 +1,59 @@
 dh_certificate.admin:
   path: '/admin/config/dh-certificate'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::adminRedirect'
+    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::overview'
     _title: 'DH Certificate'
   requirements:
     _permission: 'administer dh certificate'
-
-dh_certificate.overview:
-  path: '/admin/structure/dh-certificate'
-  defaults:
-    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::overview'
-    _title: 'DH Certificate Overview'
-  requirements:
-    _permission: 'administer dh certificate'
-
-dh_certificate.dashboard:
-  path: '/certificate/dashboard'
-  defaults:
-    _title: 'Certificate Dashboard'
-    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::dashboardBlock'
-  requirements:
-    _permission: 'access content'
+  options:
+    _admin_route: TRUE
 
 dh_certificate.settings:
   path: '/admin/config/dh-certificate/settings'
   defaults:
     _form: '\Drupal\dh_certificate\Form\DHCertificateSettingsForm'
-    _title: 'DH Certificate Settings'
+    _title: 'Certificate Settings'
   requirements:
     _permission: 'administer dh certificate'
-
-dh_certificate.admin.progress:
-  path: '/admin/dh/certificate/progress'
-  defaults:
-    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::adminProgress'
-    _title: 'Certificate Progress Management'
-  requirements:
-    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
 
 dh_certificate.courses:
   path: '/admin/config/dh-certificate/courses'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::coursesList'
+    _controller: '\Drupal\dh_certificate\Controller\CourseController::overview'
     _title: 'Certificate Courses'
   requirements:
-    _permission: 'administer dh certificate'
+    _permission: 'administer dh certificate+administer certificate courses'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.course_add:
+  path: '/admin/config/dh-certificate/courses/add'
+  defaults:
+    _form: '\Drupal\dh_certificate\Form\CourseForm'
+    _title: 'Add Course'
+  requirements:
+    _permission: 'administer certificate courses'
+  options:
+    _admin_route: TRUE
 
 dh_certificate.requirements:
   path: '/admin/config/dh-certificate/requirements'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::requirementsList'
+    _controller: '\Drupal\dh_certificate\Controller\RequirementsController::overview'
     _title: 'Certificate Requirements'
   requirements:
-    _permission: 'administer dh certificate'
+    _permission: 'administer dh certificate+administer certificate requirements'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.admin_progress:
+  path: '/admin/config/dh-certificate/progress'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\ProgressController::adminOverview'
+    _title: 'Progress Overview'
+  requirements:
+    _permission: 'administer dh certificate+view certificate progress'
+  options:
+    _admin_route: TRUE

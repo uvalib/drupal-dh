@@ -1,0 +1,59 @@
+.dh-certificate-overview {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.dh-certificate-overview details {
+  margin: 1em 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.dh-certificate-overview details summary {
+  padding: 1em;
+  background: #f5f5f5;
+  cursor: pointer;
+}
+
+.dh-certificate-overview details > div {
+  padding: 1em;
+}
+
+.dh-certificate-overview .links {
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 1em;
+}
+
+.dh-certificate-overview .button {
+  display: inline-block;
+  padding: 8px 16px;
+  margin: 4px;
+  background: #0071b8;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 3px;
+  font-weight: 500;
+}
+
+.dh-certificate-overview .button:hover {
+  background: #2b8ac8;
+}
+
+.dh-certificate-overview .courses-list ul,
+.certificate-progress-block .courses-list ul,
+.certificate-progress__courses ul {
+  list-style-type: none;
+  padding-left: 0;
+  margin: 0;
+}
+
+.dh-certificate-overview ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}

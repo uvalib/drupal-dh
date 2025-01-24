@@ -115,7 +115,7 @@ class DHCertificateController extends ControllerBase {
       '#theme' => 'dh_certificate_progress',
       '#progress' => $this->progressManager->getUserProgress($this->currentUser()),
       '#is_admin' => $is_admin,
-      '#admin_url' => $is_admin ? Url::fromRoute('dh_certificate.settings')->toString() : NULL,
+      '#admin_url' => $is_admin ? Url::fromRoute('dh_certificate.admin_settings')->toString() : NULL,
     ];
   }
 
@@ -123,9 +123,82 @@ class DHCertificateController extends ControllerBase {
    * Displays the overview page.
    */
   public function overview() {
-    return [
-      '#markup' => $this->t('DH Certificate Overview'),
+    $build = [
+      '#type' => 'container',
+      '#attributes' => [
+        'class' => ['dh-certificate-overview'],
+      ],
+      '#attached' => [
+        'library' => ['dh_certificate/certificate-admin'],
+      ],
     ];
+
+    $build['description'] = [
+      '#markup' => $this->t('Configure Digital Humanities certificate settings, manage courses, and track student progress.'),
+      '#prefix' => '<p>',
+      '#suffix' => '</p>',
+    ];
+
+    $build['admin_links'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Administrative Pages'),
+      '#open' => TRUE,
+      'links' => [
+        '#theme' => 'links',
+        '#links' => [
+          'settings' => [
+            'title' => $this->t('Configure Settings'),
+            'url' => Url::fromRoute('dh_certificate.settings'),
+            'attributes' => ['class' => ['button']],
+          ],
+          'courses' => [
+            'title' => $this->t('Manage Courses'),
+            'url' => Url::fromRoute('dh_certificate.courses'),
+            'attributes' => ['class' => ['button']],
+          ],
+          'requirements' => [
+            'title' => $this->t('Configure Requirements'),
+            'url' => Url::fromRoute('dh_certificate.requirements'),
+            'attributes' => ['class' => ['button']],
+          ],
+          'progress' => [
+            'title' => $this->t('View Progress'),
+            'url' => Url::fromRoute('dh_certificate.admin_progress'),
+            'attributes' => ['class' => ['button']],
+          ],
+        ],
+      ],
+    ];
+
+    $build['permissions'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Permissions'),
+      '#open' => TRUE,
+      'description' => [
+        '#markup' => $this->t('Configure who can manage certificates and view progress.'),
+        '#prefix' => '<p>',
+        '#suffix' => '</p>',
+      ],
+      'links' => [
+        '#theme' => 'links',
+        '#links' => [
+          'permissions' => [
+            'title' => $this->t('Configure Permissions'),
+            'url' => Url::fromRoute('user.admin_permissions', [], [
+              'fragment' => 'module-dh_certificate',
+            ]),
+            'attributes' => ['class' => ['button']],
+          ],
+          'roles' => [
+            'title' => $this->t('Configure Roles'),
+            'url' => Url::fromRoute('entity.user_role.collection'),
+            'attributes' => ['class' => ['button']],
+          ],
+        ],
+      ],
+    ];
+
+    return $build;
   }
 
   /**
@@ -136,10 +209,21 @@ class DHCertificateController extends ControllerBase {
    */
   public function coursesList() {
     $build = [
-      '#type' => 'markup',
-      '#markup' => $this->t('Certificate courses list page'),
+      '#theme' => 'certificate_course_list',
+      '#categories' => [
+        'Required' => [
+          ['title' => 'DH 101', 'credits' => 3, 'next_offered' => '2024 Spring'],
+          ['title' => 'DH 201', 'credits' => 3, 'next_offered' => '2024 Fall'],
+        ],
+        'Electives' => [
+          ['title' => 'DH 301', 'credits' => 3, 'next_offered' => '2024 Spring'],
+          ['title' => 'DH 302', 'credits' => 3, 'next_offered' => '2024 Fall'],
+        ],
+      ],
+      '#attached' => [
+        'library' => ['dh_certificate/certificate-courses'],
+      ],
     ];
-    
     return $build;
   }
 
@@ -163,7 +247,7 @@ class DHCertificateController extends ControllerBase {
    *   A redirect response object.
    */
   public function adminRedirect() {
-    return $this->redirect('dh_certificate.settings');
+    return $this->redirect('dh_certificate.admin');
   }
 
 }

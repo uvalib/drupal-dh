@@ -1,0 +1,33 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-requirements.html.twig #}
+<div class="certificate-requirements">
+  <h2>{{ title }}</h2>
+
+  <div class="requirements-section">
+    <h3>{{ 'Core Courses'|t }}</h3>
+    {% if requirements.core_courses %}
+      <div class="courses-grid">
+        {% for course in requirements.core_courses %}
+          <div class="course-item">
+            <h4>{{ course.title }}</h4>
+            <div class="course-code">{{ course.code }}</div>
+            <div class="course-credits">{{ course.credits }} {{ 'Credits'|t }}</div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>{{ 'No core courses defined.'|t }}</p>
+    {% endif %}
+  </div>
+
+  <div class="requirements-section">
+    <h3>{{ 'Elective Requirements'|t }}</h3>
+    <p>{{ 'Required elective credits:'|t }} {{ requirements.elective_credits }}</p>
+  </div>
+
+  {% if requirements.due_date %}
+    <div class="requirements-section">
+      <h3>{{ 'Completion Timeline'|t }}</h3>
+      <p>{{ 'Due by:'|t }} {{ requirements.due_date.value }}</p>
+    </div>
+  {% endif %}
+</div>

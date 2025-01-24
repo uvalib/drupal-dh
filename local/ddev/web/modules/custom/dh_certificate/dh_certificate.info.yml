@@ -7,4 +7,4 @@ dependencies:
   - drupal:block
   - drupal:node
   - drupal:user
-configure: dh_certificate.settings
+configure: dh_certificate.admin_settings

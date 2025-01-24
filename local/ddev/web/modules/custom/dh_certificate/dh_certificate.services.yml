@@ -21,3 +21,7 @@ services:
     arguments: ['@module_handler', '@cache.discovery', '@typed_data_manager']
     tags:
       - { name: requirement_type_manager }
+  dh_certificate.twig.extension:
+    class: Drupal\dh_certificate\TwigExtension\DHCertificateExtension
+    tags:
+      - { name: twig.extension }

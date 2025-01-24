@@ -16,12 +16,10 @@ function dh_certificate_module_implements_alter(&$implementations, $hook) {
  * Implements hook_dh_dashboard_blocks().
  */
 function dh_certificate_dh_dashboard_blocks() {
-  // Only provide dashboard integration if dh_dashboard is enabled
   if (!\Drupal::moduleHandler()->moduleExists('dh_dashboard')) {
     return [];
   }
 
-  // Debug log the block registration
   \Drupal::logger('dh_certificate')->debug('Registering dashboard blocks');
 
   return [
@@ -29,7 +27,13 @@ function dh_certificate_dh_dashboard_blocks() {
       'title' => t('Certificate Progress'),
       'callback' => '\Drupal\dh_certificate\Controller\DHCertificateController::dashboardBlock',
       'weight' => 50,
-      'theme' => 'dh_dashboard_progress',  // Explicitly set theme hook
+      'theme' => 'dh_dashboard_progress',
+    ],
+    'certificate_requirements' => [
+      'title' => t('Certificate Requirements'),
+      'callback' => '\Drupal\dh_certificate\Controller\DHCertificateController::requirementsBlock',
+      'weight' => 51,
+      'theme' => 'dh_dashboard_requirements',
     ],
   ];
 }
@@ -44,7 +48,42 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
         'progress' => NULL,
         'is_admin' => FALSE,
         'admin_url' => NULL,
-        'debug' => NULL,  // Add debug to variables
+        'debug' => NULL,
+      ],
+    ],
+    'dh_dashboard_progress' => [
+      'variables' => [
+        'progress' => NULL,
+        'courses' => [],
+        'completion' => [],
+      ],
+    ],
+    'dh_dashboard_requirements' => [
+      'variables' => [
+        'requirements' => [],
+        'remaining' => [],
+      ],
+    ],
+    'certificate_progress_block' => [
+      'variables' => [
+        'progress' => NULL,
+        'user' => NULL,
+      ],
+      'template' => 'certificate-progress-block',
+    ],
+    'dh_certificate_course_list' => [
+      'variables' => [
+        'title' => NULL,
+        'courses' => [],
+        'categories' => [],
+        'add_course' => NULL,
+      ],
+      'template' => 'dh-certificate-course-list',
+    ],
+    'dh_certificate_requirements' => [
+      'variables' => [
+        'title' => NULL,
+        'requirements' => [],
       ],
     ],
   ];
@@ -162,5 +201,18 @@ function template_preprocess_dh_certificate_progress(&$variables) {
   // Ensure admin_url is available to the template
   if (!isset($variables['admin_url'])) {
     $variables['admin_url'] = NULL;
+  }
+}
+
+/**
+ * Implements hook_help().
+ */
+function dh_certificate_help($route_name, \Drupal\Core\Routing\RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    case 'help.page.dh_certificate':
+      return '<p>' . t('The Digital Humanities Certificate module manages student progress tracking and certificate requirements.') . '</p>';
+    
+    case 'dh_certificate.admin':
+      return '<p>' . t('Configure certificate requirements and manage student progress.') . '</p>';
   }
 }

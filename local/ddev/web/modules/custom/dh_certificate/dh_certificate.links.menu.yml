@@ -29,6 +29,6 @@ dh_certificate.requirements:
 dh_certificate.progress:
   title: 'Progress Overview'
   description: 'View certificate progress for all users'
-  parent: system.admin
-  route_name: dh_certificate.progress
-  weight: 0
+  parent: dh_certificate.admin
+  route_name: dh_certificate.admin_progress
+  weight: 3

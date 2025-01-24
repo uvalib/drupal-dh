@@ -13,6 +13,11 @@ administer dh certificate:
   description: 'Allow users to configure certificate settings'
   restrict access: true
 
+administer dh certificate courses:
+  title: 'Administer certificate courses'
+  description: 'Manage courses that can be used for certificate requirements.'
+  restrict access: true
+
 view own certificate progress:
   title: 'View Own Certificate Progress'
   description: 'Allow users to view their own certificate progress'

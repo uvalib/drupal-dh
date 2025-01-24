@@ -1,16 +1,60 @@
-dh_certificate.settings:
-  route_name: dh_certificate.settings
-  title: 'Settings'
-  base_route: dh_certificate.settings
+dh_certificate.admin_settings:
+  route_name: dh_certificate.admin_settings
+  title: 'General'
+  base_route: dh_certificate.admin_settings
+  weight: -10
 
-dh_certificate.courses:
-  route_name: dh_certificate.courses
+dh_certificate.admin_courses:
+  route_name: dh_certificate.admin_courses
   title: 'Courses'
-  base_route: dh_certificate.settings
+  base_route: dh_certificate.admin_settings
+  weight: 0
+
+dh_certificate.admin_requirements:
+  route_name: dh_certificate.admin_requirements
+  title: 'Requirements'
+  base_route: dh_certificate.admin_settings
   weight: 10
 
-dh_certificate.requirements:
+dh_certificate.admin_tab:
+  route_name: dh_certificate.admin
+  title: 'Overview'
+  base_route: dh_certificate.admin
+  weight: -1
+
+dh_certificate.settings_tab:
+  route_name: dh_certificate.settings
+  title: 'Settings'
+  base_route: dh_certificate.admin
+  weight: 0
+
+dh_certificate.courses_tab:
+  route_name: dh_certificate.courses
+  title: 'Courses'
+  base_route: dh_certificate.admin
+  weight: 1
+
+dh_certificate.requirements_tab:
   route_name: dh_certificate.requirements
   title: 'Requirements'
-  base_route: dh_certificate.settings
-  weight: 20
+  base_route: dh_certificate.admin
+  weight: 2
+
+dh_certificate.progress_tab:
+  route_name: dh_certificate.admin_progress
+  title: 'Progress'
+  base_route: dh_certificate.admin
+  weight: 3
+
+# Secondary tabs for courses section
+dh_certificate.courses_overview:
+  route_name: dh_certificate.courses
+  title: 'List'
+  parent_id: dh_certificate.courses_tab
+  weight: 0
+
+dh_certificate.course_add_tab:
+  route_name: dh_certificate.course_add
+  title: 'Add Course'
+  parent_id: dh_certificate.courses_tab
+  weight: 1

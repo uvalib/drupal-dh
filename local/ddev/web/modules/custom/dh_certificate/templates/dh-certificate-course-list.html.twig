@@ -1,0 +1,45 @@
+{#
+/**
+ * @file
+ * Template for certificate course listing.
+ *
+ * Available variables:
+ * - courses: Array of course entities
+ * - categories: Array of course categories
+ */
+#}
+<div class="certificate-courses">
+  <h2>{{ title }}</h2>
+
+  {% if add_course %}
+    <div class="course-actions">
+      {{ add_course }}
+    </div>
+  {% endif %}
+
+  {% if categories %}
+    {% for category, courses in categories %}
+      <div class="course-category">
+        <h3>{{ category }}</h3>
+        <div class="course-grid">
+          {% for course in courses %}
+            <div class="course-item">
+              <h4>{{ course.title }}</h4>
+              {% if course.code %}
+                <div class="course-code">{{ course.code }}</div>
+              {% endif %}
+              {% if course.credits %}
+                <div class="course-credits">{{ course.credits }} {{ 'Credits'|t }}</div>
+              {% endif %}
+              {% if course.next_offered %}
+                <div class="course-offering">{{ 'Next offered:'|t }} {{ course.next_offered }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>{{ 'No courses found.'|t }}</p>
+  {% endif %}
+</div>

@@ -1,6 +1,6 @@
 {# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-progress.html.twig #}
 <div class="certificate-progress">
-  <h3>{{ 'Certificate Progress'|t }}</h3>
+  <h2>{{ title }}</h2>
   
   <div class="certificate-progress__summary">
     <div class="progress-bar">
@@ -33,14 +33,16 @@
   {% endif %}
 
   {% if is_admin %}
-    <div class="certificate-progress__admin">
-      <a href="{{ path('dh_certificate.admin.progress') }}" class="button">{{ 'Manage Progress'|t }}</a>
+    <div class="admin-actions">
+      <a href="{{ path('dh_certificate.admin') }}" class="button">{{ 'Settings'|t }}</a>
+      <a href="{{ path('dh_certificate.courses') }}" class="button">{{ 'Manage Courses'|t }}</a>
+      <a href="{{ path('dh_certificate.requirements') }}" class="button">{{ 'Requirements'|t }}</a>
     </div>
 
-    <div class="certificate-progress__debug">
-      {{ debug|render }}
-    </div> 
-
+    <details class="certificate-progress__debug debug-tree">
+      <summary>{{ 'Debug Information'|t }}</summary>
+      {{ progress|json_tree }}
+    </details>
   {% endif %}
 
   {% if is_admin and admin_url %}
