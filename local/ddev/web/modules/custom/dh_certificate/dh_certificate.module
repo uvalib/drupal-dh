@@ -71,34 +71,25 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'certificate-progress-block',
     ],
-    'dh_certificate_course_list' => [
-      'variables' => [
-        'title' => NULL,
-        'courses' => [],
-        'categories' => [],
-        'add_course' => NULL,
-      ],
-      'template' => 'dh-certificate-course-list',
-    ],
     'dh_certificate_requirements' => [
       'variables' => [
         'title' => NULL,
         'requirements' => [],
       ],
     ],
+    'dh_certificate_course_listing' => [
+      'variables' => [
+        'title' => NULL,
+        'categories' => [],
+        'view_mode' => 'student',
+        'paths' => [],
+        'show_debug' => TRUE,  // Changed default to TRUE
+        'default_view' => 'grid',
+        'course_data' => [],
+      ],
+      'template' => 'dh-certificate-course-listing',
+    ],
   ];
-}
-
-/**
- * Implements hook_entity_type_alter().
- */
-function dh_certificate_entity_type_alter(array &$entity_types) {
-  // Add certificate-related fields to user profiles if needed
-  if (isset($entity_types['user'])) {
-    $entity_types['user']->setHandlerClass('form', [
-      'default' => 'Drupal\dh_certificate\Form\UserCertificateForm',
-    ]);
-  }
 }
 
 /**
@@ -215,4 +206,12 @@ function dh_certificate_help($route_name, \Drupal\Core\Routing\RouteMatchInterfa
     case 'dh_certificate.admin':
       return '<p>' . t('Configure certificate requirements and manage student progress.') . '</p>';
   }
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function dh_certificate_page_attachments(array &$attachments) {
+  // Attach the debug-tree library to all pages
+  $attachments['#attached']['library'][] = 'dh_certificate/debug-tree';
 }

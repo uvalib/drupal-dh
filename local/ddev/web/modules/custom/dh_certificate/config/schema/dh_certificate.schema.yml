@@ -123,7 +123,7 @@ requirement_type:
 
 dh_certificate.settings:
   type: config_object
-  label: 'DH Certificate settings'
+  label: 'DH Certificate Settings'
   mapping:
     requirements:
       type: sequence
@@ -143,3 +143,12 @@ dh_certificate.settings:
     show_debug:
       type: boolean
       label: 'Show debug information'
+    required_credits:
+      type: integer
+      label: 'Required Credits'
+    course_categories:
+      type: sequence
+      label: 'Course Categories'
+      sequence:
+        type: string
+        label: 'Category'

@@ -25,3 +25,7 @@ services:
     class: Drupal\dh_certificate\TwigExtension\DHCertificateExtension
     tags:
       - { name: twig.extension }
+  dh_certificate.twig.json_tree:
+    class: 'Drupal\dh_certificate\TwigExtension\JsonTreeExtension'
+    tags:
+      - { name: twig.extension }

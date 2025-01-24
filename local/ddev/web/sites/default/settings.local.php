@@ -14,9 +14,9 @@ $settings['devops_label']='ddev local';
 $settings['twig_debug'] = TRUE;
 
 // Replace cache.backend.null with cache.backend.memory
-$settings['cache']['bins']['render'] = 'cache.backend.memory';
-$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.memory';
-$settings['cache']['bins']['page'] = 'cache.backend.memory';
+$settings['cache']['bins']['render'] = 'cache.backend.null';
+$settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
+$settings['cache']['bins']['page'] = 'cache.backend.null';
 
 // Additional development settings
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';

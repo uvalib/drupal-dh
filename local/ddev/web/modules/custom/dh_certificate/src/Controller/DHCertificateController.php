@@ -227,6 +227,58 @@ class DHCertificateController extends ControllerBase {
     return $build;
   }
 
+  public function courseList() {
+    // ...existing code...
+    return [
+      '#theme' => 'dh_certificate_course_listing',
+      '#title' => $this->t('Certificate Courses'),
+      '#categories' => $categories,
+      '#view_mode' => 'student',
+      // ...existing code...
+    ];
+  }
+
+  public function adminCourseList() {
+    $courses = $this->progressManager->getAllCourseProgress();
+    $categories = [
+      'Required' => array_filter($courses, function($course) {
+        return !empty($course['meets_requirement']);
+      }),
+      'Electives' => array_filter($courses, function($course) {
+        return empty($course['meets_requirement']);
+      }),
+    ];
+
+    return [
+      '#theme' => 'dh_certificate_course_listing',  // This matches the theme hook
+      '#title' => $this->t('Course Management'),
+      '#categories' => $categories,
+      '#view_mode' => 'admin',
+      '#default_view' => $this->getPreferredViewMode(),
+      '#paths' => [
+        'add' => Url::fromRoute('node.add', ['node_type' => 'course'])->toString(),
+      ],
+      '#show_debug' => TRUE,
+      '#course_data' => ['courses' => $courses],
+      '#attached' => [
+        'library' => ['dh_certificate/course-listing'],
+        'drupalSettings' => [
+          'dhCertificate' => [
+            'defaultView' => $this->getPreferredViewMode(),
+          ],
+        ],
+      ],
+      '#cache' => [
+        'tags' => ['node_list:course'],
+      ],
+    ];
+  }
+
+  protected function getPreferredViewMode() {
+    return $this->config('dh_certificate.settings')
+      ->get('course_list_default_view') ?? 'grid';
+  }
+
   /**
    * Displays certificate requirements.
    *

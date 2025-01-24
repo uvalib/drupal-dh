@@ -109,6 +109,7 @@ class CertificateProgressBlock extends BlockBase implements ContainerFactoryPlug
         'library' => [
           'dh_certificate/certificate-progress',
           'dh_certificate/debug-tree',
+          'dh_certificate/json-tree',  // Attach the json-tree library
         ],
       ],
       '#cache' => [

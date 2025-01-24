@@ -6,9 +6,9 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 /**
- * Custom Twig extension for DH Certificate module.
+ * Custom Twig extension for JSON tree rendering.
  */
-class DHCertificateExtension extends AbstractExtension {
+class JsonTreeExtension extends AbstractExtension {
 
   /**
    * {@inheritdoc}
@@ -41,17 +41,23 @@ class DHCertificateExtension extends AbstractExtension {
 
     $output = '<ul>';
     foreach ($array as $key => $value) {
+      // Skip numeric keys to avoid unnecessary nesting
+      if (is_numeric($key)) {
+        $output .= $this->arrayToHtml($value);
+        continue;
+      }
+
       $output .= '<li>';
-      $output .= '<span class="key">' . $this->humanize($key) . ':</span> ';
       
       if (is_array($value)) {
         if (empty($value)) {
-          $output .= '<span class="empty">empty</span>';
+          $output .= '<span class="key">' . $this->humanize($key) . ':</span> <span class="empty">empty</span>';
         } else {
-          $output .= '<details><summary>' . $this->humanize($key) . '</summary>' . $this->arrayToHtml($value) . '</details>';
+          $summary = $this->getSummary($key, $value);
+          $output .= '<details><summary>' . $summary . '</summary>' . $this->arrayToHtml($value) . '</details>';
         }
       } else {
-        $output .= '<span class="value">' . $this->formatValue($value) . '</span>';
+        $output .= '<span class="key">' . $this->humanize($key) . ':</span> <span class="value">' . $this->formatValue($value) . '</span>';
       }
       
       $output .= '</li>';
@@ -94,9 +100,38 @@ class DHCertificateExtension extends AbstractExtension {
   }
 
   /**
+   * Generates a summary for an array.
+   */
+  protected function getSummary($key, $array) {
+    $summary = '<span class="key">' . $this->humanize($key) . ':</span>';
+    $summary .= '<span class="array-info">' . count($array) . ' items</span>';
+    $preview = $this->getPreview($array);
+    if ($preview) {
+      $summary .= '<span class="preview"> ' . $preview . '</span>';
+    }
+    return $summary;
+  }
+
+  /**
+   * Generates a preview for an array.
+   */
+  protected function getPreview($array) {
+    $preview = [];
+    foreach ($array as $key => $value) {
+      if (!is_array($value)) {
+        $preview[] = $this->formatValue($value);
+      }
+      if (count($preview) >= 3) {
+        break;
+      }
+    }
+    return '[' . implode(', ', $preview) . ']';
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function getName() {
-    return 'dh_certificate_twig_extension';
+    return 'json_tree_extension';
   }
 }

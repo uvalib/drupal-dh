@@ -3,6 +3,8 @@
 use Drupal\user\Entity\Role;
 use Drupal\Core\Field\BaseFieldDefinition;
 use Drupal\node\Entity\NodeType;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\field\Entity\FieldConfig;
 
 /**
  * @file
@@ -146,65 +148,83 @@ function dh_certificate_install() {
   drupal_flush_all_caches();
 
   // Create course content type if it doesn't exist
-  $node_type_storage = \Drupal::entityTypeManager()->getStorage('node_type');
-  $course_type = $node_type_storage->load('course');
-  
-  if (!$course_type) {
-    $course_type = NodeType::create([
+  $node_type = NodeType::load('course');
+  if (!$node_type) {
+    $node_type = NodeType::create([
       'type' => 'course',
       'name' => t('Course'),
       'description' => t('Course content type for certificate requirements.'),
     ]);
-    $course_type->save();
+    $node_type->save();
+  }
 
-    // Add course fields
-    $fields = [
-      'field_course_type' => [
-        'type' => 'list_string',
-        'label' => 'Course Type',
-        'settings' => [
-          'allowed_values' => [
-            'core' => 'Core',
-            'elective' => 'Elective',
-          ],
+  // Add required fields
+  $fields = [
+    'field_course_code' => [
+      'type' => 'string',
+      'label' => 'Course Code',
+    ],
+    'field_course_type' => [
+      'type' => 'list_string',
+      'label' => 'Course Type',
+      'settings' => [
+        'allowed_values' => [
+          'core' => 'Core',
+          'elective' => 'Elective',
         ],
       ],
-      'field_credits' => [
-        'type' => 'integer',
-        'label' => 'Credits',
-      ],
-      'field_term' => [
-        'type' => 'string',
-        'label' => 'Term',
-      ],
-      'field_status' => [
-        'type' => 'list_string',
-        'label' => 'Status',
-        'settings' => [
-          'allowed_values' => [
-            'not_started' => 'Not Started',
-            'in_progress' => 'In Progress',
-            'complete' => 'Complete',
-          ],
+    ],
+    'field_credits' => [
+      'type' => 'integer',
+      'label' => 'Credits',
+    ],
+    'field_term' => [
+      'type' => 'string',
+      'label' => 'Term',
+    ],
+    'field_course_instructor' => [
+      'type' => 'string',
+      'label' => 'Instructor',
+    ],
+    'field_short_text_description' => [
+      'type' => 'text_long',
+      'label' => 'Description',
+    ],
+    'field_status' => [
+      'type' => 'list_string',
+      'label' => 'Status',
+      'settings' => [
+        'allowed_values' => [
+          'not_started' => 'Not Started',
+          'in_progress' => 'In Progress',
+          'complete' => 'Complete',
         ],
       ],
-    ];
+    ],
+  ];
 
-    foreach ($fields as $field_name => $field_config) {
-      $field_storage = \Drupal\field\Entity\FieldStorageConfig::create([
+  foreach ($fields as $field_name => $field_info) {
+    // Check if field storage exists
+    $field_storage = FieldStorageConfig::loadByName('node', $field_name);
+    if (!$field_storage) {
+      FieldStorageConfig::create([
         'field_name' => $field_name,
         'entity_type' => 'node',
-        'type' => $field_config['type'],
-      ]);
-      $field_storage->save();
+        'type' => $field_info['type'],
+        'settings' => $field_info['settings'] ?? [],
+      ])->save();
+    }
 
-      $field = \Drupal\field\Entity\FieldConfig::create([
-        'field_storage' => $field_storage,
+    // Check if field exists on course bundle
+    $field = FieldConfig::loadByName('node', 'course', $field_name);
+    if (!$field) {
+      FieldConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'node',
         'bundle' => 'course',
-        'label' => $field_config['label'],
-        'settings' => $field_config['settings'] ?? [],
-      ]);
-      $field->save();
+        'label' => $field_info['label'],
+        'settings' => $field_info['settings'] ?? [],
+      ])->save();
     }
   }
 }

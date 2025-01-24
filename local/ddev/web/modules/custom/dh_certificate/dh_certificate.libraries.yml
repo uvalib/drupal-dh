@@ -4,6 +4,7 @@ certificate-progress:
       css/certificate-progress.css: {}
 
 debug-tree:
+  version: 1.x
   css:
     theme:
       css/debug-tree.css: {}
@@ -13,6 +14,7 @@ debug-tree:
     - core/jquery
     - core/drupal
     - core/once
+    - core/drupal.debounce
 
 certificate-courses:
   css:
@@ -29,3 +31,26 @@ certificate-admin:
   css:
     theme:
       css/certificate-admin.css: {}
+
+course-listing:
+  version: 1.x
+  js:
+    js/course-listing.js: {}
+  css:
+    theme:
+      css/course-listing.css: {}
+      //cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css: { type: external }
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+    - core/drupal.debounce
+
+json-tree:
+  version: 1.x
+  js:
+    js/json-tree.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings

@@ -1,0 +1,57 @@
+/* View Toggle Buttons */
+.view-toggle {
+  display: flex;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+
+.view-toggle button {
+  padding: 0.5em 1em;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.view-toggle button.active {
+  background: #0071b8;
+  color: white;
+  border-color: #0071b8;
+}
+
+/* Grid View */
+.course-list[data-view="grid"] {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5em;
+}
+
+/* List View */
+.course-list[data-view="list"] .course-item {
+  margin-bottom: 1em;
+  padding: 1em;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  gap: 1em;
+}
+
+.course-list[data-view="list"] .course-header {
+  flex: 0 0 25%;
+}
+
+/* Table View */
+.course-list[data-view="table"] {
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.course-list[data-view="table"] .course-item {
+  display: table-row;
+}
+
+.course-list[data-view="table"] .course-item > div {
+  display: table-cell;
+  padding: 0.5em;
+  border-bottom: 1px solid #ddd;
+}

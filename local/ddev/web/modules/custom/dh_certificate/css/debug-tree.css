@@ -2,7 +2,9 @@
   font-family: monospace;
   font-size: 12px;
   line-height: 1.3;
-  margin: 0.5em 0;
+  margin: 1em 0;
+  padding: 0.5em;
+  border: 1px solid #ccc;
 }
 
 .debug-tree .tree-row {
@@ -31,13 +33,15 @@
   margin: 0;
   border: none;
   padding: 0;
+  margin-left: 1.5em;
 }
 
 .debug-tree summary {
   display: flex;
   align-items: baseline;
   list-style: none;
-  padding: 0;
+  padding: 0.3em;
+  cursor: pointer;
 }
 
 .debug-tree summary::-webkit-details-marker {
@@ -84,4 +88,42 @@
 
 .debug-tree details:not([open]) > summary::before {
   opacity: 0.3;
+}
+
+.debug-tree summary:hover {
+  background-color: #f0f0f0;
+}
+
+.debug-tree .json-tree {
+  background: #f8f8f8;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.debug-tree .json-tree details {
+  margin-left: 1.5em;
+}
+
+.debug-tree .json-tree summary {
+  cursor: pointer;
+  user-select: none;
+}
+
+.debug-tree .json-tree .key {
+  color: #881391;
+  margin-right: 0.5em;
+}
+
+.debug-tree .json-tree .value {
+  color: #1a1aa6;
+}
+
+.debug-tree .preview {
+  color: #666;
+  margin-left: 0.5em;
+  font-style: italic;
+}
+
+.debug-tree details[open] > summary .preview {
+  opacity: 0.7;
 }

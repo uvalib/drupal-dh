@@ -1,0 +1,268 @@
+<div class="certificate-courses {% if view_mode == 'admin' %}certificate-courses--admin{% endif %}" data-view="{{ default_view }}">
+  <h2>{{ title }}</h2>
+
+  <div class="view-controls">
+    <div class="view-toggle" role="group" aria-label="{{ 'View options'|t }}">
+      <button type="button" data-view="grid" class="{% if default_view == 'grid' %}active{% endif %}">
+        <i class="fas fa-th-large"></i> {{ 'Grid'|t }}
+      </button>
+      <button type="button" data-view="list" class="{% if default_view == 'list' %}active{% endif %}">
+        <i class="fas fa-list"></i> {{ 'List'|t }}
+      </button>
+      <button type="button" data-view="table" class="{% if default_view == 'table' %}active{% endif %}">
+        <i class="fas fa-table"></i> {{ 'Table'|t }}
+      </button>
+    </div>
+  </div>
+
+  {% if view_mode == 'admin' %}
+    <div class="course-listing__controls">
+      {% if paths.add %}
+        <a href="{{ paths.add }}" class="button button--primary">{{ 'Add Course'|t }}</a>
+      {% endif %}
+
+      <div class="view-controls">
+        <div class="view-toggle">
+          <button data-view="grid" class="{% if default_view == 'grid' %}active{% endif %}" aria-label="{{ 'Grid view'|t }}">
+            <i class="fas fa-th"></i> {{ 'Grid'|t }}
+          </button>
+          <button data-view="list" class="{% if default_view == 'list' %}active{% endif %}" aria-label="{{ 'List view'|t }}">
+            <i class="fas fa-list"></i> {{ 'List'|t }}
+          </button>
+          <button data-view="table" class="{% if default_view == 'table' %}active{% endif %}" aria-label="{{ 'Table view'|t }}">
+            <i class="fas fa-table"></i> {{ 'Table'|t }}
+          </button>
+        </div>
+        
+        <div class="course-search">
+          <input type="text" placeholder="{{ 'Search courses...'|t }}" />
+        </div>
+
+        <div class="course-filters">
+          <select name="semester">
+            <option value="">{{ 'All Semesters'|t }}</option>
+            <option value="fall">{{ 'Fall'|t }}</option>
+            <option value="spring">{{ 'Spring'|t }}</option>
+          </select>
+          <select name="type">
+            <option value="">{{ 'All Types'|t }}</option>
+            <option value="core">{{ 'Core'|t }}</option>
+            <option value="elective">{{ 'Elective'|t }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="course-controls">
+    <div class="search-and-filters">
+      <div class="course-search">
+        <input type="text" placeholder="{{ 'Search courses...'|t }}" aria-label="{{ 'Search'|t }}" />
+      </div>
+
+      <div class="course-filters">
+        <select name="semester" aria-label="{{ 'Filter by semester'|t }}">
+          <option value="">{{ 'All Semesters'|t }}</option>
+          <option value="fall">{{ 'Fall'|t }}</option>
+          <option value="spring">{{ 'Spring'|t }}</option>
+        </select>
+        
+        <select name="type" aria-label="{{ 'Filter by type'|t }}">
+          <option value="">{{ 'All Types'|t }}</option>
+          <option value="core">{{ 'Core'|t }}</option>
+          <option value="elective">{{ 'Elective'|t }}</option>
+        </select>
+
+        <select name="credits" aria-label="{{ 'Filter by credits'|t }}">
+          <option value="">{{ 'All Credits'|t }}</option>
+          <option value="3">3 {{ 'Credits'|t }}</option>
+          <option value="4">4 {{ 'Credits'|t }}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="sort-controls">
+      <button type="button" data-sort="title" class="sort-button" title="{{ 'Sort by title'|t }}">
+        <i class="fas fa-sort-alpha-down"></i> {{ 'Title'|t }}
+      </button>
+      <button type="button" data-sort="credits" class="sort-button" title="{{ 'Sort by credits'|t }}">
+        <i class="fas fa-sort-numeric-down"></i> {{ 'Credits'|t }}
+      </button>
+      <button type="button" data-sort="semester" class="sort-button" title="{{ 'Sort by semester'|t }}">
+        <i class="fas fa-sort"></i> {{ 'Semester'|t }}
+      </button>
+    </div>
+  </div>
+
+  <div class="course-list" data-view="{{ default_view }}">
+    {% if course_data.courses is not empty %}
+      {% for course in course_data.courses %}
+        <div class="course-item" data-type="{{ course.type|default('elective') }}" data-nid="{{ course.nid }}">
+          <div class="course-header">
+            <h3>
+              {% if course.fields.field_course_mnemonic[0].value %}
+                <span class="course-code">{{ course.fields.field_course_mnemonic[0].value }}</span>
+              {% endif %}
+              {% if course.fields.path[0].alias %}
+                <a href="{{ course.fields.path[0].alias }}" class="course-link">{{ course.title }}</a>
+              {% else %}
+                {{ course.title }}
+              {% endif %}
+            </h3>
+          </div>
+
+          <div class="course-content">
+            <div class="meta-group">
+              {% if course.fields.field_semester[0] %}
+                <div class="course-term">
+                  <span class="value">{{ course.fields.field_semester[0].label }}</span>
+                </div>
+              {% endif %}
+              {% if course.fields.field_credits %}
+                <div class="course-credits">
+                  <span class="value">{{ course.fields.field_credits[0].value }} {{ 'cr'|t }}</span>
+                </div>
+              {% endif %}
+              {% if course.fields.field_university_affiliation[0] %}
+                <div class="course-affiliation">
+                  {{ course.fields.field_university_affiliation[0].label }}
+                </div>
+              {% endif %}
+            </div>
+
+            {% if course.fields.field_course_description.summary %}
+              {% if default_view == 'grid' %}
+                {# Grid view: Always show description with scroll #}
+                <div class="course-description-wrapper">
+                  <div class="course-description" tabindex="0">
+                    {{ course.fields.field_course_description.summary|raw }}
+                  </div>
+                  <div class="scroll-indicator">{{ 'Scroll for more'|t }}</div>
+                  <div class="fade-overlay"></div>
+                </div>
+              {% else %}
+                {# List/Table view: Collapsible description #}
+                <button class="description-toggle" onclick="this.parentElement.classList.toggle('description-expanded')">
+                  {{ 'Description'|t }}
+                </button>
+                <div class="expanded-content">
+                  <div class="course-description-wrapper">
+                    <div class="course-description" tabindex="0">
+                      {{ course.fields.field_course_description.summary|raw }}
+                    </div>
+                    <div class="scroll-indicator">{{ 'Scroll for more'|t }}</div>
+                    <div class="fade-overlay"></div>
+                  </div>
+                </div>
+              {% endif %}
+            {% endif %}
+          </div>
+
+          {% if show_debug %}
+            <details class="course-debug">
+              <summary>{{ 'Course Data'|t }}</summary>
+              <table class="debug-table">
+                <thead>
+                  <tr>
+                    <th>{{ 'Field'|t }}</th>
+                    <th>{{ 'Value'|t }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ 'ID'|t }}</td>
+                    <td>{{ course.nid }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'Title'|t }}</td>
+                    <td>{{ course.title }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'Mnemonic'|t }}</td>
+                    <td>{{ course.fields.field_course_mnemonic[0].value }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'Credits'|t }}</td>
+                    <td>{{ course.fields.field_credits[0].value }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'Semester'|t }}</td>
+                    <td>{{ course.fields.field_semester[0].label }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'Status'|t }}</td>
+                    <td>{{ course.status ? 'Published'|t : 'Unpublished'|t }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'Path'|t }}</td>
+                    <td>{{ course.fields.path[0].alias }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'Created'|t }}</td>
+                    <td>{{ course.created|date('Y-m-d H:i:s') }}</td>
+                  </tr>
+                  <tr>
+                    <td>{{ 'Changed'|t }}</td>
+                    <td>{{ course.changed|date('Y-m-d H:i:s') }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              {% if course.fields %}
+                <details class="raw-data">
+                  <summary>{{ 'Raw Field Data'|t }}</summary>
+                  <pre>{{ course.fields|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                </details>
+              {% endif %}
+            </details>
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>{{ 'No courses found.'|t }}</p>
+    {% endif %}
+  </div>
+
+  {% if show_debug %}
+    <details class="debug-tree" open>
+      <summary>{{ 'Debug Data'|t }}</summary>
+      
+      <div class="debug-grid">
+        <div class="debug-section">
+          <h4>Raw Course Data</h4>
+          <pre class="debug-json">{{ {
+            'course_data': course_data,
+            'courses': course_data.courses,
+            'count': course_data.count,
+            'fields': course_data.fields
+          }|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+        </div>
+
+        <div class="debug-section">
+          <h4>Template Variables</h4>
+          <pre class="debug-json">{{ {
+            'title': title,
+            'view_mode': view_mode,
+            'default_view': default_view,
+            'paths': paths,
+            'show_debug': show_debug,
+            'categories': categories
+          }|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+        </div>
+
+        <div class="debug-section">
+          <h4>Sample Course Fields</h4>
+          <pre class="debug-json">{{ course_data.courses|first|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+        </div>
+      </div>
+
+      <style>
+        .debug-tree { margin-top: 2em; padding: 1em; background: #f5f5f5; border: 1px solid #ddd; }
+        .debug-grid { display: grid; gap: 1em; margin-top: 1em; }
+        .debug-section { background: white; padding: 1em; border: 1px solid #ddd; }
+        .debug-section h4 { margin-top: 0; color: #666; }
+        .debug-json { white-space: pre-wrap; overflow-x: auto; }
+      </style>
+    </details>
+  {% endif %}
+</div>

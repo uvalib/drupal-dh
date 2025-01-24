@@ -21,12 +21,19 @@ dh_certificate.settings:
 dh_certificate.courses:
   path: '/admin/config/dh-certificate/courses'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\CourseController::overview'
+    _controller: '\Drupal\dh_certificate\Controller\CourseController::courseListing'
     _title: 'Certificate Courses'
   requirements:
-    _permission: 'administer dh certificate+administer certificate courses'
+    _permission: 'administer dh certificate'
   options:
     _admin_route: TRUE
+
+dh_certificate.courses.ajax:
+  path: '/admin/config/dh-certificate/courses/ajax'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\CourseController::ajaxCourseListing'
+  requirements:
+    _permission: 'administer dh certificate'
 
 dh_certificate.course_add:
   path: '/admin/config/dh-certificate/courses/add'
