@@ -103,11 +103,7 @@
               {% if course.fields.field_course_mnemonic[0].value %}
                 <span class="course-code">{{ course.fields.field_course_mnemonic[0].value }}</span>
               {% endif %}
-              {% if course.fields.path[0].alias %}
-                <a href="{{ course.fields.path[0].alias }}" class="course-link">{{ course.title }}</a>
-              {% else %}
-                <a href="/node/{{ course.nid }}" class="course-link">{{ course.title }}</a>
-              {% endif %}
+              <a href="{% if course.fields.path[0].alias %}{{ course.fields.path[0].alias }}{% else %}/node/{{ course.nid }}{% endif %}" class="course-link">{{ course.title }}</a>
             </h3>
           </div>
 
@@ -128,8 +124,8 @@
                   {{ course.fields.field_university_affiliation[0].label }}
                 </div>
               {% endif %}
-              {% if course.fields.field_link_to_uva_sis_listing[0].uri is defined %}
-                <div class="course-sis">
+              {% if course.fields.field_link_to_uva_sis_listing[0].uri %}
+                <div class="course-sis-link">
                   <a href="{{ course.fields.field_link_to_uva_sis_listing[0].uri }}" class="badge badge--sis" target="_blank" rel="noopener">
                     {{ 'SIS'|t }}
                   </a>
@@ -319,44 +315,6 @@
           </div>
         {% endif %}
       </div>
-
-      <style>
-        .debug-tree { margin-top: 2em; padding: 1em; background: #f5f5f5; border: 1px solid #ddd; }
-        .debug-grid { display: grid; gap: 1em; margin-top: 1em; }
-        .debug-section { background: white; padding: 1em; border: 1px solid #ddd; }
-        .debug-section h4 { margin-top: 0; color: #666; }
-        .debug-json { white-space: pre-wrap; overflow-x: auto; }
-        .badge { 
-          display: inline-block;
-          padding: 0.25em 0.75em;
-          border-radius: 1em;
-          font-size: 0.875em;
-          font-weight: 500;
-          line-height: 1.5;
-        }
-        .badge--requirement {
-          background-color: #e3f2fd;
-          color: #1976d2;
-          border: 1px solid #bbdefb;
-        }
-        .course-requirement {
-          margin-left: auto;
-        }
-        .badge--sis {
-          background-color: #fff3e0;
-          color: #e65100;
-          border: 1px solid #ffe0b2;
-          text-decoration: none;
-          transition: background-color 0.2s;
-        }
-        .badge--sis:hover {
-          background-color: #ffe0b2;
-          text-decoration: none;
-        }
-        .course-sis {
-          margin-left: 0.5em;
-        }
-      </style>
     </details>
   {% endif %}
 </div>
