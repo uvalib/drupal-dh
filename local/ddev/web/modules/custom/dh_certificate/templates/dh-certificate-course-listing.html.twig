@@ -106,7 +106,7 @@
               {% if course.fields.path[0].alias %}
                 <a href="{{ course.fields.path[0].alias }}" class="course-link">{{ course.title }}</a>
               {% else %}
-                {{ course.title }}
+                <a href="/node/{{ course.nid }}" class="course-link">{{ course.title }}</a>
               {% endif %}
             </h3>
           </div>
@@ -126,6 +126,23 @@
               {% if course.fields.field_university_affiliation[0] %}
                 <div class="course-affiliation">
                   {{ course.fields.field_university_affiliation[0].label }}
+                </div>
+              {% endif %}
+              {% if course.fields.field_link_to_uva_sis_listing[0].uri is defined %}
+                <div class="course-sis">
+                  <a href="{{ course.fields.field_link_to_uva_sis_listing[0].uri }}" class="badge badge--sis" target="_blank" rel="noopener">
+                    {{ 'SIS'|t }}
+                  </a>
+                </div>
+              {% endif %}
+              {% if course.fields.field_course_meets_what_requirem[0] is defined %}
+                <div class="course-requirement">
+                  {% if course.fields.field_course_meets_what_requirem[0] is iterable %}
+                    {% set requirement = course.fields.field_course_meets_what_requirem[0] %}
+                    {% if requirement.label is defined %}
+                      <span class="badge badge--requirement">{{ requirement.label }}</span>
+                    {% endif %}
+                  {% endif %}
                 </div>
               {% endif %}
             </div>
@@ -177,41 +194,74 @@
                     <td>{{ 'Title'|t }}</td>
                     <td>{{ course.title }}</td>
                   </tr>
-                  <tr>
-                    <td>{{ 'Mnemonic'|t }}</td>
-                    <td>{{ course.fields.field_course_mnemonic[0].value }}</td>
-                  </tr>
-                  <tr>
-                    <td>{{ 'Credits'|t }}</td>
-                    <td>{{ course.fields.field_credits[0].value }}</td>
-                  </tr>
-                  <tr>
-                    <td>{{ 'Semester'|t }}</td>
-                    <td>{{ course.fields.field_semester[0].label }}</td>
-                  </tr>
+                  {% if course.fields.field_course_mnemonic[0].value is defined %}
+                    <tr>
+                      <td>{{ 'Mnemonic'|t }}</td>
+                      <td>{{ course.fields.field_course_mnemonic[0].value }}</td>
+                    </tr>
+                  {% endif %}
+                  {% if course.fields.field_credits[0].value is defined %}
+                    <tr>
+                      <td>{{ 'Credits'|t }}</td>
+                      <td>{{ course.fields.field_credits[0].value }}</td>
+                    </tr>
+                  {% endif %}
+                  {% if course.fields.field_semester[0].label is defined %}
+                    <tr>
+                      <td>{{ 'Semester'|t }}</td>
+                      <td>{{ course.fields.field_semester[0].label }}</td>
+                    </tr>
+                  {% endif %}
                   <tr>
                     <td>{{ 'Status'|t }}</td>
                     <td>{{ course.status ? 'Published'|t : 'Unpublished'|t }}</td>
                   </tr>
-                  <tr>
-                    <td>{{ 'Path'|t }}</td>
-                    <td>{{ course.fields.path[0].alias }}</td>
-                  </tr>
-                  <tr>
-                    <td>{{ 'Created'|t }}</td>
-                    <td>{{ course.created|date('Y-m-d H:i:s') }}</td>
-                  </tr>
-                  <tr>
-                    <td>{{ 'Changed'|t }}</td>
-                    <td>{{ course.changed|date('Y-m-d H:i:s') }}</td>
-                  </tr>
+                  {% if course.fields.path[0].alias is defined %}
+                    <tr>
+                      <td>{{ 'Path'|t }}</td>
+                      <td>{{ course.fields.path[0].alias }}</td>
+                    </tr>
+                  {% endif %}
+                  {% if course.created is defined %}
+                    <tr>
+                      <td>{{ 'Created'|t }}</td>
+                      <td>{{ course.created|date('Y-m-d H:i:s') }}</td>
+                    </tr>
+                  {% endif %}
+                  {% if course.changed is defined %}
+                    <tr>
+                      <td>{{ 'Changed'|t }}</td>
+                      <td>{{ course.changed|date('Y-m-d H:i:s') }}</td>
+                    </tr>
+                  {% endif %}
+                  {% if course.fields.field_course_meets_what_requirem[0] is defined %}
+                    <tr>
+                      <td>{{ 'Meets Requirement'|t }}</td>
+                      <td>
+                        {% if course.fields.field_course_meets_what_requirem[0] is iterable %}
+                          {% set requirement = course.fields.field_course_meets_what_requirem[0] %}
+                          {% if requirement.label is defined %}
+                            <span class="badge badge--requirement">{{ requirement.label }}</span>
+                          {% elseif requirement.target_id is defined %}
+                            {{ requirement.target_id }}
+                          {% elseif requirement.value is defined %}
+                            {{ requirement.value }}
+                          {% else %}
+                            {{ requirement|keys|join(', ') }}
+                          {% endif %}
+                        {% else %}
+                          {{ course.fields.field_course_meets_what_requirem[0]|default('') }}
+                        {% endif %}
+                      </td>
+                    </tr>
+                  {% endif %}
                 </tbody>
               </table>
 
               {% if course.fields %}
                 <details class="raw-data">
                   <summary>{{ 'Raw Field Data'|t }}</summary>
-                  <pre>{{ course.fields|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+                  <pre>{{ course.fields|map(field => field.value|default(field))|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}</pre>
                 </details>
               {% endif %}
             </details>
@@ -231,29 +281,43 @@
         <div class="debug-section">
           <h4>Raw Course Data</h4>
           <pre class="debug-json">{{ {
-            'course_data': course_data,
-            'courses': course_data.courses,
-            'count': course_data.count,
-            'fields': course_data.fields
-          }|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+            'count': course_data.courses|length,
+            'courses': course_data.courses|map(course => {
+              'nid': course.nid|default(''),
+              'title': course.title|default(''),
+              'type': course.type|default(''),
+              'status': course.status ? 'Published'|t : 'Unpublished'|t
+            })
+          }|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}</pre>
         </div>
 
         <div class="debug-section">
           <h4>Template Variables</h4>
           <pre class="debug-json">{{ {
-            'title': title,
-            'view_mode': view_mode,
-            'default_view': default_view,
-            'paths': paths,
-            'show_debug': show_debug,
-            'categories': categories
-          }|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+            'title': title|default(''),
+            'view_mode': view_mode|default('default'),
+            'default_view': default_view|default('grid'),
+            'paths': paths is iterable ? paths : {},
+            'show_debug': show_debug|default(false)
+          }|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}</pre>
         </div>
 
-        <div class="debug-section">
-          <h4>Sample Course Fields</h4>
-          <pre class="debug-json">{{ course_data.courses|first|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-        </div>
+        {% if course_data.courses|length > 0 %}
+          <div class="debug-section">
+            <h4>Sample Course Fields</h4>
+            {% set sample_course = course_data.courses|first %}
+            {% set safe_fields = {} %}
+            {% for key, value in sample_course.fields|default({}) %}
+              {% set safe_fields = safe_fields|merge({(key): value.value|default(value)}) %}
+            {% endfor %}
+            <pre class="debug-json">{{ {
+              'nid': sample_course.nid|default(''),
+              'title': sample_course.title|default(''),
+              'type': sample_course.type|default(''),
+              'fields': safe_fields
+            }|json_encode(constant('JSON_PRETTY_PRINT'))|raw }}</pre>
+          </div>
+        {% endif %}
       </div>
 
       <style>
@@ -262,6 +326,36 @@
         .debug-section { background: white; padding: 1em; border: 1px solid #ddd; }
         .debug-section h4 { margin-top: 0; color: #666; }
         .debug-json { white-space: pre-wrap; overflow-x: auto; }
+        .badge { 
+          display: inline-block;
+          padding: 0.25em 0.75em;
+          border-radius: 1em;
+          font-size: 0.875em;
+          font-weight: 500;
+          line-height: 1.5;
+        }
+        .badge--requirement {
+          background-color: #e3f2fd;
+          color: #1976d2;
+          border: 1px solid #bbdefb;
+        }
+        .course-requirement {
+          margin-left: auto;
+        }
+        .badge--sis {
+          background-color: #fff3e0;
+          color: #e65100;
+          border: 1px solid #ffe0b2;
+          text-decoration: none;
+          transition: background-color 0.2s;
+        }
+        .badge--sis:hover {
+          background-color: #ffe0b2;
+          text-decoration: none;
+        }
+        .course-sis {
+          margin-left: 0.5em;
+        }
       </style>
     </details>
   {% endif %}

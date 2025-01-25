@@ -96,32 +96,16 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
  * Implements hook_entity_extra_field_info().
  */
 function dh_certificate_entity_extra_field_info() {
-  $extra = [];
-  $extra['user']['user']['display']['certificate_progress_summary'] = [
-    'label' => t('Certificate Progress Summary'),
-    'description' => t('Shows progress towards certificate completion'),
-    'weight' => 100,
-    'visible' => TRUE,
-  ];
-  return $extra;
+  // Remove the entire extra fields array since we don't want automatic placement
+  return [];
 }
 
 /**
  * Implements hook_ENTITY_TYPE_view().
  */
 function dh_certificate_user_view(array &$build, $account, $display, $view_mode) {
-  if ($display->getComponent('certificate_progress_summary')) {
-    $progress_service = \Drupal::service('dh_certificate.progress');
-    if ($account instanceof \Drupal\user\UserInterface) {
-      $progress = $progress_service->getUserProgress($account);
-    } else {
-      $progress = $progress_service->getUserProgressById($account->id());
-    }
-    $build['certificate_progress_summary'] = [
-      '#theme' => 'certificate_progress_block',
-      '#progress' => $progress,
-    ];
-  }
+  // Remove the automatic progress block placement
+  return;
 }
 
 /**
