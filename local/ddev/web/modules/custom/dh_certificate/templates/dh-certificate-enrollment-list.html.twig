@@ -1,0 +1,83 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-enrollment-list.html.twig #}
+<div class="certificate-enrollments">
+  <h2>{{ title }}</h2>
+
+  <div class="enrollment-controls">
+    <a href="{{ path('dh_certificate.enrollment_add') }}" class="button button--action button--primary">
+      {{ 'Add Enrollment'|t }}
+    </a>
+  </div>
+
+  {% if enrollments %}
+    {% for user_id, user_data in enrollments %}
+      <details>
+        <summary style="padding: 0.5rem; margin: 0; font-weight: 400; font-size: 1rem;">
+          {{ user_data.user }}
+          <span class="status-summary">
+            {{ 'Completed:'|t }} {{ user_data.completed }},
+            {{ 'In Progress:'|t }} {{ user_data.in_progress }},
+            {{ 'Pending:'|t }} {{ user_data.pending }}
+          </span>
+          <div class="progress-bar">
+            {% if user_data.completed > 0 %}
+              <div class="progress-bar__completed" style="width: {{ (user_data.completed / (user_data.pending + user_data.in_progress + user_data.completed)) * 100 }}%">
+                <span class="progress-label">{{ 'Completed'|t }} ({{ user_data.completed }})</span>
+              </div>
+            {% endif %}
+            {% if user_data.in_progress > 0 %}
+              <div class="progress-bar__in-progress" style="width: {{ (user_data.in_progress / (user_data.pending + user_data.in_progress + user_data.completed)) * 100 }}%">
+                <span class="progress-label">{{ 'In Progress'|t }} ({{ user_data.in_progress }})</span>
+              </div>
+            {% endif %}
+            {% if user_data.pending > 0 %}
+              <div class="progress-bar__pending" style="width: {{ (user_data.pending / (user_data.pending + user_data.in_progress + user_data.completed)) * 100 }}%">
+                <span class="progress-label">{{ 'Pending'|t }} ({{ user_data.pending }})</span>
+              </div>
+            {% endif %}
+          </div>
+        </summary>
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'Course'|t }}</th>
+              <th>{{ 'Status'|t }}</th>
+              <th>{{ 'Completed Date'|t }}</th>
+              <th>{{ 'Operations'|t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for enrollment in user_data.enrollments %}
+              <tr>
+                <td>{{ enrollment.course }}</td>
+                <td>{{ enrollment.status }}</td>
+                <td>{{ enrollment.completed_date }}</td>
+                <td class="operations">
+                  {% if enrollment.id matches '/^\\d+$/' %}
+                    <div class="enrollment-operations">
+                      <a href="{{ path('dh_certificate.enrollment_edit', {'id': enrollment.id}) }}" 
+                         class="button button--small" 
+                         title="{{ 'Edit'|t }}">
+                        <i class="fas fa-edit"></i>
+                        <span class="visually-hidden">{{ 'Edit'|t }}</span>
+                      </a>
+                      <a href="{{ path('dh_certificate.enrollment_delete', {'id': enrollment.id}) }}" 
+                         class="button button--small button--danger enrollment-delete-button" 
+                         data-enrollment-id="{{ enrollment.id }}"
+                         data-enrollment-course="{{ enrollment.course }}"
+                         title="{{ 'Delete'|t }}">
+                        <i class="fas fa-trash"></i>
+                        <span class="visually-hidden">{{ 'Delete'|t }}</span>
+                      </a>
+                    </div>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </details>
+    {% endfor %}
+  {% else %}
+    <p>{{ 'No enrollments found.'|t }}</p>
+  {% endif %}
+</div>

@@ -10,7 +10,7 @@ administer dh certificate requirements:
 
 administer dh certificate:
   title: 'Administer DH Certificate'
-  description: 'Allow users to configure certificate settings'
+  description: 'Allow users to configure certificate settings and view enrollments'
   restrict access: true
 
 administer dh certificate courses:

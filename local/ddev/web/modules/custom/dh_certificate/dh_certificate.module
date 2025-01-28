@@ -20,8 +20,6 @@ function dh_certificate_dh_dashboard_blocks() {
     return [];
   }
 
-  \Drupal::logger('dh_certificate')->debug('Registering dashboard blocks');
-
   return [
     'certificate_progress' => [
       'title' => t('Certificate Progress'),
@@ -50,6 +48,17 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
         'admin_url' => NULL,
         'debug' => NULL,
       ],
+      'template' => 'dh-certificate-progress',
+    ],
+    'dh_certificate_progress_block' => [
+      'variables' => [
+        'progress' => NULL,
+        'user' => NULL,
+        'is_admin' => FALSE,
+        'manage_url' => NULL,
+        'attributes' => [],
+      ],
+      'template' => 'dh-certificate-progress-block',
     ],
     'dh_dashboard_progress' => [
       'variables' => [
@@ -68,8 +77,9 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
       'variables' => [
         'progress' => NULL,
         'user' => NULL,
+        'url' => NULL,
       ],
-      'template' => 'certificate-progress-block',
+      'template' => 'dh-certificate-progress-block',
     ],
     'dh_certificate_requirements' => [
       'variables' => [
@@ -88,6 +98,33 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
         'course_data' => [],
       ],
       'template' => 'dh-certificate-course-listing',
+    ],
+    'dh_certificate_admin_overview' => [
+      'variables' => [
+        'title' => NULL,
+        'stats' => [],
+      ],
+    ],
+    'dh_certificate_user_progress' => [
+      'variables' => [
+        'title' => NULL,
+        'progress' => [],
+      ],
+    ],
+    'dh_certificate_enrollment_list' => [
+      'variables' => [
+        'title' => NULL,
+        'enrollments' => [],
+      ],
+      'template' => 'dh-certificate-enrollment-list',
+    ],
+    'dh_certificate_enrollment_form' => [
+      'render element' => 'form',
+      'template' => 'dh-certificate-enrollment-form',
+    ],
+        'dh_certificate_enrollment_delete_form' => [
+      'render element' => 'form',
+      'template' => 'dh-certificate-enrollment-delete-form',
     ],
   ];
 }
@@ -126,23 +163,37 @@ function dh_certificate_preprocess_certificate_progress_block(&$variables) {
   $user = \Drupal::currentUser();
   $progress_service = \Drupal::service('dh_certificate.progress');
   
-  // Add admin status
   $variables['is_admin'] = $user->hasPermission('administer dh certificate');
+  $raw_progress = $progress_service->getUserProgress($user);
   
-  // Get progress data
-  $progress = $progress_service->getUserProgress($user);
-  
-  // Structure the data for the template
-  $variables['progress'] = $progress;
-  $variables['courses'] = $progress['courses'] ?? [];
-  $variables['completion'] = [
-    'total_courses' => $progress['total_courses'] ?? 0,
-    'completed_courses' => $progress['completed_courses'] ?? 0,
-    'total_credits' => $progress['total_credits'] ?? 0,
-    'required_credits' => $progress['required_credits'] ?? 12,
-    'percentage' => $progress['total_percentage'] ?? 0,
+  $variables['progress'] = [
+    'total_courses' => $raw_progress['total_courses'] ?? 0,
+    'completed_courses' => $raw_progress['completed_courses'] ?? 0,
+    'total_credits' => $raw_progress['total_credits'] ?? 0,
+    'required_credits' => $raw_progress['required_credits'] ?? 12,
+    'percentage' => $raw_progress['total_percentage'] ?? 0,
+    'pending_actions' => $raw_progress['pending_actions'] ?? 0,
+    'courses' => array_map(function($course) {
+      return [
+        'id' => $course['id'] ?? '',  // Ensure ID is included
+        'title' => $course['title'] ?? '',
+        'status' => $course['status'] ?? 'pending',
+        'credits' => $course['credits'] ?? 0,
+        'mnemonic' => $course['mnemonic'] ?? '',
+      ];
+    }, $raw_progress['courses'] ?? [])
   ];
+
+  // Add URLs using the URL generator service
+  $variables['manage_url'] = \Drupal::service('url_generator')->generateFromRoute('dh_certificate.user_progress');
   
+  // Add classes array if not set
+  if (!isset($variables['attributes']['class'])) {
+    $variables['attributes']['class'] = [];
+  }
+  $variables['attributes']['class'][] = 'certificate-progress-block';
+  
+  // Add required libraries
   $variables['#attached']['library'][] = 'dh_certificate/certificate-progress';
 }
 

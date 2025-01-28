@@ -1,0 +1,26 @@
+<div class="dh-certificate-admin-overview">
+  <h2>{{ title }}</h2>
+
+  <div class="overview-stats">
+    <div class="stat-card">
+      <h3>{{ 'Students'|t }}</h3>
+      <div class="stat-value">{{ stats.total_students }}</div>
+    </div>
+    
+    <div class="stat-card">
+      <h3>{{ 'Active Courses'|t }}</h3>
+      <div class="stat-value">{{ stats.active_courses }}</div>
+    </div>
+    
+    <div class="stat-card">
+      <h3>{{ 'Completed Courses'|t }}</h3>
+      <div class="stat-value">{{ stats.progress_summary.completed_courses }}</div>
+    </div>
+  </div>
+
+  <div class="admin-actions">
+    <a href="{{ path('dh_certificate.courses') }}" class="button">{{ 'Manage Courses'|t }}</a>
+    <a href="{{ path('dh_certificate.requirements') }}" class="button">{{ 'Configure Requirements'|t }}</a>
+    <a href="{{ path('dh_certificate.progress_overview') }}" class="button">{{ 'View Progress'|t }}</a>
+  </div>
+</div>

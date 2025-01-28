@@ -16,6 +16,7 @@ class JsonTreeExtension extends AbstractExtension {
   public function getFilters() {
     return [
       new TwigFilter('json_tree', [$this, 'jsonTree'], ['is_safe' => ['html']]),
+      new TwigFilter('is_numeric', [$this, 'isNumeric']), // Add this line
     ];
   }
 
@@ -126,6 +127,13 @@ class JsonTreeExtension extends AbstractExtension {
       }
     }
     return '[' . implode(', ', $preview) . ']';
+  }
+
+  /**
+   * Checks if a value is numeric.
+   */
+  public function isNumeric($value) {
+    return is_numeric($value);
   }
 
   /**

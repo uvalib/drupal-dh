@@ -746,3 +746,59 @@
   color: #78350f;
   text-decoration: none;
 }
+
+/* Admin Controls Section */
+.admin-controls {
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: 2px solid #ddd;
+  display: none; /* Hidden by default */
+}
+
+/* Show admin controls for users with proper permissions */
+.user-is-admin .admin-controls {
+  display: block;
+}
+
+.admin-controls .button-group {
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+}
+
+.admin-controls .button {
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  color: #666;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.admin-controls .button:hover {
+  background: #e0e0e0;
+  border-color: #ccc;
+}
+
+.admin-controls .button--danger {
+  background: #fff5f5;
+  border-color: #feb2b2;
+  color: #c53030;
+}
+
+.admin-controls .button--danger:hover {
+  background: #fed7d7;
+  border-color: #fc8181;
+}
+
+.admin-controls .button--primary {
+  background: #ebf8ff;
+  border-color: #90cdf4;
+  color: #2b6cb0;
+}
+
+.admin-controls .button--primary:hover {
+  background: #bee3f8;
+  border-color: #63b3ed;
+}

@@ -3,15 +3,21 @@
 namespace Drupal\dh_certificate\Commands;
 
 use Drush\Commands\DrushCommands;
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
-use Drupal\dh_certificate\ProgressManagerInterface;
-use Drupal\dh_certificate\RequirementType\RequirementTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Drush commands for DH Certificate module.
+ * Drush commands for DH Certificate.
  */
 class DHCertificateCommands extends DrushCommands {
+
+  /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
 
   /**
    * The entity type manager.
@@ -19,6 +25,109 @@ class DHCertificateCommands extends DrushCommands {
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
+
+  /**
+   * Constructs a new DHCertificateCommands object.
+   *
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   */
+  public function __construct(Connection $database, EntityTypeManagerInterface $entity_type_manager) {
+    parent::__construct();
+    $this->database = $database;
+    $this->entityTypeManager = $entity_type_manager;
+  }
+
+  /**
+   * Generate random course enrollments for a user.
+   *
+   * @param string $user_ids
+   *   Comma-separated list of user IDs.
+   * @param array $options
+   *   An associative array of options.
+   *
+   * @command dh-certificate:generate-enrollments
+   * @aliases dhc-gen-enroll
+   * @option count Number of enrollments to generate
+   * @option retain Retain existing enrollments
+   */
+  public function generateEnrollments($user_ids, array $options = ['count' => 5, 'retain' => FALSE]) {
+    $user_ids_array = array_map('trim', explode(',', $user_ids));
+    $user_storage = $this->entityTypeManager->getStorage('user');
+    $course_storage = $this->entityTypeManager->getStorage('node');
+
+    // Get all courses
+    $course_query = $course_storage->getQuery()
+      ->condition('type', 'course')
+      ->accessCheck(FALSE);
+    $course_ids = $course_query->execute();
+    $courses = $course_storage->loadMultiple($course_ids);
+
+    $statuses = ['pending', 'in-progress', 'completed'];
+
+    foreach ($user_ids_array as $user_id) {
+      $user = $user_storage->load($user_id);
+      if ($user) {
+        // Clear existing enrollments if --retain flag is not passed
+        if (!$options['retain']) {
+          $this->database->delete('course_enrollment')
+            ->condition('uid', $user_id)
+            ->execute();
+        }
+
+        // Limit the number of enrollments to 5-8
+        $num_enrollments = rand(5, 8);
+        $selected_courses = array_rand($courses, $num_enrollments);
+
+        foreach ($selected_courses as $course_index) {
+          $course = $courses[$course_index];
+          $status = $statuses[array_rand($statuses)];
+          $completed_date = $status === 'completed' ? time() : NULL;
+
+          $this->database->insert('course_enrollment')
+            ->fields([
+              'uid' => $user_id,
+              'course_id' => $course->id(),
+              'status' => $status,
+              'completed_date' => $completed_date,
+            ])
+            ->execute();
+        }
+        $this->logger()->success(dt('Enrollments generated for user ID @uid', ['@uid' => $user_id]));
+      }
+      else {
+        $this->logger()->error(dt('User ID @uid not found', ['@uid' => $user_id]));
+      }
+    }
+
+    // List all enrollments for the specified users
+    foreach ($user_ids_array as $user_id) {
+      $enrollments = $this->database->select('course_enrollment', 'ce')
+        ->fields('ce', ['course_id', 'status'])
+        ->condition('uid', $user_id)
+        ->execute()
+        ->fetchAll();
+
+      $user = $user_storage->load($user_id);
+      foreach ($enrollments as $enrollment) {
+        $course = $course_storage->load($enrollment->course_id);
+        if (!$course || !$user) {
+          continue;
+        }
+        $this->logger()->notice(sprintf(
+          "%s is %s in %s",
+          $user->getDisplayName(),
+          $enrollment->status,
+          $course->label()
+        ));
+      }
+    }
+
+    // Debugging to stderr
+    fwrite(STDERR, "Debug: Finished generating and listing enrollments.\n");
+  }
 
   /**
    * The progress manager.
@@ -39,38 +148,16 @@ class DHCertificateCommands extends DrushCommands {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('entity_type.manager'),
-      $container->get('dh_certificate.progress'),
-      $container->get('dh_certificate.requirement_type_manager')
+      $container->get('database'),
+      $container->get('entity_type.manager')
     );
-  }
-
-  /**
-   * Constructs a new DHCertificateCommands object.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
-   * @param \Drupal\dh_certificate\ProgressManagerInterface $progress_manager
-   *   The progress manager.
-   * @param \Drupal\dh_certificate\RequirementType\RequirementTypeManagerInterface $requirement_type_manager
-   *   The requirement type manager.
-   */
-  public function __construct(
-    EntityTypeManagerInterface $entity_type_manager,
-    ProgressManagerInterface $progress_manager,
-    RequirementTypeManagerInterface $requirement_type_manager = NULL
-  ) {
-    parent::__construct();
-    $this->entityTypeManager = $entity_type_manager;
-    $this->progressManager = $progress_manager;
-    $this->requirementTypeManager = $requirement_type_manager ?? \Drupal::service('dh_certificate.requirement_type_manager');
   }
 
   /**
    * Generate test data for certificate requirements.
    *
    * @command dh-certificate:generate-test
-   * @aliases dhc-gen
+   * @aliases dhc-gen-test
    * @option reset Delete existing test data before generating new data
    * @option uid User ID to create enrollments for (defaults to 12)
    */
@@ -171,6 +258,7 @@ class DHCertificateCommands extends DrushCommands {
    */
   protected function createTestCourses(array $courses, $uid) {
     $created = [];
+    $counter = 1000; // Start counter for unique mnemonics
     
     foreach ($courses as $title => $config) {
       try {
@@ -189,6 +277,7 @@ class DHCertificateCommands extends DrushCommands {
         }
         else {
           // Create a new course node
+          $mnemonic = 'FAKE-' . $counter++;
           $node = $this->entityTypeManager->getStorage('node')->create([
             'type' => 'course',
             'title' => $title,
@@ -196,17 +285,20 @@ class DHCertificateCommands extends DrushCommands {
             'field_credits' => $config['credits'],
             'field_term' => $config['term'],
             'field_status' => $config['status'],
+            'field_course_mnemonic' => $mnemonic,
             'status' => 1, // Published
           ]);
           
           $node->save();
-          $this->output()->writeln(dt('Created course: @title', [
+          $this->output()->writeln(dt('Created course: @title with mnemonic @mnemonic', [
             '@title' => $title,
+            '@mnemonic' => $mnemonic,
           ]));
         }
         
         $created[$node->id()] = [
           'title' => $title,
+          'mnemonic' => $mnemonic,
           'status' => $config['status'],
         ];
         
@@ -281,11 +373,12 @@ class DHCertificateCommands extends DrushCommands {
    * Deletes existing test data.
    */
   protected function deleteExistingTestData() {
-    $nids = $this->entityTypeManager->getStorage('node')
-      ->getQuery()
+    $query = $this->entityTypeManager->getStorage('node')->getQuery()
       ->condition('type', 'course')
-      ->accessCheck(FALSE)  // Explicitly disable access checking for admin operation
-      ->execute();
+      ->condition('field_course_mnemonic', 'FAKE-%', 'LIKE')
+      ->accessCheck(FALSE);  // Explicitly disable access checking for admin operation
+
+    $nids = $query->execute();
     
     if (!empty($nids)) {
       $nodes = $this->entityTypeManager->getStorage('node')->loadMultiple($nids);
@@ -616,6 +709,44 @@ class DHCertificateCommands extends DrushCommands {
     }
     
     $this->output()->writeln('Reset complete.');
+  }
+
+  /**
+   * List all enrollments.
+   *
+   * @command dh-certificate:list-enrollments
+   * @aliases dhc-list-enroll
+   */
+  public function listEnrollments() {
+    $database = \Drupal::database();
+    $query = $database->select('course_enrollment', 'ce')
+      ->fields('ce', ['uid', 'course_id', 'status']);
+    
+    $enrollments = $query->execute()->fetchAll();
+
+    if (empty($enrollments)) {
+      $this->output()->writeln('No enrollments found.');
+      return;
+    }
+
+    $course_storage = $this->entityTypeManager->getStorage('node');
+    $user_storage = $this->entityTypeManager->getStorage('user');
+
+    foreach ($enrollments as $enrollment) {
+      $user = $user_storage->load($enrollment->uid);
+      $course = $course_storage->load($enrollment->course_id);
+      
+      if (!$user || !$course) {
+        continue;
+      }
+
+      $this->output()->writeln(sprintf(
+        "%-15s | %-40s | %s",
+        $user->getAccountName(),
+        $course->label(),
+        $enrollment->status
+      ));
+    }
   }
 
 }

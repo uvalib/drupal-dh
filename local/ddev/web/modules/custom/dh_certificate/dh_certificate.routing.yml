@@ -2,17 +2,7 @@ dh_certificate.admin:
   path: '/admin/config/dh-certificate'
   defaults:
     _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::overview'
-    _title: 'DH Certificate'
-  requirements:
-    _permission: 'administer dh certificate'
-  options:
-    _admin_route: TRUE
-
-dh_certificate.settings:
-  path: '/admin/config/dh-certificate/settings'
-  defaults:
-    _form: '\Drupal\dh_certificate\Form\DHCertificateSettingsForm'
-    _title: 'Certificate Settings'
+    _title: 'DH Certificate Administration'
   requirements:
     _permission: 'administer dh certificate'
   options:
@@ -22,9 +12,9 @@ dh_certificate.courses:
   path: '/admin/config/dh-certificate/courses'
   defaults:
     _controller: '\Drupal\dh_certificate\Controller\CourseController::courseListing'
-    _title: 'Certificate Courses'
+    _title: 'Course Management'
   requirements:
-    _permission: 'administer dh certificate'
+    _permission: 'administer dh certificate courses'
   options:
     _admin_route: TRUE
 
@@ -55,12 +45,122 @@ dh_certificate.requirements:
   options:
     _admin_route: TRUE
 
+dh_certificate.admin_enrollments:
+  path: '/admin/config/dh-certificate/enrollments'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\ProgressController::adminEnrollments'
+    _title: 'User Enrollments'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.enrollment_list:
+  path: '/admin/config/dh-certificate/enrollment'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\EnrollmentController::listEnrollments'
+    _title: 'Course Enrollments'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.enrollment_add:
+  path: '/admin/config/dh-certificate/enrollment/add'
+  defaults:
+    _form: '\Drupal\dh_certificate\Form\EnrollmentForm'
+    _title: 'Add Enrollment'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.enrollment_edit:
+  path: '/admin/config/dh-certificate/enrollment/{id}/edit'
+  defaults:
+    _form: '\Drupal\dh_certificate\Form\EnrollmentForm'
+    _title: 'Edit Enrollment'
+  requirements:
+    _permission: 'administer dh certificate'
+    id: '\d+'
+  options:
+    _admin_route: TRUE
+    parameters:
+      id:
+        type: integer
+
+dh_certificate.enrollment_delete:
+  path: '/admin/dh-certificate/enrollment/{id}/delete'
+  defaults:
+    _form: 'Drupal\dh_certificate\Form\DeleteEnrollmentConfirmForm'
+    _title: 'Delete Enrollment'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    parameters:
+      id:
+        type: integer
+
+dh_certificate.enrollment.ajax:
+  path: '/admin/config/dh-certificate/enrollment/ajax'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\EnrollmentController::ajaxEnrollmentListing'
+  requirements:
+    _permission: 'administer dh certificate'
+
+dh_certificate.user_progress:
+  path: '/certificate/progress'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\ProgressController::userProgress'
+    _title: 'My Certificate Progress'
+  requirements:
+    _permission: 'access content+view own certificate progress'
+    _role: 'authenticated'
+  options:
+    _admin_route: FALSE
+
+dh_certificate.reset_progress:
+  path: '/admin/config/dh-certificate/reset'
+  defaults:
+    _form: '\Drupal\dh_certificate\Form\ResetProgressForm'
+    _title: 'Reset Progress'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.settings:
+  path: '/admin/config/dh-certificate/settings'
+  defaults:
+    _form: '\Drupal\dh_certificate\Form\DHCertificateSettingsForm'
+    _title: 'Certificate Settings'
+  requirements:
+    _permission: 'administer dh certificate settings'
+  options:
+    _admin_route: TRUE
+
 dh_certificate.admin_progress:
   path: '/admin/config/dh-certificate/progress'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\ProgressController::adminProgress'
+    _title: 'Certificate Progress'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.progress_overview:
+  path: '/admin/config/dh-certificate/progress-overview'
   defaults:
     _controller: '\Drupal\dh_certificate\Controller\ProgressController::adminOverview'
     _title: 'Progress Overview'
   requirements:
-    _permission: 'administer dh certificate+view certificate progress'
+    _permission: 'administer dh certificate'
   options:
     _admin_route: TRUE
+
+# Remove these debug routes
+# dh_certificate.test
+# dh_certificate.debug_classloader
+# dh_certificate.debug_routes
+# dh_certificate.list_routes

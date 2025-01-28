@@ -26,9 +26,24 @@ dh_certificate.requirements:
   route_name: dh_certificate.requirements
   weight: 2
 
-dh_certificate.progress:
-  title: 'Progress Overview'
-  description: 'View certificate progress for all users'
+dh_certificate.enrollments:
+  title: 'Enrollments'
+  description: 'View user enrollments'
   parent: dh_certificate.admin
-  route_name: dh_certificate.admin_progress
-  weight: 3
+  route_name: dh_certificate.admin_enrollments
+  weight: 4
+
+# Remove this menu item as it requires a dynamic ID parameter
+# dh_certificate.enrollment_delete:
+#   title: 'Delete Enrollment'
+#   description: 'Delete a user enrollment'
+#   parent: dh_certificate.enrollments
+#   route_name: dh_certificate.enrollment_delete
+#   weight: 5
+
+dh_certificate.enrollment_list:
+  title: 'Course Enrollments'
+  description: 'Manage course enrollments'
+  parent: dh_certificate.admin
+  route_name: dh_certificate.enrollment_list
+  weight: 20

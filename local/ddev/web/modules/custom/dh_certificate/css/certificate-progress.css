@@ -40,9 +40,9 @@
 /* Progress Stats Grid */
 .progress-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
-  margin: 1.5rem 0;
+  grid-template-columns: repeat(2, 1fr); /* Changed from auto-fit to 2 columns */
+  gap: 1em;
+  margin: 1em 0;
 }
 
 .stat {
@@ -71,9 +71,10 @@
   height: 20px;
   margin: 1em 0;
   overflow: hidden;
+  position: relative; /* Ensure positioning context for fill */
 }
 
-.progress-bar .progress-bar__fill {
+.progress-bar__fill {
   position: absolute;
   left: 0;
   top: 0;
@@ -82,7 +83,7 @@
   transition: width 0.3s ease;
 }
 
-.progress-bar .progress-bar__text {
+.progress-bar__text {
   position: absolute;
   right: 8px;
   top: 50%;
@@ -157,6 +158,165 @@
   transform: translateY(-1px);
 }
 
+/* Admin Controls Section */
+.admin-controls {
+  margin-top: 0.5rem; /* Reduced margin */
+  padding-top: 0.2rem; /* Reduced padding */
+  border-top: 1px solid #e0e0e0;
+  display: none;
+  text-align: right;
+}
+
+.user-is-admin .admin-controls {
+  display: block;
+}
+
+.admin-controls__title {
+  font-size: 0.7em;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0 0 0.05em;
+  text-align: left;
+  line-height: 1;
+}
+
+.admin-controls .button-group {
+  display: flex;
+  gap: 0.5em;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  line-height: 1;
+  margin: 0.2em; /* Added margin for spacing around the button group */
+}
+
+.admin-controls .button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2em 0.5em; /* Shrunk padding */
+  border-radius: 2px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  color: #555;
+  min-width: auto;
+  justify-content: center;
+  font-size: 0.85em; /* Slightly smaller font size */
+}
+
+.admin-controls .button:hover {
+  background: #e8e8e8;
+  border-color: #ccc;
+  color: #333;
+}
+
+.admin-controls .button--primary {
+  background: #e8e8e8;
+  border-color: #ccc;
+  color: #444;
+}
+
+.admin-controls .button--primary:hover {
+  background: #ddd;
+  border-color: #bbb;
+  color: #333;
+}
+
+.admin-controls .admin-button {
+  padding: 0.2em 0.5em; /* Shrunk padding */
+  min-width: auto;
+  font-size: 0.85em; /* Slightly smaller font size */
+}
+
+.admin-controls .admin-button:hover {
+  text-decoration: none;
+}
+
+.admin-controls-accordion {
+  margin-top: 1rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 3px;
+  font-size: 0.85rem;
+}
+
+.admin-controls-accordion summary {
+  padding: 0.5rem 1rem;
+  background: #f5f5f5;
+  font-weight: normal;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.admin-controls-accordion .admin-controls {
+  padding: 0.5rem 1rem;
+}
+
+.admin-controls-accordion .button-group {
+  gap: 0.5rem;
+}
+
+.admin-controls-accordion .admin-button {
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem; /* Shrunk padding */
+  min-height: 0;
+  line-height: 1.2;
+}
+
+.admin-controls-accordion {
+  margin-top: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.admin-controls-accordion summary {
+  padding: 1rem;
+  cursor: pointer;
+  background: #f5f5f5;
+  font-weight: bold;
+}
+
+.admin-controls-accordion summary:hover {
+  background: #eee;
+}
+
+.admin-controls-accordion .admin-controls {
+  padding: 0rem;
+}
+
+.admin-controls-accordion .button-group {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 768px) {
+  .certificate-progress {
+    padding: 0rem;
+  }
+
+  .certificate-progress h3 {
+    font-size: 1.2rem;
+  }
+
+  .progress-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .certificate-progress__courses ul {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-controls,
+  .admin-controls__title,
+  .admin-controls .button-group {
+    text-align: left;
+    justify-content: flex-start;
+  }
+  
+  .admin-controls .button {
+    width: auto;
+  }
+}
+
 /* Debug section styling */
 .certificate-progress__debug {
   margin-top: 1.5rem;
@@ -198,6 +358,34 @@
   line-height: 1.4;
 }
 
+/* Debug Data Accordion */
+.debug-data-accordion {
+  margin-top: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+.debug-data-accordion summary {
+  padding: 0.3rem 0.6rem;
+  background: #f8f8f8;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.debug-data {
+  padding: 0.5rem;
+  background: #fff;
+  font-family: monospace;
+  font-size: 0.8rem;
+  overflow-x: auto;
+}
+
+.debug-data pre {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
   .certificate-progress {
@@ -214,6 +402,15 @@
 
   .certificate-progress__courses ul {
     grid-template-columns: 1fr;
+  }
+
+  .admin-controls .button-group {
+    flex-direction: column;
+  }
+  
+  .admin-controls .button {
+    width: 100%;
+    justify-content: center;
   }
 }
 
@@ -234,9 +431,9 @@
 
 .certificate-progress-block {
   padding: 1em;
-  background: #f5f5f5;
+  background: #fff;
+  border: 1px solid #ddd;
   border-radius: 4px;
-  margin: 1em 0;
 }
 
 .certificate-progress-block .courses-list ul {
@@ -256,27 +453,37 @@
   height: 20px;
   margin: 1em 0;
   overflow: hidden;
+  position: relative; /* Ensure positioning context for fill */
 }
 
 .progress-bar__fill {
-  background: #0074bd;
+  position: absolute;
+  left: 0;
+  top: 0;
   height: 100%;
-  min-width: 20px;
+  background: #0074bd;
   transition: width 0.3s ease;
 }
 
 .progress-bar__text {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   color: #fff;
-  display: block;
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+  z-index: 2; /* Ensure text is above the fill */
   padding: 0 8px;
-  text-align: right;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .progress-stats {
-  display: flex;
-  gap: 2em;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Changed from auto-fit to 2 columns */
+  gap: 1em;
   margin: 1em 0;
 }
 
@@ -290,19 +497,121 @@
   font-size: 0.9em;
 }
 
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1em;
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.stat-item .label {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.stat-item .value {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #333;
+}
+
 .courses-list {
   margin-top: 1.5em;
+}
+
+.certificate-course-list {
+  margin: 1.5em 1em;  /* Reduced from 2em horizontal margins */
+}
+
+.certificate-course-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .course-item {
   display: flex;
   justify-content: space-between;
-  padding: 0.5em;
-  border-bottom: 1px solid #ddd;
+  align-items: center;
+  padding: 1em 2.5em;  /* Increased horizontal padding from 2em to 2.5em */
+  margin-bottom: 0.75em;  /* Keep only bottom margin */
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.course-item.status-completed {
+  background: #e8f5e9;
+  border-color: #c8e6c9;
+}
+
+.course-item.status-in-progress {
+  background: #fff3e0;
+  border-color: #ffe0b2;
+}
+
+.course-item.status-pending,
+.course-item.status-not_started {
+  background: #ffebee;
+  border-color: #ffcdd2;
+}
+
+.course-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;  /* Slightly increased gap */
+  flex: 1;  /* Allow it to take up available space */
+}
+
+.course-code {
+  color: #495057;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.course-title {
+  color: #212529;
+  font-weight: 500;
+  margin-left: 1em;  /* Added left margin */
+}
+
+.course-meta {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.course-credits {
+  color: #495057;
+  font-size: 0.9em;
 }
 
 .course-status {
-  font-weight: bold;
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 0.4em 1em;  /* Adjusted padding */
+  border-radius: 3px;
+  min-width: 110px;  /* Slightly wider for better text fit */
+  text-align: center;
+  margin: 0 1em 0 1em;  /* Added right margin explicitly */
+}
+
+.course-item.status-completed .course-status {
+  background: #c8e6c9;
+  color: #1b5e20;
+}
+
+.course-item.status-in-progress .course-status {
+  background: #ffe0b2;
+  color: #e65100;
+}
+
+.course-item.status-pending .course-status,
+.course-item.status-not_started .course-status {
+  background: #ffcdd2;
+  color: #b71c1c;
 }
 
 .course-status--complete {
@@ -315,4 +624,191 @@
 
 .course-status--not-started {
   color: #666;
+}
+
+.certificate-course-list h4 {
+  font-size: 1.2rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.course-code {
+  color: #666;
+  margin-right: 0.5em;
+  font-size: 0.9em;
+}
+
+.course-title {
+  font-weight: 500;
+}
+
+.user-manage-link {
+  font-size: 0.9em;  /* Split the difference between 0.85em and 1em */
+  text-decoration: none;
+  color: #ffffff;
+  background: #0074bd;
+  padding: 0.6em 1.2em;  /* Reduced padding */
+  border-radius: 4px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;  /* Split the difference between 0.5em and 0.75em */
+  min-width: 160px;  /* Slightly reduced due to smaller padding */
+  justify-content: center;
+  position: relative;  /* Ensure alert badge positions relative to this */
+}
+
+.user-manage-link:hover {
+  background: #0086d9;
+  color: #ffffff;
+  text-decoration: none;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.user-manage-link:hover {
+  background: #e8e8e8;
+  border-color: #ccc;
+  color: #333;
+  text-decoration: none;
+}
+
+/* Manage Progress */
+.manage-progress {
+  display: flex;
+  justify-content: flex-end;  /* Changed from center to flex-end */
+  margin: 2em 3em 0;  /* Increased horizontal margins */
+  padding-top: 1.5em;  /* Increased from 1em */
+  border-top: 1px solid #eee;
+  padding-right: 1em;  /* Added padding to keep button from touching edge */
+}
+
+.alert-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: #dc2626;
+  color: #ffffff;
+  border-radius: 8px;
+  font-size: 0.7em;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  border: 2px solid #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  /* Remove any display:none or opacity settings to ensure visibility */
+  visibility: visible;  /* Always show the badge */
+}
+
+/* Only hide the badge when count is actually 0 */
+.alert-badge:empty,
+.alert-badge[data-count="0"] {
+  display: none;
+}
+
+.certificate-progress-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 1rem 0;
+}
+
+.certificate-progress-actions .button {
+  font-size: 0.9rem;
+  padding: 0.4rem 1rem;
+  min-height: 0;
+  line-height: 1.4;
+}
+
+/* Course List Styling */
+.course-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1em 2.5em;  /* Increased horizontal padding from 2em to 2.5em */
+  margin-bottom: 0.75em;  /* Keep only bottom margin */
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.course-item.status-completed {
+  background: #e8f5e9;
+  border-color: #c8e6c9;
+}
+
+.course-item.status-in-progress {
+  background: #fff3e0;
+  border-color: #ffe0b2;
+}
+
+.course-item.status-pending,
+.course-item.status-not_started {
+  background: #ffebee;
+  border-color: #ffcdd2;
+}
+
+.course-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;  /* Slightly increased gap */
+  flex: 1;  /* Allow it to take up available space */
+}
+
+.course-code {
+  color: #495057;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+.course-title {
+  color: #212529;
+  font-weight: 500;
+  margin-left: 1em;  /* Added left margin */
+}
+
+.course-meta {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+}
+
+.course-credits {
+  color: #495057;
+  font-size: 0.9em;
+}
+
+.course-status {
+  font-size: 0.9em;
+  font-weight: 500;
+  padding: 0.4em 1em;  /* Adjusted padding */
+  border-radius: 3px;
+  min-width: 110px;  /* Slightly wider for better text fit */
+  text-align: center;
+  margin: 0 1em 0 1em;  /* Added right margin explicitly */
+}
+
+.course-item.status-completed .course-status {
+  background: #c8e6c9;
+  color: #1b5e20;
+}
+
+.course-item.status-in-progress .course-status {
+  background: #ffe0b2;
+  color: #e65100;
+}
+
+.course-item.status-pending .course-status,
+.course-item.status-not_started .course-status {
+  background: #ffcdd2;
+  color: #b71c1c;
 }

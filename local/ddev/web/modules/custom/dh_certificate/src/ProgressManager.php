@@ -60,7 +60,43 @@ class ProgressManager implements ProgressManagerInterface {
    * {@inheritdoc}
    */
   public function getUserProgress(AccountInterface $account) {
-    return $this->getUserProgressById($account->id());
+    if (!$account) {
+      return NULL;
+    }
+
+    $uid = $account->id();
+    $courses = $this->getUserCourses($uid);
+    
+    // Debug logging
+    \Drupal::logger('dh_certificate')->debug('Processing progress for user @uid with @count courses', [
+      '@uid' => $uid,
+      '@count' => count($courses)
+    ]);
+
+    // Calculate totals
+    $total_courses = count($courses);
+    $completed_courses = 0;
+    $total_credits = 0;
+    $completed_credits = 0;
+
+    foreach ($courses as $course) {
+      $total_credits += $course['credits'];
+      if ($course['status'] === 'completed') {
+        $completed_courses++;
+        $completed_credits += $course['credits'];
+      }
+    }
+
+    return [
+      'total_courses' => $total_courses,
+      'completed_courses' => $completed_courses,
+      'total_credits' => $total_credits,
+      'completed_credits' => $completed_credits,
+      'required_credits' => 12, // You might want to make this configurable
+      'total_percentage' => $total_courses ? round(($completed_courses / $total_courses) * 100) : 0,
+      'courses' => $courses,
+      'pending_actions' => $this->getPendingActionsCount($uid),
+    ];
   }
 
   /**
@@ -435,5 +471,65 @@ class ProgressManager implements ProgressManagerInterface {
       'total_users' => $total_users,
       'completed_courses' => $completed_courses,
     ];
+  }
+
+  /**
+   * Gets the number of pending actions for a user.
+   *
+   * @param int $uid
+   *   The user ID.
+   *
+   * @return int
+   *   The number of pending actions.
+   */
+  protected function getPendingActionsCount($uid) {
+    $database = \Drupal::database();
+    
+    return (int) $database->select('course_enrollment', 'ce')
+      ->condition('uid', $uid)
+      ->condition('status', ['pending', 'in-progress'], 'IN')
+      ->countQuery()
+      ->execute()
+      ->fetchField();
+  }
+
+  protected function getUserCourses($uid) {
+    $database = \Drupal::database();
+    
+    // Improved query to get all enrolled courses
+    $query = $database->select('course_enrollment', 'ce');
+    $query->leftJoin('node_field_data', 'n', 'ce.course_id = n.nid');
+    $query->leftJoin('node__field_credits', 'fc', 'n.nid = fc.entity_id');
+    $query->leftJoin('node__field_course_mnemonic', 'fmn', 'n.nid = fmn.entity_id');
+    
+    $query->fields('ce', ['id', 'status', 'completed_date', 'course_id'])
+          ->fields('n', ['title'])
+          ->fields('fc', ['field_credits_value'])
+          ->fields('fmn', ['field_course_mnemonic_value'])
+          ->condition('ce.uid', $uid)
+          ->condition('n.status', 1) // Only published courses
+          ->orderBy('n.title');
+
+    $results = $query->execute()->fetchAll();
+    
+    // Debug logging
+    \Drupal::logger('dh_certificate')->debug('Found @count courses for user @uid', [
+      '@count' => count($results),
+      '@uid' => $uid
+    ]);
+
+    $courses = [];
+    foreach ($results as $result) {
+      $courses[] = [
+        'id' => $result->course_id,
+        'title' => $result->title,
+        'mnemonic' => $result->field_course_mnemonic_value ?? '',
+        'credits' => (int)($result->field_credits_value ?? 0),
+        'status' => $result->status,
+        'completed_date' => $result->completed_date,
+      ];
+    }
+
+    return $courses;
   }
 }

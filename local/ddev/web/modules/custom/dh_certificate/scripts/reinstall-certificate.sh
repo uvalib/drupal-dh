@@ -72,7 +72,7 @@ if ddev drush pm:list --status=enabled --field=name | grep -q "^dh_dashboard$"; 
   echo "Dashboard module is already enabled."
 else
   echo "Enabling dashboard module..."
-  ddev drush pm:enable dh_dashboard -v -y
+  ddev drush pm:enable dh_dashboard -y
 fi
 
 # Create sample courses if requested

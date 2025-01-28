@@ -111,9 +111,11 @@ class DHCertificateController extends ControllerBase {
    */
   public function dashboardBlock() {
     $is_admin = $this->currentUser()->hasPermission('administer dh certificate');
+    $progress = $this->progressManager->getUserProgress($this->currentUser());
+
     return [
       '#theme' => 'dh_certificate_progress',
-      '#progress' => $this->progressManager->getUserProgress($this->currentUser()),
+      '#progress' => $progress,
       '#is_admin' => $is_admin,
       '#admin_url' => $is_admin ? Url::fromRoute('dh_certificate.admin_settings')->toString() : NULL,
     ];
@@ -300,6 +302,16 @@ class DHCertificateController extends ControllerBase {
    */
   public function adminRedirect() {
     return $this->redirect('dh_certificate.admin');
+  }
+
+  /**
+   * Returns the admin settings page.
+   */
+  public function adminSettings() {
+    return [
+      '#type' => 'markup',
+      '#markup' => $this->t('Admin settings page for DH Certificate.'),
+    ];
   }
 
 }

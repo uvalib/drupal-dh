@@ -1,0 +1,65 @@
+{# ...existing code... #}
+
+<div class="certificate-progress-block">
+  {% if progress %}
+    <h2>{{ 'Certificate Progress'|t }}</h2>
+    <div class="progress-bar">
+      <div class="progress-bar__fill" style="width: {{ progress.percentage }}%">
+        <span class="progress-bar__text">{{ progress.percentage }}%</span>
+      </div>
+    </div>
+    
+    <div class="progress-stats">
+      <div class="stat">
+        <span class="label">{{ 'Courses Completed'|t }}</span>
+        <span class="value">{{ progress.completed_courses }}/{{ progress.total_courses }}</span>
+      </div>
+      <div class="stat">
+        <span class="label">{{ 'Credits Earned'|t }}</span>
+        <span class="value">{{ progress.total_credits }}/{{ progress.required_credits }}</span>
+      </div>
+    </div>
+
+    {% if progress.courses %}
+      <div class="certificate-progress__courses">
+        <h4>{{ 'Completed Courses'|t }}</h4>
+        <ul>
+          {% for course in progress.courses %}
+            <li>{{ course.title }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% if is_admin and admin_url %}
+      <div class="certificate-admin-link">
+        <a href="{{ admin_url }}" class="button button--small button--primary">{{ 'Manage certificates'|t }}</a>
+      </div>
+    {% endif %}
+
+    {% if debug %}
+      <details class="debug-tree">
+        <summary>Debug Information</summary>
+        <details>
+          <summary>Progress Data</summary>
+          <pre>{{ debug.progress|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+        </details>
+        <details>
+          <summary>Course Data</summary>
+          <pre>{{ debug.courses|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+        </details>
+      </details>
+    {% endif %}
+  {% else %}
+    <p>{{ 'No progress data available.'|t }}</p>
+  {% endif %}
+</div>
+
+{% if is_admin %}
+  <div class="admin-controls">
+    <div class="button-group">
+      <a href="{{ path('dh_certificate.courses') }}" class="button">{{ 'Manage Courses'|t }}</a>
+      <a href="{{ path('dh_certificate.reset_progress') }}" class="button button--danger">{{ 'Reset Progress'|t }}</a>
+    </div>
+  </div>
+{% endif %}

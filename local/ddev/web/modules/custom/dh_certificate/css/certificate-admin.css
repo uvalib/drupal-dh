@@ -57,3 +57,114 @@
   padding: 0;
   margin: 0;
 }
+
+.status-summary {
+  margin-left: 1em;
+  font-size: 0.9em;
+  color: #666;
+}
+
+.progress-bar {
+  display: flex;
+  height: 20px; /* Increased height to accommodate labels */
+  margin-top: 5px;
+  background: #e0e0e0;
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progress-bar__completed,
+.progress-bar__in-progress,
+.progress-bar__pending {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 0.8em;
+  white-space: nowrap;
+}
+
+.progress-bar__completed {
+  background: #4caf50;
+}
+
+.progress-bar__in-progress {
+  background: #0071b8;
+}
+
+.progress-bar__pending {
+  background: #ffcc00;
+}
+
+.progress-label {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+}
+
+details {
+  margin: 0.05em 0; /* Further reduced margin */
+  padding: 0.05em; /* Further reduced padding */
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+}
+
+details summary {
+  padding: 0.05em; /* Further reduced padding */
+  background: #f5f5f5;
+  cursor: pointer;
+  font-weight: 300; /* Make the font weight lighter */
+  font-size: 0.9em; /* Reduce the font size */
+}
+
+details > div {
+  padding: 0.05em; /* Further reduced padding */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+table th, table td {
+  padding: 0.05em; /* Further reduced padding */
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table th {
+  line-height: 0; /* Set line-height to 0 */
+}
+
+.operations {
+  text-align: center;
+}
+
+.operations a {
+  display: inline-block;
+  margin: 0 0.2em;
+  color: #0071b8;
+  text-decoration: none;
+}
+
+.operations a:hover {
+  color: #0056a3;
+}
+
+.operations i {
+  font-size: 1.2em;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}

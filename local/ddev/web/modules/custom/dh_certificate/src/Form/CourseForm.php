@@ -27,6 +27,15 @@ class CourseForm extends FormBase {
       '#required' => TRUE,
     ];
 
+    $form['mnemonic'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Course Mnemonic'),
+      '#description' => $this->t('Short code for the course (e.g., DH101, ENGL200)'),
+      '#maxlength' => 10,
+      '#size' => 10,
+      '#required' => TRUE,
+    ];
+
     $form['code'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Course Code'),
@@ -62,12 +71,17 @@ class CourseForm extends FormBase {
       'type' => 'course',
       'title' => $values['title'],
       'field_course_code' => $values['code'],
+      'field_course_mnemonic' => $values['mnemonic'],
       'field_credits' => $values['credits'],
     ]);
     
     $node->save();
     
-    $this->messenger()->addStatus($this->t('Course %title has been created.', ['%title' => $values['title']]));
+    $this->messenger()->addStatus($this->t('Course %mnemonic: %title has been created.', [
+      '%mnemonic' => $values['mnemonic'],
+      '%title' => $values['title'],
+    ]));
+    
     $form_state->setRedirect('dh_certificate.courses');
   }
 }

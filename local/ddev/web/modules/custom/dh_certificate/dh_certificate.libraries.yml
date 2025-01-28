@@ -54,3 +54,12 @@ json-tree:
     - core/jquery
     - core/drupal
     - core/drupalSettings
+
+enrollment-delete:
+  version: 1.x
+  js:
+    js/enrollment-delete.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/jquery.once

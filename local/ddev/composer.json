@@ -104,6 +104,14 @@
         },
         "sort-packages": true
     },
+    "autoload": {
+        "psr-4": {
+            "Drupal\\dh_certificate\\": "web/modules/custom/dh_certificate/src/",
+            "Drupal\\": "web/core/lib/Drupal/",
+            "Drupal\\Core\\": "web/core/lib/Drupal/Core/",
+            "Drupal\\Component\\": "web/core/lib/Drupal/Component/"
+        }
+    },
     "extra": {
 	"patches": {
           "drupal/default_content": {

@@ -60,7 +60,7 @@ class CourseController extends ControllerBase {
       foreach ($courses as $course) {
         $category = $this->getFieldValue($course, 'field_course_type', 'Other');
         $build['#categories'][$category][] = [
-          'title' => $course->label(),
+          'title' => $this->formatCourseTitle($course),
           'credits' => $this->getFieldValue($course, 'field_credits', 0),
           'code' => $this->getFieldValue($course, 'field_course_code'),
           'next_offered' => $this->getFieldValue($course, 'field_term'),
@@ -92,8 +92,12 @@ class CourseController extends ControllerBase {
       'sample' => $this->getFirstCourse(),
     ];
 
-    // Use kint for debugging
-    kint($course_data);
+    // Use Drupal's debug function instead of kint
+    if ($config->get('show_debug')) {
+      \Drupal::logger('dh_certificate')->debug('<pre>@data</pre>', [
+        '@data' => print_r($course_data, TRUE),
+      ]);
+    }
 
     return [
       '#theme' => 'dh_certificate_course_listing',
@@ -106,6 +110,7 @@ class CourseController extends ControllerBase {
           'dhCertificate' => [
             'defaultView' => $config->get('default_view') ?: 'grid',
             'itemsPerPage' => (int) ($config->get('items_per_page') ?: 12),
+            'debug' => (bool) $config->get('show_debug'),
             'paths' => [
               'ajax' => Url::fromRoute('dh_certificate.courses.ajax')->setAbsolute()->toString(),
               'add' => Url::fromRoute('dh_certificate.course_add')->setAbsolute()->toString(),
@@ -289,7 +294,7 @@ class CourseController extends ControllerBase {
         
         $courses[] = [
           'id' => $node->id(),
-          'title' => $node->getTitle(),
+          'title' => $this->formatCourseTitle($node),
           'code' => $this->getFieldValue($node, 'field_course_code', ''),
           'credits' => (int) $this->getFieldValue($node, 'field_credits', 0),
           'type' => $this->getFieldValue($node, 'field_course_type', ''),
@@ -310,5 +315,35 @@ class CourseController extends ControllerBase {
     }
     
     return $courses;
+  }
+
+  protected function formatCourseTitle($node) {
+    $mnemonic = $this->getFieldValue($node, 'field_course_mnemonic');
+    $title = $node->label();
+    
+    return $mnemonic ? sprintf('%s: %s', $mnemonic, $title) : $title;
+  }
+
+  /**
+   * Gets available course options for a select list.
+   */
+  public function getCourseOptions() {
+    $query = $this->entityTypeManager()->getStorage('node')->getQuery()
+      ->condition('type', 'course')
+      ->sort('field_course_mnemonic')
+      ->sort('title')
+      ->accessCheck(TRUE);
+    
+    $nids = $query->execute();
+    $options = [];
+    
+    if ($nids) {
+      $nodes = $this->entityTypeManager()->getStorage('node')->loadMultiple($nids);
+      foreach ($nodes as $node) {
+        $options[$node->id()] = $this->formatCourseTitle($node);
+      }
+    }
+    
+    return $options;
   }
 }

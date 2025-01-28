@@ -1,21 +1,3 @@
-dh_certificate.admin_settings:
-  route_name: dh_certificate.admin_settings
-  title: 'General'
-  base_route: dh_certificate.admin_settings
-  weight: -10
-
-dh_certificate.admin_courses:
-  route_name: dh_certificate.admin_courses
-  title: 'Courses'
-  base_route: dh_certificate.admin_settings
-  weight: 0
-
-dh_certificate.admin_requirements:
-  route_name: dh_certificate.admin_requirements
-  title: 'Requirements'
-  base_route: dh_certificate.admin_settings
-  weight: 10
-
 dh_certificate.admin_tab:
   route_name: dh_certificate.admin
   title: 'Overview'
@@ -41,7 +23,7 @@ dh_certificate.requirements_tab:
   weight: 2
 
 dh_certificate.progress_tab:
-  route_name: dh_certificate.admin_progress
+  route_name: dh_certificate.progress_overview
   title: 'Progress'
   base_route: dh_certificate.admin
   weight: 3
@@ -58,3 +40,24 @@ dh_certificate.course_add_tab:
   title: 'Add Course'
   parent_id: dh_certificate.courses_tab
   weight: 1
+
+# Enrollment section tabs
+dh_certificate.enrollment_tab:
+  route_name: dh_certificate.enrollment_list
+  title: 'Enrollments'
+  base_route: dh_certificate.admin
+  weight: 4
+
+# Secondary tabs for enrollment section
+dh_certificate.enrollment_list_tab:
+  route_name: dh_certificate.enrollment_list
+  title: 'List'
+  parent_id: dh_certificate.enrollment_tab
+  weight: 0
+
+dh_certificate.enrollment_add_tab:
+  route_name: dh_certificate.enrollment_add
+  title: 'Add Enrollment'
+  parent_id: dh_certificate.enrollment_tab
+  weight: 1
+
