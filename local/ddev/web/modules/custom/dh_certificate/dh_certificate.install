@@ -124,6 +124,22 @@ function dh_certificate_schema() {
  * Implements hook_install().
  */
 function dh_certificate_install() {
+  // Ensure schema is installed first
+  $connection = \Drupal::database();
+  $schema = $connection->schema();
+  $module_schema = dh_certificate_schema();
+
+  // Create tables
+  foreach ($module_schema as $table_name => $table_definition) {
+    if (!$schema->tableExists($table_name)) {
+      $schema->createTable($table_name, $table_definition);
+      \Drupal::logger('dh_certificate')->notice('Created table: @table', ['@table' => $table_name]);
+    }
+  }
+
+  // Set schema version
+  \Drupal::keyValue('system.schema')->set('dh_certificate', 9005);
+
   // Create the admin role if it doesn't exist
   $role = Role::load('dhcert_admin');
   if (!$role) {

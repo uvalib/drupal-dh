@@ -10,7 +10,7 @@ if ddev drush pm:list --field=name | grep -q "^dh_certificate$"; then
   if ! ddev drush pm:list --status=disabled --field=name | grep -q "^dh_certificate$"; then
     # Clean up enrollments first
     echo "Cleaning up any existing enrollments..."
-    ddev drush dhc-clean-enroll
+    ddev drush dhc-clean-enroll || echo "Skipping"
 
     echo "Uninstalling certificate module..."
     ddev drush pm:uninstall dh_certificate -y
@@ -85,4 +85,8 @@ fi
 echo "Rebuilding caches..."
 ddev drush cr
 
+echo "Running update-db"
+ddev drush updb
+
+ddev drush cr
 echo "Installation complete!"
