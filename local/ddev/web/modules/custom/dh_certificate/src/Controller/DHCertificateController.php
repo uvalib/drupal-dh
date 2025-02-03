@@ -5,7 +5,6 @@ namespace Drupal\dh_certificate\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\dh_certificate\ProgressManagerInterface;
-use Drupal\Core\Url;
 
 /**
  * Controller for DH Certificate module.
@@ -24,24 +23,18 @@ class DHCertificateController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('dh_certificate.progress')
+      $container->get('dh_certificate.progress_manager')
     );
   }
 
   /**
    * Constructs a DHCertificateController object.
+   *
+   * @param \Drupal\dh_certificate\ProgressManagerInterface $progress_manager
+   *   The progress manager service.
    */
   public function __construct(ProgressManagerInterface $progress_manager) {
     $this->progressManager = $progress_manager;
-  }
-
-  /**
-   * Displays the admin overview page.
-   */
-  public function adminOverview() {
-    return [
-      '#markup' => $this->t('DH Certificate Administration'),
-    ];
   }
 
   /**
@@ -117,7 +110,7 @@ class DHCertificateController extends ControllerBase {
       '#theme' => 'dh_certificate_progress',
       '#progress' => $progress,
       '#is_admin' => $is_admin,
-      '#admin_url' => $is_admin ? Url::fromRoute('dh_certificate.admin_settings')->toString() : NULL,
+      '#admin_url' => $is_admin ? Url::fromRoute('dh_certificate.admin_settings')->toString() : null,
     ];
   }
 
@@ -125,82 +118,106 @@ class DHCertificateController extends ControllerBase {
    * Displays the overview page.
    */
   public function overview() {
-    $build = [
-      '#type' => 'container',
-      '#attributes' => [
-        'class' => ['dh-certificate-overview'],
+    // Organize routes by category
+    $route_categories = [
+      'Configuration' => [
+        [
+          'path' => '/admin/config/dh-certificate/settings',
+          'description' => $this->t('Configure global certificate settings'),
+          'permission' => 'administer dh certificate settings',
+        ],
+        [
+          'path' => '/admin/config/dh-certificate/requirements',
+          'description' => $this->t('Manage certificate requirements'),
+          'permission' => 'administer certificate requirements',
+        ],
       ],
+      'Course Management' => [
+        [
+          'path' => '/admin/config/dh-certificate/courses',
+          'description' => $this->t('Manage certificate courses'),
+          'permission' => 'administer dh certificate courses',
+        ],
+        [
+          'path' => '/admin/config/dh-certificate/courses/add',
+          'description' => $this->t('Add new courses'),
+          'permission' => 'administer certificate courses',
+        ],
+      ],
+      'Enrollment Management' => [
+        [
+          'path' => '/admin/config/dh-certificate/enrollments',
+          'description' => $this->t('View and manage user enrollments'),
+          'permission' => 'administer dh certificate',
+        ],
+        [
+          'path' => '/admin/config/dh-certificate/enrollment/add',
+          'description' => $this->t('Add new enrollment'),
+          'permission' => 'administer dh certificate',
+        ],
+      ],
+      'Progress Tracking' => [
+        [
+          'path' => '/admin/config/dh-certificate/progress',
+          'description' => $this->t('View all certificate progress'),
+          'permission' => 'administer dh certificate',
+        ],
+        [
+          'path' => '/certificate/progress',
+          'description' => $this->t('View personal progress'),
+          'permission' => 'view own certificate progress',
+        ],
+      ],
+    ];
+
+    // Main admin links
+    $admin_links = [
+      [
+        'title' => $this->t('Configure Settings'),
+        'url' => Url::fromRoute('dh_certificate.settings')->toString(),
+        'primary' => true,
+      ],
+      [
+        'title' => $this->t('Manage Courses'),
+        'url' => Url::fromRoute('dh_certificate.courses')->toString(),
+      ],
+      [
+        'title' => $this->t('Configure Requirements'),
+        'url' => Url::fromRoute('dh_certificate.requirements')->toString(),
+      ],
+      [
+        'title' => $this->t('View Progress'),
+        'url' => Url::fromRoute('dh_certificate.admin_progress')->toString(),
+      ],
+    ];
+
+    // Permission links
+    $permission_links = [
+      [
+        'title' => $this->t('Configure Permissions'),
+        'url' => Url::fromRoute(
+          'user.admin_permissions', [], [
+            'fragment' => 'module-dh_certificate',
+          ]
+        )->toString(),
+      ],
+      [
+        'title' => $this->t('Configure Roles'),
+        'url' => Url::fromRoute('entity.user_role.collection')->toString(),
+      ],
+    ];
+
+    return [
+      '#theme' => 'dh_certificate_admin_overview',
+      '#description' => $this->t('Configure Digital Humanities certificate settings, manage courses, and track student progress.'),
+      '#admin_links' => $admin_links,
+      '#route_categories' => $route_categories,
+      '#permissions_description' => $this->t('Configure who can manage certificates and view progress.'),
+      '#permission_links' => $permission_links,
       '#attached' => [
         'library' => ['dh_certificate/certificate-admin'],
       ],
     ];
-
-    $build['description'] = [
-      '#markup' => $this->t('Configure Digital Humanities certificate settings, manage courses, and track student progress.'),
-      '#prefix' => '<p>',
-      '#suffix' => '</p>',
-    ];
-
-    $build['admin_links'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Administrative Pages'),
-      '#open' => TRUE,
-      'links' => [
-        '#theme' => 'links',
-        '#links' => [
-          'settings' => [
-            'title' => $this->t('Configure Settings'),
-            'url' => Url::fromRoute('dh_certificate.settings'),
-            'attributes' => ['class' => ['button']],
-          ],
-          'courses' => [
-            'title' => $this->t('Manage Courses'),
-            'url' => Url::fromRoute('dh_certificate.courses'),
-            'attributes' => ['class' => ['button']],
-          ],
-          'requirements' => [
-            'title' => $this->t('Configure Requirements'),
-            'url' => Url::fromRoute('dh_certificate.requirements'),
-            'attributes' => ['class' => ['button']],
-          ],
-          'progress' => [
-            'title' => $this->t('View Progress'),
-            'url' => Url::fromRoute('dh_certificate.admin_progress'),
-            'attributes' => ['class' => ['button']],
-          ],
-        ],
-      ],
-    ];
-
-    $build['permissions'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Permissions'),
-      '#open' => TRUE,
-      'description' => [
-        '#markup' => $this->t('Configure who can manage certificates and view progress.'),
-        '#prefix' => '<p>',
-        '#suffix' => '</p>',
-      ],
-      'links' => [
-        '#theme' => 'links',
-        '#links' => [
-          'permissions' => [
-            'title' => $this->t('Configure Permissions'),
-            'url' => Url::fromRoute('user.admin_permissions', [], [
-              'fragment' => 'module-dh_certificate',
-            ]),
-            'attributes' => ['class' => ['button']],
-          ],
-          'roles' => [
-            'title' => $this->t('Configure Roles'),
-            'url' => Url::fromRoute('entity.user_role.collection'),
-            'attributes' => ['class' => ['button']],
-          ],
-        ],
-      ],
-    ];
-
-    return $build;
   }
 
   /**
@@ -243,12 +260,16 @@ class DHCertificateController extends ControllerBase {
   public function adminCourseList() {
     $courses = $this->progressManager->getAllCourseProgress();
     $categories = [
-      'Required' => array_filter($courses, function($course) {
-        return !empty($course['meets_requirement']);
-      }),
-      'Electives' => array_filter($courses, function($course) {
-        return empty($course['meets_requirement']);
-      }),
+      'Required' => array_filter(
+        $courses, function ($course) {
+          return !empty($course['meets_requirement']);
+        }
+      ),
+      'Electives' => array_filter(
+        $courses, function ($course) {
+          return empty($course['meets_requirement']);
+        }
+      ),
     ];
 
     return [
@@ -260,7 +281,7 @@ class DHCertificateController extends ControllerBase {
       '#paths' => [
         'add' => Url::fromRoute('node.add', ['node_type' => 'course'])->toString(),
       ],
-      '#show_debug' => TRUE,
+      '#show_debug' => true,
       '#course_data' => ['courses' => $courses],
       '#attached' => [
         'library' => ['dh_certificate/course-listing'],
@@ -314,4 +335,57 @@ class DHCertificateController extends ControllerBase {
     ];
   }
 
+  /**
+   * Displays the requirements overview page.
+   *
+   * @return array
+   *   A render array for the requirements overview page.
+   */
+  public function requirementsOverview() {
+    $requirements = [
+      'core_courses' => $this->progressManager->getCoreCourses(),
+      'elective_credits' => $this->progressManager->getRequiredElectiveCredits(),
+      'due_date' => $this->progressManager->getCompletionDeadline(),
+    ];
+
+    return [
+      '#theme' => 'dh_certificate_requirements',
+      '#title' => $this->t('Certificate Requirements'),
+      '#requirements' => $requirements,
+      '#attached' => [
+        'library' => ['dh_certificate/certificate-admin'],
+      ],
+      '#cache' => [
+        'tags' => ['config:dh_certificate.settings'],
+        'contexts' => ['user.permissions'],
+      ],
+    ];
+  }
+
+  /**
+   * Displays the admin overview page.
+   */
+  public function adminOverview() {
+    $stats = [
+      'total_students' => $this->progressManager->getTotalStudents(),
+      'active_courses' => $this->progressManager->getActiveCourses(),
+      'progress_summary' => [
+        'completed_courses' => $this->progressManager->getCompletedCoursesCount(),
+      ],
+    ];
+
+    return [
+      '#theme' => 'dh_certificate_admin_overview',
+      '#title' => $this->t('Digital Humanities Certificate Administration'),
+      '#stats' => $stats,
+      '#attached' => [
+        'library' => ['dh_certificate/certificate-admin'],
+      ],
+      '#cache' => [
+        'contexts' => ['user.permissions'],
+        'tags' => ['dh_certificate:progress', 'node_list:course'],
+        'max-age' => 300,
+      ],
+    ];
+  }
 }

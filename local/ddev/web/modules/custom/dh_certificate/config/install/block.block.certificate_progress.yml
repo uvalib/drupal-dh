@@ -1,0 +1,23 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - dh_certificate
+  theme:
+    - olivero
+id: certificate_progress
+theme: olivero
+region: sidebar_first
+weight: 0
+provider: dh_certificate
+plugin: certificate_progress_block
+settings:
+  id: certificate_progress_block
+  label: 'Certificate Progress'
+  label_display: visible
+  provider: dh_certificate
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '/certificate/*'

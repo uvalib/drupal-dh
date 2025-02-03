@@ -126,6 +126,23 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
       'render element' => 'form',
       'template' => 'dh-certificate-enrollment-delete-form',
     ],
+    'dh_certificate_monitor_overview' => [
+      'variables' => [
+        'monitors' => [],
+      ],
+    ],
+    'dh_certificate_monitor_detail' => [
+      'variables' => [
+        'monitor_id' => NULL,
+        'changes' => [],
+        'last_checked' => NULL,
+      ],
+    ],
+    'dh_certificate_structure_monitor' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+    ],
   ];
 }
 

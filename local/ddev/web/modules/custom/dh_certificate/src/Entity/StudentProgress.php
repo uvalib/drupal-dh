@@ -12,7 +12,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
  *   label = @Translation("Student Progress"),
  *   handlers = {
  *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\dh_certificate\StudentProgressListBuilder",
+ *     "list_builder" = "Drupal\dh_certificate\ListBuilder\StudentProgressListBuilder",
  *     "form" = {
  *       "default" = "Drupal\dh_certificate\Form\StudentProgressForm",
  *       "delete" = "Drupal\dh_certificate\Form\StudentProgressDeleteForm"

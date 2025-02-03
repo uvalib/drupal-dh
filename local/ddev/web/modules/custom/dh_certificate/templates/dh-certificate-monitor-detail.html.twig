@@ -1,0 +1,32 @@
+{{ attach_library('dh_certificate/structure-monitor') }}
+
+<div class="structure-monitor-detail">
+  <h2>{{ monitor_id|capitalize ~ ' Monitor'|t }}</h2>
+  
+  <div class="monitor-metadata">
+    <div class="last-check">{{ 'Last checked:'|t }} {{ last_checked|date('Y-m-d H:i:s') }}</div>
+    <div class="change-count">{{ 'Changes detected:'|t }} {{ changes|length }}</div>
+  </div>
+
+  {% if changes %}
+    <div class="changes-list">
+      {% for change in changes %}
+        <div class="change-item">
+          <div class="change-type {{ change.type|lower }}">{{ change.type }}</div>
+          <div class="change-details">
+            <div class="entity-info">{{ change.entity_type }}: {{ change.entity_id }}</div>
+            <div class="change-description">{{ change.description }}</div>
+            <div class="change-timestamp">{{ change.timestamp|date('Y-m-d H:i:s') }}</div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="no-changes">{{ 'No changes detected.'|t }}</p>
+  {% endif %}
+
+  <div class="monitor-actions">
+    <a href="{{ path('dh_certificate.monitor_overview') }}" class="button">{{ 'Back to Overview'|t }}</a>
+    <a href="{{ path('dh_certificate.monitor_reset', {'monitor_id': monitor_id}) }}" class="button button--secondary">{{ 'Reset Monitor'|t }}</a>
+  </div>
+</div>

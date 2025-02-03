@@ -1,0 +1,55 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - dh_certificate
+    - node
+id: certificate_courses
+label: 'Certificate Courses'
+module: views
+description: 'Lists courses available for the certificate program'
+tag: 'dh_certificate'
+base_table: node_field_data
+base_field: nid
+display:
+  default:
+    display_plugin: default
+    id: default
+    display_title: Default
+    position: 0
+    display_options:
+      access:
+        type: perm
+        options:
+          perm: 'access content'
+      filters:
+        type:
+          id: type
+          table: node_field_data
+          field: type
+          value:
+            course: course
+      sorts:
+        created:
+          id: created
+          table: node_field_data
+          field: created
+          order: DESC
+      fields:
+        title:
+          id: title
+          table: node_field_data
+          field: title
+        field_course_mnemonic:
+          id: field_course_mnemonic
+          table: node__field_course_mnemonic
+          field: field_course_mnemonic
+        field_credits:
+          id: field_credits
+          table: node__field_credits
+          field: field_credits
+      pager:
+        type: mini
+        options:
+          items_per_page: 10
+          offset: 0

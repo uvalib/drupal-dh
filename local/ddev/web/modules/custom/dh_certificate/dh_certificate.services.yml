@@ -5,6 +5,7 @@ services:
       - '@entity_type.manager'
       - '@state'
       - '@dh_certificate.requirement_type_manager'
+      - '@database'
   dh_certificate.progress_manager:
     alias: dh_certificate.progress
   dh_certificate.commands:
@@ -29,3 +30,34 @@ services:
     class: 'Drupal\dh_certificate\TwigExtension\JsonTreeExtension'
     tags:
       - { name: twig.extension }
+
+  # Single monitor for runtime checks
+  dh_certificate.course_structure_monitor:
+    class: Drupal\dh_certificate\StructureMonitor\CourseStructureMonitor
+    arguments: ['@entity_type.manager', '@logger.factory', '@state']
+    tags:
+      - { name: dh_certificate.structure_monitor }
+
+  dh_certificate.profile_structure_monitor:
+    class: Drupal\dh_certificate\StructureMonitor\ProfileStructureMonitor
+    arguments: ['@entity_type.manager', '@logger.factory', '@state']
+    tags:
+      - { name: dh_certificate.structure_monitor }
+
+  dh_certificate.taxonomy_structure_monitor:
+    class: Drupal\dh_certificate\StructureMonitor\TaxonomyStructureMonitor
+    arguments: ['@entity_type.manager', '@logger.factory', '@state']
+    tags:
+      - { name: dh_certificate.structure_monitor }
+
+  dh_certificate.student_progress_list_builder:
+    class: Drupal\dh_certificate\ListBuilder\StudentProgressListBuilder
+    arguments: ['@entity_type.manager', '@dh_certificate.progress']
+    tags:
+      - { name: entity_list_builder }
+      
+  dh_certificate.requirement_set_list_builder:
+    class: Drupal\dh_certificate\ListBuilder\RequirementSetListBuilder
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: entity_list_builder }

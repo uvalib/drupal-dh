@@ -5,13 +5,13 @@ namespace Drupal\dh_certificate\Entity;
 use Drupal\Core\Config\Entity\ConfigEntityBase;
 
 /**
- * Defines the Requirement Set configuration entity.
+ * Defines the Requirement Set entity.
  *
  * @ConfigEntityType(
  *   id = "requirement_set",
  *   label = @Translation("Requirement Set"),
  *   handlers = {
- *     "list_builder" = "Drupal\dh_certificate\RequirementSetListBuilder",
+ *     "list_builder" = "Drupal\dh_certificate\ListBuilder\RequirementSetListBuilder",
  *     "form" = {
  *       "add" = "Drupal\dh_certificate\Form\RequirementSetForm",
  *       "edit" = "Drupal\dh_certificate\Form\RequirementSetForm",
@@ -23,22 +23,93 @@ use Drupal\Core\Config\Entity\ConfigEntityBase;
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "label",
+ *     "status" = "status",
  *     "uuid" = "uuid"
  *   },
  *   config_export = {
  *     "id",
  *     "label",
  *     "requirements",
- *     "workflows"
+ *     "status"
  *   },
  *   links = {
  *     "collection" = "/admin/config/dh_certificate/requirement-sets",
  *     "add-form" = "/admin/config/dh_certificate/requirement-sets/add",
- *     "edit-form" = "/admin/config/dh_certificate/requirement-sets/{requirement_set}/edit",
- *     "delete-form" = "/admin/config/dh_certificate/requirement-sets/{requirement_set}/delete"
+ *     "edit-form" = "/admin/config/dh_certificate/requirement-sets/{requirement_set}",
+ *     "delete-form" = "/admin/config/dh_certificate/requirement-sets/{requirement_set}/delete",
+ *     "enable" = "/admin/config/dh_certificate/requirement-sets/{requirement_set}/enable",
+ *     "disable" = "/admin/config/dh_certificate/requirement-sets/{requirement_set}/disable"
  *   }
  * )
  */
 class RequirementSet extends ConfigEntityBase {
-  // ...existing code...
+
+  /**
+   * The RequirementSet ID.
+   *
+   * @var string
+   */
+  protected $id;
+
+  /**
+   * The RequirementSet label.
+   *
+   * @var string
+   */
+  protected $label;
+
+  /**
+   * The requirements configuration.
+   *
+   * @var array
+   */
+  protected $requirements = [];
+
+  /**
+   * Whether the requirement set is enabled.
+   *
+   * @var bool
+   */
+  protected $status = TRUE;
+
+  /**
+   * Gets the requirements.
+   *
+   * @return array
+   *   The requirements configuration.
+   */
+  public function getRequirements() {
+    return $this->requirements;
+  }
+
+  /**
+   * Sets the requirements.
+   *
+   * @param array $requirements
+   *   The requirements configuration.
+   *
+   * @return $this
+   */
+  public function setRequirements(array $requirements) {
+    $this->requirements = $requirements;
+    return $this;
+  }
+
+  /**
+   * Adds a requirement.
+   *
+   * @param string $type
+   *   The requirement type.
+   * @param array $config
+   *   The requirement configuration.
+   *
+   * @return $this
+   */
+  public function addRequirement($type, array $config) {
+    if (!isset($this->requirements[$type])) {
+      $this->requirements[$type] = [];
+    }
+    $this->requirements[$type][] = $config;
+    return $this;
+  }
 }

@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {}
+id: dhcert_admin
+label: 'DH Certificate Admin'
+weight: 3
+permissions:
+  - 'administer dh certificate'

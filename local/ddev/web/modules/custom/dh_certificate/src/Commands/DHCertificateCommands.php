@@ -149,7 +149,9 @@ class DHCertificateCommands extends DrushCommands {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('database'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('dh_certificate.progress_manager'),
+      $container->get('plugin.manager.requirement_type')
     );
   }
 
@@ -746,6 +748,126 @@ class DHCertificateCommands extends DrushCommands {
         $course->label(),
         $enrollment->status
       ));
+    }
+  }
+
+  /**
+   * Generate example requirement sets.
+   *
+   * @command dh-certificate:generate-requirements
+   * @aliases dhc-gen-req
+   * @option reset Delete existing requirement sets before generating new ones
+   */
+  public function generateRequirementSets(array $options = ['reset' => FALSE]) {
+    if ($options['reset']) {
+      $storage = $this->entityTypeManager->getStorage('requirement_set');
+      $ids = $storage->getQuery()
+        ->accessCheck(FALSE)
+        ->execute();
+      if (!empty($ids)) {
+        $storage->delete($storage->loadMultiple($ids));
+        $this->output()->writeln('Deleted existing requirement sets.');
+      }
+    }
+
+    // Create example requirement sets
+    $sets = [
+      'certificate_standard' => [
+        'label' => 'Digital Humanities Certificate',
+        'requirements' => [
+          'core_courses' => [
+            'type' => 'course',
+            'label' => 'Core Courses',
+            'required' => TRUE,
+            'config' => [
+              'minimum_credits' => 15,
+              'course_type' => 'core'
+            ]
+          ],
+          'elective_courses' => [
+            'type' => 'course',
+            'label' => 'Elective Courses',
+            'required' => TRUE,
+            'config' => [
+              'minimum_credits' => 6,
+              'course_type' => 'elective'
+            ]
+          ],
+          'tool_proficiency' => [
+            'type' => 'task',
+            'label' => 'Tool Proficiency',
+            'required' => TRUE,
+            'config' => [
+              'tools' => [
+                'git' => 'Git Version Control',
+                'python' => 'Python Programming',
+                'r' => 'R Statistical Computing'
+              ]
+            ]
+          ],
+          'capstone_project' => [
+            'type' => 'project',
+            'label' => 'Capstone Project',
+            'required' => TRUE,
+            'config' => [
+              'milestones' => [
+                'proposal' => 'Project Proposal',
+                'implementation' => 'Project Implementation',
+                'presentation' => 'Final Presentation'
+              ]
+            ]
+          ]
+        ]
+      ],
+      'advanced_certificate' => [
+        'label' => 'Advanced DH Certificate',
+        'requirements' => [
+          'core_courses' => [
+            'type' => 'course',
+            'label' => 'Advanced Core Courses',
+            'required' => TRUE,
+            'config' => [
+              'minimum_credits' => 18,
+              'course_type' => 'advanced_core'
+            ]
+          ],
+          'research_project' => [
+            'type' => 'project',
+            'label' => 'Research Project',
+            'required' => TRUE,
+            'config' => [
+              'milestones' => [
+                'proposal' => 'Research Proposal',
+                'methodology' => 'Methods Development',
+                'implementation' => 'Project Implementation',
+                'paper' => 'Research Paper',
+                'defense' => 'Project Defense'
+              ]
+            ]
+          ]
+        ]
+      ]
+    ];
+
+    foreach ($sets as $id => $data) {
+      try {
+        $requirement_set = $this->entityTypeManager->getStorage('requirement_set')->create([
+          'id' => $id,
+          'label' => $data['label'],
+          'requirements' => $data['requirements'],
+          'status' => TRUE
+        ]);
+        $requirement_set->save();
+        
+        $this->output()->writeln(sprintf(
+          'Created requirement set: %s [%s]',
+          $data['label'],
+          $id
+        ));
+      }
+      catch (\Exception $e) {
+        $this->logger()->error($e->getMessage());
+      }
     }
   }
 

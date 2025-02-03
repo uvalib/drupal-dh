@@ -9,6 +9,7 @@ use Drupal\Core\State\StateInterface;
 use Drupal\user\UserInterface;
 use Drupal\dh_certificate\Entity\CourseInterface;
 use Drupal\dh_certificate\RequirementType\RequirementTypeManagerInterface;
+use Drupal\Core\Database\Connection;
 
 /**
  * Service for managing certificate progress.
@@ -37,6 +38,13 @@ class ProgressManager implements ProgressManagerInterface {
   protected $requirementTypeManager;
 
   /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
+
+  /**
    * Constructs a ProgressManager object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -45,15 +53,19 @@ class ProgressManager implements ProgressManagerInterface {
    *   The state service.
    * @param \Drupal\dh_certificate\RequirementType\RequirementTypeManagerInterface $requirement_type_manager
    *   The requirement type manager.
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
     StateInterface $state,
-    RequirementTypeManagerInterface $requirement_type_manager
+    RequirementTypeManagerInterface $requirement_type_manager,
+    Connection $database
   ) {
     $this->entityTypeManager = $entity_type_manager;
     $this->state = $state;
     $this->requirementTypeManager = $requirement_type_manager;
+    $this->database = $database;
   }
 
   /**
@@ -372,43 +384,27 @@ class ProgressManager implements ProgressManagerInterface {
    *   Array of progress data for all users.
    */
   public function getAllProgress() {
-    $database = \Drupal::database();
-    $progress = [];
-    
-    // Get all enrollments with user and course data
-    $query = $database->select('course_enrollment', 'ce');
-    $query->join('users_field_data', 'u', 'ce.uid = u.uid');
-    $query->join('node_field_data', 'n', 'ce.course_id = n.nid');
-    $query->fields('ce', ['uid', 'status', 'completed_date'])
-          ->fields('u', ['name'])
-          ->fields('n', ['title', 'nid']);
-    
-    $results = $query->execute()->fetchAll();
-    
-    // Group by user
-    foreach ($results as $record) {
-      if (!isset($progress[$record->uid])) {
-        $progress[$record->uid] = [
-          'user' => $record->name,
-          'courses' => [],
-          'completed_courses' => 0,
-          'total_courses' => 0,
-        ];
+    try {
+      // Verify table exists first
+      if (!$this->database->schema()->tableExists('course_enrollment')) {
+        throw new \Exception('Course enrollment table does not exist');
       }
-      
-      $progress[$record->uid]['courses'][] = [
-        'title' => $record->title,
-        'status' => $record->status,
-        'completed_date' => $record->completed_date,
-      ];
-      
-      if ($record->status === 'completed') {
-        $progress[$record->uid]['completed_courses']++;
-      }
-      $progress[$record->uid]['total_courses']++;
+
+      $query = $this->database->select('course_enrollment', 'ce');
+      $query->join('users_field_data', 'u', 'ce.uid = u.uid');
+      $query->join('node_field_data', 'n', 'ce.course_id = n.nid');
+      $query->fields('ce', ['uid', 'status', 'completed_date'])
+            ->fields('u', ['name'])
+            ->fields('n', ['title', 'nid']);
+
+      return $query->execute()->fetchAll();
     }
-    
-    return $progress;
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->error('Failed to get all progress: @error', [
+        '@error' => $e->getMessage(),
+      ]);
+      return [];
+    }
   }
 
   /**
@@ -531,5 +527,177 @@ class ProgressManager implements ProgressManagerInterface {
     }
 
     return $courses;
+  }
+
+  /**
+   * Returns the total number of students enrolled in certificate courses.
+   */
+  public function getTotalStudents() {
+    try {
+      $count = $this->database->select('course_enrollment', 'e')  // Changed from dh_certificate_enrollments
+        ->fields('e', ['uid'])
+        ->distinct()
+        ->countQuery()
+        ->execute()
+        ->fetchField();
+      
+      return (int) $count;
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->error('Failed to count students: @error', [
+        '@error' => $e->getMessage(),
+      ]);
+      return 0;
+    }
+  }
+
+  /**
+   * Returns the number of currently active courses.
+   */
+  public function getActiveCourses() {
+    try {
+      return (int) $this->database->select('node_field_data', 'n')
+        ->condition('n.type', 'course')
+        ->condition('n.status', 1)
+        ->countQuery()
+        ->execute()
+        ->fetchField() ?: 0;
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->error('Failed to count active courses: @error', [
+        '@error' => $e->getMessage(),
+      ]);
+      return 0;
+    }
+  }
+
+  /**
+   * Returns the total number of completed courses across all students.
+   */
+  public function getCompletedCoursesCount() {
+    try {
+      return (int) $this->database->select('dh_certificate_enrollments', 'e')
+        ->condition('e.status', 'completed')
+        ->countQuery()
+        ->execute()
+        ->fetchField() ?: 0;
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->error('Failed to count completed courses: @error', [
+        '@error' => $e->getMessage(),
+      ]);
+      return 0;
+    }
+  }
+
+  /**
+   * Gets the core courses required for the certificate.
+   *
+   * @return array
+   *   Array of core course data.
+   */
+  public function getCoreCourses() {
+    try {
+      // Check if field_course_type exists
+      $field_definitions = \Drupal::service('entity_field.manager')
+        ->getFieldDefinitions('node', 'course');
+      
+      $query = $this->entityTypeManager->getStorage('node')->getQuery()
+        ->condition('type', 'course')
+        ->condition('status', 1)
+        ->accessCheck(TRUE);
+
+      // Use appropriate field based on what's available
+      if (isset($field_definitions['field_course_type'])) {
+        $query->condition('field_course_type', 'core');
+      }
+      elseif (isset($field_definitions['field_course_meets_requirement'])) {
+        $query->condition('field_course_meets_requirement', 'core');
+      }
+      elseif (isset($field_definitions['field_required_course'])) {
+        $query->condition('field_required_course', 1);
+      }
+      else {
+        // Log warning about missing fields
+        \Drupal::logger('dh_certificate')->warning('No core course identification fields found');
+        // Fall back to configuration
+        $config = \Drupal::config('dh_certificate.requirements');
+        return $config->get('core_courses') ?? [];
+      }
+      
+      if (isset($field_definitions['field_course_mnemonic'])) {
+        $query->sort('field_course_mnemonic', 'ASC');
+      }
+      else {
+        $query->sort('title', 'ASC');
+      }
+      
+      $nids = $query->execute();
+      if (empty($nids)) {
+        return [];
+      }
+
+      $courses = $this->entityTypeManager->getStorage('node')->loadMultiple($nids);
+      $core_courses = [];
+
+      foreach ($courses as $course) {
+        $core_courses[$course->id()] = [
+          'id' => $course->id(),
+          'title' => $course->label(),
+          'mnemonic' => $this->getFieldValue($course, 'field_course_mnemonic'),
+          'credits' => (int)$this->getFieldValue($course, 'field_credits', 0),
+          'description' => $this->getFieldValue($course, 'field_short_text_description'),
+        ];
+      }
+
+      return $core_courses;
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->error('Error getting core courses: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+      return [];
+    }
+  }
+
+  /**
+   * Helper function to safely get field values.
+   *
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity to get the field value from.
+   * @param string $field_name
+   *   The name of the field.
+   * @param mixed $default
+   *   The default value to return if the field doesn't exist or is empty.
+   *
+   * @return mixed
+   *   The field value or default.
+   */
+  protected function getFieldValue($entity, $field_name, $default = '') {
+    if ($entity->hasField($field_name) && !$entity->get($field_name)->isEmpty()) {
+      return $entity->get($field_name)->value;
+    }
+    return $default;
+  }
+
+  /**
+   * Gets the required amount of elective credits.
+   *
+   * @return int
+   *   The number of required elective credits.
+   */
+  public function getRequiredElectiveCredits() {
+    return (int)$this->state->get('dh_certificate.elective_credits', 12);
+  }
+
+  /**
+   * Gets the certificate completion deadline.
+   *
+   * @return string|null
+   *   The formatted completion deadline or null if not set.
+   */
+  public function getCompletionDeadline() {
+    $deadline = $this->state->get('dh_certificate.completion_deadline');
+    return $deadline ? date('Y-m-d', $deadline) : NULL;
   }
 }
