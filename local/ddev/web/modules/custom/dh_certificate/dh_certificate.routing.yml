@@ -234,6 +234,30 @@ dh_certificate.structure_monitor:
   requirements:
     _permission: 'administer dh certificate'
 
+dh_certificate.requirement_types:
+  path: '/admin/config/dh-certificate/requirement-types'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\RequirementTypeController::overview'
+    _title: 'Requirement Types'
+  requirements:
+    _permission: 'administer certificate requirements'
+
+dh_certificate.requirement_type_add:
+  path: '/admin/config/dh-certificate/requirement-types/add'
+  defaults:
+    _form: '\Drupal\dh_certificate\Form\RequirementTypeForm'
+    _title: 'Add requirement type'
+  requirements:
+    _permission: 'administer certificate requirements'
+
+dh_certificate.requirement_type_edit:
+  path: '/admin/config/dh-certificate/requirement-types/{requirement_type}/edit'
+  defaults:
+    _form: '\Drupal\dh_certificate\Form\RequirementTypeForm'
+    _title: 'Edit requirement type'
+  requirements:
+    _permission: 'administer certificate requirements'
+
 entity.requirement_set.collection:
   path: '/admin/config/dh-certificate/requirement-sets'
   defaults:

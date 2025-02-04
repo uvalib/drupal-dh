@@ -871,4 +871,123 @@ class DHCertificateCommands extends DrushCommands {
     }
   }
 
+  /**
+   * Generate standard certificate requirements.
+   *
+   * @command dh-certificate:generate-standard-requirements
+   * @aliases dhc-gen-std-req
+   * @option reset Delete existing requirements before generating new ones
+   */
+  public function generateStandardRequirements(array $options = ['reset' => FALSE]) {
+    if ($options['reset']) {
+      $this->output()->writeln('Removing existing requirements...');
+      // Clear existing requirements
+      $storage = $this->entityTypeManager->getStorage('requirement_set');
+      $ids = $storage->getQuery()->accessCheck(FALSE)->execute();
+      if (!empty($ids)) {
+        $storage->delete($storage->loadMultiple($ids));
+      }
+    }
+
+    $requirements = [
+      'core_requirements' => [
+        'label' => 'Core DH Requirements',
+        'requirements' => [
+          'methods_course' => [
+            'type' => 'course',
+            'label' => 'DH Methods Course',
+            'required' => TRUE,
+            'config' => [
+              'course_type' => 'methods',
+              'credits' => 3
+            ]
+          ],
+          'core_courses' => [
+            'type' => 'course',
+            'label' => 'Core DH Courses',
+            'required' => TRUE,
+            'config' => [
+              'minimum_credits' => 9,
+              'course_type' => 'core'
+            ]
+          ]
+        ]
+      ],
+      'technical_requirements' => [
+        'label' => 'Technical Requirements',
+        'requirements' => [
+          'programming' => [
+            'type' => 'tool',
+            'label' => 'Programming Skills',
+            'required' => TRUE,
+            'config' => [
+              'skills' => [
+                'python' => 'Python Programming',
+                'r' => 'R Statistical Computing',
+                'javascript' => 'JavaScript Basics'
+              ],
+              'minimum_proficiency' => 2
+            ]
+          ],
+          'version_control' => [
+            'type' => 'tool',
+            'label' => 'Version Control',
+            'required' => TRUE,
+            'config' => [
+              'tools' => ['git'],
+              'minimum_proficiency' => 1
+            ]
+          ]
+        ]
+      ],
+      'project_requirements' => [
+        'label' => 'Project Requirements',
+        'requirements' => [
+          'capstone' => [
+            'type' => 'project',
+            'label' => 'Capstone Project',
+            'required' => TRUE,
+            'config' => [
+              'milestones' => [
+                'proposal' => [
+                  'label' => 'Project Proposal',
+                  'deadline' => '+2 months'
+                ],
+                'progress' => [
+                  'label' => 'Progress Report',
+                  'deadline' => '+4 months'
+                ],
+                'final' => [
+                  'label' => 'Final Presentation',
+                  'deadline' => '+6 months'
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ];
+
+    foreach ($requirements as $id => $data) {
+      try {
+        $requirement_set = $this->entityTypeManager->getStorage('requirement_set')->create([
+          'id' => $id,
+          'label' => $data['label'],
+          'requirements' => $data['requirements'],
+          'status' => TRUE
+        ]);
+        $requirement_set->save();
+        
+        $this->output()->writeln(sprintf(
+          'Created requirement set: %s [%s]',
+          $data['label'],
+          $id
+        ));
+      }
+      catch (\Exception $e) {
+        $this->logger()->error($e->getMessage());
+      }
+    }
+  }
+
 }

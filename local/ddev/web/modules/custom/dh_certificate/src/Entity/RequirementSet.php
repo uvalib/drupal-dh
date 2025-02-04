@@ -112,4 +112,36 @@ class RequirementSet extends ConfigEntityBase {
     $this->requirements[$type][] = $config;
     return $this;
   }
+
+  /**
+   * Validates requirements configuration.
+   *
+   * @param array $requirements
+   *   The requirements configuration to validate.
+   *
+   * @return array
+   *   Array of validation errors, empty if valid.
+   */
+  public function validateRequirements(array $requirements) {
+    $errors = [];
+    
+    foreach ($requirements as $type => $config) {
+      try {
+        if (!$this->requirementTypeManager->hasDefinition($type)) {
+          $errors[] = $this->t('Unknown requirement type: @type', ['@type' => $type]);
+          continue;
+        }
+
+        $requirement = $this->requirementTypeManager->getRequirementType($type);
+        if (!$requirement->validateConfiguration($config)) {
+          $errors[] = $this->t('Invalid configuration for requirement type: @type', ['@type' => $type]);
+        }
+      }
+      catch (\Exception $e) {
+        $errors[] = $e->getMessage();
+      }
+    }
+    
+    return $errors;
+  }
 }

@@ -11,14 +11,14 @@ class RequirementSetForm extends EntityForm {
 
   protected $requirementTypeManager;
 
+  public function __construct(RequirementTypeManagerInterface $requirement_type_manager) {
+    $this->requirementTypeManager = $requirement_type_manager;
+  }
+
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('dh_certificate.requirement_type_manager')
     );
-  }
-
-  public function __construct(RequirementTypeManagerInterface $requirement_type_manager) {
-    $this->requirementTypeManager = $requirement_type_manager;
   }
 
   public function form(array $form, FormStateInterface $form_state) {
@@ -48,12 +48,17 @@ class RequirementSetForm extends EntityForm {
       '#default_value' => $requirement_set->status(),
     ];
 
+    // Add requirements fieldset
     $form['requirements'] = [
       '#type' => 'vertical_tabs',
       '#title' => $this->t('Requirements'),
     ];
 
-    foreach ($this->requirementTypeManager->getDefinitions() as $type_id => $definition) {
+    // Get available requirement types from plugin manager
+    $requirement_types = $this->requirementTypeManager->getDefinitions();
+    $existing_requirements = $requirement_set->getRequirements();
+
+    foreach ($requirement_types as $type_id => $definition) {
       $form["requirement_$type_id"] = [
         '#type' => 'details',
         '#title' => $definition['label'],
@@ -61,12 +66,12 @@ class RequirementSetForm extends EntityForm {
         '#tree' => TRUE,
       ];
 
-      $existing_requirements = $requirement_set->getRequirements()[$type_id] ?? [];
+      $existing_config = $existing_requirements[$type_id] ?? [];
 
       $form["requirement_$type_id"]['enabled'] = [
         '#type' => 'checkbox',
         '#title' => $this->t('Enable @type requirements', ['@type' => $definition['label']]),
-        '#default_value' => !empty($existing_requirements),
+        '#default_value' => !empty($existing_config),
       ];
 
       $form["requirement_$type_id"]['config'] = [
@@ -79,32 +84,124 @@ class RequirementSetForm extends EntityForm {
       ];
 
       // Add type-specific configuration fields
+      $config_form = &$form["requirement_$type_id"]['config'];
+      
       switch ($type_id) {
         case 'course':
-          $form["requirement_$type_id"]['config']['min_credits'] = [
-            '#type' => 'number',
-            '#title' => $this->t('Minimum credits required'),
-            '#default_value' => $existing_requirements['min_credits'] ?? 0,
-            '#min' => 0,
-          ];
+          $this->buildCourseRequirementForm($config_form, $existing_config);
+          break;
+        
+        case 'tool':
+          $this->buildToolRequirementForm($config_form, $existing_config);
           break;
 
-        case 'tool':
-          $form["requirement_$type_id"]['config']['tools'] = [
-            '#type' => 'checkboxes',
-            '#title' => $this->t('Required tools'),
-            '#options' => [
-              'git' => 'Git',
-              'python' => 'Python',
-              'r' => 'R',
-            ],
-            '#default_value' => $existing_requirements['tools'] ?? [],
-          ];
+        case 'project':
+          $this->buildProjectRequirementForm($config_form, $existing_config);
           break;
       }
     }
 
     return $form;
+  }
+
+  protected function buildCourseRequirementForm(array &$form, array $existing_config) {
+    $form['minimum_credits'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Minimum credits required'),
+      '#default_value' => $existing_config['minimum_credits'] ?? 0,
+      '#min' => 0,
+      '#required' => TRUE,
+    ];
+
+    $form['course_types'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Allowed course types'),
+      '#options' => [
+        'core' => $this->t('Core'),
+        'methods' => $this->t('Methods'),
+        'elective' => $this->t('Elective'),
+      ],
+      '#default_value' => $existing_config['course_types'] ?? ['core'],
+      '#required' => TRUE,
+    ];
+  }
+
+  protected function buildToolRequirementForm(array &$form, array $existing_config) {
+    $form['tools'] = [
+      '#type' => 'checkboxes',
+      '#title' => $this->t('Required tools'),
+      '#options' => [
+        'git' => 'Git',
+        'python' => 'Python',
+        'r' => 'R',
+        'javascript' => 'JavaScript',
+      ],
+      '#default_value' => $existing_config['tools'] ?? [],
+    ];
+
+    $form['minimum_proficiency'] = [
+      '#type' => 'select',
+      '#title' => $this->t('Minimum proficiency level'),
+      '#options' => [
+        1 => $this->t('Basic'),
+        2 => $this->t('Intermediate'),
+        3 => $this->t('Advanced'),
+      ],
+      '#default_value' => $existing_config['minimum_proficiency'] ?? 1,
+    ];
+  }
+
+  protected function buildProjectRequirementForm(array &$form, array $existing_config) {
+    $form['milestones'] = [
+      '#type' => 'table',
+      '#header' => [
+        $this->t('Milestone'),
+        $this->t('Deadline'),
+        $this->t('Operations'),
+      ],
+      '#empty' => $this->t('No milestones defined.'),
+    ];
+
+    $milestones = $existing_config['milestones'] ?? [];
+    foreach ($milestones as $id => $milestone) {
+      $form['milestones'][$id]['label'] = [
+        '#type' => 'textfield',
+        '#default_value' => $milestone['label'],
+        '#required' => TRUE,
+      ];
+      
+      $form['milestones'][$id]['deadline'] = [
+        '#type' => 'textfield',
+        '#default_value' => $milestone['deadline'],
+        '#description' => $this->t('e.g. "+2 months"'),
+      ];
+    }
+
+    $form['add_milestone'] = [
+      '#type' => 'submit',
+      '#value' => $this->t('Add milestone'),
+      '#submit' => ['::addMilestone'],
+      '#ajax' => [
+        'callback' => '::updateMilestoneTable',
+        'wrapper' => 'milestones-table',
+      ],
+    ];
+  }
+
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    parent::submitForm($form, $form_state);
+    $requirement_set = $this->entity;
+
+    // Process requirements
+    $requirements = [];
+    foreach ($this->requirementTypeManager->getDefinitions() as $type_id => $definition) {
+      $values = $form_state->getValue("requirement_$type_id");
+      if (!empty($values['enabled'])) {
+        $requirements[$type_id] = $values['config'];
+      }
+    }
+
+    $requirement_set->setRequirements($requirements);
   }
 
   public function save(array $form, FormStateInterface $form_state) {
@@ -123,21 +220,5 @@ class RequirementSetForm extends EntityForm {
     }
 
     $form_state->setRedirectUrl($requirement_set->toUrl('collection'));
-  }
-
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    parent::submitForm($form, $form_state);
-    $requirement_set = $this->entity;
-
-    // Process requirements
-    $requirements = [];
-    foreach ($this->requirementTypeManager->getDefinitions() as $type_id => $definition) {
-      $values = $form_state->getValue("requirement_$type_id");
-      if (!empty($values['enabled'])) {
-        $requirements[$type_id] = $values['config'];
-      }
-    }
-
-    $requirement_set->setRequirements($requirements);
   }
 }
