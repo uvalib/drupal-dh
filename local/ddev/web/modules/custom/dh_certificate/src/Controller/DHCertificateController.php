@@ -23,7 +23,7 @@ class DHCertificateController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('dh_certificate.progress')
+      $container->get('dh_certificate.progress_manager')
     );
   }
 
