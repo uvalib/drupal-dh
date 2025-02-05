@@ -9,62 +9,62 @@
  * Implements hook_schema().
  */
 function dh_certificate_schema() {
-  return [
-    'course_enrollment' => [
-      'description' => 'Stores course enrollment information.',
-      'fields' => [
-        'id' => [
-          'type' => 'serial',
-          'unsigned' => TRUE,
-          'not null' => TRUE,
-          'description' => 'Primary Key: Unique enrollment ID.',
-        ],
-        'uid' => [
-          'type' => 'int',
-          'unsigned' => TRUE,
-          'not null' => TRUE,
-          'description' => 'The {users}.uid that enrolled.',
-        ],
-        'course_id' => [
-          'type' => 'int',
-          'unsigned' => TRUE,
-          'not null' => TRUE,
-          'description' => 'The {node}.nid of the course.',
-        ],
-        'status' => [
-          'type' => 'varchar',
-          'length' => 32,
-          'not null' => TRUE,
-          'default' => 'pending',
-          'description' => 'The enrollment status.',
-        ],
-        'completed_date' => [
-          'type' => 'int',
-          'not null' => FALSE,
-          'description' => 'Completion timestamp.',
-        ],
-        'created' => [
-          'type' => 'int',
-          'not null' => TRUE,
-          'default' => 0,
-          'description' => 'Creation timestamp.',
-        ],
-        'changed' => [
-          'type' => 'int',
-          'not null' => TRUE,
-          'default' => 0,
-          'description' => 'Last modified timestamp.',
-        ],
+  $schema['course_enrollment'] = [
+    'description' => 'Stores course enrollment data.',
+    'fields' => [
+      'id' => [
+        'type' => 'serial',
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique enrollment ID.',
       ],
-      'primary key' => ['id'],
-      'indexes' => [
-        'enrollment_user' => ['uid'],
-        'enrollment_course' => ['course_id'],
-        'enrollment_status' => ['status'],
-        'enrollment_user_course' => ['uid', 'course_id'],
+      'uid' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'User ID.',
+      ],
+      'course_id' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'description' => 'Course node ID.',
+      ],
+      'status' => [
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => TRUE,
+        'default' => 'pending',
+        'description' => 'Enrollment status.',
+      ],
+      'completed_date' => [
+        'type' => 'int',
+        'not null' => FALSE,
+        'description' => 'Timestamp of completion.',
+      ],
+      'enrolled_date' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'The Unix timestamp when the enrollment was created.',
+      ],
+    ],
+    'primary key' => ['id'],
+    'indexes' => [
+      'uid' => ['uid'],
+      'course_id' => ['course_id'],
+      'status' => ['status'],
+    ],
+    'foreign keys' => [
+      'enrolled_user' => [
+        'table' => 'users',
+        'columns' => ['uid' => 'uid'],
+      ],
+      'enrolled_course' => [
+        'table' => 'node',
+        'columns' => ['course_id' => 'nid'],
       ],
     ],
   ];
+
+  return $schema;
 }
 
 /**
@@ -77,11 +77,11 @@ function dh_certificate_install() {
   try {
     if (!$schema->tableExists('course_enrollment')) {
       $schema->createTable('course_enrollment', $definition['course_enrollment']);
+      // Initialize enrolled_date for new installations
+      \Drupal::database()->update('course_enrollment')
+        ->fields(['enrolled_date' => \Drupal::time()->getRequestTime()])
+        ->execute();
     }
-
-    // Install default config
-    \Drupal::service('config.installer')
-      ->installDefaultConfig('module', 'dh_certificate');
 
     // Ensure admin role has all permissions
     $admin_role = \Drupal::entityTypeManager()->getStorage('user_role')->load('administrator');
@@ -115,27 +115,83 @@ function dh_certificate_install() {
 function dh_certificate_uninstall() {
   $database = \Drupal::database();
   $schema = $database->schema();
+  $logger = \Drupal::logger('dh_certificate');
 
   try {
-    $database->query('SET FOREIGN_KEY_CHECKS = 0');
+    $logger->notice('Starting uninstall process');
+    
+    // List all tables before cleanup
+    $tables_before = $database->query("SHOW TABLES LIKE '%course%'")->fetchCol();
+    $logger->debug('Tables before cleanup: @tables', ['@tables' => implode(', ', $tables_before)]);
 
-    // Drop tables
-    $tables = ['course_enrollment', 'dh_certificate_progress', 'student_progress'];
-    foreach ($tables as $table) {
-      if ($schema->tableExists($table)) {
-        $schema->dropTable($table);
+    // Drop any entities that might try to query these tables during uninstall
+    $entity_types = [
+      'course_enrollment',
+      'dh_certificate_progress',
+      'student_progress',
+    ];
+    
+    foreach ($entity_types as $entity_type) {
+      try {
+        $logger->debug('Processing entity type: @type', ['@type' => $entity_type]);
+        if (\Drupal::entityTypeManager()->hasDefinition($entity_type)) {
+          \Drupal::entityTypeManager()->getStorage($entity_type)->delete([]);
+          $logger->notice('Successfully cleaned up @type entities', ['@type' => $entity_type]);
+        }
+      }
+      catch (\Exception $e) {
+        $logger->warning('Failed to cleanup @type entities: @error', [
+          '@type' => $entity_type,
+          '@error' => $e->getMessage(),
+        ]);
       }
     }
 
-    // Clean up state data
+    // Now drop the tables directly
+    $database->query('SET FOREIGN_KEY_CHECKS = 0');
+    
+    $tables = [
+      'course_enrollment',
+      'dh_certificate_enrollments',
+      'dh_certificate_progress',
+      'student_progress',
+    ];
+
+    foreach ($tables as $table) {
+      try {
+        $database->query("DROP TABLE IF EXISTS {" . $table . "}");
+      }
+      catch (\Exception $e) {
+        \Drupal::logger('dh_certificate')->notice('Failed to drop @table: @error', [
+          '@table' => $table,
+          '@error' => $e->getMessage(),
+        ]);
+      }
+    }
+
+    // Clean up state and config
     \Drupal::state()->deleteMultiple([
       'dh_certificate.progress',
       'dh_certificate.completion_deadline',
       'dh_certificate.last_sync',
     ]);
+
+    // Delete all related config
+    $config_factory = \Drupal::configFactory();
+    $configs = $config_factory->listAll('dh_certificate');
+    foreach ($configs as $config_name) {
+      $config_factory->getEditable($config_name)->delete();
+    }
+
+    // List all tables after cleanup
+    $tables_after = $database->query("SHOW TABLES LIKE '%course%'")->fetchCol();
+    $logger->debug('Tables after cleanup: @tables', ['@tables' => implode(', ', $tables_after)]);
+    
+    $logger->notice('Uninstall process completed successfully');
   }
-  finally {
-    $database->query('SET FOREIGN_KEY_CHECKS = 1');
+  catch (\Exception $e) {
+    $logger->error('Uninstall failed: @error', ['@error' => $e->getMessage()]);
+    throw $e;
   }
 }
 
@@ -178,5 +234,40 @@ function dh_certificate_update_8001() {
   $schema = \Drupal::database()->schema();
   if (!$schema->tableExists('course_enrollment')) {
     $schema->createTable('course_enrollment', dh_certificate_schema()['course_enrollment']);
+  }
+}
+
+/**
+ * Migrate data from old table if it exists.
+ */
+function dh_certificate_update_9001() {
+  $schema = \Drupal::database()->schema();
+  if ($schema->tableExists('dh_certificate_enrollments')) {
+    // Migrate data from old table if it exists
+    \Drupal::database()->query("INSERT INTO {course_enrollment} SELECT * FROM {dh_certificate_enrollments}");
+    // Drop old table
+    $schema->dropTable('dh_certificate_enrollments');
+  }
+}
+
+/**
+ * Add enrolled_date field to course_enrollment table if missing.
+ */
+function dh_certificate_update_9002() {
+  $schema = \Drupal::database()->schema();
+  if ($schema->tableExists('course_enrollment')) {
+    $spec = [
+      'type' => 'int',
+      'not null' => TRUE,
+      'default' => 0,
+      'description' => 'The Unix timestamp when the enrollment was created.',
+    ];
+    if (!$schema->fieldExists('course_enrollment', 'enrolled_date')) {
+      $schema->addField('course_enrollment', 'enrolled_date', $spec);
+      // Set existing records to current time
+      \Drupal::database()->update('course_enrollment')
+        ->fields(['enrolled_date' => \Drupal::time()->getRequestTime()])
+        ->execute();
+    }
   }
 }

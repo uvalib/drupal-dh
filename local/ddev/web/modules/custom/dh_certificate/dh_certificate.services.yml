@@ -10,10 +10,7 @@ services:
     alias: dh_certificate.progress
   dh_certificate.commands:
     class: \Drupal\dh_certificate\Commands\DHCertificateCommands
-    arguments: 
-      - '@entity_type.manager'
-      - '@dh_certificate.progress'
-      - '@dh_certificate.requirement_type_manager'
+    arguments: ['@entity_type.manager']
     tags:
       - { name: drush.command }
       - { name: drupal.command }  # Add this tag for better service discovery

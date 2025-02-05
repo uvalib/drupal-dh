@@ -258,6 +258,14 @@ dh_certificate.requirement_type_edit:
   requirements:
     _permission: 'administer certificate requirements'
 
+dh_certificate.requirement_templates:
+  path: '/admin/config/dh-certificate/requirement-templates'
+  defaults:
+    _entity_list: 'requirement_type_template'
+    _title: 'Requirement Type Templates'
+  requirements:
+    _permission: 'administer certificate requirements'
+
 entity.requirement_set.collection:
   path: '/admin/config/dh-certificate/requirement-sets'
   defaults:

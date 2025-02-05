@@ -54,6 +54,12 @@ dh_certificate.requirement_types_tab:
   parent_id: dh_certificate.requirements_tab
   weight: 2
 
+dh_certificate.requirement_templates_tab:
+  route_name: dh_certificate.requirement_templates
+  title: 'Templates'
+  parent_id: dh_certificate.requirements_tab
+  weight: 3
+
 # Enrollment secondary tabs
 dh_certificate.enrollment_list_tab:
   route_name: dh_certificate.enrollment_list

@@ -576,7 +576,7 @@ class ProgressManager implements ProgressManagerInterface {
    */
   public function getCompletedCoursesCount() {
     try {
-      return (int) $this->database->select('dh_certificate_enrollments', 'e')
+      return (int) $this->database->select('course_enrollment', 'e')
         ->condition('e.status', 'completed')
         ->countQuery()
         ->execute()

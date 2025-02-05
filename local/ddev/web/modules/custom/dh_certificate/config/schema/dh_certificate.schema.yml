@@ -177,3 +177,38 @@ dh_certificate.enrollments.*:
     completed_date:
       type: integer
       label: 'Completion Date'
+
+dh_certificate.requirement_type_template.*:
+  type: config_entity
+  label: 'Requirement Type Template'
+  mapping:
+    id:
+      type: string
+      label: 'Machine name'
+    label:
+      type: label
+      label: 'Label'
+    type:
+      type: string
+      label: 'Type'
+    config:
+      type: mapping
+      label: 'Configuration'
+      mapping:
+        min_count:
+          type: integer
+          label: 'Minimum Count'
+        target_type:
+          type: string
+          label: 'Target Entity Type'
+        bundle:
+          type: string
+          label: 'Bundle'
+        conditions:
+          type: sequence
+          label: 'Conditions'
+          sequence:
+            type: string
+    weight:
+      type: integer
+      label: 'Weight'
