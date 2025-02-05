@@ -159,76 +159,67 @@
 }
 
 /* Admin Controls Section */
-.admin-controls {
-  margin-top: 0.5rem; /* Reduced margin */
-  padding-top: 0.2rem; /* Reduced padding */
-  border-top: 1px solid #e0e0e0;
-  display: none;
-  text-align: right;
-}
-
 .user-is-admin .admin-controls {
   display: block;
 }
 
-.admin-controls__title {
-  font-size: 0.7em;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin: 0 0 0.05em;
-  text-align: left;
-  line-height: 1;
+/* Keep this section at the bottom of the file */
+/* Admin Controls */
+.admin-controls {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  text-align: right;
 }
 
 .admin-controls .button-group {
   display: flex;
-  gap: 0.5em;
-  flex-wrap: wrap;
+  gap: 0.5rem;
   justify-content: flex-end;
-  line-height: 1;
-  margin: 0.2em; /* Added margin for spacing around the button group */
 }
 
 .admin-controls .button {
-  display: inline-flex;
-  align-items: center;
-  padding: 0.2em 0.5em; /* Shrunk padding */
-  border-radius: 2px;
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  color: #555;
-  min-width: auto;
-  justify-content: center;
-  font-size: 0.85em; /* Slightly smaller font size */
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background: #fff;
+  border: 1px solid #ccc;
+  color: #333;
+  text-decoration: none;
+  border-radius: 3px;
+  font-size: 0.9rem;
 }
 
 .admin-controls .button:hover {
-  background: #e8e8e8;
-  border-color: #ccc;
-  color: #333;
-}
-
-.admin-controls .button--primary {
-  background: #e8e8e8;
-  border-color: #ccc;
-  color: #444;
-}
-
-.admin-controls .button--primary:hover {
-  background: #ddd;
+  background: #f8f8f8;
   border-color: #bbb;
-  color: #333;
 }
 
-.admin-controls .admin-button {
-  padding: 0.2em 0.5em; /* Shrunk padding */
-  min-width: auto;
-  font-size: 0.85em; /* Slightly smaller font size */
+.admin-controls .button--danger {
+  background: #dc3545;
+  border-color: #dc3545;
+  color: white;
 }
 
-.admin-controls .admin-button:hover {
-  text-decoration: none;
+.admin-controls .button--danger:hover {
+  background: #c82333;
+  border-color: #bd2130;
+}
+
+@media (max-width: 768px) {
+  .admin-controls {
+    text-align: left;
+  }
+  
+  .admin-controls .button-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .admin-controls .button {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
 .admin-controls-accordion {

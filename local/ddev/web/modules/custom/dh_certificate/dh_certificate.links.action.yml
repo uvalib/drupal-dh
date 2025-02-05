@@ -1,0 +1,6 @@
+
+dh_certificate.monitor_reset_action:
+  route_name: dh_certificate.monitor_reset
+  title: 'Reset Monitor'
+  appears_on:
+    - dh_certificate.monitor_detail

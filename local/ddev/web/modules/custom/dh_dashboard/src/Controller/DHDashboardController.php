@@ -35,19 +35,19 @@ class DHDashboardController extends ControllerBase {
   }
 
   protected function getLayoutBuilderPlacements($plugin_id) {
-    $database = \Drupal::database();
-    $query = $database->select('config', 'c')
-      ->fields('c', ['name', 'data'])
-      ->condition('name', '%layout_builder%', 'LIKE');
-    
-    $results = $query->execute();
+    $config_factory = \Drupal::configFactory();
     $placements = [];
     
-    foreach ($results as $record) {
-      if ($data = unserialize($record->data)) {
-        if (is_string($data) && strpos($data, $plugin_id) !== FALSE) {
+    // Get all config that might contain layout builder settings
+    $config_names = $config_factory->listAll();
+    foreach ($config_names as $name) {
+      if (strpos($name, 'layout_builder') !== FALSE) {
+        $config = $config_factory->get($name);
+        $data = $config->getRawData();
+        
+        if (is_array($data) && $this->configContainsPlugin($data, $plugin_id)) {
           $placements[] = [
-            'config' => $record->name,
+            'config' => $name,
             'section' => $this->getLayoutSection($data),
           ];
         }
@@ -57,12 +57,17 @@ class DHDashboardController extends ControllerBase {
     return $placements;
   }
 
+  protected function configContainsPlugin(array $data, $plugin_id) {
+    $json = json_encode($data);
+    return strpos($json, $plugin_id) !== FALSE;
+  }
+
   protected function getLayoutSection($data) {
     // Extract section information from layout builder data
     // This is a simplified version - you might want to add more detail
     return [
       'type' => 'layout_builder',
-      'data' => substr($data, 0, 100) . '...',
+      'data' => substr(json_encode($data), 0, 100) . '...',
     ];
   }
 }

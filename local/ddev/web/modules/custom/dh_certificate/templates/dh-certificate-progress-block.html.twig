@@ -1,57 +1,39 @@
-{# ...existing code... #}
-
-<div class="certificate-progress-block">
+<div{{ attributes.addClass('certificate-progress') }}>
   {% if progress %}
-    <h2>{{ 'Certificate Progress'|t }}</h2>
-    <div class="progress-bar">
-      <div class="progress-bar__fill" style="width: {{ progress.percentage }}%">
-        <span class="progress-bar__text">{{ progress.percentage }}%</span>
+    <div class="certificate-progress__summary">
+      <div class="progress-stats">
+        <div class="stat">
+          <span class="completed">{{ progress.completed_courses }}</span>
+          <span class="total">/{{ progress.total_courses }}</span>
+          <span class="label">{{ 'Courses Completed'|t }}</span>
+        </div>
+        {% if progress.total_credits %}
+          <div class="stat">
+            <span class="label">{{ 'Credits'|t }}</span>
+            <span class="value">{{ progress.total_credits }}/{{ progress.required_credits }}</span>
+          </div>
+        {% endif %}
       </div>
-    </div>
-    
-    <div class="progress-stats">
-      <div class="stat">
-        <span class="label">{{ 'Courses Completed'|t }}</span>
-        <span class="value">{{ progress.completed_courses }}/{{ progress.total_courses }}</span>
-      </div>
-      <div class="stat">
-        <span class="label">{{ 'Credits Earned'|t }}</span>
-        <span class="value">{{ progress.total_credits }}/{{ progress.required_credits }}</span>
+      
+      <div class="progress-bar">
+        <div class="progress" style="width: {{ progress.percentage }}%">
+          <span class="progress-text">{{ progress.percentage }}%</span>
+        </div>
       </div>
     </div>
 
     {% if progress.courses %}
       <div class="certificate-progress__courses">
-        <h4>{{ 'Completed Courses'|t }}</h4>
-        <ul>
-          {% for course in progress.courses %}
-            <li>{{ course.title }}</li>
-          {% endfor %}
-        </ul>
+        {% for course in progress.courses %}
+          <div class="course-item course-item--{{ course.status|clean_class }}">
+            <span class="course-title">{{ course.title }}</span>
+            {% if course.mnemonic %}
+              <span class="course-mnemonic">({{ course.mnemonic }})</span>
+            {% endif %}
+          </div>
+        {% endfor %}
       </div>
     {% endif %}
-
-    {% if is_admin and admin_url %}
-      <div class="certificate-admin-link">
-        <a href="{{ admin_url }}" class="button button--small button--primary">{{ 'Manage certificates'|t }}</a>
-      </div>
-    {% endif %}
-
-    {% if debug %}
-      <details class="debug-tree">
-        <summary>Debug Information</summary>
-        <details>
-          <summary>Progress Data</summary>
-          <pre>{{ debug.progress|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-        </details>
-        <details>
-          <summary>Course Data</summary>
-          <pre>{{ debug.courses|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
-        </details>
-      </details>
-    {% endif %}
-  {% else %}
-    <p>{{ 'No progress data available.'|t }}</p>
   {% endif %}
 </div>
 

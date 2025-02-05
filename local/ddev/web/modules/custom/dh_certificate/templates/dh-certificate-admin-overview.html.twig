@@ -1,3 +1,6 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-admin-overview.html.twig #}
+{{ attach_library('dh_certificate/certificate-admin') }}
+
 <div class="dh-certificate-admin-overview">
   <h2>{{ title }}</h2>
 
@@ -22,5 +25,6 @@
     <a href="{{ path('dh_certificate.courses') }}" class="button">{{ 'Manage Courses'|t }}</a>
     <a href="{{ path('dh_certificate.requirements') }}" class="button">{{ 'Configure Requirements'|t }}</a>
     <a href="{{ path('dh_certificate.progress_overview') }}" class="button">{{ 'View Progress'|t }}</a>
+    <a href="{{ path('dh_certificate.monitor_overview') }}" class="button">{{ 'Structure Monitor'|t }}</a>
   </div>
 </div>

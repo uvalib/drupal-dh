@@ -29,4 +29,23 @@ interface RequirementTypeManagerInterface {
    */
   public function validateProgress(array $data);
 
+  /**
+   * Gets all requirement type definitions.
+   *
+   * @return array
+   *   Array of requirement type definitions.
+   */
+  public function getDefinitions();
+
+  /**
+   * Checks if a requirement type exists.
+   *
+   * @param string $type
+   *   The requirement type ID.
+   *
+   * @return bool
+   *   TRUE if exists, FALSE otherwise.
+   */
+  public function hasDefinition($type);
+
 }

@@ -1,26 +1,29 @@
 services:
+  plugin.manager.requirement_type:
+    class: Drupal\dh_certificate\RequirementType\RequirementTypePluginManager
+    parent: default_plugin_manager
+
+  dh_certificate.requirement_type_manager:
+    class: Drupal\dh_certificate\RequirementType\RequirementTypeManager
+    arguments:
+      - '@plugin.manager.requirement_type'
+      - '@cache.default'
+      - '@module_handler'
+      - '@string_translation'
+
   dh_certificate.progress:
-    class: Drupal\dh_certificate\ProgressManager
+    class: Drupal\dh_certificate\Progress\ProgressManager
     arguments:
       - '@entity_type.manager'
       - '@state'
-      - '@dh_certificate.requirement_type_manager'
-  dh_certificate.progress_manager:
-    alias: dh_certificate.progress
+      - '@current_user'
+
   dh_certificate.commands:
-    class: \Drupal\dh_certificate\Commands\DHCertificateCommands
-    arguments: 
-      - '@entity_type.manager'
-      - '@dh_certificate.progress'
-      - '@dh_certificate.requirement_type_manager'
+    class: Drupal\dh_certificate\Commands\DHCertificateCommands
+    shared: false
     tags:
       - { name: drush.command }
-      - { name: drupal.command }  # Add this tag for better service discovery
-  dh_certificate.requirement_type_manager:
-    class: Drupal\dh_certificate\RequirementType\RequirementTypeManager
-    arguments: ['@module_handler', '@cache.discovery', '@typed_data_manager']
-    tags:
-      - { name: requirement_type_manager }
+
   dh_certificate.twig.extension:
     class: Drupal\dh_certificate\TwigExtension\DHCertificateExtension
     tags:
@@ -29,3 +32,55 @@ services:
     class: 'Drupal\dh_certificate\TwigExtension\JsonTreeExtension'
     tags:
       - { name: twig.extension }
+
+  # Single monitor for runtime checks
+  dh_certificate.course_structure_monitor:
+    class: Drupal\dh_certificate\StructureMonitor\CourseStructureMonitor
+    arguments: ['@entity_type.manager', '@logger.factory', '@state']
+    tags:
+      - { name: dh_certificate.structure_monitor }
+
+  dh_certificate.profile_structure_monitor:
+    class: Drupal\dh_certificate\StructureMonitor\ProfileStructureMonitor
+    arguments: ['@entity_type.manager', '@logger.factory', '@state']
+    tags:
+      - { name: dh_certificate.structure_monitor }
+
+  dh_certificate.taxonomy_structure_monitor:
+    class: Drupal\dh_certificate\StructureMonitor\TaxonomyStructureMonitor
+    arguments: ['@entity_type.manager', '@logger.factory', '@state']
+    tags:
+      - { name: dh_certificate.structure_monitor }
+
+  dh_certificate.profile_structure_manager:
+    class: Drupal\dh_certificate\Structure\ProfileStructureManager
+    arguments:
+      - '@entity_field.manager'
+      - '@entity_type.manager'
+      - '@state'
+      - '@logger.factory'
+
+  dh_certificate.student_progress_list_builder:
+    class: Drupal\dh_certificate\ListBuilder\StudentProgressListBuilder
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: entity_list_builder }
+      
+  dh_certificate.requirement_set_list_builder:
+    class: Drupal\dh_certificate\ListBuilder\RequirementSetListBuilder
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: entity_list_builder }
+
+  dh_certificate.requirement_list_builder:
+    class: Drupal\dh_certificate\ListBuilder\RequirementListBuilder
+    arguments: ['@entity_type.manager']
+    tags:
+      - { name: entity_list_builder }
+
+  dh_certificate.route_subscriber:
+    class: Drupal\dh_certificate\Routing\RouteSubscriber
+    tags:
+      - { name: event_subscriber }
+
+  # Remove other monitoring services that aren't needed yet

@@ -2,75 +2,140 @@
 
 namespace Drupal\dh_certificate\RequirementType;
 
-use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Cache\CacheBackendInterface;
-use Drupal\Core\TypedData\TypedDataManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\StringTranslation\TranslationInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use ArrayObject;
 
 /**
- * Manages discovery and instantiation of requirement types.
+ * Manages requirement type plugins.
  */
-class RequirementTypeManager implements RequirementTypeManagerInterface
-{
+class RequirementTypeManager extends DefaultPluginManager implements RequirementTypeManagerInterface {
+  
+  use StringTranslationTrait;
 
-    /**
-     * The module handler.
-     *
-     * @var \Drupal\Core\Extension\ModuleHandlerInterface
-     */
-    protected $moduleHandler;
+  /**
+   * Constructs a RequirementTypeManager object.
+   *
+   * @param \Drupal\dh_certificate\RequirementType\RequirementTypePluginManager $plugin_manager
+   *   The requirement type plugin manager.
+   * @param \Drupal\Core\Cache\CacheBackendInterface $cache_backend
+   *   The cache backend.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The module handler.
+   * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
+   *   The string translation service.
+   */
+  public function __construct(
+    RequirementTypePluginManager $plugin_manager,
+    CacheBackendInterface $cache_backend,
+    ModuleHandlerInterface $module_handler,
+    TranslationInterface $string_translation
+  ) {
+    // Get container and root namespaces
+    $container = \Drupal::getContainer();
+    $namespaces = new ArrayObject($container->getParameter('container.namespaces'));
+    
+    parent::__construct(
+      'Plugin/RequirementType',
+      $namespaces,
+      $module_handler,
+      'Drupal\dh_certificate\RequirementType\RequirementTypeInterface',
+      'Drupal\dh_certificate\Annotation\RequirementType'
+    );
+    
+    $this->setStringTranslation($string_translation);
+    $this->setCacheBackend($cache_backend, 'requirement_type_plugins');
+    $this->alterInfo('requirement_type_info');
+  }
 
-    /**
-     * The cache backend.
-     *
-     * @var \Drupal\Core\Cache\CacheBackendInterface
-     */
-    protected $cacheBackend;
-
-    /**
-     * The typed data manager.
-     *
-     * @var \Drupal\Core\TypedData\TypedDataManagerInterface
-     */
-    protected $typedDataManager;
-
-    /**
-     * Constructs a RequirementTypeManager object.
-     *
-     * @param \Drupal\Core\Extension\ModuleHandlerInterface    $module_handler
-     *   The module handler.
-     * @param \Drupal\Core\Cache\CacheBackendInterface         $cache_backend
-     *   The cache backend.
-     * @param \Drupal\Core\TypedData\TypedDataManagerInterface $typed_data_manager
-     *   The typed data manager.
-     */
-    public function __construct(
-        ModuleHandlerInterface $module_handler,
-        CacheBackendInterface $cache_backend,
-        TypedDataManagerInterface $typed_data_manager
-    ) {
-        $this->moduleHandler = $module_handler;
-        $this->cacheBackend = $cache_backend;
-        $this->typedDataManager = $typed_data_manager;
+  /**
+   * {@inheritdoc}
+   */
+  public function getRequirementType($type)
+  {
+    if (!isset($this->types[$type])) {
+      // Load from annotation discovery
+      $this->types[$type] = $this->createInstance($type);
     }
+    return $this->types[$type];
+  }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getRequirementType($type)
-    {
-        // Implement logic to get the requirement type.
-        // This is a placeholder implementation.
+  /**
+   * Creates a requirement type instance.
+   *
+   * @param string $plugin_id
+   *   The ID of the plugin being instantiated.
+   * @param array $configuration
+   *   An array of configuration relevant to the plugin instance.
+   *
+   * @return \Drupal\dh_certificate\RequirementType\RequirementTypeInterface
+   *   A fully configured plugin instance.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\PluginException
+   *   If the instance cannot be created, such as if the ID is invalid.
+   */
+  public function createInstance($plugin_id, array $configuration = []) {
+    switch ($plugin_id) {
+      case 'course':
         return new CourseRequirement();
+      case 'tool':
+        return new ToolRequirement();
+      default:
+        throw new \InvalidArgumentException("Unknown requirement type: $plugin_id");
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getDefinitions() {
+    $cache_key = 'dh_certificate:requirement_types';
+    
+    if ($cached = $this->cacheBackend->get($cache_key)) {
+      return $cached->data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function validateProgress(array $data)
-    {
-        // Implement logic to validate the progress data.
-        // This is a placeholder implementation.
-        return true;
-    }
+    $types = [
+      'course' => [
+        'id' => 'course',
+        'label' => $this->t('Course Requirements'),
+        'class' => CourseRequirement::class,
+        'description' => $this->t('Course completion requirements'),
+        'configurable' => TRUE,
+      ],
+      'tool' => [
+        'id' => 'tool',
+        'label' => $this->t('Tool Requirements'),
+        'class' => ToolRequirement::class,
+        'description' => $this->t('Tool proficiency requirements'),
+        'configurable' => TRUE,
+      ],
+    ];
+
+    $this->cacheBackend->set($cache_key, $types);
+    return $types;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasDefinition($type) {
+    $definitions = $this->getDefinitions();
+    return isset($definitions[$type]);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function validateProgress(array $data)
+  {
+    // Implement logic to validate the progress data.
+    // This is a placeholder implementation.
+    return true;
+  }
 
 }

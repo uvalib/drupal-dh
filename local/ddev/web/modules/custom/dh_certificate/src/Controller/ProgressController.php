@@ -3,11 +3,39 @@
 namespace Drupal\dh_certificate\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\dh_certificate\Progress\ProgressManagerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Controller for certificate progress management.
  */
 class ProgressController extends ControllerBase {
+
+  /**
+   * The progress manager service.
+   *
+   * @var \Drupal\dh_certificate\Progress\ProgressManagerInterface
+   */
+  protected $progressManager;
+
+  /**
+   * Constructs a new ProgressController.
+   *
+   * @param \Drupal\dh_certificate\Progress\ProgressManagerInterface $progress_manager
+   *   The progress manager.
+   */
+  public function __construct(ProgressManagerInterface $progress_manager) {
+    $this->progressManager = $progress_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('dh_certificate.progress')
+    );
+  }
 
   /**
    * Displays an overview of all certificate progress.
@@ -19,12 +47,8 @@ class ProgressController extends ControllerBase {
     $build = [
       '#theme' => 'dh_certificate_progress_overview',
       '#title' => $this->t('Certificate Progress Overview'),
-      '#progress_data' => [],
+      '#progress_data' => $this->progressManager->getAllProgress(),
     ];
-
-    // Get progress data from service
-    $progress_service = \Drupal::service('dh_certificate.progress');
-    $build['#progress_data'] = $progress_service->getAllProgress();
 
     return $build;
   }
@@ -37,60 +61,53 @@ class ProgressController extends ControllerBase {
    */
   public function userProgress() {
     $uid = $this->currentUser()->id();
-    $database = \Drupal::database();
+    $enrollment_storage = $this->entityTypeManager()->getStorage('course_enrollment');
     
-    // Improve query to ensure we get all fields and proper joins
-    $query = $database->select('course_enrollment', 'ce');
-    $query->leftJoin('node_field_data', 'n', 'ce.course_id = n.nid');
-    $query->leftJoin('node__field_credits', 'fc', 'n.nid = fc.entity_id');
-    $query->leftJoin('node__field_course_code', 'fcc', 'n.nid = fcc.entity_id');
+    // Load enrollments using Entity API
+    $query = $enrollment_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->condition('uid', $uid)
+      ->execute();
     
-    $query->fields('ce', ['id', 'status', 'completed_date'])
-          ->fields('n', ['title', 'nid'])
-          ->fields('fc', ['field_credits_value'])
-          ->fields('fcc', ['field_course_code_value'])
-          ->condition('ce.uid', $uid)
-          ->orderBy('n.title');
+    $enrollments = $enrollment_storage->loadMultiple($query);
     
-    // Add debug logging
-    \Drupal::logger('dh_certificate')->debug('User progress query: @query', [
-      '@query' => $query->__toString()
-    ]);
-    
-    $results = $query->execute()->fetchAll();
-    \Drupal::logger('dh_certificate')->debug('Found @count enrollments', [
-      '@count' => count($results)
-    ]);
-
     // Calculate progress metrics
-    $total_courses = count($results);
+    $total_courses = count($enrollments);
     $completed_courses = 0;
     $total_credits = 0;
     $completed_credits = 0;
     $rows = [];
     $courses = [];
 
-    foreach ($results as $row) {
-      $completed = $row->completed_date ? date('Y-m-d', $row->completed_date) : '—';
-      $credits = (int)$row->field_credits_value ?? 0;
-      $mnemonic = $row->field_course_code_value ? "({$row->field_course_code_value})" : '';
+    foreach ($enrollments as $enrollment) {
+      $course = $enrollment->get('course_id')->entity;
+      if (!$course) {
+        continue;
+      }
+
+      $completed = $enrollment->get('completed_date')->value 
+        ? date('Y-m-d', $enrollment->get('completed_date')->value) 
+        : '—';
+      $credits = (int)$course->get('field_credits')->value ?? 0;
+      $mnemonic = $course->get('field_course_code')->value ? 
+        "({$course->get('field_course_code')->value})" : '';
       
       $rows[] = [
-        $row->title . ' ' . $mnemonic,
-        ucfirst($row->status),
+        $course->label() . ' ' . $mnemonic,
+        ucfirst($enrollment->get('status')->value),
         $completed,
       ];
 
       $courses[] = [
-        'title' => $row->title,
-        'mnemonic' => $row->field_course_code_value,
-        'status' => $row->status,
+        'title' => $course->label(),
+        'mnemonic' => $course->get('field_course_code')->value,
+        'status' => $enrollment->get('status')->value,
         'credits' => $credits,
         'completed_date' => $completed,
       ];
       
       $total_credits += $credits;
-      if ($row->status === 'completed') {
+      if ($enrollment->get('status')->value === 'completed') {
         $completed_courses++;
         $completed_credits += $credits;
       }
@@ -152,35 +169,39 @@ class ProgressController extends ControllerBase {
    *   Render array for the enrollments page.
    */
   public function adminEnrollments() {
-    $database = \Drupal::database();
+    $enrollment_storage = $this->entityTypeManager()->getStorage('course_enrollment');
     
-    // Query to get all enrollments with user and course data
-    $query = $database->select('course_enrollment', 'ce');
-    $query->join('users_field_data', 'u', 'ce.uid = u.uid');
-    $query->join('node_field_data', 'n', 'ce.course_id = n.nid');
-    $query->fields('ce', ['uid', 'status', 'completed_date'])
-          ->fields('u', ['name'])
-          ->fields('n', ['title', 'nid'])
-          ->orderBy('u.name')
-          ->orderBy('n.title');
+    // Get all enrollments using Entity API
+    $query = $enrollment_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->sort('course_id')
+      ->execute();
     
-    $results = $query->execute()->fetchAll();
+    $enrollments = $enrollment_storage->loadMultiple($query);
     
     // Group enrollments by user
-    $enrollments = [];
-    foreach ($results as $record) {
-      $enrollments[] = [
-        'user' => $record->name,
-        'course' => $record->title,
-        'status' => ucfirst($record->status),
-        'completed_date' => $record->completed_date ? date('Y-m-d', $record->completed_date) : '—',
+    $enrollment_data = [];
+    foreach ($enrollments as $enrollment) {
+      $user = $enrollment->get('uid')->entity;
+      $course = $enrollment->get('course_id')->entity;
+      
+      if (!$user || !$course) {
+        continue;
+      }
+
+      $enrollment_data[] = [
+        'user' => $user->getDisplayName(),
+        'course' => $course->label(),
+        'status' => ucfirst($enrollment->get('status')->value),
+        'completed_date' => $enrollment->get('completed_date')->value ? 
+          date('Y-m-d', $enrollment->get('completed_date')->value) : '—',
       ];
     }
 
     // Build render array
     $build = [
       '#theme' => 'admin_enrollments',
-      '#enrollments' => $enrollments,
+      '#enrollments' => $enrollment_data,
       '#cache' => [
         'contexts' => ['user'],
       ],

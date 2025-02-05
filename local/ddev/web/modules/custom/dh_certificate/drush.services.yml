@@ -1,6 +1,10 @@
 services:
   dh_certificate.commands:
     class: \Drupal\dh_certificate\Commands\DHCertificateCommands
-    arguments: ['@database', '@entity_type.manager']
+    arguments: 
+      - '@database'
+      - '@entity_type.manager'
+      - '@dh_certificate.progress'  # Changed from progress_manager to progress
+      - '@dh_certificate.requirement_type_manager'
     tags:
       - { name: drush.command }

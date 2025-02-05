@@ -1,6 +1,7 @@
+
 <?php
 
-namespace Drupal\dh_certificate;
+namespace Drupal\dh_certificate\Manager;
 
 use Drupal\Core\Session\AccountInterface;
 
@@ -145,4 +146,28 @@ interface ProgressManagerInterface {
    *   Array of enrollment data.
    */
   public function getAllEnrollments();
+
+  /**
+   * Gets the core courses required for the certificate.
+   *
+   * @return array
+   *   Array of core course data.
+   */
+  public function getCoreCourses();
+
+  /**
+   * Gets the required amount of elective credits.
+   *
+   * @return int
+   *   The number of required elective credits.
+   */
+  public function getRequiredElectiveCredits();
+
+  /**
+   * Gets the certificate completion deadline.
+   *
+   * @return string|null
+   *   The formatted completion deadline or null if not set.
+   */
+  public function getCompletionDeadline();
 }

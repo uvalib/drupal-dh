@@ -41,24 +41,16 @@ function dh_certificate_dh_dashboard_blocks() {
  */
 function dh_certificate_theme($existing, $type, $theme, $path) {
   return [
-    'dh_certificate_progress' => [
-      'variables' => [
-        'progress' => NULL,
-        'is_admin' => FALSE,
-        'admin_url' => NULL,
-        'debug' => NULL,
-      ],
-      'template' => 'dh-certificate-progress',
-    ],
-    'dh_certificate_progress_block' => [
+    'certificate_progress_block' => [
       'variables' => [
         'progress' => NULL,
         'user' => NULL,
         'is_admin' => FALSE,
         'manage_url' => NULL,
         'attributes' => [],
+        'debug' => NULL,
       ],
-      'template' => 'dh-certificate-progress-block',
+      'template' => 'dh-certificate-progress-block', // This matches the actual filename
     ],
     'dh_dashboard_progress' => [
       'variables' => [
@@ -72,14 +64,6 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
         'requirements' => [],
         'remaining' => [],
       ],
-    ],
-    'certificate_progress_block' => [
-      'variables' => [
-        'progress' => NULL,
-        'user' => NULL,
-        'url' => NULL,
-      ],
-      'template' => 'dh-certificate-progress-block',
     ],
     'dh_certificate_requirements' => [
       'variables' => [
@@ -126,6 +110,32 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
       'render element' => 'form',
       'template' => 'dh-certificate-enrollment-delete-form',
     ],
+    'dh_certificate_monitor_overview' => [
+      'variables' => [
+        'monitors' => [],
+      ],
+    ],
+    'dh_certificate_monitor_detail' => [
+      'variables' => [
+        'monitor_id' => NULL,
+        'changes' => [],
+        'last_checked' => NULL,
+      ],
+    ],
+    'dh_certificate_structure_monitor' => [
+      'variables' => [
+        'content' => NULL,
+      ],
+    ],
+    'dh_certificate_progress_block' => [
+      'variables' => [
+        'progress' => NULL,
+        'is_admin' => FALSE,
+        'manage_url' => NULL,
+        'debug' => NULL,
+      ],
+      'template' => 'dh-certificate-progress-block',
+    ],
   ];
 }
 
@@ -157,56 +167,16 @@ function dh_certificate_theme_suggestions_dh_certificate_progress_block(array $v
 }
 
 /**
- * Implements hook_preprocess_HOOK().
+ * Implements hook_preprocess_HOOK() for certificate_progress_block.
  */
 function dh_certificate_preprocess_certificate_progress_block(&$variables) {
-  $user = \Drupal::currentUser();
-  $progress_service = \Drupal::service('dh_certificate.progress');
+  // Update service name from progress_manager to progress
+  $progress_manager = \Drupal::service('dh_certificate.progress');
+  $current_user = \Drupal::currentUser();
   
-  $variables['is_admin'] = $user->hasPermission('administer dh certificate');
-  $raw_progress = $progress_service->getUserProgress($user);
-  
-  $variables['progress'] = [
-    'total_courses' => $raw_progress['total_courses'] ?? 0,
-    'completed_courses' => $raw_progress['completed_courses'] ?? 0,
-    'total_credits' => $raw_progress['total_credits'] ?? 0,
-    'required_credits' => $raw_progress['required_credits'] ?? 12,
-    'percentage' => $raw_progress['total_percentage'] ?? 0,
-    'pending_actions' => $raw_progress['pending_actions'] ?? 0,
-    'courses' => array_map(function($course) {
-      return [
-        'id' => $course['id'] ?? '',  // Ensure ID is included
-        'title' => $course['title'] ?? '',
-        'status' => $course['status'] ?? 'pending',
-        'credits' => $course['credits'] ?? 0,
-        'mnemonic' => $course['mnemonic'] ?? '',
-      ];
-    }, $raw_progress['courses'] ?? [])
-  ];
-
-  // Add URLs using the URL generator service
-  $variables['manage_url'] = \Drupal::service('url_generator')->generateFromRoute('dh_certificate.user_progress');
-  
-  // Add classes array if not set
-  if (!isset($variables['attributes']['class'])) {
-    $variables['attributes']['class'] = [];
-  }
-  $variables['attributes']['class'][] = 'certificate-progress-block';
-  
-  // Add required libraries
-  $variables['#attached']['library'][] = 'dh_certificate/certificate-progress';
-}
-
-/**
- * Implements hook_preprocess_HOOK().
- */
-function dh_certificate_preprocess_certificate_progress_detail(&$variables) {
-  $variables['#attached']['library'][] = 'dh_certificate/certificate-progress';
-  
-  if (!empty($variables['progress'])) {
-    $progress_manager = \Drupal::service('dh_certificate.progress_manager');
-    $variables['requirements'] = $progress_manager->getRequirementsByCategory($variables['progress']);
-    $variables['remaining_requirements'] = $progress_manager->getRemainingRequirements($variables['progress']);
+  $progress = $progress_manager->getUserProgress($current_user);
+  if ($progress) {
+    $variables['progress'] = $progress;
   }
 }
 
@@ -249,4 +219,26 @@ function dh_certificate_help($route_name, \Drupal\Core\Routing\RouteMatchInterfa
 function dh_certificate_page_attachments(array &$attachments) {
   // Attach the debug-tree library to all pages
   $attachments['#attached']['library'][] = 'dh_certificate/debug-tree';
+}
+
+/**
+ * Implements hook_cron().
+ */
+function dh_certificate_cron() {
+  $storage = \Drupal::entityTypeManager()->getStorage('course_enrollment');
+  
+  // Find stale enrollments (older than 30 days with no activity)
+  $ids = $storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('status', 'pending')
+    ->condition('enrolled_date', \Drupal::time()->getRequestTime() - (30 * 86400), '<')
+    ->execute();
+
+  if ($ids) {
+    $enrollments = $storage->loadMultiple($ids);
+    $storage->delete($enrollments);
+    \Drupal::logger('dh_certificate')->notice('Cleaned up @count stale enrollments', [
+      '@count' => count($ids)
+    ]);
+  }
 }

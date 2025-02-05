@@ -1,0 +1,23 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-structure-monitor.html.twig #}
+<div class="structure-monitor">
+  <h2>{{ 'Structure Monitor Status'|t }}</h2>
+  
+  {% if content.status %}
+    <div class="messages messages--warning">
+      {{ 'Changes detected in course structure'|t }}
+    </div>
+  {% else %}
+    <div class="messages messages--status">
+      {{ 'No changes detected'|t }}
+    </div>
+  {% endif %}
+
+  {% if content.changes %}
+    <h3>{{ 'Detected Changes'|t }}</h3>
+    <ul>
+    {% for change in content.changes %}
+      <li>{{ change }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+</div>

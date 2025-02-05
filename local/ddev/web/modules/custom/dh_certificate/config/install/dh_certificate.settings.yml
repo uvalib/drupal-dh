@@ -1,3 +1,9 @@
+langcode: en
+course_list_default_view: grid
+required_credits: 12
+completion_deadline_days: 365
+enable_notifications: true
+notification_frequency: weekly
 core_credits: 12
 elective_credits: 6
 required_courses:

@@ -31,6 +31,8 @@ certificate-admin:
   css:
     theme:
       css/certificate-admin.css: {}
+  dependencies:
+    - core/drupal
 
 course-listing:
   version: 1.x
@@ -63,3 +65,10 @@ enrollment-delete:
     - core/jquery
     - core/drupal
     - core/jquery.once
+
+structure-monitor:
+  css:
+    theme:
+      css/structure-monitor.css: {}
+  dependencies:
+    - core/drupal

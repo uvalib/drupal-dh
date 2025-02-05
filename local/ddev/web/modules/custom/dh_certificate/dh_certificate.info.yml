@@ -1,12 +1,18 @@
 name: DH Certificate
 type: module
-description: 'Handles certificate generation and management'
+description: 'Provides Digital Humanities Certificate functionality'
 package: Custom
 core_version_requirement: ^9 || ^10
 dependencies:
-  - drupal:block
   - drupal:node
+  - drupal:text
+  - drupal:field
+  - drupal:views
   - drupal:user
-  - drupal:system
-configure: dh_certificate.admin
+  - drupal:options
+  - dh_dashboard:dh_dashboard (optional)
+configure: dh_certificate.settings
 php: 7.4
+
+libraries:
+  - dh_certificate/certificate-progress

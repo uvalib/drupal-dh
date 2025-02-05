@@ -1,0 +1,68 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-course-monitor.html.twig #}
+<div class="course-monitor">
+  {% if critical is not empty %}
+    <div class="course-monitor__critical messages messages--error">
+      <h3>{{ 'Critical Issues'|t }}</h3>
+      <ul>
+        {% for issue in critical %}
+          <li>{{ issue }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  <div class="course-monitor__status">
+    <p>{{ 'Last checked: @time'|t({'@time': last_checked|date('Y-m-d H:i:s')}) }}</p>
+  </div>
+
+  {% if changes.added is not empty %}
+    <div class="course-monitor__section">
+      <h3>{{ 'New Fields'|t }}</h3>
+      <ul>
+        {% for name, config in changes.added %}
+          <li>
+            <strong>{{ name }}</strong>
+            <span class="field-type">({{ config.type }})</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if changes.modified is not empty %}
+    <div class="course-monitor__section">
+      <h3>{{ 'Modified Fields'|t }}</h3>
+      <ul>
+        {% for name, change in changes.modified %}
+          <li>
+            <strong>{{ name }}</strong>:
+            {{ 'Changed from @old to @new'|t({
+              '@old': change.old.type,
+              '@new': change.new.type
+            }) }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if changes.removed is not empty %}
+    <div class="course-monitor__section">
+      <h3>{{ 'Removed Fields'|t }}</h3>
+      <ul>
+        {% for name, config in changes.removed %}
+          <li>
+            <strong>{{ name }}</strong>
+            <span class="field-type">({{ config.type }})</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+
+  {% if not changes.added and not changes.modified and not changes.removed and not critical %}
+    <div class="course-monitor__no-changes messages messages--status">
+      {{ 'No changes detected in course structure.'|t }}
+    </div>
+  {% endif %}
+</div>

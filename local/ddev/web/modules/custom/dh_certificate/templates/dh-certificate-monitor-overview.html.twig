@@ -1,0 +1,23 @@
+{{ attach_library('dh_certificate/structure-monitor') }}
+
+<div class="structure-monitor-overview">
+  <h2>{{ 'Structure Monitors'|t }}</h2>
+  
+  <div class="monitor-grid">
+    {% for monitor in monitors %}
+      <div class="monitor-card">
+        <h3>{{ monitor.id|capitalize ~ ' Monitor'|t }}</h3>
+        <div class="monitor-status {{ monitor.changes > 0 ? 'has-changes' : 'no-changes' }}">
+          {{ monitor.status }}
+        </div>
+        <div class="monitor-meta">
+          {{ 'Last checked:'|t }} {{ monitor.last_checked|date('Y-m-d H:i:s') }}
+        </div>
+        <div class="monitor-actions">
+          <a href="{{ path('dh_certificate.monitor_detail', {'monitor_id': monitor.id}) }}" class="button">{{ 'View Details'|t }}</a>
+          <a href="{{ path('dh_certificate.monitor_reset', {'monitor_id': monitor.id}) }}" class="button button--secondary">{{ 'Reset'|t }}</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>

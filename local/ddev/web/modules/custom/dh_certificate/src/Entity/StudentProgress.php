@@ -10,17 +10,12 @@ use Drupal\Core\Field\BaseFieldDefinition;
  * @ContentEntityType(
  *   id = "student_progress",
  *   label = @Translation("Student Progress"),
- *   handlers = {
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
- *     "list_builder" = "Drupal\dh_certificate\StudentProgressListBuilder",
- *     "form" = {
- *       "default" = "Drupal\dh_certificate\Form\StudentProgressForm",
- *       "delete" = "Drupal\dh_certificate\Form\StudentProgressDeleteForm"
- *     },
- *     "access" = "Drupal\dh_certificate\StudentProgressAccessControlHandler",
- *   },
  *   base_table = "student_progress",
- *   admin_permission = "administer student progress",
+ *   admin_permission = "administer dh certificate",
+ *   handlers = {
+ *     "storage" = "Drupal\Core\Entity\Sql\SqlContentEntityStorage",
+ *     "access" = "Drupal\Core\Entity\EntityAccessControlHandler",
+ *   },
  *   entity_keys = {
  *     "id" = "id",
  *     "uuid" = "uuid",
@@ -33,21 +28,27 @@ class StudentProgress extends ContentEntityBase {
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
 
-    $fields['requirement_set'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Requirement Set'))
-      ->setDescription(t('The set of requirements this progress tracks.'))
-      ->setSetting('target_type', 'requirement_set')
+    $fields['id'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('ID'))
+      ->setReadOnly(TRUE);
+
+    $fields['uuid'] = BaseFieldDefinition::create('uuid')
+      ->setLabel(t('UUID'))
+      ->setReadOnly(TRUE);
+
+    $fields['uid'] = BaseFieldDefinition::create('entity_reference')
+      ->setLabel(t('User'))
+      ->setSetting('target_type', 'user')
       ->setRequired(TRUE);
 
     $fields['progress_data'] = BaseFieldDefinition::create('map')
       ->setLabel(t('Progress Data'))
-      ->setDescription(t('Stores progress data for each requirement.'));
+      ->setDescription(t('Serialized progress data for the student.'));
 
-    $fields['uid'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Student'))
-      ->setDescription(t('The student whose progress is being tracked.'))
-      ->setSetting('target_type', 'user')
-      ->setRequired(TRUE);
+    $fields['last_activity'] = BaseFieldDefinition::create('timestamp')
+      ->setLabel(t('Last Activity'))
+      ->setRequired(TRUE)
+      ->setDefaultValue(0);
 
     return $fields;
   }

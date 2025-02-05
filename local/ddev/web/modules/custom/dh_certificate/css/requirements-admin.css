@@ -1,0 +1,45 @@
+.requirements-overview {
+  max-width: 1200px;
+  margin: 2em auto;
+}
+
+.requirement-set {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 2em;
+  padding: 1.5em;
+}
+
+.requirement-set__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+
+.requirement-set__description {
+  color: #666;
+  margin-bottom: 1.5em;
+}
+
+.requirement-set__requirements table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.requirement-set__requirements th,
+.requirement-set__requirements td {
+  padding: 0.75em;
+  border-bottom: 1px solid #ddd;
+}
+
+.operations {
+  display: flex;
+  gap: 0.5em;
+}
+
+.button--danger {
+  background: #dc3545;
+  color: white;
+}

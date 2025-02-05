@@ -1,0 +1,94 @@
+<?php
+
+namespace Drupal\dh_certificate\StructureMonitor;
+
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\State\StateInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+
+/**
+ * Base class for entity structure monitors.
+ */
+abstract class EntityStructureMonitorBase extends StructureMonitorBase {
+  use StringTranslationTrait;
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
+
+  /**
+   * The logger factory.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   */
+  protected $loggerFactory;
+
+  /**
+   * The state service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $state;
+
+  /**
+   * Constructs a new EntityStructureMonitorBase.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
+   *   The logger factory.
+   * @param \Drupal\Core\State\StateInterface $state
+   *   The state service.
+   */
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    LoggerChannelFactoryInterface $logger_factory,
+    StateInterface $state
+  ) {
+    $this->entityTypeManager = $entity_type_manager;
+    $this->loggerFactory = $logger_factory;
+    $this->state = $state;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasChanged() {
+    $previous_state = $this->state->get($this->stateKey, []);
+    $current_state = $this->getCurrentState();
+    
+    return $previous_state != $current_state;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getChanges() {
+    if ($this->changes !== NULL) {
+      return $this->changes;
+    }
+
+    $previous_state = $this->state->get($this->stateKey, []);
+    $current_state = $this->getCurrentState();
+    $this->changes = $this->calculateChanges($previous_state, $current_state);
+
+    return $this->changes;
+  }
+
+  /**
+   * Calculate differences between previous and current states.
+   *
+   * @param array $previous
+   *   Previous state data.
+   * @param array $current
+   *   Current state data.
+   *
+   * @return array
+   *   Array of changes.
+   */
+  abstract protected function calculateChanges(array $previous, array $current);
+}

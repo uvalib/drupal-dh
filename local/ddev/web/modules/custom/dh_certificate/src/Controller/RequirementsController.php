@@ -3,6 +3,10 @@
 namespace Drupal\dh_certificate\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Link;
+use Drupal\Core\Url;
 
 /**
  * Controller for certificate requirements management.
@@ -10,55 +14,107 @@ use Drupal\Core\Controller\ControllerBase;
 class RequirementsController extends ControllerBase {
 
   /**
-   * Gets a field value safely.
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected function getFieldValue($entity, $field_name, $default = NULL) {
-    if ($entity->hasField($field_name) && !$entity->get($field_name)->isEmpty()) {
-      return $entity->get($field_name)->value;
-    }
-    return $default;
+  protected $entityTypeManager;
+
+  /**
+   * Constructs a new RequirementsController.
+   */
+  public function __construct(EntityTypeManagerInterface $entity_type_manager) {
+    $this->entityTypeManager = $entity_type_manager;
   }
 
   /**
-   * Displays an overview of certificate requirements.
-   *
-   * @return array
-   *   A render array representing the requirements overview page.
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity_type.manager')
+    );
+  }
+
+  /**
+   * Displays the requirements overview page.
    */
   public function overview() {
+    $requirement_sets = $this->entityTypeManager
+      ->getStorage('requirement_set')
+      ->loadMultiple();
+
     $build = [
-      '#theme' => 'dh_certificate_requirements',
-      '#title' => $this->t('Certificate Requirements'),
+      '#theme' => 'dh_certificate_requirements_overview',
+      '#requirement_sets' => [],
       '#attached' => [
-        'library' => ['dh_certificate/certificate-requirements'],
+        'library' => ['dh_certificate/requirements-admin'],
       ],
     ];
 
-    // Load configuration
-    $config = $this->config('dh_certificate.requirements');
-
-    // Get core courses
-    $core_course_ids = $config->get('core_courses') ?: [];
-    $core_courses = [];
-    if (!empty($core_course_ids)) {
-      $nodes = $this->entityTypeManager()->getStorage('node')->loadMultiple($core_course_ids);
-      foreach ($nodes as $node) {
-        $core_courses[] = [
-          'title' => $node->label(),
-          'credits' => $this->getFieldValue($node, 'field_credits', 0),
-          'code' => $this->getFieldValue($node, 'field_course_code', ''),
-        ];
-      }
+    foreach ($requirement_sets as $set) {
+      $requirements = $this->loadRequirementsForSet($set->id());
+      
+      $build['#requirement_sets'][] = [
+        'id' => $set->id(),
+        'label' => $set->label(),
+        'description' => $set->getDescription(),
+        'requirements' => $requirements,
+        'add_requirement_url' => Url::fromRoute('dh_certificate.requirement.add', ['requirement_set' => $set->id()])->toString(),
+        'edit_set_url' => Url::fromRoute('entity.requirement_set.edit_form', ['requirement_set' => $set->id()])->toString(),
+      ];
     }
 
-    // Structure requirements data
-    $build['#requirements'] = [
-      'core_courses' => $core_courses,
-      'elective_credits' => $config->get('elective_credits') ?: 12,
-      'due_date' => $config->get('due_date'),
+    // Add action buttons
+    $build['actions'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['requirements-actions']],
+      'add_set' => [
+        '#type' => 'link',
+        '#title' => $this->t('Add Requirement Set'),
+        '#url' => Url::fromRoute('entity.requirement_set.add_form'),
+        '#attributes' => ['class' => ['button', 'button--primary']],
+      ],
     ];
 
     return $build;
   }
 
+  /**
+   * Loads requirements for a specific set.
+   */
+  protected function loadRequirementsForSet($set_id) {
+    $requirements = [];
+    $requirement_storage = $this->entityTypeManager->getStorage('requirement');
+    
+    try {
+      $ids = $requirement_storage->getQuery()
+        ->condition('requirement_set', $set_id)
+        ->sort('weight')
+        ->accessCheck(TRUE)
+        ->execute();
+
+      if (!empty($ids)) {
+        $entities = $requirement_storage->loadMultiple($ids);
+        foreach ($entities as $requirement) {
+          if ($requirement->access('view')) {
+            $requirements[] = [
+              'id' => $requirement->id(),
+              'label' => $requirement->label(),
+              'type' => $requirement->getType(),
+              'edit_url' => $requirement->toUrl('edit-form')->toString(),
+              'delete_url' => $requirement->toUrl('delete-form')->toString(),
+            ];
+          }
+        }
+      }
+    }
+    catch (\Exception $e) {
+      $this->logger('dh_certificate')->error('Error loading requirements: @message', [
+        '@message' => $e->getMessage(),
+      ]);
+    }
+
+    return $requirements;
+  }
 }

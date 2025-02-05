@@ -1,0 +1,52 @@
+course_enrollment.settings:
+  type: config_object
+  label: 'Course enrollment settings'
+  mapping:
+    schema_version:
+      type: integer
+      label: 'Schema version'
+
+course_enrollment.record.*:
+  type: config_entity
+  label: 'Course enrollment record'
+  mapping:
+    id:
+      type: integer
+      label: 'ID'
+    uid:
+      type: integer
+      label: 'User ID'
+    course_id:
+      type: integer
+      label: 'Course ID'
+    status:
+      type: string
+      label: 'Status'
+    completed_date:
+      type: integer
+      label: 'Completion date'
+    created:
+      type: integer
+      label: 'Created timestamp'
+    changed:
+      type: integer
+      label: 'Changed timestamp'
+
+course_enrollment.status:
+  type: sequence
+  label: 'Course enrollment statuses'
+  sequence:
+    type: mapping
+    mapping:
+      id:
+        type: string
+        label: 'Machine name'
+      label:
+        type: label
+        label: 'Label'
+      description:
+        type: text
+        label: 'Description'
+      weight:
+        type: integer
+        label: 'Weight'

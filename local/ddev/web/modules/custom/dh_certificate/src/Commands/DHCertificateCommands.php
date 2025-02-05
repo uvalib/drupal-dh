@@ -3,41 +3,178 @@
 namespace Drupal\dh_certificate\Commands;
 
 use Drush\Commands\DrushCommands;
-use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
+use Drupal\dh_certificate\Progress\ProgressManagerInterface;
+use Drupal\dh_certificate\RequirementType\{
+  RequirementTypeManagerInterface,
+  RequirementTypeTemplateInterface
+};
 
 /**
- * Drush commands for DH Certificate.
+ * DH Certificate Drush commands.
+ * 
+ * @package Drupal\dh_certificate\Commands
  */
 class DHCertificateCommands extends DrushCommands {
 
-  /**
-   * The database connection.
-   *
-   * @var \Drupal\Core\Database\Connection
-   */
-  protected $database;
-
-  /**
-   * The entity type manager.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
   protected $entityTypeManager;
+  protected $progressManager;
+  protected $requirementTypeManager;
 
   /**
    * Constructs a new DHCertificateCommands object.
-   *
-   * @param \Drupal\Core\Database\Connection $database
-   *   The database connection.
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager.
    */
-  public function __construct(Connection $database, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct() {
     parent::__construct();
-    $this->database = $database;
-    $this->entityTypeManager = $entity_type_manager;
+    $this->entityTypeManager = \Drupal::entityTypeManager();
+  }
+
+  public function setProgressManager(ProgressManagerInterface $progress_manager) {
+    $this->progressManager = $progress_manager;
+  }
+
+  public function setRequirementTypeManager(RequirementTypeManagerInterface $requirement_type_manager) {
+    $this->requirementTypeManager = $requirement_type_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    $instance = new static();
+    if ($container->has('dh_certificate.progress')) {
+      $instance->setProgressManager($container->get('dh_certificate.progress'));
+    }
+    if ($container->has('dh_certificate.requirement_type_manager')) {
+      $instance->setRequirementTypeManager($container->get('dh_certificate.requirement_type_manager'));
+    }
+    return $instance;
+  }
+
+  protected function checkCertificateSetup() {
+    // Check if course content type exists
+    if (!$this->entityTypeManager->getStorage('node_type')->load('course')) {
+      return 'Course content type does not exist. Please reinstall the module.';
+    }
+
+    // Check if course_enrollment entity type exists
+    if (!$this->entityTypeManager->hasDefinition('course_enrollment')) {
+      return 'Course enrollment entity type does not exist. Please reinstall the module.';
+    }
+
+    return TRUE;
+  }
+
+  /**
+   * Clean up all progress data.
+   *
+   * @command dh:cleanup-progress
+   * @aliases dhc:clean-progress,dh-certificate:cleanup-progress 
+   */
+  public function cleanupProgress() {
+    try {
+      // Clean up progress entities using Entity API
+      if ($this->entityTypeManager->hasDefinition('dh_certificate_progress')) {
+        $storage = $this->entityTypeManager->getStorage('dh_certificate_progress');
+        $ids = $storage->getQuery()
+          ->accessCheck(FALSE)
+          ->execute();
+
+        if (!empty($ids)) {
+          $entities = $storage->loadMultiple($ids);
+          $storage->delete($entities);
+          $this->output()->writeln(dt('Cleaned up certificate progress entities.'));
+        }
+      }
+
+      // Clean up user references using Entity API
+      $user_storage = $this->entityTypeManager->getStorage('user');
+      $user_query = $user_storage->getQuery()
+        ->accessCheck(FALSE)
+        ->condition('dh_certificate_progress', NULL, 'IS NOT NULL')
+        ->execute();
+      
+      if (!empty($user_query)) {
+        $users = $user_storage->loadMultiple($user_query);
+        foreach ($users as $user) {
+          $user->set('dh_certificate_progress', NULL);
+          $user->save();
+        }
+        $this->output()->writeln(dt('Cleaned up certificate progress references for @count users.', [
+          '@count' => count($users),
+        ]));
+      }
+
+      return TRUE;
+    }
+    catch (\Exception $e) {
+      $this->logger()->warning($e->getMessage());
+      return TRUE;
+    }
+  }
+
+  /**
+   * Clean up all course enrollment data.
+   *
+   * @command dh:cleanup-enrollments
+   * @aliases dhc:clean-enroll,dh-certificate:cleanup-enrollments
+   */
+  public function cleanupEnrollments() {
+    try {
+      $storage = $this->entityTypeManager->getStorage('course_enrollment');
+      $ids = $storage->getQuery()
+        ->accessCheck(FALSE)
+        ->execute();
+      
+      if (!empty($ids)) {
+        $entities = $storage->loadMultiple($ids);
+        $count = count($entities);
+        $storage->delete($entities);
+        $this->output()->writeln(dt('Cleaned up @count course enrollment records.', [
+          '@count' => $count,
+        ]));
+      } else {
+        $this->output()->writeln(dt('No course enrollment records found.'));
+      }
+    }
+    catch (\Exception $e) {
+      $this->logger()->error($e->getMessage());
+      throw new \Exception('Failed to clean up course enrollments: ' . $e->getMessage());
+    }
+  }
+
+  public function listEnrollments() {
+    $enrollment_storage = $this->entityTypeManager->getStorage('course_enrollment');
+    $query = $enrollment_storage->getQuery()
+      ->accessCheck(FALSE)
+      ->sort('uid')
+      ->sort('course_id')
+      ->execute();
+    
+    $enrollments = $enrollment_storage->loadMultiple($query);
+
+    if (empty($enrollments)) {
+      $this->output()->writeln('No enrollments found.');
+      return;
+    }
+
+    foreach ($enrollments as $enrollment) {
+      $user = $enrollment->get('uid')->entity;
+      $course = $enrollment->get('course_id')->entity;
+      
+      if (!$user || !$course) {
+        continue;
+      }
+
+      $this->output()->writeln(sprintf(
+        "%-15s | %-40s | %s",
+        $user->getAccountName(),
+        $course->label(),
+        $enrollment->get('status')->value
+      ));
+    }
   }
 
   /**
@@ -57,6 +194,7 @@ class DHCertificateCommands extends DrushCommands {
     $user_ids_array = array_map('trim', explode(',', $user_ids));
     $user_storage = $this->entityTypeManager->getStorage('user');
     $course_storage = $this->entityTypeManager->getStorage('node');
+    $enrollment_storage = $this->entityTypeManager->getStorage('course_enrollment');
 
     // Get all courses
     $course_query = $course_storage->getQuery()
@@ -72,54 +210,48 @@ class DHCertificateCommands extends DrushCommands {
       if ($user) {
         // Clear existing enrollments if --retain flag is not passed
         if (!$options['retain']) {
-          $this->database->delete('course_enrollment')
-            ->condition('uid', $user_id)
-            ->execute();
+          $existing_enrollments = $enrollment_storage->loadByProperties(['uid' => $user_id]);
+          if ($existing_enrollments) {
+            $enrollment_storage->delete($existing_enrollments);
+          }
         }
 
-        // Limit the number of enrollments to 5-8
+        // Generate new enrollments
         $num_enrollments = rand(5, 8);
         $selected_courses = array_rand($courses, $num_enrollments);
 
         foreach ($selected_courses as $course_index) {
           $course = $courses[$course_index];
           $status = $statuses[array_rand($statuses)];
-          $completed_date = $status === 'completed' ? time() : NULL;
-
-          $this->database->insert('course_enrollment')
-            ->fields([
-              'uid' => $user_id,
-              'course_id' => $course->id(),
-              'status' => $status,
-              'completed_date' => $completed_date,
-            ])
-            ->execute();
+          
+          $enrollment = $enrollment_storage->create([
+            'uid' => $user_id,
+            'course_id' => $course->id(),
+            'status' => $status,
+            'completed_date' => $status === 'completed' ? time() : NULL,
+            'enrolled_date' => \Drupal::time()->getRequestTime(),
+          ]);
+          $enrollment->save();
         }
+        
         $this->logger()->success(dt('Enrollments generated for user ID @uid', ['@uid' => $user_id]));
-      }
-      else {
-        $this->logger()->error(dt('User ID @uid not found', ['@uid' => $user_id]));
       }
     }
 
     // List all enrollments for the specified users
     foreach ($user_ids_array as $user_id) {
-      $enrollments = $this->database->select('course_enrollment', 'ce')
-        ->fields('ce', ['course_id', 'status'])
-        ->condition('uid', $user_id)
-        ->execute()
-        ->fetchAll();
-
+      $enrollments = $enrollment_storage->loadByProperties(['uid' => $user_id]);
       $user = $user_storage->load($user_id);
+      
       foreach ($enrollments as $enrollment) {
-        $course = $course_storage->load($enrollment->course_id);
+        $course = $course_storage->load($enrollment->get('course_id')->target_id);
         if (!$course || !$user) {
           continue;
         }
         $this->logger()->notice(sprintf(
           "%s is %s in %s",
           $user->getDisplayName(),
-          $enrollment->status,
+          $enrollment->get('status')->value,
           $course->label()
         ));
       }
@@ -127,30 +259,6 @@ class DHCertificateCommands extends DrushCommands {
 
     // Debugging to stderr
     fwrite(STDERR, "Debug: Finished generating and listing enrollments.\n");
-  }
-
-  /**
-   * The progress manager.
-   *
-   * @var \Drupal\dh_certificate\ProgressManagerInterface
-   */
-  protected $progressManager;
-
-  /**
-   * The requirement type manager.
-   *
-   * @var \Drupal\dh_certificate\RequirementType\RequirementTypeManagerInterface
-   */
-  protected $requirementTypeManager;
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('database'),
-      $container->get('entity_type.manager')
-    );
   }
 
   /**
@@ -327,13 +435,12 @@ class DHCertificateCommands extends DrushCommands {
    * Check if an enrollment already exists.
    */
   protected function checkEnrollmentExists($uid, $course_id) {
-    $database = \Drupal::database();
-    return (bool) $database->select('course_enrollment', 'ce')
-      ->condition('uid', $uid)
-      ->condition('course_id', $course_id)
-      ->countQuery()
-      ->execute()
-      ->fetchField();
+    return (bool) $this->entityTypeManager
+      ->getStorage('course_enrollment')
+      ->loadByProperties([
+        'uid' => $uid,
+        'course_id' => $course_id,
+      ]);
   }
 
   /**
@@ -347,16 +454,17 @@ class DHCertificateCommands extends DrushCommands {
     ];
 
     try {
-      $database = \Drupal::database();
-      
-      $database->insert('course_enrollment')
-        ->fields([
+      $enrollment = $this->entityTypeManager
+        ->getStorage('course_enrollment')
+        ->create([
           'uid' => $uid,
           'course_id' => $course_id,
           'status' => $status_map[$status] ?? 'pending',
           'completed_date' => $status === 'complete' ? time() : NULL,
-        ])
-        ->execute();
+          'enrolled_date' => \Drupal::time()->getRequestTime(),
+        ]);
+      
+      $enrollment->save();
         
       $this->output()->writeln(dt('Created enrollment for user @uid in course @cid with status @status', [
         '@uid' => $uid,
@@ -413,12 +521,11 @@ class DHCertificateCommands extends DrushCommands {
       }
 
       // Check for enrollments
-      $database = \Drupal::database();
-      $enrollment_count = $database->select('course_enrollment', 'ce')
+      $enrollment_storage = $this->entityTypeManager->getStorage('course_enrollment');
+      $enrollment_count = $enrollment_storage->getQuery()
         ->condition('uid', $uid)
-        ->countQuery()
-        ->execute()
-        ->fetchField();
+        ->count()
+        ->execute();
 
       if (!$enrollment_count) {
         $this->output()->writeln("\n=== Certificate Progress for User $uid ===");
@@ -467,135 +574,30 @@ class DHCertificateCommands extends DrushCommands {
   }
 
   /**
-   * Checks if certificate system is properly set up.
-   */
-  protected function checkCertificateSetup() {
-    // Check if course content type exists
-    if (!$this->entityTypeManager->getStorage('node_type')->load('course')) {
-      return 'Course content type does not exist. Please reinstall the module.';
-    }
-
-    // Check if enrollment table exists
-    $database = \Drupal::database();
-    if (!$database->schema()->tableExists('course_enrollment')) {
-      return 'Course enrollment table does not exist. Please reinstall the module.';
-    }
-
-    return TRUE;
-  }
-
-  /**
-   * Clean up all certificate progress entities.
-   *
-   * @command dh-certificate:cleanup-progress
-   * @aliases dhc-clean-progress
-   * @usage dh-certificate:cleanup-progress
-   */
-  public function cleanupProgress() {
-    try {
-      // First try entity API approach
-      $storage = $this->entityTypeManager->getStorage('dh_certificate_progress');
-      $query = $storage->getQuery()
-        ->accessCheck(FALSE);
-      $ids = $query->execute();
-
-      if (!empty($ids)) {
-        $entities = $storage->loadMultiple($ids);
-        $storage->delete($entities);
-        $this->output()->writeln(dt('Deleted @count certificate progress entities.', [
-          '@count' => count($ids),
-        ]));
-      }
-
-      // Fallback to direct database cleanup
-      $database = \Drupal::database();
-      if ($database->schema()->tableExists('dh_certificate_progress')) {
-        $database->truncate('dh_certificate_progress')->execute();
-        $this->output()->writeln(dt('Cleaned up certificate progress table.'));
-      }
-
-      // Also clean up any user references
-      $user_storage = $this->entityTypeManager->getStorage('user');
-      $users = $user_storage->loadMultiple();
-      foreach ($users as $user) {
-        if ($user->hasField('dh_certificate_progress')) {
-          $user->set('dh_certificate_progress', NULL);
-          $user->save();
-        }
-      }
-      $this->output()->writeln(dt('Cleaned up user certificate progress references.'));
-
-    } catch (\Exception $e) {
-      $this->logger()->error($e->getMessage());
-      throw new \Exception('Failed to clean up certificate progress entities: ' . $e->getMessage());
-    }
-  }
-
-  /**
-   * Clean up all course enrollment data.
-   *
-   * @command dh-certificate:cleanup-enrollments
-   * @aliases dhc-clean-enroll
-   * @usage dh-certificate:cleanup-enrollments
-   */
-  public function cleanupEnrollments() {
-    try {
-      // Direct database cleanup for reliability
-      $database = \Drupal::database();
-      if ($database->schema()->tableExists('course_enrollment')) {
-        $count = $database->select('course_enrollment', 'ce')
-          ->countQuery()
-          ->execute()
-          ->fetchField();
-          
-        $database->truncate('course_enrollment')->execute();
-        $this->output()->writeln(dt('Cleaned up @count course enrollment records.', [
-          '@count' => $count,
-        ]));
-      } else {
-        $this->output()->writeln(dt('No course enrollment table found.'));
-      }
-    } catch (\Exception $e) {
-      $this->logger()->error($e->getMessage());
-      throw new \Exception('Failed to clean up course enrollments: ' . $e->getMessage());
-    }
-  }
-
-  /**
    * Debug enrollment data.
    *
    * @command dh-certificate:debug-enrollments
    * @aliases dhc-debug
    */
   public function debugEnrollments() {
-    $database = \Drupal::database();
+    $storage = $this->entityTypeManager->getStorage('course_enrollment');
     
     $this->output()->writeln("\n=== Course Enrollment Debug ===");
 
-    // Check existence and count
-    $exists = $database->schema()->tableExists('course_enrollment');
-    $count = 0;
-    if ($exists) {
-      $count = $database->select('course_enrollment', 'ce')
-        ->countQuery()
-        ->execute()
-        ->fetchField();
-    }
+    // Get count of enrollments
+    $count = $storage->getQuery()
+      ->accessCheck(FALSE)
+      ->count()
+      ->execute();
     
-    $this->output()->writeln("Table exists: " . ($exists ? 'Yes' : 'No'));
     $this->output()->writeln("Total enrollments: $count");
 
-    // Only show data if we have enrollments
     if ($count > 0) {
-      // Get all enrollments with course titles
-      $query = $database->select('course_enrollment', 'ce');
-      $query->join('node_field_data', 'n', 'ce.course_id = n.nid');
-      $query->fields('ce', ['id', 'uid', 'status', 'completed_date'])
-        ->fields('n', ['title'])
-        ->orderBy('ce.id', 'ASC');
+      $enrollments = $storage->getQuery()
+        ->accessCheck(FALSE)
+        ->execute();
+      $enrollments = $storage->loadMultiple($enrollments);
       
-      $results = $query->execute()->fetchAll();
-
       $this->output()->writeln("\nAll enrollments:");
       $this->output()->writeln(str_repeat('-', 80));
       $this->output()->writeln(sprintf(
@@ -604,14 +606,24 @@ class DHCertificateCommands extends DrushCommands {
       ));
       $this->output()->writeln(str_repeat('-', 80));
       
-      foreach ($results as $row) {
-        $completed = $row->completed_date ? date('Y-m-d', $row->completed_date) : 'N/A';
+      foreach ($enrollments as $enrollment) {
+        $user = $this->entityTypeManager->getStorage('user')->load($enrollment->get('uid')->target_id);
+        $course = $this->entityTypeManager->getStorage('node')->load($enrollment->get('course_id')->target_id);
+        
+        if (!$user || !$course) {
+          continue;
+        }
+
+        $completed = $enrollment->get('completed_date')->value 
+          ? date('Y-m-d', $enrollment->get('completed_date')->value) 
+          : 'N/A';
+
         $this->output()->writeln(sprintf(
           "%-4d | %-6d | %-40s | %-10s | %s",
-          $row->id,
-          $row->uid,
-          substr($row->title, 0, 40),
-          $row->status,
+          $enrollment->id(),
+          $user->id(),
+          substr($course->label(), 0, 40),
+          $enrollment->get('status')->value,
           $completed
         ));
       }
@@ -712,40 +724,543 @@ class DHCertificateCommands extends DrushCommands {
   }
 
   /**
-   * List all enrollments.
+   * Generate example requirement sets.
    *
-   * @command dh-certificate:list-enrollments
-   * @aliases dhc-list-enroll
+   * @command dh-certificate:generate-requirement-sets
+   * @aliases dhc-gen-req
+   * @option reset Delete existing requirement sets before generating new ones
    */
-  public function listEnrollments() {
-    $database = \Drupal::database();
-    $query = $database->select('course_enrollment', 'ce')
-      ->fields('ce', ['uid', 'course_id', 'status']);
-    
-    $enrollments = $query->execute()->fetchAll();
-
-    if (empty($enrollments)) {
-      $this->output()->writeln('No enrollments found.');
-      return;
+  public function generateRequirementSets(array $options = ['reset' => FALSE]) {
+    if ($options['reset']) {
+      $storage = $this->entityTypeManager->getStorage('requirement_set');
+      $ids = $storage->getQuery()
+        ->accessCheck(FALSE)
+        ->execute();
+      if (!empty($ids)) {
+        $storage->delete($storage->loadMultiple($ids));
+        $this->output()->writeln('Deleted existing requirement sets.');
+      }
     }
 
-    $course_storage = $this->entityTypeManager->getStorage('node');
-    $user_storage = $this->entityTypeManager->getStorage('user');
+    // Create example requirement sets
+    $sets = [
+      'certificate_standard' => [
+        'label' => 'Digital Humanities Certificate',
+        'requirements' => [
+          'core_courses' => [
+            'type' => 'course',
+            'label' => 'Core Courses',
+            'required' => TRUE,
+            'config' => [
+              'minimum_credits' => 15,
+              'course_type' => 'core'
+            ]
+          ],
+          'elective_courses' => [
+            'type' => 'course',
+            'label' => 'Elective Courses',
+            'required' => TRUE,
+            'config' => [
+              'minimum_credits' => 6,
+              'course_type' => 'elective'
+            ]
+          ],
+          'tool_proficiency' => [
+            'type' => 'task',
+            'label' => 'Tool Proficiency',
+            'required' => TRUE,
+            'config' => [
+              'tools' => [
+                'git' => 'Git Version Control',
+                'python' => 'Python Programming',
+                'r' => 'R Statistical Computing'
+              ]
+            ]
+          ],
+          'capstone_project' => [
+            'type' => 'project',
+            'label' => 'Capstone Project',
+            'required' => TRUE,
+            'config' => [
+              'milestones' => [
+                'proposal' => 'Project Proposal',
+                'implementation' => 'Project Implementation',
+                'presentation' => 'Final Presentation'
+              ]
+            ]
+          ]
+        ]
+      ],
+      'advanced_certificate' => [
+        'label' => 'Advanced DH Certificate',
+        'requirements' => [
+          'core_courses' => [
+            'type' => 'course',
+            'label' => 'Advanced Core Courses',
+            'required' => TRUE,
+            'config' => [
+              'minimum_credits' => 18,
+              'course_type' => 'advanced_core'
+            ]
+          ],
+          'research_project' => [
+            'type' => 'project',
+            'label' => 'Research Project',
+            'required' => TRUE,
+            'config' => [
+              'milestones' => [
+                'proposal' => 'Research Proposal',
+                'methodology' => 'Methods Development',
+                'implementation' => 'Project Implementation',
+                'paper' => 'Research Paper',
+                'defense' => 'Project Defense'
+              ]
+            ]
+          ]
+        ]
+      ]
+    ];
 
-    foreach ($enrollments as $enrollment) {
-      $user = $user_storage->load($enrollment->uid);
-      $course = $course_storage->load($enrollment->course_id);
+    foreach ($sets as $id => $data) {
+      try {
+        $requirement_set = $this->entityTypeManager->getStorage('requirement_set')->create([
+          'id' => $id,
+          'label' => $data['label'],
+          'requirements' => $data['requirements'],
+          'status' => TRUE
+        ]);
+        $requirement_set->save();
+        
+        $this->output()->writeln(sprintf(
+          'Created requirement set: %s [%s]',
+          $data['label'],
+          $id
+        ));
+      }
+      catch (\Exception $e) {
+        $this->logger()->error($e->getMessage());
+      }
+    }
+  }
+
+  /**
+   * Generate standard certificate requirements.
+   *
+   * @command dh-certificate:generate-standard-requirements
+   * @aliases dhc-gen-std-req
+   * @option reset Delete existing requirements before generating new ones
+   */
+  public function generateStandardRequirements(array $options = ['reset' => FALSE]) {
+    if ($options['reset']) {
+      $this->output()->writeln('Removing existing requirements...');
+      // Clear existing requirements
+      $storage = $this->entityTypeManager->getStorage('requirement_set');
+      $ids = $storage->getQuery()->accessCheck(FALSE)->execute();
+      if (!empty($ids)) {
+        $storage->delete($storage->loadMultiple($ids));
+      }
+    }
+
+    $requirements = [
+      'core_requirements' => [
+        'label' => 'Core DH Requirements',
+        'requirements' => [
+          'methods_course' => [
+            'type' => 'course',
+            'label' => 'DH Methods Course',
+            'required' => TRUE,
+            'config' => [
+              'course_type' => 'methods',
+              'credits' => 3
+            ]
+          ],
+          'core_courses' => [
+            'type' => 'course',
+            'label' => 'Core DH Courses',
+            'required' => TRUE,
+            'config' => [
+              'minimum_credits' => 9,
+              'course_type' => 'core'
+            ]
+          ]
+        ]
+      ],
+      'technical_requirements' => [
+        'label' => 'Technical Requirements',
+        'requirements' => [
+          'programming' => [
+            'type' => 'tool',
+            'label' => 'Programming Skills',
+            'required' => TRUE,
+            'config' => [
+              'skills' => [
+                'python' => 'Python Programming',
+                'r' => 'R Statistical Computing',
+                'javascript' => 'JavaScript Basics'
+              ],
+              'minimum_proficiency' => 2
+            ]
+          ],
+          'version_control' => [
+            'type' => 'tool',
+            'label' => 'Version Control',
+            'required' => TRUE,
+            'config' => [
+              'tools' => ['git'],
+              'minimum_proficiency' => 1
+            ]
+          ]
+        ]
+      ],
+      'project_requirements' => [
+        'label' => 'Project Requirements',
+        'requirements' => [
+          'capstone' => [
+            'type' => 'project',
+            'label' => 'Capstone Project',
+            'required' => TRUE,
+            'config' => [
+              'milestones' => [
+                'proposal' => [
+                  'label' => 'Project Proposal',
+                  'deadline' => '+2 months'
+                ],
+                'progress' => [
+                  'label' => 'Progress Report',
+                  'deadline' => '+4 months'
+                ],
+                'final' => [
+                  'label' => 'Final Presentation',
+                  'deadline' => '+6 months'
+                ]
+              ]
+            ]
+          ]
+        ]
+      ]
+    ];
+
+    foreach ($requirements as $id => $data) {
+      try {
+        $requirement_set = $this->entityTypeManager->getStorage('requirement_set')->create([
+          'id' => $id,
+          'label' => $data['label'],
+          'requirements' => $data['requirements'],
+          'status' => TRUE
+        ]);
+        $requirement_set->save();
+        
+        $this->output()->writeln(sprintf(
+          'Created requirement set: %s [%s]',
+          $data['label'],
+          $id
+        ));
+      }
+      catch (\Exception $e) {
+        $this->logger()->error($e->getMessage());
+      }
+    }
+  }
+
+  /**
+   * Lists all requirement type templates.
+   *
+   * @command dh-certificate:list-templates
+   * @aliases dhc-lt
+   * @field-labels
+   *   id: ID
+   *   label: Label
+   *   type: Type
+   *   weight: Weight
+   * @default-fields id,label,type,weight
+   *
+   * @return \Consolidation\OutputFormatters\StructuredData\RowsOfFields
+   *   Template list as table.
+   */
+  public function listTemplates() {
+    $templates = $this->entityTypeManager->getStorage('requirement_type_template')->loadMultiple();
+    $rows = [];
+    
+    foreach ($templates as $template) {
+      $rows[] = [
+        'id' => $template->id(),
+        'label' => $template->label(),
+        'type' => $template->getType(),
+        'weight' => $template->getWeight(),
+      ];
+    }
+    
+    return new RowsOfFields($rows);
+  }
+
+  /**
+   * Creates a new requirement type template.
+   *
+   * @command dh-certificate:create-template
+   * @aliases dhc-ct
+   * @param string $id
+   *   The template ID.
+   * @param string $label
+   *   The template label.
+   * @param string $type
+   *   The requirement type.
+   * @option weight
+   *   Template weight (default: 0)
+   * @option config
+   *   JSON string of template configuration
+   * @usage drush dhc-ct course_basic "Basic Course" course
+   *   Create a basic course template
+   */
+  public function createTemplate($id, $label, $type, array $options = [
+    'weight' => 0,
+    'config' => '{}',
+  ]) {
+    try {
+      $storage = $this->entityTypeManager->getStorage('requirement_type_template');
+      $template = $storage->create([
+        'id' => $id,
+        'label' => $label,
+        'type' => $type,
+        'weight' => $options['weight'],
+        'config' => json_decode($options['config'], TRUE) ?: [],
+      ]);
       
-      if (!$user || !$course) {
-        continue;
+      $template->save();
+      $this->logger()->success(dt('Created template: @label', ['@label' => $label]));
+    }
+    catch (\Exception $e) {
+      $this->logger()->error($e->getMessage());
+    }
+  }
+
+  /**
+   * Deletes a requirement type template.
+   *
+   * @command dh-certificate:delete-template
+   * @aliases dhc-dt
+   * @param string $id
+   *   The template ID to delete.
+   * @usage drush dhc-dt course_basic
+   *   Delete the course_basic template
+   */
+  public function deleteTemplate($id) {
+    try {
+      $storage = $this->entityTypeManager->getStorage('requirement_type_template');
+      $template = $storage->load($id);
+      
+      if (!$template) {
+        throw new \Exception(dt('Template @id not found.', ['@id' => $id]));
+      }
+      
+      $template->delete();
+      $this->logger()->success(dt('Deleted template: @id', ['@id' => $id]));
+    }
+    catch (\Exception $e) {
+      $this->logger()->error($e->getMessage());
+    }
+  }
+
+  /**
+   * Generate example requirement type templates.
+   *
+   * @command dh-certificate:generate-templates
+   * @aliases dhc-templates, dhc-gen-ex
+   * @option reset Delete existing templates before generating new ones
+   */
+  public function generateTemplates(array $options = ['reset' => FALSE]) {
+    try {
+      if ($options['reset']) {
+        $storage = $this->entityTypeManager->getStorage('requirement_type_template');
+        $ids = $storage->getQuery()
+          ->accessCheck(FALSE)
+          ->execute();
+        if (!empty($ids)) {
+          $storage->delete($storage->loadMultiple($ids));
+          $this->output()->writeln('Deleted existing templates.');
+        }
       }
 
-      $this->output()->writeln(sprintf(
-        "%-15s | %-40s | %s",
-        $user->getAccountName(),
-        $course->label(),
-        $enrollment->status
-      ));
+      $templates = [
+        'core_course' => [
+          'label' => 'Core Course Requirement',
+          'type' => 'course',
+          'weight' => 0,
+          'config' => [
+            'credits' => 3,
+            'course_type' => 'core',
+            'required' => TRUE,
+            'minimum_grade' => 'B',
+          ],
+        ],
+        'elective_course' => [
+          'label' => 'Elective Course Requirement',
+          'type' => 'course',
+          'weight' => 10,
+          'config' => [
+            'credits' => 3,
+            'course_type' => 'elective',
+            'required' => FALSE,
+            'minimum_grade' => 'C',
+          ],
+        ],
+        'tool_proficiency' => [
+          'label' => 'Tool Proficiency Requirement',
+          'type' => 'skill',
+          'weight' => 20,
+          'config' => [
+            'tools' => [
+              'git' => [
+                'label' => 'Git Version Control',
+                'levels' => ['basic', 'intermediate', 'advanced'],
+              ],
+              'python' => [
+                'label' => 'Python Programming',
+                'levels' => ['basic', 'intermediate', 'advanced'],
+              ],
+              'r' => [
+                'label' => 'R Statistical Computing',
+                'levels' => ['basic', 'intermediate', 'advanced'],
+              ],
+            ],
+            'minimum_level' => 'intermediate',
+            'required_tools' => 2,
+          ],
+        ],
+        'capstone_project' => [
+          'label' => 'Capstone Project Requirement',
+          'type' => 'project',
+          'weight' => 30,
+          'config' => [
+            'milestones' => [
+              'proposal' => [
+                'label' => 'Project Proposal',
+                'deadline' => '+2 months',
+                'required' => TRUE,
+              ],
+              'interim_report' => [
+                'label' => 'Interim Progress Report',
+                'deadline' => '+4 months',
+                'required' => TRUE,
+              ],
+              'final_presentation' => [
+                'label' => 'Final Presentation',
+                'deadline' => '+6 months',
+                'required' => TRUE,
+              ],
+              'paper' => [
+                'label' => 'Final Paper',
+                'deadline' => '+6 months',
+                'required' => TRUE,
+                'minimum_length' => 5000,
+              ],
+            ],
+            'advisor_approval_required' => TRUE,
+          ],
+        ],
+      ];
+
+      $storage = $this->entityTypeManager->getStorage('requirement_type_template');
+      foreach ($templates as $id => $data) {
+        try {
+          $template = $storage->create([
+            'id' => $id,
+            'label' => $data['label'],
+            'type' => $data['type'],
+            'weight' => $data['weight'] ?? 0,
+            'config' => $data['config'],
+            'status' => TRUE,
+          ]);
+          $template->save();
+          
+          $this->output()->writeln(sprintf(
+            'Created template: %s [%s]',
+            $data['label'],
+            $id
+          ));
+        }
+        catch (\Exception $e) {
+          $this->logger()->error(sprintf(
+            'Failed to create template %s: %s',
+            $id,
+            $e->getMessage()
+          ));
+        }
+      }
+
+      $this->output()->writeln("\nUse 'drush dh-certificate:list-templates' to see all templates.");
+    }
+    catch (\Exception $e) {
+      $this->logger()->error($e->getMessage());
+      throw $e;
+    }
+  }
+
+  /**
+   * Run complete setup with example data.
+   *
+   * @command dh-certificate:setup-all
+   * @aliases dhc-setup
+   * @option reset Delete existing data before setup
+   * @option uid User ID to generate enrollments for (defaults to 1)
+   * @usage dh-certificate:setup-all --reset --uid=2
+   *   Run complete setup with fresh data for user 2
+   */
+  public function setupAll(array $options = ['reset' => FALSE, 'uid' => 1]) {
+    try {
+      $this->output()->writeln('Starting complete DH Certificate setup...');
+
+      // 1. Clean existing data if reset flag is set
+      if ($options['reset']) {
+        $this->output()->writeln('Cleaning existing data...');
+        $this->cleanupProgress();
+        $this->cleanupEnrollments();
+        $this->deleteExistingTestData();
+      }
+
+      // 2. Generate requirement templates
+      $this->output()->writeln("\nGenerating requirement templates...");
+      $this->generateTemplates(['reset' => $options['reset']]);
+
+      // 3. Generate requirement sets
+      $this->output()->writeln("\nGenerating requirement sets...");
+      $this->generateRequirementSets(['reset' => $options['reset']]);
+
+      // 4. Generate standard requirements
+      $this->output()->writeln("\nGenerating standard requirements...");
+      $this->generateStandardRequirements(['reset' => $options['reset']]);
+
+      // 5. Generate test courses and enrollments
+      $this->output()->writeln("\nGenerating test courses and enrollments...");
+      $user = $this->entityTypeManager->getStorage('user')->load($options['uid']);
+      if (!$user) {
+        throw new \Exception(sprintf('User %d not found', $options['uid']));
+      }
+      $this->generateTestData(['reset' => $options['reset'], 'uid' => $options['uid']]);
+
+      // 6. Verify setup
+      $this->output()->writeln("\nVerifying setup...");
+      $status = $this->checkCertificateSetup();
+      if ($status !== TRUE) {
+        throw new \Exception("Setup verification failed: $status");
+      }
+
+      $this->output()->writeln("\n✅ Setup complete! Use these commands to explore:");
+      // 7. Show debug info instead of progress check for now
+      $this->output()->writeln("\nShowing debug information...");
+      $this->debugEnrollments();
+
+      $this->output()->writeln("\n✅ Setup complete! Use these commands to explore:");
+      $this->output()->writeln("  drush dhc-progress {$options['uid']}     # View progress");
+      $this->output()->writeln("  drush dhc-list-enroll        # List enrollments");
+      $this->output()->writeln("  drush dhc-lt                 # List templates");
+      $this->output()->writeln("  drush dhc-debug              # Debug info");
+
+      return 0;
+    }
+    catch (\Exception $e) {
+      $this->logger()->error($e->getMessage());
+      $this->output()->writeln("<error>Setup failed: " . $e->getMessage() . "</error>");
+      return 1;
     }
   }
 

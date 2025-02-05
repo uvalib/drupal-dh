@@ -1,0 +1,14 @@
+requirement.entity_type:
+  type: config_entity
+  label: 'Requirement'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    list_builder:
+      type: string
+      label: 'List builder'
+      default: 'Drupal\dh_certificate\ListBuilder\RequirementListBuilder'

@@ -12,22 +12,29 @@ use Drupal\Core\Field\BaseFieldDefinition;
  * @ContentEntityType(
  *   id = "course_enrollment",
  *   label = @Translation("Course Enrollment"),
- *   base_table = "course_enrollment",
- *   admin_permission = "administer dh certificate",
  *   handlers = {
  *     "storage" = "Drupal\Core\Entity\Sql\SqlContentEntityStorage",
- *     "storage_schema" = "Drupal\Core\Entity\Sql\SqlContentEntityStorageSchema",
- *     "access" = "Drupal\Core\Entity\EntityAccessControlHandler",
- *     "list_builder" = "Drupal\Core\Entity\EntityListBuilder",
+ *     "access" = "Drupal\dh_certificate\CourseEnrollmentAccessControlHandler",
+ *     "list_builder" = "Drupal\dh_certificate\CourseEnrollmentListBuilder",
+ *     "views_data" = "Drupal\views\EntityViewsData",
+ *     "form" = {
+ *       "default" = "Drupal\dh_certificate\Form\CourseEnrollmentForm",
+ *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm"
+ *     }
  *   },
+ *   base_table = "course_enrollment",
+ *   translatable = FALSE,
+ *   admin_permission = "administer dh certificate",
  *   entity_keys = {
  *     "id" = "id",
+ *     "uuid" = "uuid",
  *     "uid" = "uid",
  *     "status" = "status"
  *   },
  *   links = {
- *     "delete-form" = "/admin/dh_certificate/enrollment/{course_enrollment}/delete",
- *     "collection" = "/admin/dh_certificate/enrollments"
+ *     "canonical" = "/certificate/enrollment/{course_enrollment}",
+ *     "edit-form" = "/certificate/enrollment/{course_enrollment}/edit",
+ *     "delete-form" = "/certificate/enrollment/{course_enrollment}/delete"
  *   }
  * )
  */
@@ -38,6 +45,16 @@ class CourseEnrollment extends ContentEntityBase {
    */
   public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
     $fields = parent::baseFieldDefinitions($entity_type);
+
+    $fields['id'] = BaseFieldDefinition::create('integer')
+      ->setLabel(t('ID'))
+      ->setDescription(t('The enrollment ID.'))
+      ->setReadOnly(TRUE);
+
+    $fields['uuid'] = BaseFieldDefinition::create('uuid')
+      ->setLabel(t('UUID'))
+      ->setDescription(t('The enrollment UUID.'))
+      ->setReadOnly(TRUE);
 
     $fields['uid'] = BaseFieldDefinition::create('entity_reference')
       ->setLabel(t('User'))
@@ -63,6 +80,12 @@ class CourseEnrollment extends ContentEntityBase {
     $fields['completed_date'] = BaseFieldDefinition::create('timestamp')
       ->setLabel(t('Completion Date'))
       ->setRequired(FALSE);
+
+    $fields['enrolled_date'] = BaseFieldDefinition::create('timestamp')
+      ->setLabel(t('Enrolled Date'))
+      ->setDescription(t('The date the user enrolled.'))
+      ->setDefaultValue(0)
+      ->setRequired(TRUE);
 
     return $fields;
   }
