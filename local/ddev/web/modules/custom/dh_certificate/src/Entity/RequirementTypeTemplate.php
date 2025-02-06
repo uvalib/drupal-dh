@@ -3,7 +3,7 @@
 namespace Drupal\dh_certificate\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
-use Drupal\dh_certificate\RequirementType\RequirementTypeTemplateInterface;
+use Drupal\dh_certificate\Entity\RequirementTypeTemplateInterface;
 
 /**
  * Defines the Requirement Type Template entity.
@@ -14,8 +14,8 @@ use Drupal\dh_certificate\RequirementType\RequirementTypeTemplateInterface;
  *   handlers = {
  *     "list_builder" = "Drupal\dh_certificate\ListBuilder\RequirementTypeTemplateListBuilder",
  *     "form" = {
- *       "add" = "Drupal\dh_certificate\Form\RequirementTypeTemplateForm",
- *       "edit" = "Drupal\dh_certificate\Form\RequirementTypeTemplateForm",
+ *       "add" = "Drupal\dh_certificate\Form\RequirementTypeTemplateFormImpl",
+ *       "edit" = "Drupal\dh_certificate\Form\RequirementTypeTemplateFormImpl",
  *       "delete" = "Drupal\Core\Entity\EntityDeleteForm"
  *     },
  *     "route_provider" = {

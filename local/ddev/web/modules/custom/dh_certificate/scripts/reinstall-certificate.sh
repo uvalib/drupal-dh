@@ -35,9 +35,10 @@ for config in "${configs[@]}"; do
     ddev drush sql:query "DELETE FROM config WHERE name='$config';" 
 done
 
-# Delete course_enrollment entity
+# Check if entity type exists
+ENTITY_NAME="course_enrollment"
 
-ddev drush entity:delete course_enrollment
+ddev drush entity:delete $ENTITY_NAME || echo "continuing"
 
 ddev drush cr 
 

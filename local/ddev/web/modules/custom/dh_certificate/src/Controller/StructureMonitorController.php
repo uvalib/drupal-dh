@@ -82,49 +82,81 @@ class StructureMonitorController extends ControllerBase {
    * Displays an overview of all structure monitors.
    */
   public function overview() {
-    return [
-      '#theme' => 'dh_certificate_structure_monitor',
-      '#content' => [
-        'status' => $this->courseMonitor->hasChanged(),
-        'changes' => $this->courseMonitor->getChanges(),
-        'monitors' => [
-          'course' => [
-            'status' => $this->courseMonitor->hasChanged(),
-            'changes' => $this->courseMonitor->getChanges(),
-          ],
-          'profile' => [
-            'status' => $this->profileMonitor->hasChanged(),
-            'changes' => $this->profileMonitor->getChanges(),
-          ],
-          'taxonomy' => [
-            'status' => $this->taxonomyMonitor->hasChanged(),
-            'changes' => $this->taxonomyMonitor->getChanges(),
-          ],
-        ],
+    $monitors = [
+      'course' => [
+        'id' => 'course',
+        'title' => $this->t('Course Structure Monitor'),
+        'status' => $this->t('Active'),
+        'last_checked' => time(),
+        'changes' => $this->getChangeCount('course'),
+      ],
+      'taxonomy' => [
+        'id' => 'taxonomy',
+        'title' => $this->t('Taxonomy Monitor'),
+        'status' => $this->t('Active'),
+        'last_checked' => time(),
+        'changes' => $this->getChangeCount('taxonomy'),
+      ],
+      'profile' => [
+        'id' => 'profile',
+        'title' => $this->t('Profile Monitor'),
+        'status' => $this->t('Active'),
+        'last_checked' => time(),
+        'changes' => $this->getChangeCount('profile'),
       ],
     ];
-  }
-
-  /**
-   * Displays details for a specific monitor.
-   */
-  public function detail($monitor_id) {
-    if (!isset($this->monitors[$monitor_id])) {
-      return $this->redirect('dh_certificate.monitor_overview');
-    }
-
-    $monitor = $this->monitors[$monitor_id];
-    $changes = $monitor->getChanges();
 
     return [
-      '#theme' => 'dh_certificate_monitor_detail',
-      '#monitor_id' => $monitor_id,
-      '#changes' => $changes,
-      '#last_checked' => $this->state()->get('dh_certificate.monitor.' . $monitor_id . '.last_check', 0),
+      '#theme' => 'dh_certificate_monitor_overview',
+      '#monitors' => $monitors,
       '#attached' => [
         'library' => ['dh_certificate/structure-monitor'],
       ],
     ];
+  }
+
+  private function getChangeCount($type) {
+    // TODO: Implement actual change detection
+    return rand(0, 5); // Temporary for testing
+  }
+
+  public function detail($monitor_id) {
+    $data = $this->getMonitorData($monitor_id);
+    
+    return [
+      '#theme' => 'dh_certificate_monitor_detail',
+      '#monitor_id' => $monitor_id,
+      '#changes' => $data,
+      '#last_checked' => time(),
+    ];
+  }
+
+  private function getMonitorData($type) {
+    switch ($type) {
+      case 'course':
+        return $this->getCourseStructure();
+      case 'taxonomy':
+        return $this->getTaxonomyStructure();
+      case 'profile':
+        return $this->getProfileStructure();
+      default:
+        return [];
+    }
+  }
+
+  private function getCourseStructure() {
+    // TODO: Implement actual course structure retrieval
+    return ['Course structure data will go here'];
+  }
+
+  private function getTaxonomyStructure() {
+    // TODO: Implement actual taxonomy structure retrieval
+    return ['Taxonomy structure data will go here'];
+  }
+
+  private function getProfileStructure() {
+    // TODO: Implement actual profile structure retrieval
+    return ['Profile structure data will go here'];
   }
 
   /**

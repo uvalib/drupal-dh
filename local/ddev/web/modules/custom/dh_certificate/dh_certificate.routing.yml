@@ -1,7 +1,7 @@
 dh_certificate.admin:
   path: '/admin/config/dh-certificate'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::adminOverview'
+    _controller: 'Drupal\dh_certificate\Controller\DHCertificateController::adminOverview'
     _title: 'DH Certificate Administration'
   requirements:
     _permission: 'administer dh certificate'
@@ -50,22 +50,6 @@ dh_certificate.requirement.add:
     _title: 'Add Requirement'
   requirements:
     _permission: 'administer dh certificate'
-
-dh_certificate.requirements_list:
-  path: '/admin/config/dh-certificate/requirements'
-  defaults:
-    _title: 'Certificate Requirements'
-    _entity_list: 'requirement'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-dh_certificate.requirement_sets:
-  path: '/admin/config/dh-certificate/requirement-sets'
-  defaults:
-    _title: 'Requirement Sets'
-    _entity_list: 'requirement_set'
-  requirements:
-    _permission: 'administer certificate requirements'
 
 dh_certificate.requirements_list:
   path: '/admin/config/dh-certificate/requirements'

@@ -226,4 +226,42 @@ class CourseStructureMonitor extends EntityStructureMonitorBase {
     return $changes;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function updateState() {
+    $current_state = $this->getCurrentState();
+    $this->state->set('dh_certificate.course_structure', $current_state);
+    $this->state->set('dh_certificate.course_structure_updated', time());
+    return $this;
+  }
+
+  /**
+   * Gets a summary of the course structure.
+   */
+  protected function getStructureSummary() {
+    $structure = $this->getCurrentState();
+    $summary = [];
+
+    if (!empty($structure['fields'])) {
+      $field_types = [];
+      foreach ($structure['fields'] as $field) {
+        $field_types[$field['type']] = ($field_types[$field['type']] ?? 0) + 1;
+      }
+
+      // ...existing code...
+    }
+
+    return $summary;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function reset() {
+    $this->state->delete('dh_certificate.course_structure');
+    $this->state->delete('dh_certificate.course_structure_updated');
+    return $this;
+  }
+
 }

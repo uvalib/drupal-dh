@@ -143,4 +143,72 @@ class ProgressManager implements ProgressManagerInterface {
       ->count()
       ->execute();
   }
+
+  /**
+   * Gets the list of core courses.
+   *
+   * @return array
+   *   Array of core course data.
+   */
+  public function getCoreCourses() {
+    try {
+      $storage = $this->entityTypeManager->getStorage('certificate_course');
+      $query = $storage->getQuery()
+        ->condition('type', 'core')
+        ->accessCheck(FALSE)
+        ->execute();
+      
+      $courses = [];
+      if (!empty($query)) {
+        foreach ($storage->loadMultiple($query) as $certificate_course) {
+          // Load the referenced course node
+          $course = $this->entityTypeManager->getStorage('node')
+            ->load($certificate_course->get('course_id'));
+          
+          if ($course) {
+            $courses[] = [
+              'id' => $course->id(),
+              'title' => $course->label(),
+              'credits' => $certificate_course->get('credits'),
+              'term' => $course->hasField('field_term') ? 
+                $course->get('field_term')->value : '',
+            ];
+          }
+        }
+      }
+      
+      return $courses;
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->error('Failed to get core courses: @error', [
+        '@error' => $e->getMessage()
+      ]);
+      return [];
+    }
+  }
+
+  /**
+   * Gets the required number of elective credits.
+   *
+   * @return int
+   *   Number of required elective credits.
+   */
+  public function getRequiredElectiveCredits() {
+    return (int) \Drupal::config('dh_certificate.settings')
+      ->get('elective_credits') ?? 6;
+  }
+
+  /**
+   * Gets the completion deadline configuration.
+   *
+   * @return array
+   *   Completion deadline configuration.
+   */
+  public function getCompletionDeadline() {
+    return \Drupal::config('dh_certificate.settings')
+      ->get('completion_deadline') ?? [
+        'type' => 'academic',
+        'value' => 'Spring-2024',
+      ];
+  }
 }

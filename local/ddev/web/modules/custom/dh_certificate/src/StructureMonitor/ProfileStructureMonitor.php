@@ -44,6 +44,25 @@ class ProfileStructureMonitor extends EntityStructureMonitorBase {
   /**
    * {@inheritdoc}
    */
+  public function updateState() {
+    $current_state = $this->getCurrentState();
+    $this->state->set('dh_certificate.profile_structure', $current_state);
+    $this->state->set('dh_certificate.profile_structure_updated', time());
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function reset() {
+    $this->state->delete('dh_certificate.profile_structure');
+    $this->state->delete('dh_certificate.profile_structure_updated');
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   protected function calculateChanges(array $previous, array $current) {
     $changes = [];
 

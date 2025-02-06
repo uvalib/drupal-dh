@@ -36,19 +36,28 @@ services:
   # Single monitor for runtime checks
   dh_certificate.course_structure_monitor:
     class: Drupal\dh_certificate\StructureMonitor\CourseStructureMonitor
-    arguments: ['@entity_type.manager', '@logger.factory', '@state']
+    arguments: 
+      - '@entity_type.manager'
+      - '@logger.factory'
+      - '@state'
     tags:
       - { name: dh_certificate.structure_monitor }
 
   dh_certificate.profile_structure_monitor:
     class: Drupal\dh_certificate\StructureMonitor\ProfileStructureMonitor
-    arguments: ['@entity_type.manager', '@logger.factory', '@state']
+    arguments:
+      - '@entity_type.manager'
+      - '@logger.factory'
+      - '@state'
     tags:
       - { name: dh_certificate.structure_monitor }
 
   dh_certificate.taxonomy_structure_monitor:
     class: Drupal\dh_certificate\StructureMonitor\TaxonomyStructureMonitor
-    arguments: ['@entity_type.manager', '@logger.factory', '@state']
+    arguments:
+      - '@entity_type.manager'
+      - '@logger.factory'
+      - '@state'
     tags:
       - { name: dh_certificate.structure_monitor }
 

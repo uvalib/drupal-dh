@@ -87,7 +87,27 @@ class CertificateProgressBlock extends BlockBase implements ContainerFactoryPlug
       return [];
     }
 
-    // Build safe progress data without field dependencies
+    $admin_links = [];
+    if ($this->currentUser->hasPermission('administer dh certificate')) {
+      $admin_links = [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['certificate-admin-links']],
+        'links' => [
+          '#theme' => 'links',
+          '#links' => [
+            'manage' => [
+              'title' => $this->t('Manage Requirements'),
+              'url' => Url::fromRoute('dh_certificate.requirements'),
+            ],
+            'settings' => [
+              'title' => $this->t('Settings'),
+              'url' => Url::fromRoute('dh_certificate.settings'),
+            ],
+          ],
+        ],
+      ];
+    }
+
     return [
       '#theme' => 'certificate_progress_block',
       '#progress' => [
@@ -103,8 +123,9 @@ class CertificateProgressBlock extends BlockBase implements ContainerFactoryPlug
           ];
         }, $progress['courses'] ?? []),
       ],
+      '#admin_links' => $admin_links,
       '#cache' => [
-        'contexts' => ['user'],
+        'contexts' => ['user', 'user.permissions'],
         'tags' => ['user:' . $this->currentUser->id()],
         'max-age' => 300,
       ],

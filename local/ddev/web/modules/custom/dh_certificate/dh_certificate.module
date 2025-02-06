@@ -47,8 +47,9 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
         'user' => NULL,
         'is_admin' => FALSE,
         'manage_url' => NULL,
-        'attributes' => [],
         'debug' => NULL,
+        'admin_links' => NULL,
+        'attributes' => [],
       ],
       'template' => 'dh-certificate-progress-block', // This matches the actual filename
     ],
@@ -178,6 +179,19 @@ function dh_certificate_preprocess_certificate_progress_block(&$variables) {
   if ($progress) {
     $variables['progress'] = $progress;
   }
+
+  if ($current_user->hasPermission('administer dh certificate')) {
+    $variables['is_admin'] = TRUE;
+    $variables['admin_links'] = [
+      '#type' => 'operations',
+      '#links' => [
+        'manage' => [
+          'title' => t('Manage'),
+          'url' => \Drupal\Core\Url::fromRoute('dh_certificate.admin'),
+        ],
+      ],
+    ];
+  }
 }
 
 /**
@@ -240,5 +254,20 @@ function dh_certificate_cron() {
     \Drupal::logger('dh_certificate')->notice('Cleaned up @count stale enrollments', [
       '@count' => count($ids)
     ]);
+  }
+}
+
+/**
+ * Implements hook_entity_type_alter().
+ */
+function dh_certificate_entity_type_alter(array &$entity_types) {
+  if (isset($entity_types['requirement_type_template'])) {
+    $entity_types['requirement_type_template']->setHandlerClass(
+      'form', [
+        'add' => 'Drupal\dh_certificate\Form\RequirementTypeTemplateFormImpl',
+        'edit' => 'Drupal\dh_certificate\Form\RequirementTypeTemplateFormImpl',
+        'delete' => 'Drupal\Core\Entity\EntityDeleteForm',
+      ]
+    );
   }
 }

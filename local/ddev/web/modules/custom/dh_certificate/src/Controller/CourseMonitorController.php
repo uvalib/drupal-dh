@@ -4,7 +4,7 @@ namespace Drupal\dh_certificate\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\dh_certificate\CourseStructureMonitor;
+use Drupal\dh_certificate\StructureMonitor\CourseStructureMonitor;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -16,7 +16,7 @@ class CourseMonitorController extends ControllerBase {
   /**
    * The course structure monitor.
    *
-   * @var \Drupal\dh_certificate\CourseStructureMonitor
+   * @var \Drupal\dh_certificate\StructureMonitor\CourseStructureMonitor
    */
   protected $courseMonitor;
 
@@ -30,7 +30,7 @@ class CourseMonitorController extends ControllerBase {
   /**
    * Constructs a CourseMonitorController object.
    *
-   * @param \Drupal\dh_certificate\CourseStructureMonitor $course_monitor
+   * @param \Drupal\dh_certificate\StructureMonitor\CourseStructureMonitor $course_monitor
    *   The course structure monitor.
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date formatter.
@@ -58,49 +58,24 @@ class CourseMonitorController extends ControllerBase {
    */
   public function overview() {
     // Record current structure if not yet recorded
-    if (!$this->courseMonitor->hasRecordedStructure()) {
-      $this->courseMonitor->recordCurrentStructure();
+    if (!$this->courseMonitor->hasState()) {
+      $this->courseMonitor->updateState();
       $this->messenger()->addStatus($this->t('Initial course structure recorded.'));
     }
 
-    $changes = $this->courseMonitor->getStructureChanges();
-    $critical = $this->courseMonitor->checkCriticalChanges();
-
-    // Add action buttons
-    $build['actions'] = [
-      '#type' => 'container',
-      '#attributes' => ['class' => ['course-monitor-actions']],
-      'record' => [
-        '#type' => 'link',
-        '#title' => $this->t('Record Current Structure'),
-        '#url' => \Drupal\Core\Url::fromRoute('dh_certificate.course_monitor_record'),
-        '#attributes' => ['class' => ['button', 'button--primary']],
-      ],
-    ];
+    $changes = $this->courseMonitor->getChanges();
+    $last_checked = $this->state->get('dh_certificate.course_structure_updated', 0);
 
     // Add monitor display
-    $build['monitor'] = [
-      '#theme' => 'dh_certificate_course_monitor',
+    return [
+      '#theme' => 'dh_certificate_monitor_detail',
+      '#monitor_id' => 'course',
       '#changes' => $changes,
-      '#critical' => $critical,
-      '#last_checked' => $changes['last_checked'],
+      '#last_checked' => $last_checked,
       '#attached' => [
-        'library' => ['dh_certificate/course-monitor'],
+        'library' => ['dh_certificate/structure-monitor'],
       ],
     ];
-
-    // Add summary section
-    $build['summary'] = [
-      '#type' => 'details',
-      '#title' => $this->t('Course Structure Summary'),
-      '#open' => TRUE,
-      'content' => [
-        '#theme' => 'item_list',
-        '#items' => $this->getStructureSummary(),
-      ],
-    ];
-
-    return $build;
   }
 
   /**
@@ -108,7 +83,7 @@ class CourseMonitorController extends ControllerBase {
    */
   public function recordStructure() {
     try {
-      $this->courseMonitor->recordCurrentStructure();
+      $this->courseMonitor->updateState();
       $this->messenger()->addStatus($this->t('Course structure has been recorded.'));
     }
     catch (\Exception $e) {

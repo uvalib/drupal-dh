@@ -56,4 +56,28 @@ interface ProgressManagerInterface {
    *   The number of active courses.
    */
   public function getActiveCourses();
+
+  /**
+   * Gets the list of core courses.
+   *
+   * @return array
+   *   Array of core course data.
+   */
+  public function getCoreCourses();
+
+  /**
+   * Gets the required number of elective credits.
+   *
+   * @return int
+   *   Number of required elective credits.
+   */
+  public function getRequiredElectiveCredits();
+
+  /**
+   * Gets the completion deadline configuration.
+   *
+   * @return array
+   *   Completion deadline configuration.
+   */
+  public function getCompletionDeadline();
 }

@@ -10,7 +10,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 /**
  * Base class for entity structure monitors.
  */
-abstract class EntityStructureMonitorBase extends StructureMonitorBase {
+abstract class EntityStructureMonitorBase implements StructureMonitorInterface {
   use StringTranslationTrait;
 
   /**
@@ -21,11 +21,11 @@ abstract class EntityStructureMonitorBase extends StructureMonitorBase {
   protected $entityTypeManager;
 
   /**
-   * The logger factory.
+   * The logger.
    *
-   * @var \Drupal\Core\Logger\LoggerChannelFactoryInterface
+   * @var \Psr\Log\LoggerInterface
    */
-  protected $loggerFactory;
+  protected $logger;
 
   /**
    * The state service.
@@ -50,7 +50,7 @@ abstract class EntityStructureMonitorBase extends StructureMonitorBase {
     StateInterface $state
   ) {
     $this->entityTypeManager = $entity_type_manager;
-    $this->loggerFactory = $logger_factory;
+    $this->logger = $logger_factory->get('dh_certificate');
     $this->state = $state;
   }
 

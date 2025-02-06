@@ -13,3 +13,12 @@ allowed_terms:
   - 'Fall 2023'
   - 'Spring 2024'
   - 'Fall 2024'
+course_types:
+  core: 'Core Course'
+  elective: 'Elective Course'
+  methods: 'Methods Course'
+  advanced_core: 'Advanced Core Course'
+completion_deadline:
+  type: academic
+  value: Spring-2024
+  format: term-year

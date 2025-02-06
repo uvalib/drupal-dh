@@ -1,4 +1,7 @@
 <div{{ attributes.addClass('certificate-progress') }}>
+  {% if admin_links %}
+    <div class="admin-links">{{ admin_links }}</div>
+  {% endif %}
   {% if progress %}
     <div class="certificate-progress__summary">
       <div class="progress-stats">

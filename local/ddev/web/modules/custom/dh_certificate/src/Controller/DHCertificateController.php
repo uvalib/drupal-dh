@@ -3,13 +3,22 @@
 namespace Drupal\dh_certificate\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\dh_certificate\Progress\ProgressManagerInterface;
+use Drupal\Core\Url;
 
 /**
- * Controller for DH Certificate module.
+ * Controller for DH Certificate administration pages.
  */
 class DHCertificateController extends ControllerBase {
+
+  /**
+   * The current user.
+   *
+   * @var \Drupal\Core\Session\AccountProxyInterface
+   */
+  protected $currentUser;
 
   /**
    * The progress manager.
@@ -19,22 +28,105 @@ class DHCertificateController extends ControllerBase {
   protected $progressManager;
 
   /**
+   * Constructs a DHCertificateController object.
+   */
+  public function __construct(AccountProxyInterface $current_user, ProgressManagerInterface $progress_manager) {
+    $this->currentUser = $current_user;
+    $this->progressManager = $progress_manager;
+  }
+
+  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('dh_certificate.progress_manager')
+      $container->get('current_user'),
+      $container->get('dh_certificate.progress')
     );
   }
 
   /**
-   * Constructs a DHCertificateController object.
+   * Displays the admin overview page.
    *
-   * @param \Drupal\dh_certificate\ProgressManagerInterface $progress_manager
-   *   The progress manager service.
+   * @return array
+   *   A render array representing the admin overview page.
    */
-  public function __construct(ProgressManagerInterface $progress_manager) {
-    $this->progressManager = $progress_manager;
+  public function adminOverview() {
+    $stats = [
+      'total_students' => $this->progressManager->getTotalStudents(),
+      'active_courses' => $this->progressManager->getActiveCourses(),
+      'progress_summary' => [
+        'completed_courses' => $this->progressManager->getCompletedCoursesCount(),
+      ],
+    ];
+
+    return [
+      '#theme' => 'dh_certificate_admin_overview',
+      '#title' => $this->t('Digital Humanities Certificate Administration'),
+      '#content' => [
+        '#type' => 'container',
+        '#attributes' => ['class' => ['dh-certificate-admin']],
+        'description' => [
+          '#markup' => $this->t('Manage certificate requirements and track student progress.'),
+        ],
+        'links' => [
+          '#theme' => 'links',
+          '#links' => [
+            'requirements' => [
+              'title' => $this->t('Manage Requirements'),
+              'url' => Url::fromRoute('dh_certificate.requirement_templates'),
+            ],
+            'progress' => [
+              'title' => $this->t('View Progress'),
+              'url' => Url::fromRoute('dh_certificate.admin_progress'),
+            ],
+            'settings' => [
+              'title' => $this->t('Settings'),
+              'url' => Url::fromRoute('dh_certificate.settings'),
+            ],
+          ],
+        ],
+      ],
+      '#stats' => $stats,
+      '#attached' => [
+        'library' => ['dh_certificate/certificate-admin'],
+      ],
+      '#cache' => [
+        'contexts' => ['user.permissions'],
+        'tags' => ['dh_certificate:progress', 'node_list:course'],
+        'max-age' => 300,
+      ],
+    ];
+  }
+
+  /**
+   * Returns content for the requirements dashboard block.
+   */
+  public function requirementsBlock() {
+    return [
+      '#theme' => 'dh_dashboard_requirements',
+      '#requirements' => $this->progressManager->getUserRequirements($this->currentUser),
+      '#cache' => [
+        'contexts' => ['user'],
+        'tags' => ['dh_certificate:requirements'],
+      ],
+    ];
+  }
+
+  /**
+   * Returns content for the dashboard block.
+   */
+  public function dashboardBlock() {
+    $progress = $this->progressManager->getUserProgress($this->currentUser);
+    
+    return [
+      '#theme' => 'dh_dashboard_progress',
+      '#progress' => $progress,
+      '#cache' => [
+        'contexts' => ['user'],
+        'tags' => ['dh_certificate:progress'],
+      ],
+    ];
   }
 
   /**
@@ -96,21 +188,6 @@ class DHCertificateController extends ControllerBase {
     return [
       '#theme' => 'dh_certificate_progress',
       '#progress' => $this->progressManager->getUserProgress($user),
-    ];
-  }
-
-  /**
-   * Displays the dashboard block.
-   */
-  public function dashboardBlock() {
-    $is_admin = $this->currentUser()->hasPermission('administer dh certificate');
-    $progress = $this->progressManager->getUserProgress($this->currentUser());
-
-    return [
-      '#theme' => 'dh_certificate_progress',
-      '#progress' => $progress,
-      '#is_admin' => $is_admin,
-      '#admin_url' => $is_admin ? Url::fromRoute('dh_certificate.admin_settings')->toString() : null,
     ];
   }
 
@@ -358,33 +435,6 @@ class DHCertificateController extends ControllerBase {
       '#cache' => [
         'tags' => ['config:dh_certificate.settings'],
         'contexts' => ['user.permissions'],
-      ],
-    ];
-  }
-
-  /**
-   * Displays the admin overview page.
-   */
-  public function adminOverview() {
-    $stats = [
-      'total_students' => $this->progressManager->getTotalStudents(),
-      'active_courses' => $this->progressManager->getActiveCourses(),
-      'progress_summary' => [
-        'completed_courses' => $this->progressManager->getCompletedCoursesCount(),
-      ],
-    ];
-
-    return [
-      '#theme' => 'dh_certificate_admin_overview',
-      '#title' => $this->t('Digital Humanities Certificate Administration'),
-      '#stats' => $stats,
-      '#attached' => [
-        'library' => ['dh_certificate/certificate-admin'],
-      ],
-      '#cache' => [
-        'contexts' => ['user.permissions'],
-        'tags' => ['dh_certificate:progress', 'node_list:course'],
-        'max-age' => 300,
       ],
     ];
   }
