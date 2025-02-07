@@ -1,0 +1,42 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-requirements-overview.html.twig #}
+<div class="requirements-overview">
+  <h2>{{ 'Requirements Overview'|t }}</h2>
+
+  <div class="action-links">
+    <a href="{{ path('entity.requirement_set.add_form') }}" class="button button--primary button--action">{{ 'Add Requirement Set'|t }}</a>
+  </div>
+
+  {% for set in requirement_sets %}
+    <div class="requirement-set">
+      <h3>{{ set.label }}</h3>
+      <p>{{ set.description }}</p>
+      <ul>
+        {% for requirement in set.requirements %}
+          <li>
+            {{ requirement.label }} ({{ requirement.type }})
+            <a href="{{ requirement.edit_url }}">{{ 'Edit'|t }}</a>
+            <a href="{{ requirement.delete_url }}">{{ 'Delete'|t }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+      <a href="{{ set.add_requirement_url }}" class="button">{{ 'Add Requirement'|t }}</a>
+      <a href="{{ set.edit_set_url }}" class="button">{{ 'Edit Set'|t }}</a>
+    </div>
+  {% endfor %}
+
+  <div class="requirements-section">
+    <h3>{{ 'Requirement Templates'|t }}</h3>
+    {% if requirement_templates %}
+      <ul>
+        {% for template in requirement_templates %}
+          <li>
+            <strong>{{ template.label }}</strong>
+            <span class="template-description">{{ template.description }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>{{ 'No requirement templates defined.'|t }}</p>
+    {% endif %}
+  </div>
+</div>

@@ -41,14 +41,14 @@ class RequirementSetListBuilder extends ConfigEntityListBuilder {
     if ($entity->isEnabled()) {
       $operations['disable'] = [
         'title' => $this->t('Disable'),
-        'url' => Url::fromRoute('dh_certificate.requirement_set_disable', ['requirement_set' => $entity->id()]),
+        'url' => Url::fromRoute('entity.requirement_set.disable', ['requirement_set' => $entity->id()]),
         'weight' => 50,
       ];
     }
     else {
       $operations['enable'] = [
         'title' => $this->t('Enable'),
-        'url' => Url::fromRoute('dh_certificate.requirement_set_enable', ['requirement_set' => $entity->id()]),
+        'url' => Url::fromRoute('entity.requirement_set.enable', ['requirement_set' => $entity->id()]),
         'weight' => 50,
       ];
     }

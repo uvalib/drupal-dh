@@ -1,138 +1,75 @@
-# Primary tabs
-dh_certificate.admin_tab:
+# Main navigation tabs
+dh_certificate.admin:
   route_name: dh_certificate.admin
   title: 'Overview'
   base_route: dh_certificate.admin
-  weight: 0
 
-dh_certificate.settings_tab:
+dh_certificate.settings:
   route_name: dh_certificate.settings
   title: 'Settings'
   base_route: dh_certificate.admin
-  weight: 1
+  weight: 10
 
-dh_certificate.monitor_tab:
-  route_name: dh_certificate.monitor_overview
-  title: 'Structure Monitor'
+dh_certificate.courses:
+  route_name: dh_certificate.courses
+  title: 'Courses'
   base_route: dh_certificate.admin
-  weight: 2
+  weight: 20
 
-dh_certificate.requirements_tab:
+dh_certificate.requirements:
   route_name: dh_certificate.requirements
   title: 'Requirements'
   base_route: dh_certificate.admin
-  weight: 3
+  weight: 30
 
-dh_certificate.enrollment_tab:
-  route_name: dh_certificate.enrollment_list
+dh_certificate.enrollments:
+  route_name: entity.enrollment.collection
   title: 'Enrollments'
   base_route: dh_certificate.admin
-  weight: 4
+  weight: 40
 
-dh_certificate.progress_tab:
-  route_name: dh_certificate.progress_overview
+dh_certificate.progress:
+  route_name: dh_certificate.progress
   title: 'Progress'
   base_route: dh_certificate.admin
-  weight: 5
+  weight: 50
 
-dh_certificate.courses:
-  title: 'Course Management'
-  route_name: dh_certificate.courses
-  base_route: dh_certificate.admin
+dh_certificate.progress_admin_tab:
+  route_name: dh_certificate.progress_admin
+  title: 'Administrative View'
+  base_route: dh_certificate.progress
   weight: 10
 
-# Requirement secondary tabs
-dh_certificate.requirement_list:
-  route_name: dh_certificate.requirements_list
-  title: 'Requirements'
-  parent_id: dh_certificate.requirements_tab
-  weight: 0
+dh_certificate.structure:
+  route_name: dh_certificate.structure_monitor
+  title: 'Structure'
+  base_route: dh_certificate.admin
+  weight: 60
 
-dh_certificate.requirement_sets:
-  route_name: dh_certificate.requirement_sets
-  title: 'Requirement Sets'
-  parent_id: dh_certificate.requirements_tab
-  weight: 1
+# Requirements section - streamlined structure
+dh_certificate.requirements_overview:
+  route_name: dh_certificate.requirements
+  title: 'Requirements'
+  parent_id: dh_certificate.requirements
+  base_route: dh_certificate.requirements
+
+dh_certificate.requirement_sets_tab:
+  route_name: entity.requirement_set.collection
+  title: 'Sets'
+  parent_id: dh_certificate.requirements
+  base_route: dh_certificate.requirements
+  weight: 10
 
 dh_certificate.requirement_types_tab:
   route_name: dh_certificate.requirement_types
-  title: 'Requirement Types'
-  parent_id: dh_certificate.requirements_tab
-  weight: 2
+  title: 'Types'
+  parent_id: dh_certificate.requirements
+  base_route: dh_certificate.requirements
+  weight: 20
 
 dh_certificate.requirement_templates_tab:
-  route_name: dh_certificate.requirement_templates
+  route_name: entity.requirement_type_template.collection
   title: 'Templates'
-  parent_id: dh_certificate.requirements_tab
-  weight: 3
-
-# Enrollment secondary tabs
-dh_certificate.enrollment_list_tab:
-  route_name: dh_certificate.enrollment_list
-  title: 'List'
-  parent_id: dh_certificate.enrollment_tab
-  weight: 0
-
-dh_certificate.enrollment_add_tab:
-  route_name: dh_certificate.enrollment_add
-  title: 'Add Enrollment'
-  parent_id: dh_certificate.enrollment_tab
-  weight: 1
-
-# Progress secondary tabs
-dh_certificate.progress_overview_tab:
-  route_name: dh_certificate.progress_overview
-  title: 'Overview'
-  parent_id: dh_certificate.progress_tab
-  weight: 0
-
-dh_certificate.progress_details_tab:
-  route_name: dh_certificate.admin_progress
-  title: 'Details'
-  parent_id: dh_certificate.progress_tab
-  weight: 1
-
-# Monitor secondary tabs
-dh_certificate.monitor_overview_tab:
-  route_name: dh_certificate.monitor_overview
-  title: 'Overview'
-  parent_id: dh_certificate.monitor_tab
-  weight: 0
-
-dh_certificate.monitor_course_tab:
-  route_name: dh_certificate.monitor_detail
-  route_parameters:
-    monitor_id: 'course'
-  title: 'Course Monitor'
-  parent_id: dh_certificate.monitor_tab
-  weight: 1
-
-dh_certificate.monitor_profile_tab:
-  route_name: dh_certificate.monitor_detail
-  route_parameters:
-    monitor_id: 'profile'
-  title: 'Profile Monitor'
-  parent_id: dh_certificate.monitor_tab
-  weight: 2
-
-dh_certificate.monitor_taxonomy_tab:
-  route_name: dh_certificate.monitor_detail
-  route_parameters:
-    monitor_id: 'taxonomy'
-  title: 'Taxonomy Monitor'
-  parent_id: dh_certificate.monitor_tab
-  weight: 3
-
-# Course Management secondary tabs
-dh_certificate.courses.list:
-  title: 'List Courses'
-  route_name: dh_certificate.courses
-  parent_id: dh_certificate.courses
-  weight: 0
-
-dh_certificate.courses.add:
-  title: 'Add Course'
-  route_name: dh_certificate.course_add
-  parent_id: dh_certificate.courses
-  weight: 1
-
+  parent_id: dh_certificate.requirements
+  base_route: dh_certificate.requirements
+  weight: 30

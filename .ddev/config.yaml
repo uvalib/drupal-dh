@@ -282,3 +282,11 @@ corepack_enable: false
 #   - exec: drush sql:sanitize
 #   - exec: drush updatedb
 #   - exec: drush cache:rebuild
+
+hooks:
+  post-start:
+    - exec: |
+        if [ ! -f /var/www/html/local/ddev/web/core/phpunit.xml ]; then
+          cp /var/www/html/local/ddev/web/core/phpunit.xml.dist /var/www/html/local/ddev/web/core/phpunit.xml
+          echo "Created PHPUnit configuration from template"
+        fi

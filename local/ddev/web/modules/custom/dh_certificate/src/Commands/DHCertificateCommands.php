@@ -75,6 +75,12 @@ class DHCertificateCommands extends DrushCommands {
     return TRUE;
   }
 
+  /**
+   * Clean up progress data.
+   *
+   * @command dh-certificate:clean-progress
+   * @aliases dhc-clean-progress,dhc:clean-progress
+   */
   protected function cleanupProgress() {
     try {
       // Clean up progress entities using Entity API
@@ -117,6 +123,12 @@ class DHCertificateCommands extends DrushCommands {
     }
   }
 
+  /**
+   * Clean up enrollment data.
+   *
+   * @command dh-certificate:clean-enrollments
+   * @aliases dhc-clean-enroll,dhc:clean-enroll
+   */
   protected function cleanupEnrollments() {
     try {
       $storage = $this->entityTypeManager->getStorage('course_enrollment');
@@ -500,6 +512,12 @@ class DHCertificateCommands extends DrushCommands {
     }
   }
 
+  /**
+   * List all course enrollments.
+   *
+   * @command dh-certificate:list-enrollments
+   * @aliases dhc-list-enroll,dhc:list-enroll
+   */
   public function debugEnrollments() {
     $storage = $this->entityTypeManager->getStorage('course_enrollment');
     

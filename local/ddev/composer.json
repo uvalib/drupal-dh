@@ -173,5 +173,13 @@
                 "      composer remove drupal/core-project-message"
             ]
         }
+    },
+    "require-dev": {
+        "behat/mink": "^1.12",
+        "drupal/core-dev": "^8.0@beta",
+        "mikey179/vfsstream": "^1.6",
+        "phpspec/prophecy-phpunit": "^2.3",
+        "phpunit/phpunit": "^9.6",
+        "symfony/phpunit-bridge": "^7.2"
     }
 }

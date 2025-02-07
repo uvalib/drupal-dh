@@ -8,6 +8,7 @@ use Drupal\Core\State\StateInterface;
 use Drupal\dh_certificate\StructureMonitor\CourseStructureMonitor;
 use Drupal\dh_certificate\StructureMonitor\ProfileStructureMonitor;
 use Drupal\dh_certificate\StructureMonitor\TaxonomyStructureMonitor;
+use Drupal\Core\Url;
 
 /**
  * Controller for structure monitoring.
@@ -82,33 +83,16 @@ class StructureMonitorController extends ControllerBase {
    * Displays an overview of all structure monitors.
    */
   public function overview() {
-    $monitors = [
-      'course' => [
-        'id' => 'course',
-        'title' => $this->t('Course Structure Monitor'),
-        'status' => $this->t('Active'),
-        'last_checked' => time(),
-        'changes' => $this->getChangeCount('course'),
-      ],
-      'taxonomy' => [
-        'id' => 'taxonomy',
-        'title' => $this->t('Taxonomy Monitor'),
-        'status' => $this->t('Active'),
-        'last_checked' => time(),
-        'changes' => $this->getChangeCount('taxonomy'),
-      ],
-      'profile' => [
-        'id' => 'profile',
-        'title' => $this->t('Profile Monitor'),
-        'status' => $this->t('Active'),
-        'last_checked' => time(),
-        'changes' => $this->getChangeCount('profile'),
-      ],
-    ];
-
     return [
       '#theme' => 'dh_certificate_monitor_overview',
-      '#monitors' => $monitors,
+      '#monitors' => [
+        'course' => [
+          'title' => $this->t('Course Structure'),
+          'description' => $this->t('Monitor changes to course content type structure, fields, and displays.'),
+          'url' => Url::fromRoute('dh_certificate.course_monitor'),
+        ],
+        // Add other monitors here as needed
+      ],
       '#attached' => [
         'library' => ['dh_certificate/structure-monitor'],
       ],
@@ -167,7 +151,7 @@ class StructureMonitorController extends ControllerBase {
       $this->monitors[$monitor_id]->reset();
       $this->messenger()->addStatus($this->t('Monitor state has been reset.'));
     }
-    return $this->redirect('dh_certificate.monitor_overview');
+    return $this->redirect('dh_certificate.structure_monitor');
   }
 
 }

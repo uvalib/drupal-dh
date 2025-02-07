@@ -1,6 +1,42 @@
-
 dh_certificate.monitor_reset_action:
   route_name: dh_certificate.monitor_reset
   title: 'Reset Monitor'
   appears_on:
     - dh_certificate.monitor_detail
+
+dh_certificate.course_record:
+  route_name: dh_certificate.course_monitor_record
+  title: 'Record Structure'
+  appears_on:
+    - dh_certificate.course_monitor
+
+dh_certificate.profile_record:
+  route_name: dh_certificate.profile_monitor_record
+  title: 'Record Structure'
+  appears_on:
+    - dh_certificate.profile_monitor
+
+dh_certificate.taxonomy_record:
+  route_name: dh_certificate.taxonomy_monitor_record
+  title: 'Record Structure'
+  appears_on:
+    - dh_certificate.taxonomy_monitor
+
+# Add requirement actions
+dh_certificate.requirement_set_add:
+  route_name: entity.requirement_set.add_form
+  title: 'Add Requirement Set'
+  appears_on:
+    - entity.requirement_set.collection
+
+dh_certificate.requirement_template_add:
+  route_name: entity.requirement_type_template.add_form
+  title: 'Add Template'
+  appears_on:
+    - entity.requirement_type_template.collection
+
+dh_certificate.enrollment_add:
+  route_name: dh_certificate.enrollment_add
+  title: 'Add Enrollment'
+  appears_on:
+    - entity.enrollment.collection

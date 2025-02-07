@@ -5,7 +5,6 @@ namespace Drupal\dh_certificate\Progress;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\State\StateInterface;
-use Drupal\dh_certificate\Progress\ProgressManagerInterface;
 
 /**
  * Service for managing certificate progress.
@@ -28,6 +27,11 @@ class ProgressManager implements ProgressManagerInterface {
 
   /**
    * Constructs a new ProgressManager.
+   *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
+   * @param \Drupal\Core\State\StateInterface $state
+   *   The state service.
    */
   public function __construct(
     EntityTypeManagerInterface $entity_type_manager,
@@ -210,5 +214,110 @@ class ProgressManager implements ProgressManagerInterface {
         'type' => 'academic',
         'value' => 'Spring-2024',
       ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getActiveUsers() {
+    $enrollment_storage = $this->entityTypeManager->getStorage('course_enrollment');
+    return $enrollment_storage->getQuery()
+      ->condition('status', 'active')
+      ->accessCheck(FALSE)
+      ->groupBy('uid')
+      ->count()
+      ->execute();
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getRecentActivities($limit = 10) {
+    try {
+      $storage = $this->entityTypeManager->getStorage('certificate_activity');
+      $query = $storage->getQuery()
+        ->accessCheck(FALSE)
+        ->sort('created', 'DESC')
+        ->range(0, $limit);
+      
+      $ids = $query->execute();
+      if (empty($ids)) {
+        return [];
+      }
+
+      $activities = $storage->loadMultiple($ids);
+      return array_map(function ($activity) {
+        return [
+          'timestamp' => $activity->get('created')->value,
+          'user_id' => $activity->get('uid')->target_id,
+          'type' => $activity->get('type')->value,
+          'description' => $activity->get('description')->value,
+        ];
+      }, $activities);
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->error('Failed to get activities: @error', [
+        '@error' => $e->getMessage()
+      ]);
+      return [];
+    }
+  }
+
+  /**
+   * Gets the current system status information.
+   *
+   * @return array
+   *   Array of system status information.
+   */
+  public function getSystemStatus() {
+    return [
+      'enrolled_students' => $this->getTotalStudents(),
+      'active_courses' => $this->getActiveCourses(),
+      'completed_certificates' => $this->getCompletedCoursesCount(),
+      'last_update' => \Drupal::time()->getRequestTime(),
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function logActivity($type, $description, AccountInterface $account = NULL) {
+    try {
+      $storage = $this->entityTypeManager->getStorage('certificate_activity');
+      $activity = $storage->create([
+        'type' => $type,
+        'description' => $description,
+        'uid' => $account ? $account->id() : \Drupal::currentUser()->id(),
+      ]);
+      $activity->save();
+      return TRUE;
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->error('Failed to log activity: @error', [
+        '@error' => $e->getMessage()
+      ]);
+      return FALSE;
+    }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMonitorChanges($monitor_id) {
+    return $this->state->get('dh_certificate.monitor.' . $monitor_id . '.changes', []);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMonitorLastCheck($monitor_id) {
+    return $this->state->get('dh_certificate.monitor.' . $monitor_id . '.last_check', 0);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getMonitorStructure($monitor_id) {
+    return $this->state->get('dh_certificate.monitor.' . $monitor_id . '.structure', []);
   }
 }

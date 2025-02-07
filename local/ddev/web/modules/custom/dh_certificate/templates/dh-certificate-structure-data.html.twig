@@ -1,0 +1,34 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display structure data.
+ *
+ * Available variables:
+ * - entity_type: The type of entity being displayed
+ * - structure_data: Array of structure data to display
+ * - last_updated: Timestamp of when the data was last updated
+ */
+#}
+<div class="structure-data">
+  <h3>{{ entity_type|capitalize }} Structure</h3>
+  
+  {% if structure_data %}
+    <div class="structure-data__content">
+      {% for key, data in structure_data %}
+        <div class="structure-data__item">
+          <strong>{{ key }}:</strong>
+          {% if data is iterable %}
+            <pre>{{ data|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre>
+          {% else %}
+            {{ data }}
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    <div class="structure-data__meta">
+      Last updated: {{ last_updated|date('Y-m-d H:i:s') }}
+    </div>
+  {% else %}
+    <p>No structure data available for {{ entity_type }}.</p>
+  {% endif %}
+</div>

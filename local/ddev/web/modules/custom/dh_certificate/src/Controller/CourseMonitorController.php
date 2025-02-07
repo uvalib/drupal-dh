@@ -6,6 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\dh_certificate\StructureMonitor\CourseStructureMonitor;
 use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\State\StateInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -28,19 +29,30 @@ class CourseMonitorController extends ControllerBase {
   protected $dateFormatter;
 
   /**
+   * The state service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $state;
+
+  /**
    * Constructs a CourseMonitorController object.
    *
    * @param \Drupal\dh_certificate\StructureMonitor\CourseStructureMonitor $course_monitor
    *   The course structure monitor.
    * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
    *   The date formatter.
+   * @param \Drupal\Core\State\StateInterface $state
+   *   The state service.
    */
   public function __construct(
     CourseStructureMonitor $course_monitor,
-    DateFormatterInterface $date_formatter
+    DateFormatterInterface $date_formatter,
+    StateInterface $state
   ) {
     $this->courseMonitor = $course_monitor;
     $this->dateFormatter = $date_formatter;
+    $this->state = $state;
   }
 
   /**
@@ -49,7 +61,8 @@ class CourseMonitorController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('dh_certificate.course_structure_monitor'),
-      $container->get('date.formatter')
+      $container->get('date.formatter'),
+      $container->get('state')
     );
   }
 
@@ -57,7 +70,8 @@ class CourseMonitorController extends ControllerBase {
    * Displays the course structure monitor page.
    */
   public function overview() {
-    // Record current structure if not yet recorded
+    $build = [];
+
     if (!$this->courseMonitor->hasState()) {
       $this->courseMonitor->updateState();
       $this->messenger()->addStatus($this->t('Initial course structure recorded.'));
@@ -65,13 +79,19 @@ class CourseMonitorController extends ControllerBase {
 
     $changes = $this->courseMonitor->getChanges();
     $last_checked = $this->state->get('dh_certificate.course_structure_updated', 0);
+    $structure_data = $this->courseMonitor->getCurrentStructure();
 
-    // Add monitor display
     return [
       '#theme' => 'dh_certificate_monitor_detail',
       '#monitor_id' => 'course',
       '#changes' => $changes,
       '#last_checked' => $last_checked,
+      '#structure_data' => [
+        '#theme' => 'dh_certificate_structure_data',
+        '#entity_type' => 'course',
+        '#structure_data' => $structure_data,
+        '#last_updated' => $last_checked,
+      ],
       '#attached' => [
         'library' => ['dh_certificate/structure-monitor'],
       ],
@@ -124,6 +144,39 @@ class CourseMonitorController extends ControllerBase {
     }
 
     return $summary;
+  }
+
+  /**
+   * Displays structure data for a given type.
+   *
+   * @param string $type
+   *   The type of structure to display (course, taxonomy, etc).
+   *
+   * @return array
+   *   Render array for the structure data.
+   */
+  public function structureData($type) {
+    $structure_data = [];
+    $last_updated = 0;
+
+    switch ($type) {
+      case 'course':
+        $structure_data = $this->courseMonitor->getCurrentStructure();
+        $last_updated = $this->state->get('dh_certificate.course_structure_updated', 0);
+        break;
+
+      // Add other structure types here as needed
+    }
+
+    return [
+      '#theme' => 'dh_certificate_structure_data',
+      '#entity_type' => $type,
+      '#structure_data' => $structure_data,
+      '#last_updated' => $last_updated,
+      '#attached' => [
+        'library' => ['dh_certificate/structure-monitor'],
+      ],
+    ];
   }
 
 }

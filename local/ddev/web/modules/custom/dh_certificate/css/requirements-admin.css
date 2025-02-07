@@ -1,3 +1,24 @@
+.requirements-overview,
+.requirement-templates-overview,
+.requirement-type-overview {
+  margin: 1em 0;
+}
+
+.requirements-section {
+  margin: 2em 0;
+  padding: 1em;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+}
+
+.requirements-section h3 {
+  margin-top: 0;
+}
+
+.action-links {
+  margin: 1em 0;
+}
+
 .requirements-overview {
   max-width: 1200px;
   margin: 2em auto;
@@ -42,4 +63,58 @@
 .button--danger {
   background: #dc3545;
   color: white;
+}
+
+.requirements-overview .action-links {
+  margin-bottom: 2em;
+}
+
+/* Task list styling */
+nav.tabs {
+  margin: 1em 0;
+}
+
+.tabs.primary,
+.tabs.secondary {
+  display: flex;
+  gap: 0.5em;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 1em;
+}
+
+.tabs.primary {
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1em;
+}
+
+/* Secondary tabs */
+.tabs.secondary {
+  margin: 1em 0;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.tabs.secondary .nav-link {
+  padding: 0.5em 1em;
+  margin-right: 0.5em;
+  color: #666;
+}
+
+.tabs.secondary .is-active {
+  border-bottom: 2px solid #0076dc;
+  font-weight: bold;
+}
+
+/* Content area */
+.requirements-overview {
+  margin-top: 2em;
+}
+
+.tabs.primary .is-active,
+.tabs.secondary .is-active {
+  font-weight: bold;
+  border-bottom: 2px solid #0076dc;
+}
+
+.requirement-templates-list {
+  margin: 1em 0;
 }

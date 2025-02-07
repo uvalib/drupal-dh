@@ -164,12 +164,12 @@ class CourseStructureMonitor extends EntityStructureMonitorBase {
    * {@inheritdoc}
    */
   protected function calculateChanges(array $previous, array $current) {
-    $changes = [];
+    $this->changes = [];
 
     // Check type changes
     if (isset($current['type'], $previous['type'])) {
       if ($current['type']['label'] !== $previous['type']['label']) {
-        $changes[] = $this->t('Course type label changed from @old to @new', [
+        $this->changes[] = $this->t('Course type label changed from @old to @new', [
           '@old' => $previous['type']['label'],
           '@new' => $current['type']['label'],
         ]);
@@ -223,7 +223,7 @@ class CourseStructureMonitor extends EntityStructureMonitorBase {
       }
     }
 
-    return $changes;
+    return $this->changes;
   }
 
   /**
@@ -234,6 +234,25 @@ class CourseStructureMonitor extends EntityStructureMonitorBase {
     $this->state->set('dh_certificate.course_structure', $current_state);
     $this->state->set('dh_certificate.course_structure_updated', time());
     return $this;
+  }
+
+  /**
+   * Checks if a course structure state exists.
+   *
+   * @return bool
+   *   TRUE if state exists, FALSE otherwise.
+   */
+  public function hasState(): bool {
+    try {
+      $state = $this->state->get('dh_certificate.course_structure', NULL);
+      return !empty($state);
+    }
+    catch (\Exception $e) {
+      $this->logger->error('Failed to check course structure state: @error', [
+        '@error' => $e->getMessage(),
+      ]);
+      return FALSE;
+    }
   }
 
   /**
@@ -262,6 +281,89 @@ class CourseStructureMonitor extends EntityStructureMonitorBase {
     $this->state->delete('dh_certificate.course_structure');
     $this->state->delete('dh_certificate.course_structure_updated');
     return $this;
+  }
+
+  /**
+   * Gets the current course structure.
+   *
+   * @return array
+   *   The current course structure data.
+   */
+  public function getCurrentStructure() {
+    $structure = [];
+    
+    try {
+      // Get course field definitions
+      $field_definitions = \Drupal::service('entity_field.manager')
+        ->getFieldDefinitions('node', 'course');
+
+      // Build structure array
+      $structure['fields'] = [];
+      foreach ($field_definitions as $field_name => $definition) {
+        $structure['fields'][$field_name] = [
+          'type' => $definition->getType(),
+          'label' => $definition->getLabel(),
+          'required' => $definition->isRequired(),
+          'settings' => $definition->getSettings(),
+        ];
+      }
+
+      // Add taxonomy vocabulary info if used
+      if ($vocabularies = $this->getRelatedVocabularies()) {
+        $structure['vocabularies'] = $vocabularies;
+      }
+
+      // Add any additional course configuration
+      $structure['config'] = [
+        'status' => \Drupal::config('node.type.course')->get('status'),
+        'workflow' => \Drupal::config('workflows.workflow.course')->get(),
+      ];
+
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->error('Error getting course structure: @error', [
+        '@error' => $e->getMessage(),
+      ]);
+    }
+
+    return $structure;
+  }
+
+  /**
+   * Gets vocabularies related to courses.
+   *
+   * @return array
+   *   Array of vocabulary information.
+   */
+  protected function getRelatedVocabularies() {
+    $vocabularies = [];
+    
+    try {
+      $field_definitions = \Drupal::service('entity_field.manager')
+        ->getFieldDefinitions('node', 'course');
+
+      foreach ($field_definitions as $field_name => $definition) {
+        if ($definition->getType() === 'entity_reference' && 
+            $definition->getSetting('target_type') === 'taxonomy_term') {
+          $handler_settings = $definition->getSetting('handler_settings');
+          if (!empty($handler_settings['target_bundles'])) {
+            foreach ($handler_settings['target_bundles'] as $vocab) {
+              $vocabularies[$vocab] = \Drupal::entityTypeManager()
+                ->getStorage('taxonomy_vocabulary')
+                ->load($vocab)
+                ->label();
+            }
+          }
+        }
+      }
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->error('Error getting course vocabularies: @error', [
+        '@error' => $e->getMessage(),
+      ]);
+    }
+
+    return $vocabularies;
   }
 
 }

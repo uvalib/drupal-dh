@@ -137,6 +137,12 @@
                     {% set requirement = course.fields.field_course_meets_what_requirem[0] %}
                     {% if requirement.label is defined %}
                       <span class="badge badge--requirement">{{ requirement.label }}</span>
+                    {% elseif requirement.target_id is defined %}
+                      {{ requirement.target_id }}
+                    {% elseif requirement.value is defined %}
+                      {{ requirement.value }}
+                    {% else %}
+                      {{ requirement|keys|join(', ') }}
                     {% endif %}
                   {% endif %}
                 </div>

@@ -8,13 +8,13 @@ The DH Certificate progress tracking system monitors and manages student progres
 
 ```bash
 # Check progress for a user
-drush dhc-progress 1
+drush dhc-progress 12
 
-# Generate test data
-drush dhc-gen-test --uid=1
+# Generate test data with clean slate
+drush dhc-setup-all --reset --uid=12
 
-# Debug progress
-drush dhc-debug
+# List enrollments
+drush dhc-list-enroll
 ```
 
 ## Progress Components
@@ -40,17 +40,18 @@ drush dhc-debug
 ## Progress Tracking Commands
 
 ```bash
-# Check specific user progress
+# Check user progress
 drush dhc-progress [uid]
 
-# Clean up progress data
-drush dhc-clean-progress
+# Generate fresh data
+drush dhc-setup-all --reset --uid=[uid]
 
-# Debug enrollments
-drush dhc-debug
-
-# List all enrollments
+# List enrollments
 drush dhc-list-enroll
+
+# Clean up data
+drush dhc-clean-progress
+drush dhc-clean-enroll
 ```
 
 ## Progress States
@@ -81,9 +82,9 @@ Shows:
 - Recent activity
 - Next steps
 
-### Debug Information
+### Enrollment Information
 ```bash
-drush dhc-debug
+drush dhc-list-enroll
 ```
 Shows:
 - Enrollment records
@@ -100,11 +101,11 @@ Shows:
 
 ### Batch Operations
 ```bash
-# Reset progress data
-drush dh-reset
+# Complete reset and setup
+drush dhc-setup-all --reset --uid=[uid]
 
-# Generate test data
-drush dhc-gen-test --uid=[uid]
+# Generate templates only
+drush dhc-gen-templates --reset
 
 # Clean specific data
 drush dhc-clean-progress
@@ -156,21 +157,19 @@ drush dhc-clean-enroll
    ```bash
    # Clear progress cache
    drush cr
-   drush dhc-clean-progress
    ```
 
 2. Missing Enrollments
    ```bash
-   # Check enrollment data
-   drush dhc-debug
+   # List enrollment data
    drush dhc-list-enroll
    ```
 
 3. Reset Progress
    ```bash
-   # Complete reset
+   # Complete reset and setup
    drush dh-reset
-   drush dhc-gen-test --reset --uid=[uid]
+   drush dhc-setup-all --reset --uid=[uid]
    ```
 
 ## See Also

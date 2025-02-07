@@ -10,46 +10,61 @@ dh_certificate.settings:
   description: 'Configure certificate settings'
   parent: dh_certificate.admin
   route_name: dh_certificate.settings
-  weight: 1
+  weight: 10
 
-dh_certificate.monitor:
-  title: 'Structure Monitor'
-  description: 'Monitor structural changes'
+dh_certificate.courses:
+  title: 'Courses'
+  description: 'Manage certificate courses'
   parent: dh_certificate.admin
-  route_name: dh_certificate.monitor_overview
-  weight: 2
+  route_name: dh_certificate.courses
+  weight: 20
 
+# Requirements section - consolidated structure
 dh_certificate.requirements:
   title: 'Requirements'
   description: 'Configure certificate requirements'
   parent: dh_certificate.admin
   route_name: dh_certificate.requirements
-  weight: 3
+  weight: 30
 
 dh_certificate.requirement_sets:
-  title: 'Requirement Sets'
-  description: 'Manage certificate requirement sets'
+  title: 'Sets'
+  description: 'Manage requirement sets'
   parent: dh_certificate.requirements
   route_name: entity.requirement_set.collection
+  weight: 0
+
+dh_certificate.requirement_types:
+  title: 'Types'
+  description: 'Manage requirement types'
+  parent: dh_certificate.requirements
+  route_name: dh_certificate.requirement_types
   weight: 1
+
+dh_certificate.requirement_templates:
+  title: 'Templates'
+  description: 'Manage requirement templates'
+  parent: dh_certificate.requirements
+  route_name: entity.requirement_type_template.collection
+  weight: 2
 
 dh_certificate.enrollments:
   title: 'Enrollments'
   description: 'Manage student enrollments'
   parent: dh_certificate.admin
-  route_name: dh_certificate.enrollment_list
-  weight: 4
+  route_name: entity.enrollment.collection
+  weight: 40
 
 dh_certificate.progress:
   title: 'Progress'
   description: 'View student progress'
   parent: dh_certificate.admin
-  route_name: dh_certificate.progress_overview
-  weight: 5
+  route_name: dh_certificate.progress
+  weight: 50
 
-dh_certificate.courses:
-  title: 'Certificate Courses'
-  description: 'Manage certificate courses'
-  parent: system.admin_config_content
-  route_name: dh_certificate.courses
-  weight: 5
+dh_certificate.structure_monitor:
+  title: 'Structure'
+  description: 'Monitor certificate structure'
+  parent: dh_certificate.admin
+  route_name: dh_certificate.structure_monitor
+  weight: 60

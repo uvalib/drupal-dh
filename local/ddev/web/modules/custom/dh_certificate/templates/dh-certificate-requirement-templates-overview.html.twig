@@ -1,0 +1,31 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-requirement-templates-overview.html.twig #}
+<div class="requirement-templates-overview">
+  <h2>{{ 'Requirement Templates'|t }}</h2>
+
+  <div class="action-links">
+    <a href="{{ path('entity.requirement_type_template.add_form') }}" class="button button--primary">{{ 'Add Requirement Template'|t }}</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>{{ 'Label'|t }}</th>
+        <th>{{ 'Machine name'|t }}</th>
+        <th>{{ 'Description'|t }}</th>
+        <th>{{ 'Operations'|t }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for template in requirement_templates %}
+        <tr>
+          <td>{{ template.label }}</td>
+          <td>{{ template.id }}</td>
+          <td>{{ template.description }}</td>
+          <td>
+            <a href="{{ template.edit_url }}">{{ 'Edit'|t }}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

@@ -2,39 +2,34 @@
 
 ## Getting Started
 
-- [Quick Setup Guide](requirements.md#quick-setup)
-  - Installation and basic configuration
-  - Example data generation
-  - Initial system setup
+```bash
+# Complete setup with example data
+drush dhc-setup-all --reset --uid=12
+
+# Check progress
+drush dhc-progress 12
+
+# List enrollments
+drush dhc-list-enroll
+```
 
 ## Core Documentation
 
 - [Requirements System](requirements.md)
-  - Core concepts and relationships
-  - Safe management practices
-  - Best practices and warnings
-
 - [Requirement Templates](requirement-templates.md)
-  - Template types and examples
-  - Configuration options
-  - Management commands
-
 - [Progress Tracking](progress.md)
-  - Progress states and calculation
-  - Monitoring and reporting
-  - Troubleshooting
 
 ## System Management
 
 ### Administrative Tasks
 ```bash
 # Full system setup
-drush dhc-setup --reset --uid=12
+drush dhc-setup-all --reset --uid=12
 
-# Generate fresh templates
-drush dhc-templates --reset
+# Generate templates
+drush dhc-gen-templates --reset
 
-# Generate requirement sets
+# Generate requirements
 drush dhc-gen-req --reset
 ```
 
@@ -45,6 +40,10 @@ drush dhc-lt
 
 # Check progress
 drush dhc-progress [uid]
+
+# List enrollments
+drush dhc-list-enroll
+```
 
 # Debug system
 drush dhc-debug

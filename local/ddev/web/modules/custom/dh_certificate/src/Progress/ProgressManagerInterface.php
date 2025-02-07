@@ -80,4 +80,64 @@ interface ProgressManagerInterface {
    *   Completion deadline configuration.
    */
   public function getCompletionDeadline();
+
+  /**
+   * Gets the number of active users in the certificate program.
+   *
+   * @return int
+   *   The number of active users.
+   */
+  public function getActiveUsers();
+
+  /**
+   * Gets recent activities in the certificate program.
+   *
+   * @param int $limit
+   *   Optional limit for number of activities to return.
+   *
+   * @return array
+   *   Array of recent activities.
+   */
+  public function getRecentActivities($limit = 10);
+
+  /**
+   * Gets the current system status information.
+   *
+   * @return array
+   *   Array of system status information.
+   */
+  public function getSystemStatus();
+
+  /**
+   * Gets changes for a specific monitor.
+   *
+   * @param string $monitor_id
+   *   The ID of the monitor.
+   *
+   * @return array
+   *   Array of monitor changes.
+   */
+  public function getMonitorChanges($monitor_id);
+
+  /**
+   * Gets the last check time for a monitor.
+   *
+   * @param string $monitor_id
+   *   The ID of the monitor.
+   *
+   * @return int
+   *   Timestamp of last check.
+   */
+  public function getMonitorLastCheck($monitor_id);
+
+  /**
+   * Gets the structure data for a monitor.
+   *
+   * @param string $monitor_id
+   *   The ID of the monitor.
+   *
+   * @return array
+   *   Array of structure data.
+   */
+  public function getMonitorStructure($monitor_id);
 }

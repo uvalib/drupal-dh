@@ -57,7 +57,7 @@ class RequirementTypeController extends ControllerBase {
       'add' => [
         '#type' => 'link',
         '#title' => $this->t('Add requirement type'),
-        '#url' => Url::fromRoute('dh_certificate.requirement_type_add'),
+        '#url' => Url::fromRoute('entity.requirement_type.add_form'),
         '#attributes' => ['class' => ['button', 'button--action', 'button--primary']],
       ],
     ];
@@ -83,7 +83,7 @@ class RequirementTypeController extends ControllerBase {
       $operations = [];
       $operations['edit'] = [
         'title' => $this->t('Edit'),
-        'url' => Url::fromRoute('dh_certificate.requirement_type_edit', ['requirement_type' => $id]),
+        'url' => Url::fromRoute('entity.requirement_type.edit_form', ['requirement_type' => $id]),
       ];
       
       $row['operations'] = [
@@ -130,7 +130,11 @@ class RequirementTypeController extends ControllerBase {
    * Title callback for the edit form.
    */
   public function editTitle($requirement_type) {
-    return $this->getTitle($requirement_type);
+    if ($requirement_type && $this->requirementTypeManager->hasDefinition($requirement_type)) {
+      $definition = $this->requirementTypeManager->getDefinition($requirement_type);
+      return $this->t('Edit @label requirement type', ['@label' => $definition['label']]);
+    }
+    return $this->t('Add requirement type');
   }
 
 }

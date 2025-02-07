@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies: {}
+id: certificate_activity
+label: 'Certificate Activity'
+base_table: certificate_activity
+entity_keys:
+  id: id
+  uuid: uuid
+  timestamp: created
+  uid: uid
+base_fields:
+  type:
+    type: string
+    label: 'Activity Type'
+  description:
+    type: text
+    label: 'Description'
+  created:
+    type: created
+    label: 'Created'
+  uid:
+    type: entity_reference
+    label: 'User'
+    settings:
+      target_type: user

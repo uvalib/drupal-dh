@@ -1,28 +1,51 @@
 {{ attach_library('dh_certificate/structure-monitor') }}
 
-<div class="structure-monitor-detail">
-  <h2>{{ monitor_id|capitalize ~ ' Structure Monitor'|t }}</h2>
-
-  <div class="monitor-info">
-    <p>{{ 'Last checked:'|t }} {{ last_checked|date('Y-m-d H:i:s') }}</p>
+{#
+/**
+ * @file
+ * Default theme implementation for displaying course structure monitoring details.
+ *
+ * Available variables:
+ * - monitor_id: The monitor identifier
+ * - changes: Array of detected changes
+ * - last_checked: Timestamp of last check
+ */
+#}
+<div class="structure-monitor">
+  <h2>{{ monitor_id|capitalize }} Structure Monitor</h2>
+  
+  <div class="structure-monitor__stats">
+    <div class="monitor-stat">
+      <label>{% trans %}Last checked{% endtrans %}</label>
+      <span>{{ last_checked ? last_checked|date('Y-m-d H:i:s') : 'Never' }}</span>
+    </div>
   </div>
 
-  <div class="monitor-content">
-    {% if changes is empty %}
-      <p>{{ 'No changes detected.'|t }}</p>
-    {% else %}
-      <h3>{{ 'Changes Detected'|t }}</h3>
-      <div class="changes-list">
+  {# Structure Data Section #}
+  {% if structure_data is defined %}
+    {{ structure_data }}
+  {% endif %}
+
+  {# Changes Section #}
+  {% if changes|length > 0 %}
+    <div class="structure-monitor__changes">
+      <h3>{% trans %}Recent Changes{% endtrans %}</h3>
+      <ul>
         {% for change in changes %}
-          <div class="change-item">
-            {{ change }}
-          </div>
+          <li>{{ change }}</li>
         {% endfor %}
-      </div>
-    {% endif %}
-  </div>
+      </ul>
+    </div>
+  {% else %}
+    <p class="structure-monitor__no-changes">
+      {% trans %}No structure changes detected.{% endtrans %}
+    </p>
+  {% endif %}
 
-  <div class="monitor-actions">
-    <a href="{{ path('dh_certificate.monitor_overview') }}" class="button">{{ 'Back to Overview'|t }}</a>
+  {# Single Action Button #}
+  <div class="structure-monitor__actions">
+    <a href="{{ path('dh_certificate.course_monitor_record') }}" class="button button--primary">
+      {% trans %}Record Current Structure{% endtrans %}
+    </a>
   </div>
 </div>

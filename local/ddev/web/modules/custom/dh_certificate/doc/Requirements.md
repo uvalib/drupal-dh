@@ -34,17 +34,7 @@ Three core requirement types are supported:
 
 ## Templates
 
-Requirement templates provide standardized definitions:
-
-```yaml
-course_template:
-  type: course
-  label: "Core Methods"
-  config:
-    credits: 3
-    required: true
-    course_type: methods
-```
+Requirement templates are now managed as config entities:
 
 ## Managing Requirements
 

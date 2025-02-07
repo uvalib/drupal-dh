@@ -67,6 +67,8 @@ function dh_certificate_schema() {
     ],
   ];
 
+  // Remove dh_certificate_activity_log schema as it's now handled by Entity API
+
   return $schema;
 }
 

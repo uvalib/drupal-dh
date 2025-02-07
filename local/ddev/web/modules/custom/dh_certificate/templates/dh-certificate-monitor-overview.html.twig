@@ -1,27 +1,64 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-monitor-overview.html.twig #}
+{#
+/**
+ * @file
+ * Default theme implementation for certificate monitoring overview.
+ *
+ * Available variables:
+ * - data: An array containing monitoring information
+ *   - active_users: Number of active users
+ *   - recent_activities: Array of recent activities
+ *   - system_status: System status information
+ */
+#}
 {{ attach_library('dh_certificate/structure-monitor') }}
 
 <div class="structure-monitor-overview">
-  <h2>{{ 'Structure Monitors'|t }}</h2>
+  <h2>{% trans %}Structure Monitors{% endtrans %}</h2>
   
-  <div class="certificate-monitor">
-    <div class="monitor-actions">
-      <a href="{{ path('dh_certificate.course_monitor_record') }}" class="button button--primary">{{ 'Record Current Structure'|t }}</a>
-    </div>
+  <div class="monitor-grid">
+    {% for id, monitor in monitors %}
+      <div class="monitor-card">
+        <h3>{{ monitor.title }}</h3>
+        <p>{{ monitor.description }}</p>
+        <div class="monitor-actions">
+          <a href="{{ monitor.url }}" class="button">{% trans %}View Monitor{% endtrans %}</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
 
-    <div class="monitor-grid">
-      {% for monitor in monitors %}
-        <div class="monitor-card">
-          <h3>{{ monitor.id|capitalize ~ ' Monitor'|t }}</h3>
-          <div class="monitor-status {{ monitor.changes > 0 ? 'has-changes' : 'no-changes' }}">
-            {{ monitor.status }}
-          </div>
-          <div class="monitor-meta">
-            {{ 'Last checked:'|t }} {{ monitor.last_checked|date('Y-m-d H:i:s') }}
-          </div>
-          <div class="monitor-actions">
-            <a href="{{ path('dh_certificate.monitor_detail', {'monitor_id': monitor.id}) }}" class="button">{{ 'View Details'|t }}</a>
-            <a href="{{ path('dh_certificate.monitor_reset', {'monitor_id': monitor.id}) }}" class="button button--secondary">{{ 'Reset'|t }}</a>
-          </div>
+<div class="dh-certificate-monitor">
+  <div class="monitor-section">
+    <h2>{{ 'Active Users'|t }}</h2>
+    <div class="monitor-data">
+      {{ data.active_users }}
+    </div>
+  </div>
+
+  <div class="monitor-section">
+    <h2>{{ 'Recent Activities'|t }}</h2>
+    <div class="monitor-data">
+      {% if data.recent_activities %}
+        <ul>
+          {% for activity in data.recent_activities %}
+            <li>{{ activity }}</li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>{{ 'No recent activities.'|t }}</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="monitor-section">
+    <h2>{{ 'System Status'|t }}</h2>
+    <div class="monitor-data">
+      {% for key, status in data.system_status %}
+        <div class="status-item">
+          <span class="status-label">{{ key|title }}</span>:
+          <span class="status-value">{{ status }}</span>
         </div>
       {% endfor %}
     </div>

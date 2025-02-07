@@ -6,6 +6,7 @@ use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\dh_certificate\Progress\ProgressManagerInterface;
+use Drupal\Core\State\StateInterface;
 use Drupal\Core\Url;
 
 /**
@@ -28,11 +29,23 @@ class DHCertificateController extends ControllerBase {
   protected $progressManager;
 
   /**
+   * The state service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $state;
+
+  /**
    * Constructs a DHCertificateController object.
    */
-  public function __construct(AccountProxyInterface $current_user, ProgressManagerInterface $progress_manager) {
+  public function __construct(
+    AccountProxyInterface $current_user,
+    ProgressManagerInterface $progress_manager,
+    StateInterface $state
+  ) {
     $this->currentUser = $current_user;
     $this->progressManager = $progress_manager;
+    $this->state = $state;
   }
 
   /**
@@ -41,60 +54,25 @@ class DHCertificateController extends ControllerBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('current_user'),
-      $container->get('dh_certificate.progress')
+      $container->get('dh_certificate.progress'),
+      $container->get('state')
     );
   }
 
   /**
    * Displays the admin overview page.
-   *
-   * @return array
-   *   A render array representing the admin overview page.
    */
   public function adminOverview() {
-    $stats = [
-      'total_students' => $this->progressManager->getTotalStudents(),
-      'active_courses' => $this->progressManager->getActiveCourses(),
-      'progress_summary' => [
-        'completed_courses' => $this->progressManager->getCompletedCoursesCount(),
-      ],
-    ];
-
     return [
       '#theme' => 'dh_certificate_admin_overview',
-      '#title' => $this->t('Digital Humanities Certificate Administration'),
-      '#content' => [
-        '#type' => 'container',
-        '#attributes' => ['class' => ['dh-certificate-admin']],
-        'description' => [
-          '#markup' => $this->t('Manage certificate requirements and track student progress.'),
-        ],
-        'links' => [
-          '#theme' => 'links',
-          '#links' => [
-            'requirements' => [
-              'title' => $this->t('Manage Requirements'),
-              'url' => Url::fromRoute('dh_certificate.requirement_templates'),
-            ],
-            'progress' => [
-              'title' => $this->t('View Progress'),
-              'url' => Url::fromRoute('dh_certificate.admin_progress'),
-            ],
-            'settings' => [
-              'title' => $this->t('Settings'),
-              'url' => Url::fromRoute('dh_certificate.settings'),
-            ],
-          ],
-        ],
-      ],
-      '#stats' => $stats,
       '#attached' => [
-        'library' => ['dh_certificate/certificate-admin'],
+        'library' => ['dh_certificate/admin'],
       ],
-      '#cache' => [
-        'contexts' => ['user.permissions'],
-        'tags' => ['dh_certificate:progress', 'node_list:course'],
-        'max-age' => 300,
+      // Add contextual data needed by template
+      '#management_links' => [
+        'progress' => $this->t('Progress Overview'),
+        'progress_admin' => $this->t('Administrative Progress'),
+        // ... other links ...
       ],
     ];
   }
@@ -419,6 +397,10 @@ class DHCertificateController extends ControllerBase {
    *   A render array for the requirements overview page.
    */
   public function requirementsOverview() {
+    // Load requirement templates
+    $template_storage = $this->entityTypeManager()->getStorage('requirement_type_template');
+    $templates = $template_storage->loadMultiple();
+
     $requirements = [
       'core_courses' => $this->progressManager->getCoreCourses(),
       'elective_credits' => $this->progressManager->getRequiredElectiveCredits(),
@@ -429,13 +411,107 @@ class DHCertificateController extends ControllerBase {
       '#theme' => 'dh_certificate_requirements',
       '#title' => $this->t('Certificate Requirements'),
       '#requirements' => $requirements,
+      '#requirement_templates' => $templates,
       '#attached' => [
         'library' => ['dh_certificate/certificate-admin'],
       ],
       '#cache' => [
-        'tags' => ['config:dh_certificate.settings'],
+        'tags' => [
+          'config:dh_certificate.settings',
+          'config:requirement_type_template_list'
+        ],
         'contexts' => ['user.permissions'],
       ],
     ];
+  }
+
+  /**
+   * Displays the monitoring overview page.
+   *
+   * @return array
+   *   A render array for the monitoring overview page.
+   */
+  public function monitorOverview() {
+    $monitoring_data = [
+      'active_users' => $this->progressManager->getActiveUsers(),
+      'recent_activities' => $this->progressManager->getRecentActivities(),
+      'system_status' => $this->progressManager->getSystemStatus(),
+    ];
+
+    return [
+      '#theme' => 'dh_certificate_monitor_overview',
+      '#title' => $this->t('Certificate Monitoring'),
+      '#data' => $monitoring_data,
+      '#attached' => [
+        'library' => ['dh_certificate/certificate-admin'],
+      ],
+      '#cache' => [
+        'contexts' => ['user.permissions'],
+        'tags' => ['dh_certificate:monitor'],
+        'max-age' => 300,
+      ],
+    ];
+  }
+
+  /**
+   * Displays the monitor detail page.
+   *
+   * @param string $monitor_id
+   *   The ID of the monitor to display.
+   *
+   * @return array
+   *   A render array for the monitor detail page.
+   */
+  public function monitorDetail($monitor_id) {
+    $monitor_data = [
+      'id' => $monitor_id,
+      'changes' => $this->progressManager->getMonitorChanges($monitor_id),
+      'last_checked' => $this->progressManager->getMonitorLastCheck($monitor_id),
+      'structure_data' => $this->progressManager->getMonitorStructure($monitor_id),
+    ];
+
+    return [
+      '#theme' => 'dh_certificate_monitor_detail',
+      '#monitor_id' => $monitor_id,
+      '#changes' => $monitor_data['changes'],
+      '#last_checked' => $monitor_data['last_checked'],
+      '#structure_data' => $monitor_data['structure_data'],
+      '#attached' => [
+        'library' => ['dh_certificate/certificate-admin'],
+      ],
+      '#cache' => [
+        'contexts' => ['user.permissions'],
+        'tags' => ['dh_certificate:monitor:' . $monitor_id],
+        'max-age' => 300,
+      ],
+    ];
+  }
+
+  /**
+   * Resets a monitor's data.
+   *
+   * @param string $monitor_id
+   *   The ID of the monitor to reset.
+   *
+   * @return \Symfony\Component\HttpFoundation\RedirectResponse
+   *   A redirect to the monitor detail page.
+   */
+  public function monitorReset($monitor_id) {
+    try {
+      // Clear monitor state data
+      $this->state->delete('dh_certificate.monitor.' . $monitor_id . '.changes');
+      $this->state->delete('dh_certificate.monitor.' . $monitor_id . '.last_check');
+      $this->state->delete('dh_certificate.monitor.' . $monitor_id . '.structure');
+
+      $this->messenger()->addStatus($this->t('Monitor data has been reset.'));
+    }
+    catch (\Exception $e) {
+      $this->messenger()->addError($this->t('Failed to reset monitor data.'));
+      \Drupal::logger('dh_certificate')->error('Failed to reset monitor: @error', [
+        '@error' => $e->getMessage()
+      ]);
+    }
+
+    return $this->redirect('dh_certificate.monitor_detail', ['monitor_id' => $monitor_id]);
   }
 }

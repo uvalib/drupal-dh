@@ -72,3 +72,12 @@ structure-monitor:
       css/structure-monitor.css: {}
   dependencies:
     - core/drupal
+    - core/jquery
+    - core/once
+
+requirements-admin:
+  css:
+    theme:
+      css/requirements-admin.css: {}
+  dependencies:
+    - core/drupal

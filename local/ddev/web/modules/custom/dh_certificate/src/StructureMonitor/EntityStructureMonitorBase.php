@@ -35,6 +35,13 @@ abstract class EntityStructureMonitorBase implements StructureMonitorInterface {
   protected $state;
 
   /**
+   * Array of detected changes.
+   *
+   * @var array
+   */
+  protected $changes = [];
+
+  /**
    * Constructs a new EntityStructureMonitorBase.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
@@ -68,14 +75,9 @@ abstract class EntityStructureMonitorBase implements StructureMonitorInterface {
    * {@inheritdoc}
    */
   public function getChanges() {
-    if ($this->changes !== NULL) {
-      return $this->changes;
-    }
-
-    $previous_state = $this->state->get($this->stateKey, []);
-    $current_state = $this->getCurrentState();
-    $this->changes = $this->calculateChanges($previous_state, $current_state);
-
+    $current = $this->getCurrentState();
+    $previous = $this->state->get('dh_certificate.' . $this->getMonitorId(), []);
+    $this->changes = $this->calculateChanges($previous, $current);
     return $this->changes;
   }
 

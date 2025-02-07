@@ -1,0 +1,31 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-requirement-type-overview.html.twig #}
+<div class="requirement-type-overview">
+  <h2>{{ 'Requirement Types'|t }}</h2>
+
+  <div class="action-links">
+    <a href="{{ path('entity.requirement_type.add_form') }}" class="button button--primary">{{ 'Add Requirement Type'|t }}</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>{{ 'Label'|t }}</th>
+        <th>{{ 'Machine name'|t }}</th>
+        <th>{{ 'Description'|t }}</th>
+        <th>{{ 'Operations'|t }}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for type in requirement_types %}
+        <tr>
+          <td>{{ type.label }}</td>
+          <td>{{ type.id }}</td>
+          <td>{{ type.description }}</td>
+          <td>
+            <a href="{{ type.edit_url }}">{{ 'Edit'|t }}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

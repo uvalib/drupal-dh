@@ -16,7 +16,6 @@ services:
     arguments:
       - '@entity_type.manager'
       - '@state'
-      - '@current_user'
 
   dh_certificate.commands:
     class: Drupal\dh_certificate\Commands\DHCertificateCommands

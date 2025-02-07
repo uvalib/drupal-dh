@@ -1,6 +1,6 @@
-administer dh certificate settings:
-  title: 'Administer DH Certificate settings'
-  description: 'Allow users to configure certificate settings'
+administer dh certificate:
+  title: 'Administer DH Certificate'
+  description: 'Allow users to configure certificate settings and view enrollments'
   restrict access: true
 
 administer dh certificate requirements:
@@ -8,9 +8,9 @@ administer dh certificate requirements:
   description: 'Allow users to configure certificate requirements'
   restrict access: true
 
-administer dh certificate:
-  title: 'Administer DH Certificate'
-  description: 'Allow users to configure certificate settings and view enrollments'
+administer dh certificate settings:
+  title: 'Administer DH Certificate settings'
+  description: 'Allow users to configure certificate settings'
   restrict access: true
 
 administer dh certificate courses:

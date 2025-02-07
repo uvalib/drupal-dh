@@ -1,3 +1,4 @@
+# Base administrative routes
 dh_certificate.admin:
   path: '/admin/config/dh-certificate'
   defaults:
@@ -35,60 +36,63 @@ dh_certificate.course_add:
   options:
     _admin_route: TRUE
 
+# Requirements section - consolidate paths
 dh_certificate.requirements:
-  path: '/admin/config/dh_certificate/requirements'
+  path: '/admin/config/dh-certificate/requirements'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::requirementsOverview'
-    _title: 'Certificate Requirements'
+    _controller: '\Drupal\dh_certificate\Controller\RequirementController::overview'
+    _title: 'Requirements Overview'
   requirements:
-    _permission: 'administer dh certificate'
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+    no_cache: TRUE
 
 dh_certificate.requirement.add:
-  path: '/admin/config/dh_certificate/requirements/add/{requirement_set}'
+  path: '/admin/config/dh-certificate/requirements/add/{requirement_set}'
   defaults:
     _form: '\Drupal\dh_certificate\Form\RequirementForm'
     _title: 'Add Requirement'
   requirements:
-    _permission: 'administer dh certificate'
-
-dh_certificate.requirements_list:
-  path: '/admin/config/dh-certificate/requirements'
-  defaults:
-    _title: 'Certificate Requirements'
-    _entity_list: 'requirement'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-dh_certificate.requirement_sets:
-  path: '/admin/config/dh-certificate/requirement-sets'
-  defaults:
-    _title: 'Requirement Sets'
-    _entity_list: 'requirement_set'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-dh_certificate.admin_enrollments:
-  path: '/admin/config/dh-certificate/enrollments'
-  defaults:
-    _controller: '\Drupal\dh_certificate\Controller\ProgressController::adminEnrollments'
-    _title: 'User Enrollments'
-  requirements:
-    _permission: 'administer dh certificate'
+    _permission: 'administer dh certificate requirements'
   options:
     _admin_route: TRUE
 
-dh_certificate.enrollment_list:
-  path: '/admin/config/dh-certificate/enrollment'
+dh_certificate.requirement_types:
+  path: '/admin/config/dh-certificate/requirements/types'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\RequirementTypeController::overview'
+    _title: 'Requirement Types'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.requirement_templates:
+  path: '/admin/config/dh-certificate/requirements/templates'
+  defaults:
+    _entity_list: 'requirement_type_template'
+    _title: 'Requirement Type Templates'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+# Remove or comment out dh_certificate.admin_enrollments route
+# Remove dh_certificate.enrollments route
+
+entity.enrollment.collection:
+  path: '/admin/config/dh-certificate/enrollments'
   defaults:
     _controller: '\Drupal\dh_certificate\Controller\EnrollmentController::listEnrollments'
-    _title: 'Course Enrollments'
+    _title: 'Enrollments'
   requirements:
     _permission: 'administer dh certificate'
   options:
     _admin_route: TRUE
 
 dh_certificate.enrollment_add:
-  path: '/admin/config/dh-certificate/enrollment/add'
+  path: '/admin/config/dh-certificate/enrollments/add'
   defaults:
     _form: '\Drupal\dh_certificate\Form\EnrollmentForm'
     _title: 'Add Enrollment'
@@ -98,21 +102,17 @@ dh_certificate.enrollment_add:
     _admin_route: TRUE
 
 dh_certificate.enrollment_edit:
-  path: '/admin/config/dh-certificate/enrollment/{id}/edit'
+  path: '/admin/config/dh-certificate/enrollments/{id}/edit'
   defaults:
     _form: '\Drupal\dh_certificate\Form\EnrollmentForm'
     _title: 'Edit Enrollment'
   requirements:
     _permission: 'administer dh certificate'
-    id: '\d+'
   options:
     _admin_route: TRUE
-    parameters:
-      id:
-        type: integer
 
 dh_certificate.enrollment_delete:
-  path: '/admin/dh-certificate/enrollment/{id}/delete'
+  path: '/admin/config/dh-certificate/enrollment/{id}/delete'
   defaults:
     _form: 'Drupal\dh_certificate\Form\DeleteEnrollmentConfirmForm'
     _title: 'Delete Enrollment'
@@ -161,28 +161,40 @@ dh_certificate.settings:
   options:
     _admin_route: TRUE
 
-dh_certificate.admin_progress:
+# Progress section - consolidate paths and hierarchy
+dh_certificate.progress:
   path: '/admin/config/dh-certificate/progress'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\ProgressController::adminProgress'
-    _title: 'Certificate Progress'
-  requirements:
-    _permission: 'administer dh certificate'
-  options:
-    _admin_route: TRUE
-
-dh_certificate.progress_overview:
-  path: '/admin/config/dh-certificate/progress-overview'
-  defaults:
-    _controller: '\Drupal\dh_certificate\Controller\ProgressController::adminOverview'
+    _controller: '\Drupal\dh_certificate\Controller\ProgressController::overview'
     _title: 'Progress Overview'
   requirements:
     _permission: 'administer dh certificate'
   options:
     _admin_route: TRUE
 
+dh_certificate.progress_admin:
+  path: '/admin/config/dh-certificate/progress/admin'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\ProgressController::adminProgress'
+    _title: 'Administrative Progress'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
+# Structure Monitor Routes
+dh_certificate.structure_monitor:
+  path: '/admin/config/dh-certificate/structure'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::overview'
+    _title: 'Structure Monitors'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
 dh_certificate.course_monitor:
-  path: '/admin/config/dh-certificate/course-monitor'
+  path: '/admin/config/dh-certificate/structure/course'
   defaults:
     _controller: '\Drupal\dh_certificate\Controller\CourseMonitorController::overview'
     _title: 'Course Structure Monitor'
@@ -192,7 +204,7 @@ dh_certificate.course_monitor:
     _admin_route: TRUE
 
 dh_certificate.course_monitor_record:
-  path: '/admin/config/dh-certificate/course-monitor/record'
+  path: '/admin/config/dh-certificate/structure/course/record'
   defaults:
     _controller: '\Drupal\dh_certificate\Controller\CourseMonitorController::recordStructure'
     _title: 'Record Course Structure'
@@ -200,12 +212,198 @@ dh_certificate.course_monitor_record:
     _permission: 'administer dh certificate'
   options:
     _admin_route: TRUE
+    no_cache: TRUE
+
+# Profile monitor routes
+dh_certificate.profile_monitor:
+  path: '/admin/config/dh-certificate/structure/profile'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\ProfileMonitorController::overview'
+    _title: 'Profile Structure Monitor'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.profile_monitor_record:
+  path: '/admin/config/dh-certificate/structure/profile/record'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\ProfileMonitorController::recordStructure'
+    _title: 'Record Profile Structure'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+    no_cache: TRUE
+
+# Taxonomy monitor routes
+dh_certificate.taxonomy_monitor:
+  path: '/admin/config/dh-certificate/structure/taxonomy'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\TaxonomyMonitorController::overview'
+    _title: 'Taxonomy Structure Monitor'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.taxonomy_monitor_record:
+  path: '/admin/config/dh-certificate/structure/taxonomy/record'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\TaxonomyMonitorController::recordStructure'
+    _title: 'Record Taxonomy Structure'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+    no_cache: TRUE
+
+# Requirement Sets routes
+entity.requirement_set.collection:
+  path: '/admin/config/dh-certificate/requirements/sets'
+  defaults:
+    _entity_list: 'requirement_set'
+    _title: 'Requirement Sets'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_set.add_form:
+  path: '/admin/config/dh-certificate/requirements/sets/add'
+  defaults:
+    _entity_form: 'requirement_set.add'
+    _title: 'Add Requirement Set'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_set.edit_form:
+  path: '/admin/config/dh-certificate/requirements/sets/{requirement_set}/edit'
+  defaults:
+    _entity_form: 'requirement_set.edit'
+    _title: 'Edit Requirement Set'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_set.enable:
+  path: '/admin/config/dh-certificate/requirements/sets/{requirement_set}/enable'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\RequirementSetController::enable'
+    _title: 'Enable requirement set'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_set.disable:
+  path: '/admin/config/dh-certificate/requirements/sets/{requirement_set}/disable'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\RequirementSetController::disable'
+    _title: 'Disable requirement set'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_set.delete_form:
+  path: '/admin/config/dh-certificate/requirements/sets/{requirement_set}/delete'
+  defaults:
+    _entity_form: 'requirement_set.delete'
+    _title: 'Delete Requirement Set'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_type_template.collection:
+  path: '/admin/config/dh-certificate/requirement-templates'
+  defaults:
+    _entity_list: 'requirement_type_template'
+    _title: 'Requirement Type Templates'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_type_template.add_form:
+  path: '/admin/config/dh-certificate/requirement-templates/add'
+  defaults:
+    _entity_form: 'requirement_type_template.add'
+    _title: 'Add requirement type template'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_type_template.edit_form:
+  path: '/admin/config/dh-certificate/requirement-templates/{requirement_type_template}/edit'
+  defaults:
+    _entity_form: 'requirement_type_template.edit'
+    _title_callback: '\Drupal\Core\Entity\Controller\EntityController::title'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_type_template.delete_form:
+  path: '/admin/config/dh-certificate/requirement-templates/{requirement_type_template}/delete'
+  defaults:
+    _entity_form: 'requirement_type_template.delete'
+    _title: 'Delete requirement type template'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_type.collection:
+  path: '/admin/config/dh-certificate/requirements/types'
+  defaults:
+    _entity_list: 'requirement_type'
+    _title: 'Requirement Types'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_type.add_form:
+  path: '/admin/config/dh-certificate/requirements/types/add'
+  defaults:
+    _entity_form: 'requirement_type.add'
+    _title: 'Add Requirement Type'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_type.edit_form:
+  path: '/admin/config/dh-certificate/requirements/types/{requirement_type}/edit'
+  defaults:
+    _entity_form: 'requirement_type.edit'
+    _title_callback: '\Drupal\dh_certificate\Controller\RequirementTypeController::editTitle'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
+
+entity.requirement_type.delete_form:
+  path: '/admin/config/dh-certificate/requirements/types/{requirement_type}/delete'
+  defaults:
+    _entity_form: 'requirement_type.delete'
+    _title: 'Delete Requirement Type'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    _admin_route: TRUE
 
 dh_certificate.monitor_overview:
   path: '/admin/config/dh-certificate/monitor'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::overview'
-    _title: 'Structure Monitor'
+    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::monitorOverview'
+    _title: 'Certificate Monitoring'
   requirements:
     _permission: 'administer dh certificate'
   options:
@@ -214,164 +412,26 @@ dh_certificate.monitor_overview:
 dh_certificate.monitor_detail:
   path: '/admin/config/dh-certificate/monitor/{monitor_id}'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::detail'
+    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::monitorDetail'
     _title: 'Monitor Details'
   requirements:
     _permission: 'administer dh certificate'
   options:
     _admin_route: TRUE
+    parameters:
+      monitor_id:
+        type: string
 
 dh_certificate.monitor_reset:
   path: '/admin/config/dh-certificate/monitor/{monitor_id}/reset'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::reset'
+    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::monitorReset'
     _title: 'Reset Monitor'
   requirements:
     _permission: 'administer dh certificate'
     _csrf_token: 'TRUE'
   options:
     _admin_route: TRUE
-
-dh_certificate.structure_monitor:
-  path: '/admin/config/dh-certificate/monitor'
-  defaults:
-    _title: 'Structure Monitor'
-    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::overview'
-  requirements:
-    _permission: 'administer dh certificate'
-
-dh_certificate.requirement_types:
-  path: '/admin/config/dh-certificate/requirement-types'
-  defaults:
-    _controller: '\Drupal\dh_certificate\Controller\RequirementTypeController::overview'
-    _title: 'Requirement Types'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-dh_certificate.requirement_type_add:
-  path: '/admin/config/dh-certificate/requirement-types/add'
-  defaults:
-    _form: '\Drupal\dh_certificate\Form\RequirementTypeForm'
-    _title: 'Add requirement type'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-dh_certificate.requirement_type_edit:
-  path: '/admin/config/dh-certificate/requirement-types/{requirement_type}/edit'
-  defaults:
-    _form: '\Drupal\dh_certificate\Form\RequirementTypeForm'
-    _title: 'Edit requirement type'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-dh_certificate.requirement_templates:
-  path: '/admin/config/dh-certificate/requirement-templates'
-  defaults:
-    _entity_list: 'requirement_type_template'
-    _title: 'Requirement Type Templates'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-entity.requirement_set.collection:
-  path: '/admin/config/dh-certificate/requirement-sets'
-  defaults:
-    _entity_list: 'requirement_set'
-    _title: 'Requirement Sets'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-entity.requirement_set.add_form:
-  path: '/admin/config/dh_certificate/requirement-sets/add'
-  defaults:
-    _entity_form: 'requirement_set.add'
-    _title: 'Add requirement set'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-entity.requirement_set.edit_form:
-  path: '/admin/config/dh_certificate/requirement-sets/{requirement_set}/edit'
-  defaults:
-    _entity_form: 'requirement_set.edit'
-    _title: 'Edit requirement set'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-entity.requirement_set.enable:
-  path: '/admin/config/dh_certificate/requirement-sets/{requirement_set}/enable'
-  defaults:
-    _controller: '\Drupal\dh_certificate\Controller\RequirementSetController::enable'
-    _title: 'Enable requirement set'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-entity.requirement_set.disable:
-  path: '/admin/config/dh_certificate/requirement-sets/{requirement_set}/disable'
-  defaults:
-    _controller: '\Drupal\dh_certificate\Controller\RequirementSetController::disable'
-    _title: 'Disable requirement set'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-entity.requirement_set.delete_form:
-  path: '/admin/config/dh-certificate/requirement-sets/{requirement_set}/delete'
-  defaults:
-    _entity_form: 'requirement_set.delete'
-    _title: 'Delete requirement set'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-dh_certificate.requirement_set_enable:
-  path: '/admin/config/dh-certificate/requirement-sets/{requirement_set}/enable'
-  defaults:
-    _controller: '\Drupal\dh_certificate\Controller\RequirementSetController::enable'
-    _title: 'Enable Requirement Set'
-  requirements:
-    _permission: 'administer certificate requirements'
-    _csrf_token: 'TRUE'
-
-dh_certificate.requirement_set_disable:
-  path: '/admin/config/dh-certificate/requirement-sets/{requirement_set}/disable'
-  defaults:
-    _controller: '\Drupal\dh_certificate\Controller\RequirementSetController::disable'
-    _title: 'Disable Requirement Set'
-  requirements:
-    _permission: 'administer certificate requirements'
-    _csrf_token: 'TRUE'
-
-entity.requirement_type_template.collection:
-  path: '/admin/config/dh-certificate/requirement-templates'
-  defaults:
-    _entity_list: 'requirement_type_template'
-    _title: 'Requirement Type Templates'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-entity.requirement_type_template.add_form:
-  path: '/admin/config/dh-certificate/requirement-templates/add'
-  defaults:
-    _entity_form: 'requirement_type_template.add'
-    _title: 'Add requirement type template'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-entity.requirement_type_template.edit_form:
-  path: '/admin/config/dh-certificate/requirement-templates/{requirement_type_template}'
-  defaults:
-    _entity_form: 'requirement_type_template.edit'
-    _title_callback: '\Drupal\Core\Entity\Controller\EntityController::title'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-entity.requirement_type_template.delete_form:
-  path: '/admin/config/dh-certificate/requirement-templates/{requirement_type_template}/delete'
-  defaults:
-    _entity_form: 'requirement_type_template.delete'
-    _title: 'Delete requirement type template'
-  requirements:
-    _permission: 'administer certificate requirements'
-
-# Remove these debug routes
-# dh_certificate.test
-# dh_certificate.debug_classloader
-# dh_certificate.debug_routes
-# dh_certificate.list_routes
+    parameters:
+      monitor_id:
+        type: string

@@ -69,8 +69,9 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
     'dh_certificate_requirements' => [
       'variables' => [
         'title' => NULL,
-        'requirements' => [],
+        'content' => [],
       ],
+      'template' => 'dh-certificate-requirements',
     ],
     'dh_certificate_course_listing' => [
       'variables' => [
@@ -121,7 +122,9 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
         'monitor_id' => NULL,
         'changes' => [],
         'last_checked' => NULL,
+        'structure_data' => NULL,  // Add this line
       ],
+      'template' => 'dh-certificate-monitor-detail',
     ],
     'dh_certificate_structure_monitor' => [
       'variables' => [
@@ -136,6 +139,20 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
         'debug' => NULL,
       ],
       'template' => 'dh-certificate-progress-block',
+    ],
+    'dh_certificate_structure_data' => [
+      'variables' => [
+        'entity_type' => NULL,
+        'structure_data' => [],
+        'last_updated' => NULL,
+      ],
+      'template' => 'dh-certificate-structure-data',
+    ],
+    'dh_certificate_monitor_overview' => [
+      'variables' => [
+        'title' => NULL,
+        'data' => [],
+      ],
     ],
   ];
 }
@@ -201,6 +218,16 @@ function dh_certificate_preprocess_dh_certificate_progress(&$variables) {
   // Removed detailed debug logging to prevent memory issues
   if (!empty($variables['debug'])) {
     \Drupal::logger('dh_certificate')->debug('Debug enabled for certificate progress');
+  }
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for dh_certificate_monitor_detail.
+ */
+function dh_certificate_preprocess_dh_certificate_monitor_detail(&$variables) {
+  if (!empty($variables['structure_data'])) {
+    // Ensure structure data is properly rendered
+    $variables['structure_data'] = \Drupal::service('renderer')->render($variables['structure_data']);
   }
 }
 

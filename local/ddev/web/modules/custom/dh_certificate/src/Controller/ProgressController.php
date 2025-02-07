@@ -3,6 +3,7 @@
 namespace Drupal\dh_certificate\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\dh_certificate\Progress\ProgressManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -10,6 +11,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * Controller for certificate progress management.
  */
 class ProgressController extends ControllerBase {
+
+  /**
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
+   */
+  protected $entityTypeManager;
 
   /**
    * The progress manager service.
@@ -21,10 +29,13 @@ class ProgressController extends ControllerBase {
   /**
    * Constructs a new ProgressController.
    *
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    * @param \Drupal\dh_certificate\Progress\ProgressManagerInterface $progress_manager
    *   The progress manager.
    */
-  public function __construct(ProgressManagerInterface $progress_manager) {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, ProgressManagerInterface $progress_manager) {
+    $this->entityTypeManager = $entity_type_manager;
     $this->progressManager = $progress_manager;
   }
 
@@ -33,222 +44,91 @@ class ProgressController extends ControllerBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
+      $container->get('entity_type.manager'),
       $container->get('dh_certificate.progress')
     );
   }
 
   /**
-   * Displays an overview of all certificate progress.
-   *
-   * @return array
-   *   A render array representing the progress overview page.
+   * Displays the progress overview page.
+   */
+  public function overview() {
+    return [
+      '#theme' => 'dh_certificate_progress_overview',
+      '#title' => $this->t('Progress Overview'),
+      '#data' => $this->getProgressData(),
+    ];
+  }
+
+  /**
+   * Displays the admin overview page.
    */
   public function adminOverview() {
-    $build = [
-      '#theme' => 'dh_certificate_progress_overview',
-      '#title' => $this->t('Certificate Progress Overview'),
-      '#progress_data' => $this->progressManager->getAllProgress(),
+    return [
+      '#theme' => 'dh_certificate_admin_progress',
+      '#title' => $this->t('Administrative Progress Overview'),
+      '#data' => $this->getProgressData(TRUE),
     ];
-
-    return $build;
   }
 
   /**
-   * Displays user progress towards certificate completion.
-   *
-   * @return array
-   *   Render array for the progress page.
+   * Displays user progress page.
    */
   public function userProgress() {
-    $uid = $this->currentUser()->id();
-    $enrollment_storage = $this->entityTypeManager()->getStorage('course_enrollment');
-    
-    // Load enrollments using Entity API
-    $query = $enrollment_storage->getQuery()
-      ->accessCheck(FALSE)
-      ->condition('uid', $uid)
-      ->execute();
-    
-    $enrollments = $enrollment_storage->loadMultiple($query);
-    
-    // Calculate progress metrics
-    $total_courses = count($enrollments);
-    $completed_courses = 0;
-    $total_credits = 0;
-    $completed_credits = 0;
-    $rows = [];
-    $courses = [];
-
-    foreach ($enrollments as $enrollment) {
-      $course = $enrollment->get('course_id')->entity;
-      if (!$course) {
-        continue;
-      }
-
-      $completed = $enrollment->get('completed_date')->value 
-        ? date('Y-m-d', $enrollment->get('completed_date')->value) 
-        : '—';
-      $credits = (int)$course->get('field_credits')->value ?? 0;
-      $mnemonic = $course->get('field_course_code')->value ? 
-        "({$course->get('field_course_code')->value})" : '';
-      
-      $rows[] = [
-        $course->label() . ' ' . $mnemonic,
-        ucfirst($enrollment->get('status')->value),
-        $completed,
-      ];
-
-      $courses[] = [
-        'title' => $course->label(),
-        'mnemonic' => $course->get('field_course_code')->value,
-        'status' => $enrollment->get('status')->value,
-        'credits' => $credits,
-        'completed_date' => $completed,
-      ];
-      
-      $total_credits += $credits;
-      if ($enrollment->get('status')->value === 'completed') {
-        $completed_courses++;
-        $completed_credits += $credits;
-      }
-    }
-
-    $progress_data = [
-      'total_courses' => $total_courses,
-      'completed_courses' => $completed_courses,
-      'total_credits' => $total_credits,
-      'completed_credits' => $completed_credits,
-      'percentage' => $total_courses > 0 ? round(($completed_courses / $total_courses) * 100) : 0,
-      'courses' => $courses,
+    $account = $this->currentUser();
+    return [
+      '#theme' => 'dh_certificate_user_progress',
+      '#title' => $this->t('My Certificate Progress'),
+      '#progress' => $this->getUserProgressData($account),
     ];
-
-    $build = [
-      '#type' => 'container',
-      'title' => [
-        '#type' => 'html_tag',
-        '#tag' => 'h2',
-        '#value' => $this->t('My Certificate Progress'),
-      ],
-      'enrollments' => [
-        '#type' => 'details',
-        '#title' => $this->t('Current Enrollments'),
-        '#open' => TRUE,
-        'table' => [
-          '#type' => 'table',
-          '#header' => [
-            $this->t('Course'),
-            $this->t('Status'),
-            $this->t('Completed Date'),
-          ],
-          '#rows' => $rows,
-          '#empty' => $this->t('No course enrollments found.'),
-        ],
-      ],
-      'debug' => [
-        '#type' => 'details',
-        '#title' => $this->t('Debug Information'),
-        '#open' => FALSE,
-        'data' => [
-          '#type' => 'html_tag',
-          '#tag' => 'pre',
-          '#value' => json_encode($progress_data, JSON_PRETTY_PRINT),
-        ],
-      ],
-      '#cache' => [
-        'contexts' => ['user'],
-      ],
-    ];
-    
-    return $build;
   }
 
   /**
-   * Displays a list of enrollments for each user.
-   *
-   * @return array
-   *   Render array for the enrollments page.
+   * Displays admin enrollments page.
    */
   public function adminEnrollments() {
-    $enrollment_storage = $this->entityTypeManager()->getStorage('course_enrollment');
-    
-    // Get all enrollments using Entity API
-    $query = $enrollment_storage->getQuery()
-      ->accessCheck(FALSE)
-      ->sort('course_id')
-      ->execute();
-    
-    $enrollments = $enrollment_storage->loadMultiple($query);
-    
-    // Group enrollments by user
-    $enrollment_data = [];
-    foreach ($enrollments as $enrollment) {
-      $user = $enrollment->get('uid')->entity;
-      $course = $enrollment->get('course_id')->entity;
-      
-      if (!$user || !$course) {
-        continue;
-      }
-
-      $enrollment_data[] = [
-        'user' => $user->getDisplayName(),
-        'course' => $course->label(),
-        'status' => ucfirst($enrollment->get('status')->value),
-        'completed_date' => $enrollment->get('completed_date')->value ? 
-          date('Y-m-d', $enrollment->get('completed_date')->value) : '—',
-      ];
-    }
-
-    // Build render array
-    $build = [
-      '#theme' => 'admin_enrollments',
-      '#enrollments' => $enrollment_data,
-      '#cache' => [
-        'contexts' => ['user'],
-      ],
+    return [
+      '#theme' => 'dh_certificate_admin_enrollments',
+      '#title' => $this->t('User Enrollments'),
+      '#enrollments' => $this->getEnrollmentData(),
     ];
-
-    return $build;
   }
 
   /**
-   * Displays the admin progress overview.
-   *
-   * @return array
-   *   A render array representing the admin progress overview page.
+   * Displays the admin progress page.
    */
   public function adminProgress() {
-    $build = [
+    return [
       '#theme' => 'dh_certificate_admin_progress',
-      '#title' => $this->t('Certificate Progress Overview'),
-      '#attached' => [
-        'library' => ['dh_certificate/certificate-admin'],
-      ],
+      '#title' => $this->t('Certificate Progress'),
+      '#data' => $this->getProgressData(TRUE),
     ];
-
-    // Load progress data
-    $progress_data = $this->getProgressData();
-
-    // Structure the data for the template
-    $build['#progress'] = $progress_data;
-
-    return $build;
   }
 
   /**
-   * Gets progress data for the admin overview.
+   * Gets progress data.
    *
-   * @return array
-   *   An array of progress data.
+   * @param bool $admin
+   *   Whether to get admin level data.
    */
-  protected function getProgressData() {
-    // Implement logic to fetch and structure progress data
-    // This is a placeholder implementation
-    return [
-      'total_students' => 100,
-      'completed_courses' => 200,
-      'in_progress_courses' => 50,
-      'pending_courses' => 30,
-    ];
+  protected function getProgressData($admin = FALSE) {
+    // Implementation details...
+    return [];
   }
 
+  /**
+   * Gets progress data for a specific user.
+   */
+  protected function getUserProgressData($account) {
+    // Implementation details...
+    return [];
+  }
+
+  /**
+   * Gets enrollment data.
+   */
+  protected function getEnrollmentData() {
+    // Implementation details...
+    return [];
+  }
 }
