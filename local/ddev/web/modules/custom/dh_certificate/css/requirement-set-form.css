@@ -1,0 +1,81 @@
+.requirement-count {
+  display: inline-block;
+  padding: 2px 8px;
+  margin-left: 8px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #fff;
+  background-color: #767676;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Style for vertical tabs */
+.vertical-tabs .vertical-tabs__menu-item .requirement-count {
+  float: right;
+  margin-right: 4px;
+}
+
+.vertical-tabs__menu-item .requirement-count {
+  display: inline-block;
+  padding: 2px 6px;
+  margin-left: 8px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #fff;
+  background-color: #767676;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* Active tab badge */
+.vertical-tabs__menu-item--selected .requirement-count {
+  background-color: #0074bd;
+}
+
+/* Details summary badge */
+details > summary .requirement-count {
+  vertical-align: middle;
+}
+
+details[open] > summary .requirement-count {
+  background-color: #0074bd;
+}
+
+.requirement-set-tabs .vertical-tabs__menu-item {
+  position: relative;
+  padding-right: 45px;  /* Make room for the badge */
+}
+
+.requirement-set-tabs .requirement-count {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-block;
+  padding: 2px 8px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #fff;
+  background-color: #767676;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.requirement-set-tabs .vertical-tabs__menu-item--selected .requirement-count {
+  background-color: #0074bd;
+}
+
+.requirement-set-list__type-count {
+  display: inline-block;
+  padding: 2px 6px;
+  margin: 0 4px;
+  font-size: 12px;
+  line-height: 14px;
+  color: #fff;
+  background-color: #767676;
+  border-radius: 10px;
+}

@@ -514,4 +514,11 @@ class DHCertificateController extends ControllerBase {
 
     return $this->redirect('dh_certificate.monitor_detail', ['monitor_id' => $monitor_id]);
   }
+
+  protected function getProgressUrl($user_id = NULL) {
+    if ($user_id) {
+      return Url::fromRoute('dh_certificate.admin_progress', ['user' => $user_id]);
+    }
+    return Url::fromRoute('dh_certificate.admin_progress');
+  }
 }

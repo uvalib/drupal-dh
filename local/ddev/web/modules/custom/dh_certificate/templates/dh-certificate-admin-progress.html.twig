@@ -1,0 +1,57 @@
+<div class="certificate-progress-admin">
+  <h2>{{ title }}</h2>
+  
+  {% if data is empty %}
+    <p>{{ 'No progress data available.'|t }}</p>
+  {% else %}
+    <table class="progress-table">
+      <thead>
+        <tr>
+          <th>{{ 'Student'|t }}</th>
+          <th>{{ 'Overall Progress'|t }}</th>
+          <th>{{ 'Courses'|t }}</th>
+          <th>{{ 'Credits'|t }}</th>
+          <th>{{ 'Requirements'|t }}</th>
+          <th>{{ 'Last Updated'|t }}</th>
+          <th>{{ 'Actions'|t }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user_data in data %}
+          <tr>
+            <td>
+              {{ user_data.user.name }}
+              <div class="user-email">{{ user_data.user.email }}</div>
+            </td>
+            <td>
+              <div class="progress-bar" style="width: {{ user_data.progress.overall }}%">
+                {{ user_data.progress.overall }}%
+              </div>
+            </td>
+            <td>
+              {{ user_data.progress.courses.completed }}/{{ user_data.progress.courses.total }}
+            </td>
+            <td>
+              {{ user_data.progress.credits.earned }}/{{ user_data.progress.credits.required }}
+            </td>
+            <td>
+              {{ user_data.progress.requirements.met }}/{{ user_data.progress.requirements.total }}
+            </td>
+            <td>
+              {% if user_data.progress.last_updated %}
+                {{ user_data.progress.last_updated|date('Y-m-d') }}
+              {% else %}
+                {{ 'Never'|t }}
+              {% endif %}
+            </td>
+            <td>
+              <a href="{{ path('dh_certificate.user_progress', {'user': user_data.user.uid}) }}" class="button button--small">
+                {{ 'View Details'|t }}
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endif %}
+</div>

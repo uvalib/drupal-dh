@@ -273,7 +273,7 @@ class EnrollmentForm extends FormBase {
       }
 
       // Redirect to the enrollment list
-      $form_state->setRedirect('dh_certificate.enrollment_list');
+      $form_state->setRedirectUrl(Url::fromRoute('dh_certificate.admin_progress'));  // Update this line
     }
     catch (\Exception $e) {
       $this->messenger()->addError($this->t('An error occurred while saving the enrollment.'));

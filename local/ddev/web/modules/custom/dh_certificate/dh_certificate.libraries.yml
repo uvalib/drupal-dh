@@ -81,3 +81,25 @@ requirements-admin:
       css/requirements-admin.css: {}
   dependencies:
     - core/drupal
+
+progress-admin:
+  css:
+    theme:
+      css/progress-admin.css: {}
+
+certificate.progress:
+  version: 1.x
+  js:
+    js/progress.js: {}
+  css:
+    theme:
+      css/progress.css: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/once
+
+requirement-set-form:
+  css:
+    theme:
+      css/requirement-set-form.css: {}

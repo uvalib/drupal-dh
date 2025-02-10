@@ -48,6 +48,15 @@ dh_certificate.requirements:
     _admin_route: TRUE
     no_cache: TRUE
 
+dh_certificate.requirements_overview:
+  path: '/admin/config/dh-certificate/requirements'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\RequirementController::overview'
+    _title: 'Certificate Requirements'
+  requirements:
+    _permission: 'administer dh certificate'
+    no_cache: TRUE
+
 dh_certificate.requirement.add:
   path: '/admin/config/dh-certificate/requirements/add/{requirement_set}'
   defaults:
@@ -162,27 +171,17 @@ dh_certificate.settings:
     _admin_route: TRUE
 
 # Progress section - consolidate paths and hierarchy
-dh_certificate.progress:
+dh_certificate.admin_progress:
   path: '/admin/config/dh-certificate/progress'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\ProgressController::overview'
-    _title: 'Progress Overview'
+    _controller: '\Drupal\dh_certificate\Controller\ProgressController::adminOverview'
+    _title: 'Certificate Progress'
   requirements:
     _permission: 'administer dh certificate'
   options:
     _admin_route: TRUE
 
-dh_certificate.progress_admin:
-  path: '/admin/config/dh-certificate/progress/admin'
-  defaults:
-    _controller: '\Drupal\dh_certificate\Controller\ProgressController::adminProgress'
-    _title: 'Administrative Progress'
-  requirements:
-    _permission: 'administer dh certificate'
-  options:
-    _admin_route: TRUE
-
-# Structure Monitor Routes
+# Structure monitor routes - consolidated
 dh_certificate.structure_monitor:
   path: '/admin/config/dh-certificate/structure'
   defaults:
@@ -193,70 +192,102 @@ dh_certificate.structure_monitor:
   options:
     _admin_route: TRUE
 
+# Monitor overview route
+dh_certificate.monitor_overview:
+  path: '/admin/config/dh-certificate/monitor'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::overview'
+    _title: 'Structure Monitor Overview'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
 dh_certificate.course_monitor:
   path: '/admin/config/dh-certificate/structure/course'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\CourseMonitorController::overview'
+    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::detail'
     _title: 'Course Structure Monitor'
+    monitor_id: 'course'
   requirements:
     _permission: 'administer dh certificate'
   options:
     _admin_route: TRUE
 
 dh_certificate.course_monitor_record:
-  path: '/admin/config/dh-certificate/structure/course/record'
+  path: '/admin/config/dh-certificate/structure/course/{record_id}'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\CourseMonitorController::recordStructure'
-    _title: 'Record Course Structure'
+    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::detail'
+    _title: 'Course Structure Change Record'
+    monitor_id: 'course'
   requirements:
-    _permission: 'administer dh certificate'
+    _permission: 'administer site configuration'
   options:
-    _admin_route: TRUE
-    no_cache: TRUE
+    parameters:
+      record_id:
+        type: string
 
-# Profile monitor routes
 dh_certificate.profile_monitor:
   path: '/admin/config/dh-certificate/structure/profile'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\ProfileMonitorController::overview'
+    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::detail'
     _title: 'Profile Structure Monitor'
+    monitor_id: 'profile'
   requirements:
     _permission: 'administer dh certificate'
   options:
     _admin_route: TRUE
 
-dh_certificate.profile_monitor_record:
-  path: '/admin/config/dh-certificate/structure/profile/record'
-  defaults:
-    _controller: '\Drupal\dh_certificate\Controller\ProfileMonitorController::recordStructure'
-    _title: 'Record Profile Structure'
-  requirements:
-    _permission: 'administer dh certificate'
-  options:
-    _admin_route: TRUE
-    no_cache: TRUE
-
-# Taxonomy monitor routes
 dh_certificate.taxonomy_monitor:
   path: '/admin/config/dh-certificate/structure/taxonomy'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\TaxonomyMonitorController::overview'
+    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::detail'
     _title: 'Taxonomy Structure Monitor'
+    monitor_id: 'taxonomy'
   requirements:
     _permission: 'administer dh certificate'
   options:
     _admin_route: TRUE
 
-dh_certificate.taxonomy_monitor_record:
-  path: '/admin/config/dh-certificate/structure/taxonomy/record'
+dh_certificate.monitor_reset:
+  path: '/admin/config/dh-certificate/structure/reset'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\TaxonomyMonitorController::recordStructure'
-    _title: 'Record Taxonomy Structure'
+    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::reset'
+    _title: 'Reset Structure Monitor'
   requirements:
     _permission: 'administer dh certificate'
   options:
     _admin_route: TRUE
-    no_cache: TRUE
+
+dh_certificate.course_monitor.refresh:
+  path: '/admin/config/dh-certificate/structure/course/refresh'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::refreshCourse'
+    _title: 'Refresh Course Structure'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.profile_monitor.refresh:
+  path: '/admin/config/dh-certificate/structure/profile/refresh'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::refreshProfile'
+    _title: 'Refresh Profile Structure'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
+
+dh_certificate.taxonomy_monitor.refresh:
+  path: '/admin/config/dh-certificate/structure/taxonomy/refresh'
+  defaults:
+    _controller: '\Drupal\dh_certificate\Controller\StructureMonitorController::refreshTaxonomy'
+    _title: 'Refresh Taxonomy Structure'
+  requirements:
+    _permission: 'administer dh certificate'
+  options:
+    _admin_route: TRUE
 
 # Requirement Sets routes
 entity.requirement_set.collection:
@@ -283,11 +314,14 @@ entity.requirement_set.edit_form:
   path: '/admin/config/dh-certificate/requirements/sets/{requirement_set}/edit'
   defaults:
     _entity_form: 'requirement_set.edit'
-    _title: 'Edit Requirement Set'
+    _title_callback: '\Drupal\dh_certificate\Controller\RequirementController::editTitle'
   requirements:
     _permission: 'administer dh certificate requirements'
   options:
     _admin_route: TRUE
+    parameters:
+      requirement_set:
+        type: entity:requirement_set
 
 entity.requirement_set.enable:
   path: '/admin/config/dh-certificate/requirements/sets/{requirement_set}/enable'
@@ -399,39 +433,51 @@ entity.requirement_type.delete_form:
   options:
     _admin_route: TRUE
 
-dh_certificate.monitor_overview:
-  path: '/admin/config/dh-certificate/monitor'
+# Requirement entity routes
+entity.requirement.collection:
+  path: '/admin/structure/requirements'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::monitorOverview'
-    _title: 'Certificate Monitoring'
+    _entity_list: 'requirement'
+    _title: 'Requirements'
   requirements:
-    _permission: 'administer dh certificate'
-  options:
-    _admin_route: TRUE
+    _permission: 'administer dh certificate requirements'
 
-dh_certificate.monitor_detail:
-  path: '/admin/config/dh-certificate/monitor/{monitor_id}'
+entity.requirement.add_form:
+  path: '/admin/structure/requirements/add'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::monitorDetail'
-    _title: 'Monitor Details'
+    _entity_form: 'requirement.add'
+    _title: 'Add Requirement'
   requirements:
-    _permission: 'administer dh certificate'
-  options:
-    _admin_route: TRUE
-    parameters:
-      monitor_id:
-        type: string
+    _permission: 'administer dh certificate requirements'
 
-dh_certificate.monitor_reset:
-  path: '/admin/config/dh-certificate/monitor/{monitor_id}/reset'
+entity.requirement.edit_form:
+  path: '/admin/structure/requirements/{requirement}/edit'
   defaults:
-    _controller: '\Drupal\dh_certificate\Controller\DHCertificateController::monitorReset'
-    _title: 'Reset Monitor'
+    _entity_form: 'requirement.edit'
+    _title: 'Edit Requirement'
   requirements:
-    _permission: 'administer dh certificate'
-    _csrf_token: 'TRUE'
+    _permission: 'administer dh certificate requirements'
   options:
-    _admin_route: TRUE
     parameters:
-      monitor_id:
-        type: string
+      requirement:
+        type: entity:requirement
+
+entity.requirement.delete_form:
+  path: '/admin/structure/requirements/{requirement}/delete'
+  defaults:
+    _entity_form: 'requirement.delete'
+    _title: 'Delete Requirement'
+  requirements:
+    _permission: 'administer dh certificate requirements'
+  options:
+    parameters:
+      requirement:
+        type: entity:requirement
+
+entity.certificate.add_form:
+  path: '/admin/config/dh-certificate/requirements/add/{certificate_type}'
+  defaults:
+    _entity_form: 'certificate.add'
+    _title: 'Add Certificate'
+  requirements:
+    _permission: 'administer certificates'

@@ -66,7 +66,55 @@ abstract class StructureMonitorBase implements StructureMonitorInterface {
   public function updateState() {
     $current_state = $this->getCurrentState();
     $this->state->set($this->stateKey, $current_state);
+    $this->state->set($this->stateKey . '_updated', time());
     $this->changes = NULL;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function hasChanged() {
+    $previous_state = $this->state->get($this->stateKey, []);
+    $current_state = $this->getCurrentState();
+    return $previous_state != $current_state;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getChanges() {
+    if ($this->changes === NULL) {
+      $previous_state = $this->state->get($this->stateKey, []);
+      $current_state = $this->getCurrentState();
+      $this->changes = $this->calculateChanges($previous_state, $current_state);
+    }
+    return $this->changes;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLastCheck() {
+    return (int) $this->state->get($this->stateKey . '_updated', 0);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getData() {
+    return $this->state->get($this->stateKey, []);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function refresh() {
+    $hasChanges = $this->hasChanged();
+    if ($hasChanges) {
+      $this->getChanges(); // Cache the changes
+    }
+    $this->updateState();
+    return $hasChanges;
   }
 
   /**

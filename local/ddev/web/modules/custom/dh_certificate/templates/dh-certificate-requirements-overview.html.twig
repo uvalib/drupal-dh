@@ -1,42 +1,51 @@
 {# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/dh-certificate-requirements-overview.html.twig #}
+{# Debug output #}
+{{ dump(_context) }}
+
 <div class="requirements-overview">
-  <h2>{{ 'Requirements Overview'|t }}</h2>
+  {% if sets is empty %}
+    <p class="empty-message">{{ 'No requirement sets found.'|t }}</p>
+  {% else %}
+    {% for set_id, set in sets %}
+      <div class="requirement-set {{ set.status ? 'enabled' : 'disabled' }}">
+        <header class="requirement-set__header">
+          <h2>{{ set.label }}</h2>
+          <div class="requirement-set__status">
+            <span class="badge status-{{ set.status ? 'enabled' : 'disabled' }}">
+              {{ set.status ? 'Enabled'|t : 'Disabled'|t }}
+            </span>
+          </div>
+        </header>
 
-  <div class="action-links">
-    <a href="{{ path('entity.requirement_set.add_form') }}" class="button button--primary button--action">{{ 'Add Requirement Set'|t }}</a>
-  </div>
+        {% if set.types is empty %}
+          <p class="empty-message">{{ 'No requirements defined.'|t }}</p>
+        {% else %}
+          {% for type, requirements in set.types %}
+            <div class="requirement-group">
+              <h3>{{ type|capitalize }} <span class="requirement-count">{{ requirements|length }}</span></h3>
+              <div class="requirement-list">
+                {% for requirement in requirements %}
+                  <div class="requirement-item">
+                    <span class="requirement-label">{{ requirement.label }}</span>
+                    <div class="requirement-operations">
+                      <a href="{{ path('entity.requirement.edit_form', {'requirement': requirement.id}) }}" class="button button--small">{{ 'Edit'|t }}</a>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
 
-  {% for set in requirement_sets %}
-    <div class="requirement-set">
-      <h3>{{ set.label }}</h3>
-      <p>{{ set.description }}</p>
-      <ul>
-        {% for requirement in set.requirements %}
-          <li>
-            {{ requirement.label }} ({{ requirement.type }})
-            <a href="{{ requirement.edit_url }}">{{ 'Edit'|t }}</a>
-            <a href="{{ requirement.delete_url }}">{{ 'Delete'|t }}</a>
-          </li>
-        {% endfor %}
-      </ul>
-      <a href="{{ set.add_requirement_url }}" class="button">{{ 'Add Requirement'|t }}</a>
-      <a href="{{ set.edit_set_url }}" class="button">{{ 'Edit Set'|t }}</a>
-    </div>
-  {% endfor %}
-
-  <div class="requirements-section">
-    <h3>{{ 'Requirement Templates'|t }}</h3>
-    {% if requirement_templates %}
-      <ul>
-        {% for template in requirement_templates %}
-          <li>
-            <strong>{{ template.label }}</strong>
-            <span class="template-description">{{ template.description }}</span>
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>{{ 'No requirement templates defined.'|t }}</p>
-    {% endif %}
-  </div>
+        <div class="requirement-set__actions">
+          <a href="{{ path('dh_certificate.requirement.add', {'requirement_set': set.id}) }}" class="button button--primary button--small">
+            {{ 'Add Requirement'|t }}
+          </a>
+          <a href="{{ path('entity.requirement_set.edit_form', {'requirement_set': set.id}) }}" class="button button--small">
+            {{ 'Edit Set'|t }}
+          </a>
+        </div>
+      </div>
+    {% endfor %}
+  {% endif %}
 </div>

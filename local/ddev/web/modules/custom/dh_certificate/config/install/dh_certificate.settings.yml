@@ -22,3 +22,5 @@ completion_deadline:
   type: academic
   value: Spring-2024
   format: term-year
+
+# Search for route references in default config

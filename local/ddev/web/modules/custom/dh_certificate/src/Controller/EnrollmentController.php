@@ -233,4 +233,9 @@ class EnrollmentController extends ControllerBase {
     ];
   }
 
+  public function viewEnrollment($id) {
+    $progress_url = Url::fromRoute('dh_certificate.admin_progress', ['enrollment' => $id]);
+    // ...existing code...
+  }
+
 }

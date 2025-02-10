@@ -40,16 +40,49 @@
 /* Progress Stats Grid */
 .progress-stats {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Changed from auto-fit to 2 columns */
-  gap: 1em;
-  margin: 1em 0;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .stat {
-  padding: 1rem;
+  display: flex;
+  flex-direction: column;
   background: #f8f9fa;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+.stat__label {
+  color: #666;
+  font-size: 0.9em;
+  margin-bottom: 0.5rem;
+}
+
+.stat__value {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #333;
+}
+
+.certificate-user-progress {
+  padding: 1rem;
+  background: #fff;
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.progress-summary {
+  margin-bottom: 2rem;
+}
+
+.overall-progress {
+  margin-bottom: 1.5rem;
+}
+
+.stat-group {
+  display: flex;
+  gap: 2rem;
 }
 
 .stat .label {

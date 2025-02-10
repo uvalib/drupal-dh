@@ -29,22 +29,16 @@ dh_certificate.enrollments:
   weight: 40
 
 dh_certificate.progress:
-  route_name: dh_certificate.progress
+  route_name: dh_certificate.admin_progress  # Change from dh_certificate.progress
   title: 'Progress'
   base_route: dh_certificate.admin
   weight: 50
 
-dh_certificate.progress_admin_tab:
-  route_name: dh_certificate.progress_admin
-  title: 'Administrative View'
-  base_route: dh_certificate.progress
-  weight: 10
-
-dh_certificate.structure:
-  route_name: dh_certificate.structure_monitor
-  title: 'Structure'
-  base_route: dh_certificate.admin
-  weight: 60
+# dh_certificate.structure:
+#   route_name: dh_certificate.structure_monitor
+#   title: 'Structure'
+#   base_route: dh_certificate.admin
+#   weight: 60
 
 # Requirements section - streamlined structure
 dh_certificate.requirements_overview:
@@ -73,3 +67,55 @@ dh_certificate.requirement_templates_tab:
   parent_id: dh_certificate.requirements
   base_route: dh_certificate.requirements
   weight: 30
+
+# Structure monitor tabs - revised hierarchy
+dh_certificate.structure:
+  route_name: dh_certificate.structure_monitor
+  title: 'Structure'
+  base_route: dh_certificate.admin
+
+dh_certificate.structure_overview:
+  route_name: dh_certificate.structure_monitor
+  title: 'Overview'
+  base_route: dh_certificate.structure_monitor
+  parent_id: dh_certificate.structure
+
+dh_certificate.course_monitor_tab:
+  route_name: dh_certificate.course_monitor
+  title: 'Course Structure'
+  base_route: dh_certificate.structure_monitor
+  parent_id: dh_certificate.structure
+  weight: 10
+
+dh_certificate.profile_monitor_tab:
+  route_name: dh_certificate.profile_monitor
+  title: 'Profile Structure'
+  base_route: dh_certificate.structure_monitor
+  parent_id: dh_certificate.structure
+  weight: 20
+
+dh_certificate.taxonomy_monitor_tab:
+  route_name: dh_certificate.taxonomy_monitor
+  title: 'Taxonomy Structure'
+  base_route: dh_certificate.structure_monitor
+  parent_id: dh_certificate.structure
+  weight: 30
+
+# Actions for each monitor type
+dh_certificate.course_monitor_actions:
+  route_name: dh_certificate.course_monitor.actions
+  title: 'Actions'
+  base_route: dh_certificate.course_monitor
+  weight: 100
+
+dh_certificate.profile_monitor_actions:
+  route_name: dh_certificate.profile_monitor.actions
+  title: 'Actions'
+  base_route: dh_certificate.profile_monitor
+  weight: 100
+
+dh_certificate.taxonomy_monitor_actions:
+  route_name: dh_certificate.taxonomy_monitor.actions
+  title: 'Actions'
+  base_route: dh_certificate.taxonomy_monitor
+  weight: 100

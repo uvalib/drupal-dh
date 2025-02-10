@@ -1,13 +1,4 @@
-# DH Certificate System
-
-A Drupal module for managing digital humanities certificate programs, requirements, and student progress.
-
-## Documentation
-
-The documentation is divided into two main sections:
-
-- [Technical Guide](docs/technical.md) - Implementation details, commands, and development information
-- [Concepts Guide](docs/concepts.md) - Entity relationships, workflows, and system overview
+# Technical Guide
 
 ## Quick Start
 
@@ -88,16 +79,16 @@ drush dhc-monitor-record
 
 ## Documentation
 
-Detailed documentation is available in the `docs` directory:
+Detailed documentation is available in the `doc` directory:
 
 ### Core Concepts
-- [Requirements System](docs/requirements.md)
-- [Requirement Type Templates](docs/requirement-templates.md)
-- [Progress Tracking](docs/progress.md)
+- [Requirements System](doc/requirements.md)
+- [Requirement Type Templates](doc/requirement-templates.md)
+- [Progress Tracking](doc/progress.md)
 
 ### Reference
-- [Drush Commands](docs/drush.md)
-- [Development Guide](docs/development.md)
+- [Drush Commands](doc/drush.md)
+- [Development Guide](doc/development.md)
 
 ## Development
 
@@ -127,5 +118,10 @@ Access the administration interface at:
 4. Submit pull requests against develop branch
 
 ## See Also
-- [Requirements Guide](docs/requirements.md)
-- [Template Reference](docs/requirement-templates.md)
+- [Requirements Guide](doc/Requirements.md)
+- [Template Reference](doc/requirement-templates.md)
+
+## Development Tools
+
+### Commands
+```

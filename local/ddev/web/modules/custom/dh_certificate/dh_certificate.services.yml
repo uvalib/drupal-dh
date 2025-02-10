@@ -39,6 +39,8 @@ services:
       - '@entity_type.manager'
       - '@logger.factory'
       - '@state'
+      - '@entity_field.manager'
+      - '@config.factory'
     tags:
       - { name: dh_certificate.structure_monitor }
 

@@ -154,6 +154,27 @@ function dh_certificate_theme($existing, $type, $theme, $path) {
         'data' => [],
       ],
     ],
+    'dh_certificate_admin_progress' => [
+      'variables' => [
+        'title' => NULL,
+        'data' => [],
+      ],
+      'template' => 'dh-certificate-admin-progress',  // Make sure this matches your template file name
+      'path' => $path . '/templates', // Add this line to specify template path
+    ],
+    'requirement_set_type_tab' => [
+      'variables' => [
+        'title' => NULL,
+        'count' => 0,
+      ],
+      'template' => 'requirement-set-type-tab',
+    ],
+    'dh_certificate_requirements_overview' => [
+      'variables' => [
+        'sets' => [],
+      ],
+      'template' => 'dh-certificate-requirements-overview',
+    ],
   ];
 }
 
@@ -204,7 +225,7 @@ function dh_certificate_preprocess_certificate_progress_block(&$variables) {
       '#links' => [
         'manage' => [
           'title' => t('Manage'),
-          'url' => \Drupal\Core\Url::fromRoute('dh_certificate.admin'),
+          'url' => \Drupal\Core\Url::fromRoute('dh_certificate.admin_progress'),  // Update this line
         ],
       ],
     ];

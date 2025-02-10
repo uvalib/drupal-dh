@@ -821,115 +821,72 @@ class DHCertificateCommands extends DrushCommands {
    */
   public function generateRequirementSets(array $options = ['reset' => FALSE]) {
     if ($options['reset']) {
+      // Clear existing sets and requirements
       $storage = $this->entityTypeManager->getStorage('requirement_set');
-      $ids = $storage->getQuery()
-        ->accessCheck(FALSE)
-        ->execute();
+      $requirement_storage = $this->entityTypeManager->getStorage('requirement');
+      
+      $ids = $storage->getQuery()->accessCheck(FALSE)->execute();
       if (!empty($ids)) {
         $storage->delete($storage->loadMultiple($ids));
-        $this->output()->writeln('Deleted existing requirement sets.');
       }
+      
+      $req_ids = $requirement_storage->getQuery()->accessCheck(FALSE)->execute();
+      if (!empty($req_ids)) {
+        $requirement_storage->delete($requirement_storage->loadMultiple($req_ids));
+      }
+      
+      $this->output()->writeln('Deleted existing requirement sets and requirements.');
     }
 
-    // Create example requirement sets
-    $sets = [
-      'certificate_standard' => [
-        'label' => 'Digital Humanities Certificate',
-        'requirements' => [
-          'core_courses' => [
-            'type' => 'course',
-            'label' => 'Core Courses',
-            'required' => TRUE,
-            'config' => [
-              'minimum_credits' => 15,
-              'course_type' => 'core'
-            ]
-          ],
-          'elective_courses' => [
-            'type' => 'course',
-            'label' => 'Elective Courses',
-            'required' => TRUE,
-            'config' => [
-              'minimum_credits' => 6,
-              'course_type' => 'elective'
-            ]
-          ],
-          'tool_proficiency' => [
-            'type' => 'task',
-            'label' => 'Tool Proficiency',
-            'required' => TRUE,
-            'config' => [
-              'tools' => [
-                'git' => 'Git Version Control',
-                'python' => 'Python Programming',
-                'r' => 'R Statistical Computing'
-              ]
-            ]
-          ],
-          'capstone_project' => [
-            'type' => 'project',
-            'label' => 'Capstone Project',
-            'required' => TRUE,
-            'config' => [
-              'milestones' => [
-                'proposal' => 'Project Proposal',
-                'implementation' => 'Project Implementation',
-                'presentation' => 'Final Presentation'
-              ]
-            ]
-          ]
-        ]
+    // Create standard certificate requirements
+    $standard_requirements = [];
+    
+    // Core course requirements
+    $core_req = $this->entityTypeManager->getStorage('requirement')->create([
+      'id' => 'core_courses',
+      'type' => 'course',
+      'label' => 'Core DH Courses',
+      'settings' => [
+        'required_credits' => 9,
+        'course_type' => 'core',
+        'minimum_grade' => 'B',
       ],
-      'advanced_certificate' => [
-        'label' => 'Advanced DH Certificate',
-        'requirements' => [
-          'core_courses' => [
-            'type' => 'course',
-            'label' => 'Advanced Core Courses',
-            'required' => TRUE,
-            'config' => [
-              'minimum_credits' => 18,
-              'course_type' => 'advanced_core'
-            ]
-          ],
-          'research_project' => [
-            'type' => 'project',
-            'label' => 'Research Project',
-            'required' => TRUE,
-            'config' => [
-              'milestones' => [
-                'proposal' => 'Research Proposal',
-                'methodology' => 'Methods Development',
-                'implementation' => 'Project Implementation',
-                'paper' => 'Research Paper',
-                'defense' => 'Project Defense'
-              ]
-            ]
-          ]
-        ]
-      ]
-    ];
+      'status' => TRUE,
+    ]);
+    $core_req->save();
+    $standard_requirements[] = $core_req->id();
 
-    foreach ($sets as $id => $data) {
-      try {
-        $requirement_set = $this->entityTypeManager->getStorage('requirement_set')->create([
-          'id' => $id,
-          'label' => $data['label'],
-          'requirements' => $data['requirements'],
-          'status' => TRUE
-        ]);
-        $requirement_set->save();
-        
-        $this->output()->writeln(sprintf(
-          'Created requirement set: %s [%s]',
-          $data['label'],
-          $id
-        ));
-      }
-      catch (\Exception $e) {
-        $this->logger()->error($e->getMessage());
-      }
-    }
+    // Elective requirements
+    $elective_req = $this->entityTypeManager->getStorage('requirement')->create([
+      'id' => 'elective_courses',
+      'type' => 'course',
+      'label' => 'Elective Courses',
+      'settings' => [
+        'required_credits' => 6,
+        'course_type' => 'elective',
+        'minimum_grade' => 'C',
+      ],
+      'status' => TRUE,
+    ]);
+    $elective_req->save();
+    $standard_requirements[] = $elective_req->id();
+
+    // Create the requirement set with requirements
+    $standard_set = $this->entityTypeManager->getStorage('requirement_set')->create([
+      'id' => 'standard_certificate',
+      'label' => 'Standard DH Certificate',
+      'description' => 'Basic Digital Humanities Certificate requirements',
+      'requirements' => $standard_requirements,
+      'status' => TRUE,
+    ]);
+    $standard_set->save();
+
+    $this->output()->writeln(sprintf(
+      'Created requirement set with %d requirements',
+      count($standard_requirements)
+    ));
+
+    return TRUE;
   }
 
   /**
@@ -1064,7 +1021,7 @@ class DHCertificateCommands extends DrushCommands {
     try {
       $this->output()->writeln('Starting complete DH Certificate setup...');
 
-      // 1. Clean existing data if reset flag is set
+      // Clean existing data if reset flag is set
       if ($options['reset']) {
         $this->output()->writeln('Cleaning existing data...');
         $this->cleanupProgress();
@@ -1072,38 +1029,53 @@ class DHCertificateCommands extends DrushCommands {
         $this->deleteExistingTestData();
       }
 
-      // 2. Generate requirement templates
+      // Generate requirement templates first
       $this->output()->writeln("\nGenerating requirement templates...");
-      $this->generateTemplates(['reset' => $options['reset']]);
+      $this->generateTemplates(['reset' => TRUE]);
 
-      // 3. Generate requirement sets
-      $this->output()->writeln("\nGenerating requirement sets...");
-      $this->generateRequirementSets(['reset' => $options['reset']]);
+      // Create requirement types
+      $this->output()->writeln("\nGenerating requirement types...");
+      $requirement_types = [
+        'course' => 'Course Requirement',
+        'skill' => 'Skill Requirement',
+        'project' => 'Project Requirement',
+      ];
 
-      // 4. Generate standard requirements
-      $this->output()->writeln("\nGenerating standard requirements...");
-      $this->generateStandardRequirements(['reset' => $options['reset']]);
-
-      // 5. Generate test courses and enrollments
-      $this->output()->writeln("\nGenerating test courses and enrollments...");
-      $user = $this->entityTypeManager->getStorage('user')->load($options['uid']);
-      if (!$user) {
-        throw new \Exception(sprintf('User %d not found', $options['uid']));
+      foreach ($requirement_types as $id => $label) {
+        try {
+          $type = $this->entityTypeManager->getStorage('requirement_type')->create([
+            'id' => $id,
+            'label' => $label,
+            'status' => TRUE,
+          ]);
+          $type->save();
+          $this->output()->writeln(sprintf('Created requirement type: %s', $label));
+        }
+        catch (\Exception $e) {
+          $this->logger()->warning(sprintf('Failed to create requirement type %s: %s', $id, $e->getMessage()));
+        }
       }
-      $this->generateTestData(['reset' => $options['reset'], 'uid' => $options['uid']]);
 
-      // 6. Verify setup
+      // Generate requirement sets with actual requirements
+      $this->output()->writeln("\nGenerating requirement sets...");
+      $this->generateRequirementSets(['reset' => TRUE]);
+
+      // Generate test data and enrollments
+      $this->output()->writeln("\nGenerating test courses and enrollments...");
+      $this->generateTestData(['reset' => TRUE, 'uid' => $options['uid']]);
+
+      // Verify setup
       $this->output()->writeln("\nVerifying setup...");
       $status = $this->checkCertificateSetup();
       if ($status !== TRUE) {
         throw new \Exception("Setup verification failed: $status");
       }
 
-      $this->output()->writeln("\n✅ Setup complete! Use these commands to explore:");
-      // 7. Show debug info instead of progress check for now
+      // Show debug info
       $this->output()->writeln("\nShowing debug information...");
       $this->debugEnrollments();
 
+      // Show success message with available commands
       $this->output()->writeln("\n✅ Setup complete! Use these commands to explore:");
       $this->output()->writeln("  drush dhc-progress {$options['uid']}     # View progress");
       $this->output()->writeln("  drush dhc-list-enroll        # List enrollments");
@@ -1135,4 +1107,5 @@ class DHCertificateCommands extends DrushCommands {
     $this->output()->writeln('Reset complete.');
   }
 
+  // ...existing code...
 }

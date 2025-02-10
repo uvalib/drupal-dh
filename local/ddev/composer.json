@@ -33,7 +33,7 @@
         "drupal/core-recommended": "^10.2",
         "drupal/custom_breadcrumbs": "^1.1",
         "drupal/default_content": "^2.0@alpha",
-        "drupal/devel": "^5.3",
+        "drupal/devel": "^5.0",
         "drupal/ds": "^3.24",
         "drupal/easy_breadcrumb": "^2.0",
         "drupal/entity": "^1.5",

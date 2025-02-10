@@ -109,6 +109,34 @@ function dh_certificate_uninstall() {
     'dh_certificate.completion_deadline',
     'dh_certificate.last_sync',
   ]);
+
+  // Delete our configuration
+  $configs = [
+    'block.block.certificate_progress',
+    'user.role.dhcert_admin',
+    'core.entity_form_display.node.certificate.default',
+    'core.entity_view_display.node.certificate.default',
+    'core.entity_view_display.node.certificate.teaser',
+  ];
+
+  foreach ($configs as $config) {
+    try {
+      \Drupal::configFactory()->getEditable($config)->delete();
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->notice('Could not delete config: @config', ['@config' => $config]);
+    }
+  }
+
+  // Delete all requirement-related config prefixes
+  $prefixes = ['requirement_set', 'requirement_type', 'requirement_type_template'];
+  foreach ($prefixes as $prefix) {
+    $config_factory = \Drupal::configFactory();
+    $config_names = $config_factory->listAll($prefix);
+    foreach ($config_names as $config_name) {
+      $config_factory->getEditable($config_name)->delete();
+    }
+  }
 }
 
 /**

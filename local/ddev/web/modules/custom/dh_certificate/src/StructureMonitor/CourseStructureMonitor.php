@@ -5,13 +5,43 @@ namespace Drupal\dh_certificate\StructureMonitor;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\State\StateInterface;
+use Drupal\Core\Entity\EntityFieldManagerInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\layout_builder\Entity\LayoutBuilderEntityViewDisplay;
-use Drupal\layout_builder\Section;
 
 /**
  * Monitors changes in course structure.
  */
 class CourseStructureMonitor extends EntityStructureMonitorBase {
+
+  /**
+   * The entity field manager.
+   *
+   * @var \Drupal\Core\Entity\EntityFieldManagerInterface
+   */
+  protected $entityFieldManager;
+
+  /**
+   * The config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
+   * Constructs a new CourseStructureMonitor.
+   */
+  public function __construct(
+    EntityTypeManagerInterface $entity_type_manager,
+    LoggerChannelFactoryInterface $logger_factory,
+    StateInterface $state,
+    EntityFieldManagerInterface $entity_field_manager,
+    ConfigFactoryInterface $config_factory
+  ) {
+    parent::__construct($entity_type_manager, $logger_factory, $state);
+    $this->entityFieldManager = $entity_field_manager;
+    $this->configFactory = $config_factory;
+  }
 
   /**
    * {@inheritdoc}
@@ -25,41 +55,84 @@ class CourseStructureMonitor extends EntityStructureMonitorBase {
    */
   protected function getCurrentState() {
     try {
-      // Get field definitions for course content type
-      $fields = $this->entityTypeManager
-        ->getStorage('field_config')
-        ->loadByProperties([
-          'entity_type' => 'node',
-          'bundle' => 'course',
-        ]);
+      $structure = [];
+      
+      // Get field definitions
+      $field_definitions = $this->entityFieldManager
+        ->getFieldDefinitions('node', 'course');
 
-      $state = [];
-      
-      // Add base fields
-      $node_type = $this->entityTypeManager
-        ->getStorage('node_type')
-        ->load('course');
-      
-      if ($node_type) {
-        $state['type'] = [
-          'label' => $node_type->label(),
-          'description' => $node_type->getDescription(),
+      // Build structure array
+      $structure['fields'] = [];
+      foreach ($field_definitions as $field_name => $definition) {
+        $structure['fields'][$field_name] = [
+          'type' => $definition->getType(),
+          'label' => $definition->getLabel(),
+          'required' => $definition->isRequired(),
+          'settings' => $definition->getSettings(),
         ];
       }
 
-      // Add field configurations
-      foreach ($fields as $field) {
-        $state['fields'][$field->getName()] = [
-          'type' => $field->getType(),
-          'label' => $field->getLabel(),
-          'required' => $field->isRequired(),
-          'settings' => $field->getSettings(),
-          'field_type' => $field->getType(),
-          'cardinality' => $field->getFieldStorageDefinition()->getCardinality(),
-        ];
-      }
+      // Add taxonomy vocabulary info
+      $structure['vocabularies'] = $this->getRelatedVocabularies();
 
-      // Get view display settings
+      // Add configuration
+      $structure['config'] = [
+        'status' => $this->configFactory->get('node.type.course')->get('status'),
+        'workflow' => $this->configFactory->get('workflows.workflow.course')->get(),
+      ];
+
+      // Add display settings
+      $structure['displays'] = $this->getDisplaySettings();
+
+      return $structure;
+    }
+    catch (\Exception $e) {
+      $this->getLogger()->error('Failed to get course structure state: @error', ['@error' => $e->getMessage()]);
+      return [];
+    }
+  }
+
+  /**
+   * Gets vocabularies related to courses.
+   */
+  protected function getRelatedVocabularies() {
+    $vocabularies = [];
+    
+    try {
+      $field_definitions = $this->entityFieldManager
+        ->getFieldDefinitions('node', 'course');
+
+      foreach ($field_definitions as $field_name => $definition) {
+        if ($definition->getType() === 'entity_reference' && 
+            $definition->getSetting('target_type') === 'taxonomy_term') {
+          $handler_settings = $definition->getSetting('handler_settings');
+          if (!empty($handler_settings['target_bundles'])) {
+            foreach ($handler_settings['target_bundles'] as $vocab) {
+              $vocabulary = $this->entityTypeManager
+                ->getStorage('taxonomy_vocabulary')
+                ->load($vocab);
+              if ($vocabulary) {
+                $vocabularies[$vocab] = $vocabulary->label();
+              }
+            }
+          }
+        }
+      }
+    }
+    catch (\Exception $e) {
+      $this->getLogger()->error('Error getting course vocabularies: @error', ['@error' => $e->getMessage()]);
+    }
+
+    return $vocabularies;
+  }
+
+  /**
+   * Gets display settings for course entity.
+   */
+  protected function getDisplaySettings() {
+    $displays = [];
+    
+    try {
       $view_displays = $this->entityTypeManager
         ->getStorage('entity_view_display')
         ->loadByProperties([
@@ -69,56 +142,23 @@ class CourseStructureMonitor extends EntityStructureMonitorBase {
 
       foreach ($view_displays as $display) {
         if ($display instanceof LayoutBuilderEntityViewDisplay) {
-          $state['displays'][$display->getMode()] = [
+          $displays[$display->getMode()] = [
             'layout_builder_enabled' => $display->isLayoutBuilderEnabled(),
             'sections' => $this->getLayoutSections($display),
-            'components' => $display->getComponents(),
           ];
         }
         else {
-          $components = $display->getComponents();
-          $state['displays'][$display->getMode()] = [
-            'components' => array_map(function ($component) {
-              return [
-                'type' => $component['type'] ?? '',
-                'weight' => $component['weight'] ?? 0,
-                'settings' => $component['settings'] ?? [],
-                'region' => $component['region'] ?? 'content',
-              ];
-            }, $components),
+          $displays[$display->getMode()] = [
+            'components' => $display->getComponents(),
           ];
         }
       }
-
-      // Get form display settings
-      $form_displays = $this->entityTypeManager
-        ->getStorage('entity_form_display')
-        ->loadByProperties([
-          'targetEntityType' => 'node',
-          'bundle' => 'course',
-        ]);
-
-      foreach ($form_displays as $display) {
-        $components = $display->getComponents();
-        $state['form_displays'][$display->getMode()] = [
-          'components' => array_map(function ($component) {
-            return [
-              'type' => $component['type'] ?? '',
-              'weight' => $component['weight'] ?? 0,
-              'settings' => $component['settings'] ?? [],
-              'region' => $component['region'] ?? 'content',
-            ];
-          }, $components),
-        ];
-      }
-
-      return $state;
     }
     catch (\Exception $e) {
-      $this->loggerFactory->get('dh_certificate')
-        ->error('Failed to get course structure state: @error', ['@error' => $e->getMessage()]);
-      return [];
+      $this->getLogger()->error('Error getting display settings: @error', ['@error' => $e->getMessage()]);
     }
+
+    return $displays;
   }
 
   /**
@@ -164,95 +204,95 @@ class CourseStructureMonitor extends EntityStructureMonitorBase {
    * {@inheritdoc}
    */
   protected function calculateChanges(array $previous, array $current) {
-    $this->changes = [];
-
-    // Check type changes
-    if (isset($current['type'], $previous['type'])) {
-      if ($current['type']['label'] !== $previous['type']['label']) {
-        $this->changes[] = $this->t('Course type label changed from @old to @new', [
-          '@old' => $previous['type']['label'],
-          '@new' => $current['type']['label'],
-        ]);
-      }
-    }
+    $changes = [];
 
     // Check field changes
-    $current_fields = $current['fields'] ?? [];
-    $previous_fields = $previous['fields'] ?? [];
+    if (!empty($current['fields']) && !empty($previous['fields'])) {
+      $changes = array_merge($changes, $this->calculateFieldChanges($previous['fields'], $current['fields']));
+    }
 
-    foreach ($current_fields as $field_name => $field_info) {
-      if (!isset($previous_fields[$field_name])) {
-        $changes[] = $this->t('New field added: @field', [
-          '@field' => $field_name,
-        ]);
+    // Check vocabulary changes
+    if (!empty($current['vocabularies']) && !empty($previous['vocabularies'])) {
+      $changes = array_merge($changes, $this->calculateVocabularyChanges($previous['vocabularies'], $current['vocabularies']));
+    }
+
+    // Check display changes
+    if (!empty($current['displays']) && !empty($previous['displays'])) {
+      $changes = array_merge($changes, $this->calculateDisplayChanges($previous['displays'], $current['displays']));
+    }
+
+    return $changes;
+  }
+
+  /**
+   * Calculate field changes.
+   */
+  protected function calculateFieldChanges(array $previous, array $current) {
+    $changes = [];
+
+    foreach ($current as $field_name => $field_info) {
+      if (!isset($previous[$field_name])) {
+        $changes[] = $this->t('New field added: @field', ['@field' => $field_name]);
         continue;
       }
-
-      $prev_field = $previous_fields[$field_name];
-
-      // Check field type changes
-      if ($prev_field['type'] !== $field_info['type']) {
-        $changes[] = $this->t('Field type changed for @field: @old to @new', [
-          '@field' => $field_name,
-          '@old' => $prev_field['type'],
-          '@new' => $field_info['type'],
-        ]);
-      }
-
-      // Check required status changes
-      if ($prev_field['required'] !== $field_info['required']) {
-        $changes[] = $this->t('Required status changed for @field', [
-          '@field' => $field_name,
-        ]);
-      }
-
-      // Check cardinality changes
-      if ($prev_field['cardinality'] !== $field_info['cardinality']) {
-        $changes[] = $this->t('Cardinality changed for @field', [
-          '@field' => $field_name,
-        ]);
+      if ($previous[$field_name] !== $field_info) {
+        $changes[] = $this->t('Field @field configuration changed', ['@field' => $field_name]);
       }
     }
 
-    // Check for removed fields
-    foreach ($previous_fields as $field_name => $field_info) {
-      if (!isset($current_fields[$field_name])) {
-        $changes[] = $this->t('Field removed: @field', [
-          '@field' => $field_name,
-        ]);
+    foreach ($previous as $field_name => $field_info) {
+      if (!isset($current[$field_name])) {
+        $changes[] = $this->t('Field removed: @field', ['@field' => $field_name]);
       }
     }
 
-    return $this->changes;
+    return $changes;
   }
 
   /**
-   * {@inheritdoc}
+   * Calculate vocabulary changes.
    */
-  public function updateState() {
-    $current_state = $this->getCurrentState();
-    $this->state->set('dh_certificate.course_structure', $current_state);
-    $this->state->set('dh_certificate.course_structure_updated', time());
-    return $this;
+  protected function calculateVocabularyChanges(array $previous, array $current) {
+    $changes = [];
+
+    foreach ($current as $vocab_id => $vocab_name) {
+      if (!isset($previous[$vocab_id])) {
+        $changes[] = $this->t('New vocabulary reference added: @vocab', ['@vocab' => $vocab_name]);
+      }
+    }
+
+    foreach ($previous as $vocab_id => $vocab_name) {
+      if (!isset($current[$vocab_id])) {
+        $changes[] = $this->t('Vocabulary reference removed: @vocab', ['@vocab' => $vocab_name]);
+      }
+    }
+
+    return $changes;
   }
 
   /**
-   * Checks if a course structure state exists.
-   *
-   * @return bool
-   *   TRUE if state exists, FALSE otherwise.
+   * Calculate display changes.
    */
-  public function hasState(): bool {
-    try {
-      $state = $this->state->get('dh_certificate.course_structure', NULL);
-      return !empty($state);
+  protected function calculateDisplayChanges(array $previous, array $current) {
+    $changes = [];
+
+    foreach ($current as $display_id => $display_info) {
+      if (!isset($previous[$display_id])) {
+        $changes[] = $this->t('New display mode added: @mode', ['@mode' => $display_id]);
+        continue;
+      }
+      if ($previous[$display_id] !== $display_info) {
+        $changes[] = $this->t('Display mode @mode configuration changed', ['@mode' => $display_id]);
+      }
     }
-    catch (\Exception $e) {
-      $this->logger->error('Failed to check course structure state: @error', [
-        '@error' => $e->getMessage(),
-      ]);
-      return FALSE;
+
+    foreach ($previous as $display_id => $display_info) {
+      if (!isset($current[$display_id])) {
+        $changes[] = $this->t('Display mode removed: @mode', ['@mode' => $display_id]);
+      }
     }
+
+    return $changes;
   }
 
   /**
@@ -272,98 +312,6 @@ class CourseStructureMonitor extends EntityStructureMonitorBase {
     }
 
     return $summary;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function reset() {
-    $this->state->delete('dh_certificate.course_structure');
-    $this->state->delete('dh_certificate.course_structure_updated');
-    return $this;
-  }
-
-  /**
-   * Gets the current course structure.
-   *
-   * @return array
-   *   The current course structure data.
-   */
-  public function getCurrentStructure() {
-    $structure = [];
-    
-    try {
-      // Get course field definitions
-      $field_definitions = \Drupal::service('entity_field.manager')
-        ->getFieldDefinitions('node', 'course');
-
-      // Build structure array
-      $structure['fields'] = [];
-      foreach ($field_definitions as $field_name => $definition) {
-        $structure['fields'][$field_name] = [
-          'type' => $definition->getType(),
-          'label' => $definition->getLabel(),
-          'required' => $definition->isRequired(),
-          'settings' => $definition->getSettings(),
-        ];
-      }
-
-      // Add taxonomy vocabulary info if used
-      if ($vocabularies = $this->getRelatedVocabularies()) {
-        $structure['vocabularies'] = $vocabularies;
-      }
-
-      // Add any additional course configuration
-      $structure['config'] = [
-        'status' => \Drupal::config('node.type.course')->get('status'),
-        'workflow' => \Drupal::config('workflows.workflow.course')->get(),
-      ];
-
-    }
-    catch (\Exception $e) {
-      \Drupal::logger('dh_certificate')->error('Error getting course structure: @error', [
-        '@error' => $e->getMessage(),
-      ]);
-    }
-
-    return $structure;
-  }
-
-  /**
-   * Gets vocabularies related to courses.
-   *
-   * @return array
-   *   Array of vocabulary information.
-   */
-  protected function getRelatedVocabularies() {
-    $vocabularies = [];
-    
-    try {
-      $field_definitions = \Drupal::service('entity_field.manager')
-        ->getFieldDefinitions('node', 'course');
-
-      foreach ($field_definitions as $field_name => $definition) {
-        if ($definition->getType() === 'entity_reference' && 
-            $definition->getSetting('target_type') === 'taxonomy_term') {
-          $handler_settings = $definition->getSetting('handler_settings');
-          if (!empty($handler_settings['target_bundles'])) {
-            foreach ($handler_settings['target_bundles'] as $vocab) {
-              $vocabularies[$vocab] = \Drupal::entityTypeManager()
-                ->getStorage('taxonomy_vocabulary')
-                ->load($vocab)
-                ->label();
-            }
-          }
-        }
-      }
-    }
-    catch (\Exception $e) {
-      \Drupal::logger('dh_certificate')->error('Error getting course vocabularies: @error', [
-        '@error' => $e->getMessage(),
-      ]);
-    }
-
-    return $vocabularies;
   }
 
 }

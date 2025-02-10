@@ -20,4 +20,4 @@ visibility:
   request_path:
     id: request_path
     negate: false
-    pages: '/certificate/*'
+    pages: '/certificate/*'  # This path is still valid as it matches the user_progress route

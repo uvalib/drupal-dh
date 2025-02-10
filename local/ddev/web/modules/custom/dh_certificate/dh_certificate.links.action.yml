@@ -2,23 +2,23 @@ dh_certificate.monitor_reset_action:
   route_name: dh_certificate.monitor_reset
   title: 'Reset Monitor'
   appears_on:
-    - dh_certificate.monitor_detail
+    - dh_certificate.structure_monitor
 
-dh_certificate.course_record:
-  route_name: dh_certificate.course_monitor_record
-  title: 'Record Structure'
+dh_certificate.course_structure_refresh:
+  route_name: dh_certificate.course_monitor.refresh
+  title: 'Refresh Course Structure'
   appears_on:
     - dh_certificate.course_monitor
 
-dh_certificate.profile_record:
-  route_name: dh_certificate.profile_monitor_record
-  title: 'Record Structure'
+dh_certificate.profile_structure_refresh:
+  route_name: dh_certificate.profile_monitor.refresh
+  title: 'Refresh Profile Structure'
   appears_on:
     - dh_certificate.profile_monitor
 
-dh_certificate.taxonomy_record:
-  route_name: dh_certificate.taxonomy_monitor_record
-  title: 'Record Structure'
+dh_certificate.taxonomy_structure_refresh:
+  route_name: dh_certificate.taxonomy_monitor.refresh
+  title: 'Refresh Taxonomy Structure'
   appears_on:
     - dh_certificate.taxonomy_monitor
 
@@ -40,3 +40,5 @@ dh_certificate.enrollment_add:
   title: 'Add Enrollment'
   appears_on:
     - entity.enrollment.collection
+
+# Check action links

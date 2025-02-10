@@ -1,0 +1,16 @@
+{# filepath: /Users/ys2n/Code/ddev/drupal-dh/local/ddev/web/modules/custom/dh_certificate/templates/vertical-tabs--requirement-set.html.twig #}
+{#
+/**
+ * @file
+ * Theme override for vertical tabs in requirement set forms.
+ *
+ * Available variables:
+ * - attributes: A list of HTML attributes for the wrapper element.
+ * - children: The rendered tabs.
+ */
+#}
+<div{{ attributes.addClass('vertical-tabs', 'clearfix', 'requirement-set-tabs') }}>
+  <div class="vertical-tabs__menu">
+    {{ children }}
+  </div>
+</div>

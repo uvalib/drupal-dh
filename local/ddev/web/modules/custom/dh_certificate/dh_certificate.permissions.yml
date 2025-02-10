@@ -25,3 +25,7 @@ view own certificate progress:
 view certificate progress:
   title: 'View Certificate Progress'
   description: 'Allow users to view all certificate progress'
+
+access certificate progress:
+  title: 'Access Certificate Progress'
+  description: 'Allow users to access certificate progress pages'

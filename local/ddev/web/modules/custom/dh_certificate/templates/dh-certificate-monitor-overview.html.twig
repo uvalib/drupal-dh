@@ -21,8 +21,20 @@
       <div class="monitor-card">
         <h3>{{ monitor.title }}</h3>
         <p>{{ monitor.description }}</p>
+        <div class="monitor-stats">
+          <span class="last-check">
+            {% if monitor.last_check %}
+              {{ 'Last checked: @time'|t({'@time': monitor.last_check|format_date('short')}) }}
+            {% else %}
+              {{ 'Never checked'|t }}
+            {% endif %}
+          </span>
+          {% if monitor.changes > 0 %}
+            <span class="changes-badge">{{ monitor.changes }}</span>
+          {% endif %}
+        </div>
         <div class="monitor-actions">
-          <a href="{{ monitor.url }}" class="button">{% trans %}View Monitor{% endtrans %}</a>
+          <a href="{{ monitor.url }}" class="button button--primary">{{ 'View Monitor'|t }}</a>
         </div>
       </div>
     {% endfor %}

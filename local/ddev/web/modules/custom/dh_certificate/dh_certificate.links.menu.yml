@@ -28,25 +28,25 @@ dh_certificate.requirements:
   weight: 30
 
 dh_certificate.requirement_sets:
-  title: 'Sets'
+  title: 'Requirement Sets'
   description: 'Manage requirement sets'
-  parent: dh_certificate.requirements
+  parent_id: dh_certificate.requirements
   route_name: entity.requirement_set.collection
-  weight: 0
+  weight: 31
 
 dh_certificate.requirement_types:
-  title: 'Types'
+  title: 'Requirement Types'
   description: 'Manage requirement types'
-  parent: dh_certificate.requirements
+  parent_id: dh_certificate.requirements
   route_name: dh_certificate.requirement_types
-  weight: 1
+  weight: 32
 
 dh_certificate.requirement_templates:
-  title: 'Templates'
+  title: 'Requirement Templates'
   description: 'Manage requirement templates'
-  parent: dh_certificate.requirements
+  parent_id: dh_certificate.requirements
   route_name: entity.requirement_type_template.collection
-  weight: 2
+  weight: 33
 
 dh_certificate.enrollments:
   title: 'Enrollments'
@@ -59,12 +59,18 @@ dh_certificate.progress:
   title: 'Progress'
   description: 'View student progress'
   parent: dh_certificate.admin
-  route_name: dh_certificate.progress
+  route_name: dh_certificate.admin_progress  # Change from dh_certificate.progress
   weight: 50
 
+# Structure section - simplify to single menu item
 dh_certificate.structure_monitor:
   title: 'Structure'
   description: 'Monitor certificate structure'
   parent: dh_certificate.admin
   route_name: dh_certificate.structure_monitor
   weight: 60
+
+dh_certificate.user_progress:
+  title: 'My Certificate Progress'
+  route_name: dh_certificate.user_progress
+  menu_name: main

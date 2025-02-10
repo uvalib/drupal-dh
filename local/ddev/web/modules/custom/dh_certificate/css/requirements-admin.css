@@ -36,6 +36,147 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 1.5em;
+}
+
+.requirement-set__header h2 {
+  margin: 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 0.85em;
+  font-weight: 500;
+}
+
+.status-enabled {
+  background: #ebf5eb;
+  color: #325e1c;
+}
+
+.status-disabled {
+  background: #f9e6e6;
+  color: #a51b1b;
+}
+
+.requirement-group {
+  margin: 1em 0;
+  padding: 1em;
+  background: #f8f9fa;
+  border-radius: 3px;
+}
+
+.requirement-group h3 {
+  display: flex;
+  align-items: center;
+  margin: 0 0 1em;
+}
+
+.requirement-count {
+  margin-left: 8px;
+  padding: 2px 8px;
+  background: #e9ecef;
+  border-radius: 10px;
+  font-size: 0.85em;
+  color: #495057;
+}
+
+.requirement-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75em;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.requirement-item:last-child {
+  border-bottom: none;
+}
+
+.requirement-set__actions {
+  margin-top: 1.5em;
+  padding-top: 1em;
+  border-top: 1px solid #eee;
+}
+
+.requirement-set__actions .button + .button {
+  margin-left: 0.5em;
+}
+
+.empty-message {
+  color: #6c757d;
+  font-style: italic;
+  margin: 1em 0;
+}
+
+.requirement-set__description {
+  color: #666;
+  margin-bottom: 1.5em;
+}
+
+.requirement-set__requirements table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.requirement-set__requirements th,
+.requirement-set__requirements td {
+  padding: 0.75em;
+  border-bottom: 1px solid #ddd;
+}
+
+.operations {
+  display: flex;
+  gap: 0.5em;
+}
+
+.button--danger {
+  background: #dc3545;
+  color: white;
+}
+
+.requirements-overview .action-links {
+  font-size: 12px;
+  background: #767676;
+  color: #fff;
+  border-radius: 10px;
+}
+
+.requirements-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.requirements-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.requirements-list li:last-child {
+  border-bottom: none;
+}
+
+.set-operations {
+  margin-top: 1em;
+  padding-top: 1em;
+  border-top: 1px solid #ddd;
+}
+
+.empty-set {
+  color: #666;
+  font-style: italic;
+}
+
+.requirement-set__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 1em;
 }
 

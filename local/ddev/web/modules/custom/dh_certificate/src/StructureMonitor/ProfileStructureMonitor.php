@@ -35,29 +35,9 @@ class ProfileStructureMonitor extends EntityStructureMonitorBase {
       return $state;
     }
     catch (\Exception $e) {
-      $this->loggerFactory->get('dh_certificate')
-        ->error('Failed to get profile structure state: @error', ['@error' => $e->getMessage()]);
+      $this->logger->error('Failed to get profile structure state: @error', ['@error' => $e->getMessage()]);
       return [];
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function updateState() {
-    $current_state = $this->getCurrentState();
-    $this->state->set('dh_certificate.profile_structure', $current_state);
-    $this->state->set('dh_certificate.profile_structure_updated', time());
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function reset() {
-    $this->state->delete('dh_certificate.profile_structure');
-    $this->state->delete('dh_certificate.profile_structure_updated');
-    return $this;
   }
 
   /**

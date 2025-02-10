@@ -2,95 +2,140 @@
 
 namespace Drupal\dh_certificate\Entity;
 
-use Drupal\Core\Entity\ContentEntityBase;
-use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Config\Entity\ConfigEntityBase;
 
 /**
  * Defines the Requirement entity.
  *
- * @ContentEntityType(
+ * @ConfigEntityType(
  *   id = "requirement",
- *   label = @Translation("Certificate Requirement"),
+ *   label = @Translation("Requirement"),
  *   handlers = {
- *     "view_builder" = "Drupal\Core\Entity\EntityViewBuilder",
  *     "list_builder" = "Drupal\dh_certificate\ListBuilder\RequirementListBuilder",
  *     "form" = {
- *       "default" = "Drupal\dh_certificate\Form\RequirementForm",
  *       "add" = "Drupal\dh_certificate\Form\RequirementForm",
  *       "edit" = "Drupal\dh_certificate\Form\RequirementForm",
- *       "delete" = "Drupal\Core\Entity\ContentEntityDeleteForm",
+ *       "delete" = "Drupal\Core\Entity\EntityDeleteForm"
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
- *     },
+ *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider"
+ *     }
  *   },
- *   base_table = "certificate_requirement",
- *   admin_permission = "administer certificate requirements",
+ *   config_prefix = "requirement",
+ *   admin_permission = "administer dh certificate requirements",
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "label",
- *     "uuid" = "uuid",
+ *     "status" = "status",
+ *     "type" = "type"
  *   },
- *   links = {
- *     "canonical" = "/admin/structure/requirement/{requirement}",
- *     "add-form" = "/admin/structure/requirement/add",
- *     "edit-form" = "/admin/structure/requirement/{requirement}/edit",
- *     "delete-form" = "/admin/structure/requirement/{requirement}/delete",
- *     "collection" = "/admin/structure/requirement",
+ *   config_export = {
+ *     "id",
+ *     "label",
+ *     "type",
+ *     "settings",
+ *     "status"
  *   }
  * )
  */
-class Requirement extends ContentEntityBase implements RequirementInterface {
+class Requirement extends ConfigEntityBase {
 
   /**
-   * {@inheritdoc}
+   * The Requirement ID.
+   *
+   * @var string
    */
-  public static function baseFieldDefinitions(EntityTypeInterface $entity_type) {
-    $fields = parent::baseFieldDefinitions($entity_type);
+  protected $id;
 
-    $fields['label'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Label'))
-      ->setRequired(TRUE)
-      ->setSetting('max_length', 255)
-      ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-        'weight' => -5,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+  /**
+   * The Requirement label.
+   *
+   * @var string
+   */
+  protected $label;
 
-    $fields['type'] = BaseFieldDefinition::create('string')
-      ->setLabel(t('Type'))
-      ->setRequired(TRUE)
-      ->setSetting('max_length', 255)
-      ->setDisplayOptions('form', [
-        'type' => 'string_textfield',
-        'weight' => -4,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+  /**
+   * The Requirement type.
+   *
+   * @var string
+   */
+  protected $type;
 
-    $fields['requirement_set'] = BaseFieldDefinition::create('entity_reference')
-      ->setLabel(t('Requirement Set'))
-      ->setRequired(TRUE)
-      ->setSetting('target_type', 'requirement_set')
-      ->setDisplayOptions('form', [
-        'type' => 'entity_reference_autocomplete',
-        'weight' => -3,
-      ])
-      ->setDisplayConfigurable('form', TRUE)
-      ->setDisplayConfigurable('view', TRUE);
+  /**
+   * The Requirement settings.
+   *
+   * @var array
+   */
+  protected $settings = [];
 
-    $fields['weight'] = BaseFieldDefinition::create('integer')
-      ->setLabel(t('Weight'))
-      ->setDefaultValue(0)
-      ->setDisplayOptions('form', [
-        'type' => 'number',
-        'weight' => -2,
-      ])
-      ->setDisplayConfigurable('form', TRUE);
+  /**
+   * The Requirement status.
+   *
+   * @var bool
+   */
+  protected $status = TRUE;
 
-    return $fields;
+  /**
+   * Gets the type.
+   */
+  public function getType() {
+    return $this->type;
   }
+
+  /**
+   * Updates the type directly.
+   */
+  public function updateType($type) {
+    $this->type = $type;
+    return $this;
+  }
+
+  /**
+   * Gets settings.
+   *
+   * @return array
+   *   The settings array.
+   */
+  public function getSettings() {
+    return $this->settings ?? [];
+  }
+
+  /**
+   * Sets a specific setting value.
+   *
+   * @param string $key
+   *   The setting key.
+   * @param mixed $value
+   *   The setting value.
+   *
+   * @return $this
+   */
+  public function setSetting($key, $value) {
+    $this->settings[$key] = $value;
+    return $this;
+  }
+
+  /**
+   * Updates settings directly.
+   */
+  public function updateSettings(array $settings) {
+    $this->settings = $settings;
+    return $this;
+  }
+
+  /**
+   * Gets enabled status.
+   */
+  public function isEnabled() {
+    return (bool) $this->status;
+  }
+
+  /**
+   * Updates enabled status directly.
+   */
+  public function updateStatus($status) {
+    $this->status = (bool) $status;
+    return $this;
+  }
+
 }

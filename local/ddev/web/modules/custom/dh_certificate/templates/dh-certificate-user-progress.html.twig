@@ -1,0 +1,77 @@
+<div class="certificate-user-progress">
+  <h2>{{ title }}</h2>
+
+  {% if progress %}
+    <div class="progress-summary">
+      <div class="overall-progress">
+        <h3>{{ 'Overall Progress'|t }}</h3>
+        <div class="progress-bar">
+          <div class="progress-bar__fill" style="width: {{ progress.overall_percentage }}%">
+            <span class="progress-bar__text">{{ progress.overall_percentage }}%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="progress-stats">
+        <div class="stat-group">
+          <div class="stat">
+            <span class="stat__label">{{ 'Courses Completed'|t }}</span>
+            <span class="stat__value">{{ progress.completed_courses }}/{{ progress.total_courses }}</span>
+          </div>
+          <div class="stat">
+            <span class="stat__label">{{ 'Credits Earned'|t }}</span>
+            <span class="stat__value">{{ progress.completed_credits }}/{{ progress.required_credits }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if progress.courses %}
+      <div class="course-list">
+        <h3>{{ 'Course Progress'|t }}</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>{{ 'Course'|t }}</th>
+              <th>{{ 'Status'|t }}</th>
+              <th>{{ 'Credits'|t }}</th>
+              <th>{{ 'Requirements Met'|t }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for course in progress.courses %}
+              <tr class="course-item course-item--{{ course.status|clean_class }}">
+                <td>
+                  {% if course.mnemonic %}
+                    <span class="course-code">{{ course.mnemonic }}</span>
+                  {% endif %}
+                  <span class="course-title">{{ course.title }}</span>
+                </td>
+                <td class="course-status">{{ course.status|title }}</td>
+                <td class="course-credits">{{ course.credits }}</td>
+                <td class="course-requirements">
+                  {% if course.requirements_met %}
+                    <i class="fas fa-check"></i>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% endif %}
+
+    {% if progress.remaining_requirements %}
+      <div class="remaining-requirements">
+        <h3>{{ 'Remaining Requirements'|t }}</h3>
+        <ul>
+          {% for req in progress.remaining_requirements %}
+            <li>{{ req }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  {% else %}
+    <p class="no-progress">{{ 'No progress data available.'|t }}</p>
+  {% endif %}
+</div>

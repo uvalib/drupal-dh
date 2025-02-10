@@ -98,11 +98,27 @@ class ProgressController extends ControllerBase {
    * Displays the admin progress page.
    */
   public function adminProgress() {
-    return [
+    // Add debugging
+    \Drupal::logger('dh_certificate')->notice('adminProgress() called');
+    
+    $data = $this->getProgressData(TRUE);
+    \Drupal::logger('dh_certificate')->notice('Progress data: @data', [
+      '@data' => var_export($data, TRUE)
+    ]);
+
+    $build = [
       '#theme' => 'dh_certificate_admin_progress',
       '#title' => $this->t('Certificate Progress'),
-      '#data' => $this->getProgressData(TRUE),
+      '#data' => $data,
+      '#attached' => [
+        'library' => ['dh_certificate/progress-admin'],
+      ],
+      '#cache' => [
+        'max-age' => 0, // Disable caching for now
+      ],
     ];
+    
+    return $build;
   }
 
   /**
@@ -112,8 +128,58 @@ class ProgressController extends ControllerBase {
    *   Whether to get admin level data.
    */
   protected function getProgressData($admin = FALSE) {
-    // Implementation details...
-    return [];
+    $data = [];
+    try {
+      // Get only active users with a limit
+      $storage = $this->entityTypeManager->getStorage('user');
+      $query = $storage->getQuery()
+        ->accessCheck(TRUE)
+        ->condition('status', 1)
+        ->range(0, 50) // Limit to 50 users at a time
+        ->sort('access', 'DESC'); // Most recently active first
+      
+      $uids = $query->execute();
+      
+      foreach ($uids as $uid) {
+        $account = $storage->load($uid);
+        if (!$account) {
+          continue;
+        }
+
+        // Get only essential progress data
+        $progress = $this->progressManager->getUserProgress($account);
+        if (!$progress) {
+          continue;
+        }
+
+        // Minimize data structure
+        $data[] = [
+          'user' => [
+            'uid' => $uid,
+            'name' => $account->getDisplayName(),
+            'email' => $account->getEmail(),
+          ],
+          'progress' => [
+            'overall' => (int)($progress['overall_percentage'] ?? 0),
+            'courses' => [
+              'completed' => (int)($progress['completed_courses'] ?? 0),
+              'total' => (int)($progress['total_courses'] ?? 0),
+            ],
+            'last_updated' => $progress['last_updated'] ?? NULL,
+          ],
+        ];
+
+        // Clear entity cache after each user to free memory
+        $storage->resetCache([$uid]);
+      }
+    }
+    catch (\Exception $e) {
+      \Drupal::logger('dh_certificate')->error('Error getting progress data: @error', [
+        '@error' => $e->getMessage(),
+      ]);
+    }
+    
+    return $data;
   }
 
   /**
@@ -131,4 +197,5 @@ class ProgressController extends ControllerBase {
     // Implementation details...
     return [];
   }
+
 }

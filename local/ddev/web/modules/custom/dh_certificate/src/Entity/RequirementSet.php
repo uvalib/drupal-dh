@@ -3,7 +3,6 @@
 namespace Drupal\dh_certificate\Entity;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
-use Drupal\Core\Config\Entity\ConfigEntityInterface;
 
 /**
  * Defines the Requirement Set entity.
@@ -19,135 +18,108 @@ use Drupal\Core\Config\Entity\ConfigEntityInterface;
  *       "delete" = "Drupal\Core\Entity\EntityDeleteForm"
  *     },
  *     "route_provider" = {
- *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider",
- *     },
+ *       "html" = "Drupal\Core\Entity\Routing\AdminHtmlRouteProvider"
+ *     }
  *   },
  *   config_prefix = "requirement_set",
- *   admin_permission = "administer certificate requirements",
+ *   admin_permission = "administer dh certificate requirements",
  *   entity_keys = {
  *     "id" = "id",
  *     "label" = "label",
- *     "uuid" = "uuid",
  *     "status" = "status"
+ *   },
+ *   links = {
+ *     "collection" = "/admin/config/dh-certificate/requirements/sets",
+ *     "add-form" = "/admin/config/dh-certificate/requirements/sets/add",
+ *     "edit-form" = "/admin/config/dh-certificate/requirements/sets/{requirement_set}/edit",
+ *     "delete-form" = "/admin/config/dh-certificate/requirements/sets/{requirement_set}/delete",
+ *     "enable" = "/admin/config/dh-certificate/requirements/sets/{requirement_set}/enable",
+ *     "disable" = "/admin/config/dh-certificate/requirements/sets/{requirement_set}/disable"
  *   },
  *   config_export = {
  *     "id",
  *     "label",
  *     "description",
  *     "requirements",
- *     "weight",
  *     "status"
- *   },
- *   links = {
- *     "canonical" = "/admin/structure/requirement_set/{requirement_set}",
- *     "add-form" = "/admin/structure/requirement_set/add",
- *     "edit-form" = "/admin/structure/requirement_set/{requirement_set}/edit",
- *     "delete-form" = "/admin/structure/requirement_set/{requirement_set}/delete",
- *     "collection" = "/admin/structure/requirement_set"
  *   }
  * )
  */
-class RequirementSet extends ConfigEntityBase implements RequirementSetInterface {
+class RequirementSet extends ConfigEntityBase {
 
-  /**
-   * The Requirement Set ID.
-   *
-   * @var string
-   */
   protected $id;
-
-  /**
-   * The Requirement Set label.
-   *
-   * @var string
-   */
   protected $label;
-
-  /**
-   * The Requirement Set description.
-   *
-   * @var string
-   */
-  protected $description = '';
-
-  /**
-   * The requirements in this set.
-   *
-   * @var array
-   */
+  protected $description;
   protected $requirements = [];
-
-  /**
-   * The weight of this requirement set.
-   *
-   * @var int
-   */
-  protected $weight = 0;
-
-  /**
-   * The status of this requirement set.
-   *
-   * @var bool
-   */
   protected $status = TRUE;
 
   /**
    * {@inheritdoc}
+   */
+  public function id() {
+    return $this->id;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function label() {
+    return $this->label;
+  }
+
+  /**
+   * Gets the description.
    */
   public function getDescription() {
     return $this->description ?? '';
   }
 
   /**
-   * {@inheritdoc}
+   * Updates description directly.
    */
-  public function setDescription($description) {
+  public function updateDescription($description) {
     $this->description = $description;
     return $this;
   }
 
   /**
-   * {@inheritdoc}
+   * Gets requirements.
    */
   public function getRequirements() {
-    return $this->requirements;
+    return $this->requirements ?? [];
   }
 
   /**
-   * {@inheritdoc}
+   * Updates requirements directly.
    */
-  public function setRequirements(array $requirements) {
+  public function updateRequirements(array $requirements) {
     $this->requirements = $requirements;
     return $this;
   }
 
   /**
-   * {@inheritdoc}
-   */
-  public function getWeight() {
-    return $this->weight;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function setWeight($weight) {
-    $this->weight = $weight;
-    return $this;
-  }
-
-  /**
-   * {@inheritdoc}
+   * Gets enabled status.
    */
   public function isEnabled() {
     return (bool) $this->status;
   }
 
   /**
-   * {@inheritdoc}
+   * Updates enabled status directly.
    */
-  public function setStatus($status) {
-    $this->status = $status;
+  public function updateStatus($status) {
+    $this->status = (bool) $status;
     return $this;
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function invalidateTagsOnSave($update) {
+    parent::invalidateTagsOnSave($update);
+    if ($update) {
+      \Drupal::service('cache_tags.invalidator')->invalidateTags(['requirement_set_list']);
+    }
+  }
+
 }

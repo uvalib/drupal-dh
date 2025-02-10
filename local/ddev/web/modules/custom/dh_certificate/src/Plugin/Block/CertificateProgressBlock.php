@@ -108,7 +108,7 @@ class CertificateProgressBlock extends BlockBase implements ContainerFactoryPlug
       ];
     }
 
-    return [
+    $build = [
       '#theme' => 'certificate_progress_block',
       '#progress' => [
         'total_courses' => $progress['total_courses'] ?? 0,
@@ -129,7 +129,10 @@ class CertificateProgressBlock extends BlockBase implements ContainerFactoryPlug
         'tags' => ['user:' . $this->currentUser->id()],
         'max-age' => 300,
       ],
+      '#manage_url' => Url::fromRoute('dh_certificate.admin_progress')->toString(),
     ];
+
+    return $build;
   }
 
   /**

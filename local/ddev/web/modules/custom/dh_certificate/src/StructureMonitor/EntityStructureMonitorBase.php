@@ -10,7 +10,7 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
 /**
  * Base class for entity structure monitors.
  */
-abstract class EntityStructureMonitorBase implements StructureMonitorInterface {
+abstract class EntityStructureMonitorBase extends StructureMonitorBase {
   use StringTranslationTrait;
 
   /**
@@ -19,27 +19,6 @@ abstract class EntityStructureMonitorBase implements StructureMonitorInterface {
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
-
-  /**
-   * The logger.
-   *
-   * @var \Psr\Log\LoggerInterface
-   */
-  protected $logger;
-
-  /**
-   * The state service.
-   *
-   * @var \Drupal\Core\State\StateInterface
-   */
-  protected $state;
-
-  /**
-   * Array of detected changes.
-   *
-   * @var array
-   */
-  protected $changes = [];
 
   /**
    * Constructs a new EntityStructureMonitorBase.
@@ -56,30 +35,17 @@ abstract class EntityStructureMonitorBase implements StructureMonitorInterface {
     LoggerChannelFactoryInterface $logger_factory,
     StateInterface $state
   ) {
+    parent::__construct($state, $logger_factory);
     $this->entityTypeManager = $entity_type_manager;
-    $this->logger = $logger_factory->get('dh_certificate');
-    $this->state = $state;
   }
 
   /**
-   * {@inheritdoc}
+   * Get the monitor's unique identifier.
+   *
+   * @return string
+   *   The monitor ID.
    */
-  public function hasChanged() {
-    $previous_state = $this->state->get($this->stateKey, []);
-    $current_state = $this->getCurrentState();
-    
-    return $previous_state != $current_state;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getChanges() {
-    $current = $this->getCurrentState();
-    $previous = $this->state->get('dh_certificate.' . $this->getMonitorId(), []);
-    $this->changes = $this->calculateChanges($previous, $current);
-    return $this->changes;
-  }
+  abstract public function getMonitorId();
 
   /**
    * Calculate differences between previous and current states.

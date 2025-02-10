@@ -1,7 +1,0 @@
-hooks:
-  post-start:
-    - exec: |
-        if [ ! -f local/ddev/web/core/phpunit.xml ]; then
-          cp local/ddev/web/core/phpunit.xml.dist local/ddev/web/core/phpunit.xml
-          echo "Created PHPUnit configuration from template"
-        fi

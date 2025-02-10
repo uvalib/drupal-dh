@@ -4,10 +4,9 @@ namespace Drupal\dh_certificate\ListBuilder;
 
 use Drupal\Core\Config\Entity\ConfigEntityListBuilder;
 use Drupal\Core\Entity\EntityInterface;
-use Drupal\Core\Url;
 
 /**
- * Provides a listing of Requirement Set entities.
+ * Provides a listing of Requirement Sets.
  */
 class RequirementSetListBuilder extends ConfigEntityListBuilder {
 
@@ -15,9 +14,11 @@ class RequirementSetListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['label'] = $this->t('Name');
-    $header['id'] = $this->t('Machine name');
-    $header['status'] = $this->t('Status');
+    $header = [
+      'name' => $this->t('Name'),
+      'type_counts' => $this->t('Requirements'),
+      'enabled' => $this->t('Status'),
+    ];
     return $header + parent::buildHeader();
   }
 
@@ -25,35 +26,64 @@ class RequirementSetListBuilder extends ConfigEntityListBuilder {
    * {@inheritdoc}
    */
   public function buildRow(EntityInterface $entity) {
-    /** @var \Drupal\dh_certificate\Entity\RequirementSet $entity */
-    $row['label'] = $entity->label();
-    $row['id'] = $entity->id();
-    $row['status'] = $entity->isEnabled() ? $this->t('Enabled') : $this->t('Disabled');
+    $row['name'] = $entity->label();
+
+    // Get requirement counts by type
+    $type_counts = [];
+    
+    // Get the requirements array directly
+    $requirements = $entity->requirements ?? [];
+    foreach ($requirements as $requirement) {
+      // Skip if not a valid requirement
+      if (!$requirement) {
+        continue;
+      }
+      
+      $type = $requirement->bundle();
+      if (!isset($type_counts[$type])) {
+        $type_counts[$type] = 0;
+      }
+      $type_counts[$type]++;
+    }
+
+    // Format the counts with badges
+    $counts_markup = [];
+    foreach ($type_counts as $type => $count) {
+      $counts_markup[] = sprintf(
+        '<span class="requirement-set-list__type-count">%s: %d</span>', 
+        $type, 
+        $count
+      );
+    }
+
+    $row['type_counts'] = [
+      'data' => [
+        '#markup' => !empty($counts_markup) ? implode(' ', $counts_markup) : $this->t('No requirements'),
+      ],
+    ];
+
+    $row['enabled'] = [
+      'data' => [
+        '#markup' => $entity->status() ? $this->t('Enabled') : $this->t('Disabled'),
+      ],
+    ];
+
     return $row + parent::buildRow($entity);
   }
 
   /**
    * {@inheritdoc}
    */
-  public function getDefaultOperations(EntityInterface $entity) {
-    $operations = parent::getDefaultOperations($entity);
+  public function buildOperations(EntityInterface $entity) {
+    $operations = parent::buildOperations($entity);
     
-    if ($entity->isEnabled()) {
-      $operations['disable'] = [
-        'title' => $this->t('Disable'),
-        'url' => Url::fromRoute('entity.requirement_set.disable', ['requirement_set' => $entity->id()]),
-        'weight' => 50,
-      ];
-    }
-    else {
-      $operations['enable'] = [
-        'title' => $this->t('Enable'),
-        'url' => Url::fromRoute('entity.requirement_set.enable', ['requirement_set' => $entity->id()]),
-        'weight' => 50,
-      ];
-    }
+    // Ensure edit operation exists and has correct route
+    $operations['edit'] = [
+      'title' => $this->t('Edit'),
+      'weight' => 10,
+      'url' => $entity->toUrl('edit-form'),
+    ];
 
     return $operations;
   }
-
 }

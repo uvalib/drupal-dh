@@ -36,4 +36,28 @@ interface StructureMonitorInterface {
    * @return void
    */
   public function reset();
+
+  /**
+   * Gets the timestamp of the last state update.
+   *
+   * @return int
+   *   Unix timestamp of last check, 0 if never checked.
+   */
+  public function getLastCheck();
+
+  /**
+   * Gets the current stored state data.
+   *
+   * @return array
+   *   The current state data.
+   */
+  public function getData();
+
+  /**
+   * Refreshes the monitor state and checks for changes.
+   *
+   * @return bool
+   *   TRUE if changes were detected, FALSE otherwise.
+   */
+  public function refresh();
 }

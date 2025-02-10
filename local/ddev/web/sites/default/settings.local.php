@@ -18,8 +18,14 @@ $settings['cache']['bins']['render'] = 'cache.backend.null';
 $settings['cache']['bins']['dynamic_page_cache'] = 'cache.backend.null';
 $settings['cache']['bins']['page'] = 'cache.backend.null';
 
+// Enable debug mode
+$config['system.logging']['error_level'] = 'verbose';
+
 // Additional development settings
 $settings['container_yamls'][] = DRUPAL_ROOT . '/sites/development.services.yml';
 $settings['extension_discovery_scan_tests'] = TRUE;
 $settings['rebuild_access'] = TRUE;
 $settings['skip_permissions_hardening'] = TRUE;
+
+// Increase memory limit
+ini_set('memory_limit', '512M');
