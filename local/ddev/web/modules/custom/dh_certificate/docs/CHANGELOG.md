@@ -2,22 +2,41 @@
 
 ## [Unreleased]
 
+### Breaking Changes
+- Moved documentation from `doc/` to `docs/` directory
+- Updated all documentation references to use new paths
+- Restructured routing paths for better organization
+
 ### Added
-- List builder for requirement templates in ListBuilder namespace
-- Template management routes and UI
-- Progress tracking service
-- Structure monitoring system for course configurations
-- Enhanced debug tools for requirements and progress tracking
+- New CertificateForm implementation
+- New RequirementForm with improved UI
+- RequirementSetEditForm for better UX
+- Progress administration interface
+- New CSS files for admin and form styling:
+  - progress-admin.css
+  - requirement-set-form.css
+- Vertical tabs templates for requirements
+- Progress tracking JavaScript
+- Certificate progress menu task plugin
 
 ### Changed
-- Moved RequirementTypeTemplateListBuilder to ListBuilder namespace
-- Updated entity annotation to use correct service names
-- Reorganized template documentation
+- Split documentation into technical.md and concepts.md
 - Simplified certificate dashboard interface
-- Improved progress tracking accuracy
+- Enhanced progress tracking UI
+- Updated entity form handlers
+- Reorganized routing paths for clarity
+- Improved monitor interface styling
+- Updated block configurations
+- Enhanced permission definitions
 
 ### Fixed
-- Progress manager service reference in preprocess functions
+- Cancel button rendering in requirement forms
+- Progress manager service references
 - Template list builder class loading
-- Course structure monitoring reliability
-- Requirement validation handling
+- Structure monitoring reliability
+- Form action handling
+
+### Removed
+- Legacy documentation structure
+- Redundant enrollment routes
+- DDEV configuration (now managed separately)
