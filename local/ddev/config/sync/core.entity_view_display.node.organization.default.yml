@@ -9,6 +9,8 @@ dependencies:
     - field.field.node.organization.field_image
     - field.field.node.organization.field_link_to_more_information
     - field.field.node.organization.field_org_title
+    - field.field.node.organization.field_organization_relationship
+    - field.field.node.organization.field_related_organizations
     - field.field.node.organization.field_uva_or_non_uva
     - node.type.organization
   module:
@@ -29,7 +31,39 @@ third_party_settings:
         layout_settings:
           label: 'Organization Title'
           context_mapping: {  }
-        components: {  }
+        components:
+          f11773c1-88e1-4acb-bb03-d58b8d402444:
+            uuid: f11773c1-88e1-4acb-bb03-d58b8d402444
+            region: content
+            configuration:
+              id: 'field_block:node:organization:field_related_organizations'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 0
+            additional: {  }
+          36203a68-13c3-4a00-86a4-143dcc9f672c:
+            uuid: 36203a68-13c3-4a00-86a4-143dcc9f672c
+            region: content
+            configuration:
+              id: 'field_block:node:organization:field_organization_relationship'
+              label_display: '0'
+              context_mapping:
+                entity: layout_builder.entity
+              formatter:
+                type: entity_reference_label
+                label: above
+                settings:
+                  link: true
+                third_party_settings: {  }
+            weight: 1
+            additional: {  }
         third_party_settings: {  }
       -
         layout_id: layout_twocol_section
@@ -163,6 +197,22 @@ content:
     settings: {  }
     third_party_settings: {  }
     weight: 114
+    region: content
+  field_organization_relationship:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 116
+    region: content
+  field_related_organizations:
+    type: entity_reference_label
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    weight: 115
     region: content
   field_uva_or_non_uva:
     type: entity_reference_label
