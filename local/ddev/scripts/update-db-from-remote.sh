@@ -50,7 +50,7 @@ done
 [[ -z "$HOST" ]] && echo "Error: Unknown environment '$ENV'" && show_help
 
 TSTAMP=$(date +%Y%m%d-%H%M%S)
-BACKUP="${BACKUP_DIR}/dh-backup-$TSTAMP.sql.gz"
+BACKUP="${BACKUP_DIR}/dh-backup-$ENV-$TSTAMP.sql.gz"
 TEMP_SQL=$(mktemp)
 
 eval "$(ssh-agent -s)"
