@@ -9,6 +9,8 @@ dependencies:
     - field.field.node.organization.field_image
     - field.field.node.organization.field_link_to_more_information
     - field.field.node.organization.field_org_title
+    - field.field.node.organization.field_organization_relationship
+    - field.field.node.organization.field_related_organizations
     - field.field.node.organization.field_uva_or_non_uva
     - image.style.thumbnail
     - node.type.organization
@@ -79,6 +81,26 @@ content:
     weight: 124
     region: content
     settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_organization_relationship:
+    type: entity_reference_autocomplete
+    weight: 126
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_related_organizations:
+    type: entity_reference_autocomplete
+    weight: 125
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }

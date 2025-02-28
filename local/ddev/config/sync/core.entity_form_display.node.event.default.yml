@@ -6,7 +6,6 @@ dependencies:
     - field.field.node.event.body
     - field.field.node.event.field_access
     - field.field.node.event.field_date_range1
-    - field.field.node.event.field_department_or_school
     - field.field.node.event.field_dh_research_data_type
     - field.field.node.event.field_event_location
     - field.field.node.event.field_event_type
@@ -65,12 +64,6 @@ content:
       allday: true
       remove_seconds: false
       separator: to
-    third_party_settings: {  }
-  field_department_or_school:
-    type: options_select
-    weight: 11
-    region: content
-    settings: {  }
     third_party_settings: {  }
   field_dh_research_data_type:
     type: options_buttons
