@@ -6,7 +6,6 @@ dependencies:
     - field.field.node.event.body
     - field.field.node.event.field_access
     - field.field.node.event.field_date_range1
-    - field.field.node.event.field_department_or_school
     - field.field.node.event.field_dh_research_data_type
     - field.field.node.event.field_event_location
     - field.field.node.event.field_event_type
@@ -136,25 +135,6 @@ third_party_settings:
                   link: true
                 third_party_settings: {  }
             weight: 0
-            additional: {  }
-          e491f0b3-9444-4108-a8e5-20e1042d7106:
-            uuid: e491f0b3-9444-4108-a8e5-20e1042d7106
-            region: first
-            configuration:
-              id: 'field_block:node:event:field_department_or_school'
-              label: Sponsor(s)
-              label_display: '0'
-              provider: layout_builder
-              context_mapping:
-                entity: layout_builder.entity
-                view_mode: view_mode
-              formatter:
-                type: entity_reference_label
-                label: above
-                settings:
-                  link: true
-                third_party_settings: {  }
-            weight: 1
             additional: {  }
           b22a15a2-b2fe-467e-8184-9106a4a147c9:
             uuid: b22a15a2-b2fe-467e-8184-9106a4a147c9
@@ -289,14 +269,6 @@ content:
         suffix: h
     third_party_settings: {  }
     weight: 0
-    region: content
-  field_department_or_school:
-    type: entity_reference_label
-    label: above
-    settings:
-      link: true
-    third_party_settings: {  }
-    weight: 5
     region: content
   field_dh_research_data_type:
     type: entity_reference_label

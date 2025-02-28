@@ -10,6 +10,8 @@ dependencies:
     - field.field.node.organization.field_image
     - field.field.node.organization.field_link_to_more_information
     - field.field.node.organization.field_org_title
+    - field.field.node.organization.field_organization_relationship
+    - field.field.node.organization.field_related_organizations
     - field.field.node.organization.field_uva_or_non_uva
     - image.style.medium
     - node.type.organization
@@ -53,4 +55,6 @@ hidden:
   field_contact_person: true
   field_link_to_more_information: true
   field_org_title: true
+  field_organization_relationship: true
+  field_related_organizations: true
   field_uva_or_non_uva: true
