@@ -15,10 +15,8 @@ phases:
       python: 3.x
       golang: 1.x
     commands:
-      # update...
-      - apt-get update -y
       # install ccrypt, needed for secret decrypting
-      - apt-get install -y ccrypt
+      - dnf install -y http://ccrypt.sourceforge.net/download/1.11/ccrypt-1.11-1.x86_64.rpm
       # install Ansible, needed for deploy of playbook
       - pip3 install ansible
       # install terraform
