@@ -1,0 +1,21 @@
+uuid: 595c1193-12cd-4405-8855-05a8fb6349e8
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_deadline_date
+    - node.type.opportunity
+  module:
+    - datetime_range
+id: node.opportunity.field_deadline_date
+field_name: field_deadline_date
+entity_type: node
+bundle: opportunity
+label: 'deadline date'
+description: 'Deadline for applications and submissions.  Should also appear in event calendar.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: daterange

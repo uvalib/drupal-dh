@@ -4,6 +4,6 @@ status: true
 dependencies: {  }
 name: 'DH Certificate Concentration'
 vid: dh_certificate_theme
-description: 'These categories enable students to give shape to their DH Certificate planning'
+description: 'What is the thematic focus?'
 weight: 0
 new_revision: false

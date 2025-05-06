@@ -1,0 +1,24 @@
+uuid: 708ccf4b-27be-48bf-9416-331f7d17b88d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_employer_name
+    - filter.format.restricted_html
+    - node.type.opportunity
+  module:
+    - text
+id: node.opportunity.field_employer_name
+field_name: field_employer_name
+entity_type: node
+bundle: opportunity
+label: 'Employer name'
+description: 'For opportunities that are job postings, this field is the name of the hiring employer.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - restricted_html
+field_type: text

@@ -1,0 +1,23 @@
+uuid: 92037c22-0955-4805-9b06-e768d184ab17
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_link_to_hiring_employer_we
+    - node.type.opportunity
+  module:
+    - link
+id: node.opportunity.field_link_to_hiring_employer_we
+field_name: field_link_to_hiring_employer_we
+entity_type: node
+bundle: opportunity
+label: 'link to hiring employer website or advertisement'
+description: "For opportunities that are job listings, this field is a link either to the job posting itself, or--barring that--it's a link to the website of the employer.  "
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  title: 1
+  link_type: 17
+field_type: link

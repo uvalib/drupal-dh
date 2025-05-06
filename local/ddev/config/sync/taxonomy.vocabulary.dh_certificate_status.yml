@@ -2,8 +2,8 @@ uuid: 22584665-7ca5-459d-8a28-41132a7baac3
 langcode: en
 status: true
 dependencies: {  }
-name: 'DH Initiative Roles'
+name: 'DH Certificate Person Category'
 vid: dh_certificate_status
-description: 'User roles in relation to the DHI'
+description: 'relation to DH Certificate'
 weight: 0
 new_revision: false

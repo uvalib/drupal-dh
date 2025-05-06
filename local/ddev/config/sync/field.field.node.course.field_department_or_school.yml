@@ -1,15 +1,16 @@
-uuid: 563ac1d0-2eb8-4987-a6ca-e54a87ec95d3
+uuid: 721ec73c-32d8-4281-94bc-57aacb7204fb
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_related_organizations
+    - field.storage.node.field_department_or_school
+    - node.type.course
     - node.type.organization
-id: node.organization.field_related_organizations
-field_name: field_related_organizations
+id: node.course.field_department_or_school
+field_name: field_department_or_school
 entity_type: node
-bundle: organization
-label: 'Related Organizations'
+bundle: course
+label: 'Department or School'
 description: ''
 required: false
 translatable: false
@@ -24,5 +25,5 @@ settings:
       field: _none
       direction: ASC
     auto_create: false
-    auto_create_bundle: ''
+    auto_create_bundle: department
 field_type: entity_reference

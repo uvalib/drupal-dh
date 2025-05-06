@@ -1,0 +1,9 @@
+uuid: 8da6c474-a3d4-4cfa-b323-c5b5de5e7862
+langcode: en
+status: true
+dependencies: {  }
+name: 'Opportunity Type'
+vid: opportunity_type
+description: 'specifies whether the opportunity is a job, grant, cfp, etc'
+weight: 0
+new_revision: false

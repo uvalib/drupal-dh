@@ -1,16 +1,14 @@
-uuid: aa57373f-3ceb-4250-9a56-6ed724d09eb2
+uuid: 5c42cb1c-0182-4707-8008-33106e03304c
 langcode: en
 status: true
 dependencies:
   module:
     - node
-    - taxonomy
-id: node.field_organization_relationship
-field_name: field_organization_relationship
+id: node.field_email_for_opportunity_cont
+field_name: field_email_for_opportunity_cont
 entity_type: node
-type: entity_reference
-settings:
-  target_type: taxonomy_term
+type: email
+settings: {  }
 module: core
 locked: false
 cardinality: 1

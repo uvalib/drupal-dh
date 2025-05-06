@@ -10,7 +10,7 @@ field_name: field_course_mnemonic
 entity_type: node
 bundle: course
 label: 'Course Mnemonic'
-description: "Include Letters (eg. DH or ENGL) as well as the course number \r\nSo it can look like \"DH 7008\" or \"ENGL 8500\""
+description: ''
 required: true
 translatable: false
 default_value: {  }

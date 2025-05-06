@@ -11,7 +11,7 @@ third_party_settings:
     parent: 'main:'
 name: Course
 type: course
-description: "DH courses, including\r\n- required courses\r\n- standard DH Electives\r\n- customized DH Electives\r\n- independent studies in DH\r\nEventually this content type will also contain non-UVA courses and their syllabi as references for DH instructors who are planning courses.  "
+description: "DH required courses, elective courses, and DH-friendly non-electives\r\nThis content type should have a join with a bunch of other content types"
 help: null
 new_revision: true
 preview_mode: 1

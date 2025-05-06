@@ -1,25 +1,29 @@
-uuid: 736a3558-8e33-40e2-9022-84a1eee011d3
+uuid: 7de6e053-9d6f-452c-8d78-2863ddb79c48
 langcode: en
 status: true
 dependencies:
   config:
-    - field.field.node.organization.body
-    - field.field.node.organization.field_affiliated_dh_projects
-    - field.field.node.organization.field_contact_person
-    - field.field.node.organization.field_image
-    - field.field.node.organization.field_link_to_more_information
-    - field.field.node.organization.field_org_title
-    - field.field.node.organization.field_uva_or_non_uva
-    - image.style.thumbnail
-    - node.type.organization
+    - field.field.node.opportunity.body
+    - field.field.node.opportunity.comment
+    - field.field.node.opportunity.field_deadline_date
+    - field.field.node.opportunity.field_email_for_opportunity_cont
+    - field.field.node.opportunity.field_employer_name
+    - field.field.node.opportunity.field_link_to_hiring_employer_we
+    - field.field.node.opportunity.field_location_of_opportunity
+    - field.field.node.opportunity.field_opportunity_title
+    - field.field.node.opportunity.field_opportunity_type
+    - field.field.node.opportunity.field_related_opportunity_deadli
+    - field.field.node.opportunity.field_uva_or_non_uva
+    - node.type.opportunity
   module:
-    - image
+    - comment
+    - datetime_range
     - link
     - path
     - text
-id: node.organization.default
+id: node.opportunity.default
 targetEntityType: node
-bundle: organization
+bundle: opportunity
 mode: default
 content:
   body:
@@ -32,53 +36,81 @@ content:
       placeholder: ''
       show_summary: false
     third_party_settings: {  }
+  comment:
+    type: comment_default
+    weight: 20
+    region: content
+    settings: {  }
+    third_party_settings: {  }
   created:
     type: datetime_timestamp
     weight: 10
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_affiliated_dh_projects:
-    type: entity_reference_autocomplete
+  field_deadline_date:
+    type: daterange_default
     weight: 123
     region: content
+    settings: {  }
+    third_party_settings: {  }
+  field_email_for_opportunity_cont:
+    type: email_default
+    weight: 127
+    region: content
     settings:
-      match_operator: CONTAINS
-      match_limit: 10
+      placeholder: ''
+      size: 60
+    third_party_settings: {  }
+  field_employer_name:
+    type: text_textfield
+    weight: 124
+    region: content
+    settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
-  field_contact_person:
-    type: entity_reference_autocomplete
-    weight: 13
-    region: content
-    settings:
-      match_operator: CONTAINS
-      match_limit: 10
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-  field_image:
-    type: image_image
-    weight: 1
-    region: content
-    settings:
-      progress_indicator: throbber
-      preview_image_style: thumbnail
-    third_party_settings: {  }
-  field_link_to_more_information:
+  field_link_to_hiring_employer_we:
     type: link_default
-    weight: 11
+    weight: 125
     region: content
     settings:
       placeholder_url: ''
       placeholder_title: ''
     third_party_settings: {  }
-  field_org_title:
+  field_location_of_opportunity:
     type: text_textfield
-    weight: 124
+    weight: 126
     region: content
     settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_opportunity_title:
+    type: text_textfield
+    weight: 122
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_opportunity_type:
+    type: entity_reference_autocomplete
+    weight: 129
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_related_opportunity_deadli:
+    type: entity_reference_autocomplete
+    weight: 128
+    region: content
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
       size: 60
       placeholder: ''
     third_party_settings: {  }

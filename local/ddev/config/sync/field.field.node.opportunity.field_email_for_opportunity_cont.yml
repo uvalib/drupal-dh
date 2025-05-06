@@ -1,0 +1,19 @@
+uuid: 969a5315-33de-41ab-a8e3-df3839f835c7
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_email_for_opportunity_cont
+    - node.type.opportunity
+id: node.opportunity.field_email_for_opportunity_cont
+field_name: field_email_for_opportunity_cont
+entity_type: node
+bundle: opportunity
+label: 'Email for opportunity contact'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

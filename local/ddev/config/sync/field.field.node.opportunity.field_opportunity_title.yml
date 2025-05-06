@@ -1,0 +1,24 @@
+uuid: 7dd30bd5-63dd-4819-9beb-f71cbdb55b5d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_opportunity_title
+    - filter.format.basic_html
+    - node.type.opportunity
+  module:
+    - text
+id: node.opportunity.field_opportunity_title
+field_name: field_opportunity_title
+entity_type: node
+bundle: opportunity
+label: 'Title of Opportunity'
+description: 'name of opportunity'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  allowed_formats:
+    - basic_html
+field_type: text

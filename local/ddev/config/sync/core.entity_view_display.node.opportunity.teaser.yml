@@ -1,0 +1,52 @@
+uuid: efe5ad49-bd27-45ef-9fb4-eb94153593e3
+langcode: en
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.opportunity.body
+    - field.field.node.opportunity.comment
+    - field.field.node.opportunity.field_deadline_date
+    - field.field.node.opportunity.field_email_for_opportunity_cont
+    - field.field.node.opportunity.field_employer_name
+    - field.field.node.opportunity.field_link_to_hiring_employer_we
+    - field.field.node.opportunity.field_location_of_opportunity
+    - field.field.node.opportunity.field_opportunity_title
+    - field.field.node.opportunity.field_opportunity_type
+    - field.field.node.opportunity.field_related_opportunity_deadli
+    - field.field.node.opportunity.field_uva_or_non_uva
+    - node.type.opportunity
+  module:
+    - text
+    - user
+id: node.opportunity.teaser
+targetEntityType: node
+bundle: opportunity
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  addtoany: true
+  breadcrumbs: true
+  comment: true
+  field_deadline_date: true
+  field_email_for_opportunity_cont: true
+  field_employer_name: true
+  field_link_to_hiring_employer_we: true
+  field_location_of_opportunity: true
+  field_opportunity_title: true
+  field_opportunity_type: true
+  field_related_opportunity_deadli: true
+  field_uva_or_non_uva: true

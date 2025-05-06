@@ -4,6 +4,6 @@ status: true
 dependencies: {  }
 name: 'DH Research Data Type'
 vid: dh_research_data_type
-description: 'What is the structure of your research data? '
+description: 'What is the focus of your DH work?'
 weight: -10
-new_revision: false
+new_revision: true

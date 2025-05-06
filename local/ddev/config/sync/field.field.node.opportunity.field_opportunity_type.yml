@@ -1,0 +1,29 @@
+uuid: 6b561541-bc64-4957-b997-1f93a754ac20
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_opportunity_type
+    - node.type.opportunity
+    - taxonomy.vocabulary.opportunity_type
+id: node.opportunity.field_opportunity_type
+field_name: field_opportunity_type
+entity_type: node
+bundle: opportunity
+label: 'Opportunity Type'
+description: 'Specifies whether the opportunity is a job, grant, cfp, etc.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      opportunity_type: opportunity_type
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

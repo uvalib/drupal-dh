@@ -18,7 +18,11 @@ label: 'Long Course Description'
 description: 'This is a longer course description, probably taken from the syllabus'
 required: false
 translatable: false
-default_value: {  }
+default_value:
+  -
+    value: ''
+    summary: 'not sure why this is required'
+    format: basic_html
 default_value_callback: ''
 settings:
   display_summary: false

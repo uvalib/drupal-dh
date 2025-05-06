@@ -1,9 +1,0 @@
-uuid: cc033e7e-fbe3-4d24-8e2b-62f895678b27
-langcode: en
-status: true
-dependencies: {  }
-name: 'Organization Relationship Type'
-vid: organization_relationship_type
-description: 'enables organizations to have parents, children, and affiliates'
-weight: 0
-new_revision: false

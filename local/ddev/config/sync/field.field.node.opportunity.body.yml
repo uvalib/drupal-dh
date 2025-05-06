@@ -1,18 +1,16 @@
-uuid: 4d7075e0-430f-48ec-9754-54b5246ced0c
+uuid: 5cddc365-d6bb-4639-8ff5-f67669d87ed6
 langcode: en
 status: true
 dependencies:
   config:
     - field.storage.node.body
-    - node.type.event
+    - node.type.opportunity
   module:
     - text
-_core:
-  default_config_hash: _-djmcVu3bv-WkyjUTjJABeNbj1zAqrZAFpij-CtEI0
-id: node.event.body
+id: node.opportunity.body
 field_name: body
 entity_type: node
-bundle: event
+bundle: opportunity
 label: Body
 description: ''
 required: false

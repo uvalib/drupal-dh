@@ -1,18 +1,18 @@
-uuid: 58122ff3-2709-45c3-8a9a-4751e781064d
+uuid: 0e5a7581-520b-458d-8592-ed6740589b5c
 langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.node.field_university_affiliation
-    - node.type.course
+    - field.storage.node.field_uva_or_non_uva
+    - node.type.opportunity
     - taxonomy.vocabulary.university_affiliation
-id: node.course.field_university_affiliation
-field_name: field_university_affiliation
+id: node.opportunity.field_uva_or_non_uva
+field_name: field_uva_or_non_uva
 entity_type: node
-bundle: course
-label: 'University affiliation'
+bundle: opportunity
+label: 'UVA or non UVA'
 description: ''
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
