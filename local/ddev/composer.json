@@ -82,6 +82,7 @@
         "drupal/smtp": "^1.2",
         "drupal/twig_tweak": "^3.4",
         "drupal/views_bootstrap": "4.5",
+        "drupal/views_data_export": "^1.5",
         "drupal/views_templates": "^1.5",
         "drupal/webform": "^6.2",
         "drush/drush": "^12.4"
